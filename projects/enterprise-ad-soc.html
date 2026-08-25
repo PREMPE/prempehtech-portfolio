@@ -1,235 +1,1355 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enterprise Active Directory & SOC | Agyemang Prempeh</title>
-    <link rel="stylesheet" href="../style.css">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Enterprise Active Directory & SOC Project | PrempehTech
+    </title>
+
+    <meta name="description"
+          content="Enterprise Active Directory and SOC engineering case study using Windows Server, Active Directory, pfSense, Splunk Enterprise, Sysmon, Snort IDS, VMware and Kali Linux.">
+
+    <link rel="stylesheet"
+          href="../style.css">
 </head>
+
 
 <body>
 
+
 <header>
+
     <nav class="navbar">
-        <a class="logo" href="../index.html">PrempehTech</a>
+
+        <a href="../index.html"
+           class="logo">
+            PrempehTech
+        </a>
+
 
         <ul class="nav-links">
-            <li><a href="../index.html">Home</a></li>
-            <li><a href="../index.html#projects">Projects</a></li>
-            <li><a href="../index.html#skills">Skills</a></li>
-            <li><a href="../index.html#contact">Contact</a></li>
+
+            <li>
+                <a href="../index.html">
+                    Home
+                </a>
+            </li>
+
+            <li>
+                <a href="../index.html#about">
+                    About
+                </a>
+            </li>
+
+            <li>
+                <a href="../index.html#projects">
+                    Projects
+                </a>
+            </li>
+
+            <li>
+                <a href="../index.html#evidence">
+                    Evidence
+                </a>
+            </li>
+
+            <li>
+                <a href="../index.html#skills">
+                    Skills
+                </a>
+            </li>
+
+            <li>
+                <a href="../index.html#contact">
+                    Contact
+                </a>
+            </li>
+
         </ul>
+
     </nav>
+
 </header>
+
+
 
 <main>
 
-<section class="hero">
-    <div class="hero-content">
-        <p class="eyebrow">ENTERPRISE INFRASTRUCTURE • SOC • CYBERSECURITY</p>
 
-        <h1>Enterprise Active Directory & SOC Environment</h1>
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+<section class="hero project-hero">
+
+    <div class="hero-content">
+
+        <p class="eyebrow">
+            ENTERPRISE INFRASTRUCTURE • SOC • DETECTION ENGINEERING
+        </p>
+
+        <h1>
+            Enterprise Active Directory & SOC Environment
+        </h1>
 
         <h2>
             A segmented enterprise-style Windows infrastructure integrating
-            Active Directory, pfSense, Splunk, Sysmon and Snort.
+            Active Directory, pfSense, Splunk Enterprise, Sysmon, Snort IDS,
+            and controlled security testing.
         </h2>
 
         <p>
-            This project was built to develop practical experience in systems
-            administration, networking, cybersecurity, security monitoring,
-            detection engineering and enterprise troubleshooting.
+            I designed, built, secured, monitored, tested, and troubleshot a
+            multi-network enterprise lab to develop practical experience across
+            systems administration, network security, SIEM engineering,
+            detection development, IDS monitoring, and security investigation.
         </p>
 
+
         <div class="hero-buttons">
-            <a href="#architecture" class="btn primary">Explore Project</a>
-            <a href="#video" class="btn secondary">Watch Demo</a>
+
+            <a href="https://github.com/PREMPE/Enterprise-AD-SOC-Lab"
+               class="btn primary"
+               target="_blank"
+               rel="noopener noreferrer">
+                View GitHub Repository
+            </a>
+
+            <a href="../index.html#projects"
+               class="btn secondary">
+                Back to Projects
+            </a>
+
         </div>
+
     </div>
+
 </section>
 
+
+
+<!-- =====================================================
+     PROJECT SNAPSHOT
+===================================================== -->
+
 <section class="section">
-    <h2>Project Overview</h2>
+
+    <h2>
+        Project Snapshot
+    </h2>
+
+
+    <div class="skills-grid">
+
+        <div>
+            <h3>Identity</h3>
+
+            <p>
+                Active Directory Domain Services, two domain controllers,
+                DNS, users, groups, Organizational Units, and Group Policy.
+            </p>
+        </div>
+
+
+        <div>
+            <h3>Network Security</h3>
+
+            <p>
+                pfSense routing, DHCP, NAT, segmentation,
+                firewall policy, DMZ controls, and isolated testing networks.
+            </p>
+        </div>
+
+
+        <div>
+            <h3>Security Monitoring</h3>
+
+            <p>
+                Splunk Enterprise, Universal Forwarders,
+                Windows Security Logs, Sysmon, pfSense logs,
+                Snort IDS events, dashboards, and alerts.
+            </p>
+        </div>
+
+
+        <div>
+            <h3>Detection Engineering</h3>
+
+            <p>
+                Authentication monitoring, suspicious PowerShell,
+                discovery activity, account changes,
+                privileged-group changes, and security alerts.
+            </p>
+        </div>
+
+
+        <div>
+            <h3>Endpoint Telemetry</h3>
+
+            <p>
+                Sysmon telemetry for process execution,
+                network activity, command lines,
+                and other endpoint security events.
+            </p>
+        </div>
+
+
+        <div>
+            <h3>Security Testing</h3>
+
+            <p>
+                Controlled testing with Kali Linux to validate
+                firewall rules, IDS visibility, logging,
+                and detection coverage.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     LAB ENVIRONMENT
+===================================================== -->
+
+<section class="section">
+
+    <h2>
+        Virtual Lab Environment
+    </h2>
 
     <p>
-        I designed and built an enterprise-style infrastructure in VMware
-        Workstation using multiple Windows Server systems, segmented networks,
-        centralized identity management, firewall controls and centralized
-        security monitoring.
+        The environment was built in VMware Workstation and separated into
+        dedicated network segments to simulate an enterprise infrastructure.
+    </p>
+
+
+    <div class="architecture-block">
+
+<pre>
+                         VMware Workstation
+                                |
+                              pfSense
+                                |
+       ---------------------------------------------------
+       |             |             |          |          |
+     SERVERS       CLIENTS     MANAGEMENT     DMZ      EXTERNAL
+  172.16.10.0/24 172.16.20.0/24 172.16.30.0/24
+                                            172.16.40.0/24
+                                                       172.16.50.0/24
+
+SERVERS
+-----------------------------------------------------------
+DC01       172.16.10.10    Active Directory / DNS
+DC02       172.16.10.11    Secondary DC / DNS / GC
+SPLUNK01   172.16.10.30    Splunk Enterprise
+
+CLIENTS
+-----------------------------------------------------------
+Client     172.16.20.101   Domain workstation
+
+EXTERNAL
+-----------------------------------------------------------
+Kali       172.16.50.10    Authorized security-testing host
+</pre>
+
+    </div>
+
+
+
+    <figure class="case-image">
+
+        <img src="../assets/projects/enterprise-ad-soc/vmware-environment.png"
+             alt="VMware Workstation enterprise security lab containing pfSense, Windows Server, management, client, DC02, Splunk and Kali systems">
+
+        <figcaption>
+            VMware Workstation environment containing the core enterprise,
+            monitoring, firewall, client, and security-testing systems.
+        </figcaption>
+
+    </figure>
+
+</section>
+
+
+
+<!-- =====================================================
+     ACTIVE DIRECTORY
+===================================================== -->
+
+<section class="section">
+
+    <h2>
+        Active Directory Infrastructure
+    </h2>
+
+    <p>
+        The Windows environment was built around the
+        <strong>corp.local</strong> Active Directory domain.
     </p>
 
     <p>
-        The environment evolved from an Active Directory lab into a broader
-        security operations environment incorporating network segmentation,
-        endpoint telemetry, intrusion detection and SIEM-based monitoring.
+        I created a structured Organizational Unit hierarchy for administrative
+        roles, users, servers, clients, management systems, service accounts,
+        and business departments.
     </p>
-</section>
 
-<section id="architecture" class="section">
-    <h2>Architecture</h2>
 
-    <div class="project-card">
-        <h3>Network Segmentation</h3>
+    <div class="case-gallery two-column-gallery">
 
-        <p>Servers / LAN — 172.16.10.0/24</p>
-        <p>Clients — 172.16.20.0/24</p>
-        <p>Management — 172.16.30.0/24</p>
-        <p>DMZ — 172.16.40.0/24</p>
-        <p>External / Security Testing — 172.16.50.0/24</p>
+
+        <figure class="case-image">
+
+            <img src="../assets/projects/enterprise-ad-soc/ad-structure.png"
+                 alt="Active Directory Users and Computers organizational unit structure">
+
+            <figcaption>
+                Active Directory OU structure used to organize users,
+                systems, administrators, service accounts, and departments.
+            </figcaption>
+
+        </figure>
+
+
+
+        <figure class="case-image">
+
+            <img src="../assets/projects/enterprise-ad-soc/domain-controllers.png"
+                 alt="Active Directory domain controllers DC01 and DC02">
+
+            <figcaption>
+                DC01 and DC02 deployed as domain controllers
+                to provide directory-service redundancy.
+            </figcaption>
+
+        </figure>
+
+
     </div>
 
-    <div class="project-card">
-        <h3>Core Systems</h3>
-
-        <p>DC01 — Active Directory / DNS</p>
-        <p>DC02 — Secondary Domain Controller / DNS</p>
-        <p>SPLUNK01 — Splunk Enterprise SIEM</p>
-        <p>ClientMachine — Domain-joined Windows endpoint</p>
-        <p>pfSense — Routing / Firewall / DHCP</p>
-        <p>Kali Linux — Controlled security-testing system</p>
-    </div>
 </section>
+
+
+
+<!-- =====================================================
+     GROUP POLICY
+===================================================== -->
 
 <section class="section">
-    <h2>Technologies Used</h2>
+
+    <h2>
+        Group Policy Administration
+    </h2>
+
+    <p>
+        Group Policy was used to centrally manage domain security,
+        administrative restrictions, endpoint configuration,
+        mapped drives, and Splunk deployment tasks.
+    </p>
+
+
+    <figure class="case-image featured-image">
+
+        <img src="../assets/projects/enterprise-ad-soc/group-policy.png"
+             alt="Group Policy Management console showing enterprise GPOs">
+
+        <figcaption>
+            Group Policy Objects used for password policy,
+            domain-controller policy, Splunk deployment,
+            local-administrator restrictions, drive mapping,
+            and administrative controls.
+        </figcaption>
+
+    </figure>
+
+</section>
+
+
+
+<!-- =====================================================
+     FILE SERVICES
+===================================================== -->
+
+<section class="section">
+
+    <h2>
+        Windows File Services
+    </h2>
+
+    <p>
+        Windows Server file services were used for domain resources
+        and deployment infrastructure.
+    </p>
+
+
+    <figure class="case-image featured-image">
+
+        <img src="../assets/projects/enterprise-ad-soc/file-server.png"
+             alt="Windows Server file and storage services shares">
+
+        <figcaption>
+            Windows Server shares including NETLOGON, SYSVOL,
+            and the Splunk deployment share.
+        </figcaption>
+
+    </figure>
+
+</section>
+
+
+
+<!-- =====================================================
+     NETWORK SEGMENTATION
+===================================================== -->
+
+<section class="section">
+
+    <h2>
+        Network Segmentation with pfSense
+    </h2>
+
+    <p>
+        pfSense acted as the central router, firewall,
+        DHCP service, and security boundary between
+        the enterprise network segments.
+    </p>
+
 
     <div class="tags">
-        <span>Windows Server 2022</span>
+
+        <span>Routing</span>
+        <span>DHCP</span>
+        <span>NAT</span>
+        <span>Firewall Rules</span>
+        <span>Segmentation</span>
+        <span>DMZ</span>
+        <span>External Testing</span>
+
+    </div>
+
+
+    <figure class="case-image featured-image">
+
+        <img src="../assets/projects/enterprise-ad-soc/pfsense-dhcp-interfaces.png"
+             alt="pfSense DHCP interfaces and LAN DHCP configuration">
+
+        <figcaption>
+            pfSense interface and DHCP configuration for the segmented
+            enterprise lab networks.
+        </figcaption>
+
+    </figure>
+
+</section>
+
+
+
+<!-- =====================================================
+     FIREWALL SECURITY POLICY
+===================================================== -->
+
+<section class="section">
+
+    <p class="eyebrow">
+        NETWORK SECURITY
+    </p>
+
+    <h2>
+        Firewall Security Policy
+    </h2>
+
+    <p>
+        pfSense was used as the central security boundary between the
+        lab's network segments. Firewall policies were configured to control
+        traffic between trusted enterprise systems, client networks,
+        management infrastructure, the DMZ, the external testing network,
+        and the WAN.
+    </p>
+
+    <p>
+        The rules were designed around network segmentation and controlled
+        access rather than allowing unrestricted communication between
+        every subnet. This provided a realistic environment for testing
+        firewall behavior, monitoring denied traffic, and validating
+        security controls through Splunk and Snort.
+    </p>
+
+
+    <div class="skills-grid">
+
+        <div>
+            <h3>LAN Policy</h3>
+
+            <p>
+                The LAN provides connectivity for core server
+                infrastructure while pfSense acts as the gateway
+                between the server network and other security zones.
+            </p>
+        </div>
+
+
+        <div>
+            <h3>DMZ Isolation</h3>
+
+            <p>
+                DMZ firewall rules restrict access toward internal
+                client, management, and server networks while permitting
+                only explicitly required traffic.
+            </p>
+        </div>
+
+
+        <div>
+            <h3>External Testing Network</h3>
+
+            <p>
+                The external network provides an isolated location for
+                authorized Kali Linux security testing. Access toward
+                internal systems is controlled through explicit
+                firewall rules.
+            </p>
+        </div>
+
+
+        <div>
+            <h3>WAN Protection</h3>
+
+            <p>
+                Unsolicited inbound WAN traffic is denied by default,
+                providing a restrictive external security boundary for
+                the lab environment.
+            </p>
+        </div>
+
+    </div>
+
+
+
+    <h3 class="case-subheading">
+        LAN Firewall Policy
+    </h3>
+
+    <p>
+        The LAN interface contains the core server-side network policy.
+        pfSense provides gateway services for the segment while controlling
+        traffic as it moves between security zones.
+    </p>
+
+
+    <figure class="case-image featured-image">
+
+        <img src="../assets/projects/enterprise-ad-soc/LAN-firewall-rule.png"
+             alt="pfSense LAN firewall rules protecting the enterprise server network"
+             loading="lazy">
+
+        <figcaption>
+            pfSense LAN firewall configuration showing the interface policy
+            applied to the enterprise server network.
+        </figcaption>
+
+    </figure>
+
+
+
+    <div class="case-gallery two-column-gallery">
+
+
+        <figure class="case-image">
+
+            <img src="../assets/projects/enterprise-ad-soc/pfsense-dmz-firewall.png"
+                 alt="pfSense DMZ firewall rules restricting access to internal networks"
+                 loading="lazy">
+
+            <figcaption>
+                DMZ security policy restricting access toward internal
+                management, client, and LAN resources.
+            </figcaption>
+
+        </figure>
+
+
+
+        <figure class="case-image">
+
+            <img src="../assets/projects/enterprise-ad-soc/pfsense-external-firewall.png"
+                 alt="pfSense external network firewall policy controlling Kali Linux access"
+                 loading="lazy">
+
+            <figcaption>
+                External security-testing policy controlling communication
+                from the isolated testing network toward internal resources.
+            </figcaption>
+
+        </figure>
+
+
+    </div>
+
+
+
+    <h3 class="case-subheading">
+        WAN Firewall Policy
+    </h3>
+
+    <p>
+        The WAN interface follows a default-deny inbound security model.
+        Private and bogon source networks are blocked and no general
+        inbound pass rule is exposed through the WAN interface.
+    </p>
+
+
+    <figure class="case-image featured-image">
+
+        <img src="../assets/projects/enterprise-ad-soc/WAN-firewall-rule.png"
+             alt="pfSense WAN firewall rules using a default deny inbound security policy"
+             loading="lazy">
+
+        <figcaption>
+            WAN firewall policy showing private-network and bogon filtering
+            with unsolicited inbound connections blocked by default.
+        </figcaption>
+
+    </figure>
+
+
+
+    <h3 class="case-subheading">
+        Segmentation Strategy
+    </h3>
+
+    <div class="architecture-block">
+
+<pre>
+                         INTERNET / WAN
+                              |
+                              v
+                        +-----------+
+                        |  pfSense  |
+                        | Firewall  |
+                        +-----------+
+                              |
+          -------------------------------------------------
+          |             |             |          |        |
+          v             v             v          v        v
+
+       SERVERS        CLIENTS      MANAGEMENT    DMZ    EXTERNAL
+    172.16.10.0/24  172.16.20.0/24 172.16.30.0/24
+                                             172.16.40.0/24
+                                                       172.16.50.0/24
+
+          |             |             |          |        |
+          |             |             |          |        |
+          +-------------+-------------+----------+--------+
+                              |
+                        Firewall Policy
+                              |
+             Allow only permitted communication
+                              |
+                  Log security-relevant traffic
+                              |
+                 +------------+------------+
+                 |                         |
+                 v                         v
+              Snort IDS                Splunk SIEM
+                 |                         |
+                 +------------+------------+
+                              |
+                              v
+                    Detection & Investigation
+</pre>
+
+    </div>
+
+    <p>
+        This architecture allowed network activity to be evaluated at
+        multiple defensive layers. pfSense enforced network policy,
+        Snort inspected traffic for suspicious patterns, and Splunk
+        centralized the resulting security telemetry for detection,
+        correlation, and investigation.
+    </p>
+
+</section>
+
+
+
+<!-- =====================================================
+     SPLUNK
+===================================================== -->
+
+<section class="section">
+
+    <h2>
+        Centralized Security Monitoring with Splunk
+    </h2>
+
+    <p>
+        Splunk Enterprise was used as the central SIEM platform for
+        Windows, Active Directory, Sysmon, pfSense, and Snort telemetry.
+    </p>
+
+    <p>
+        I created the <strong>CORP SOC Security Overview</strong>
+        to consolidate host activity, authentication events,
+        Active Directory changes, detections, firewall activity,
+        and IDS alerts.
+    </p>
+
+
+    <figure class="case-image featured-image">
+
+        <img src="../assets/projects/enterprise-ad-soc/corp-soc-dashboard-overview.png"
+             alt="Splunk CORP SOC Security Overview dashboard">
+
+        <figcaption>
+            SOC overview showing total security events,
+            failed authentication attempts, AD changes,
+            account lockouts, suspicious PowerShell,
+            privileged-group changes, and triggered detections.
+        </figcaption>
+
+    </figure>
+
+
+    <div class="case-gallery two-column-gallery">
+
+
+        <figure class="case-image">
+
+            <img src="../assets/projects/enterprise-ad-soc/corp-soc-dashboard-hosts.png"
+                 alt="Splunk security events and failed logons by host">
+
+            <figcaption>
+                Host-level security events, failed logons,
+                Sysmon activity, and pfSense event volume.
+            </figcaption>
+
+        </figure>
+
+
+
+        <figure class="case-image">
+
+            <img src="../assets/projects/enterprise-ad-soc/corp-soc-dashboard-firewall.png"
+                 alt="Splunk firewall and Snort monitoring dashboard">
+
+            <figcaption>
+                Firewall block analysis, top source and destination IPs,
+                blocked protocols, and Snort IDS alert metrics.
+            </figcaption>
+
+        </figure>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     DETECTIONS
+===================================================== -->
+
+<section class="section">
+
+    <h2>
+        Detection Engineering
+    </h2>
+
+    <p>
+        I created SPL searches and alerts to identify
+        suspicious authentication, account activity,
+        discovery behavior, PowerShell execution,
+        and other security events.
+    </p>
+
+
+    <div class="skills-grid">
+
+
+        <div>
+            <h3>Authentication</h3>
+
+            <p>
+                Failed login attempts,
+                account lockouts,
+                Kerberos failures,
+                NTLM failures,
+                and suspicious authentication patterns.
+            </p>
+        </div>
+
+
+        <div>
+            <h3>Identity Changes</h3>
+
+            <p>
+                New user creation,
+                account enable/disable activity,
+                local-account changes,
+                and privileged-group membership changes.
+            </p>
+        </div>
+
+
+        <div>
+            <h3>Execution</h3>
+
+            <p>
+                Suspicious PowerShell,
+                encoded PowerShell,
+                CMD execution,
+                and living-off-the-land binary activity.
+            </p>
+        </div>
+
+
+        <div>
+            <h3>Discovery</h3>
+
+            <p>
+                Account discovery,
+                process discovery,
+                network configuration discovery,
+                and Windows discovery commands.
+            </p>
+        </div>
+
+
+        <div>
+            <h3>Persistence</h3>
+
+            <p>
+                Scheduled-task activity
+                and other high-interest system changes.
+            </p>
+        </div>
+
+
+        <div>
+            <h3>Network Detection</h3>
+
+            <p>
+                Snort IDS detections,
+                firewall blocks,
+                reconnaissance,
+                and suspicious network activity.
+            </p>
+        </div>
+
+
+    </div>
+
+
+
+    <figure class="case-image featured-image">
+
+        <img src="../assets/projects/enterprise-ad-soc/corp-soc-triggered-detections.png"
+             alt="Splunk triggered detections dashboard">
+
+        <figcaption>
+            Triggered detection activity and recent
+            high-interest security events in Splunk.
+        </figcaption>
+
+    </figure>
+
+</section>
+
+
+
+<!-- =====================================================
+     SPL SEARCH
+===================================================== -->
+
+<section class="section">
+
+    <h2>
+        SPL Detection Logic
+    </h2>
+
+    <p>
+        The project included developing and validating SPL rather than
+        relying entirely on built-in dashboards.
+    </p>
+
+
+    <figure class="case-image featured-image">
+
+        <img src="../assets/projects/enterprise-ad-soc/splunk-failed-logons.png"
+             alt="Splunk SPL query detecting multiple failed logons followed by success">
+
+        <figcaption>
+            SPL logic designed to identify repeated failed logons
+            followed by a successful authentication within a defined time window.
+        </figcaption>
+
+    </figure>
+
+</section>
+
+
+
+<!-- =====================================================
+     ALERT LIBRARY
+===================================================== -->
+
+<section class="section">
+
+    <h2>
+        Security Alert Library
+    </h2>
+
+    <p>
+        Detection searches were converted into reusable Splunk alerts
+        so suspicious activity could be continuously evaluated.
+    </p>
+
+
+    <figure class="case-image featured-image">
+
+        <img src="../assets/projects/enterprise-ad-soc/splunk-alerts.png"
+             alt="Splunk alert library containing Active Directory and endpoint security alerts">
+
+        <figcaption>
+            Splunk alert library containing authentication,
+            identity, PowerShell, LOLBIN, discovery,
+            and account-security detections.
+        </figcaption>
+
+    </figure>
+
+</section>
+
+
+
+<!-- =====================================================
+     SNORT IDS
+===================================================== -->
+
+<section class="section">
+
+    <h2>
+        Snort IDS Integration
+    </h2>
+
+    <p>
+        Snort was deployed on pfSense to add network intrusion-detection
+        telemetry to the lab.
+    </p>
+
+    <p>
+        IDS events were generated, reviewed directly in pfSense,
+        and forwarded into Splunk for centralized investigation.
+    </p>
+
+
+    <div class="case-gallery two-column-gallery">
+
+
+        <figure class="case-image">
+
+            <img src="../assets/projects/enterprise-ad-soc/snort-interface.png"
+                 alt="Snort IDS interface running on the clients network">
+
+            <figcaption>
+                Snort monitoring the CLIENTS network interface.
+            </figcaption>
+
+        </figure>
+
+
+
+        <figure class="case-image">
+
+            <img src="../assets/projects/enterprise-ad-soc/snort-alerts.png"
+                 alt="Snort IDS alerts detecting portscan activity">
+
+            <figcaption>
+                Snort alert log showing detected UDP filtered
+                port-sweep activity.
+            </figcaption>
+
+        </figure>
+
+
+    </div>
+
+
+
+    <figure class="case-image featured-image">
+
+        <img src="../assets/projects/enterprise-ad-soc/snort-dashboard-overview.png"
+             alt="Splunk Snort IDS security monitoring dashboard">
+
+        <figcaption>
+            Dedicated Splunk Snort IDS dashboard showing alert volume,
+            portscan detections, source IPs, signatures,
+            destinations, and activity over time.
+        </figcaption>
+
+    </figure>
+
+
+
+    <figure class="case-image featured-image">
+
+        <img src="../assets/projects/enterprise-ad-soc/snort-dashboard-detections.png"
+             alt="Splunk Snort IDS dashboard showing recent detections and alert activity">
+
+        <figcaption>
+            Recent Snort detections and IDS activity centralized
+            inside Splunk for investigation.
+        </figcaption>
+
+    </figure>
+
+</section>
+
+
+
+<!-- =====================================================
+     VALIDATION
+===================================================== -->
+
+<section class="section">
+
+    <h2>
+        Security Testing & Validation
+    </h2>
+
+    <p>
+        Kali Linux was used only inside the authorized lab environment
+        to validate defensive controls and monitoring visibility.
+    </p>
+
+
+    <div class="architecture-block">
+
+<pre>
+Authorized Test Activity
+        |
+        v
+     Kali Linux
+        |
+        v
+   pfSense Firewall
+        |
+        +------> Firewall Logs
+        |
+        +------> Snort IDS
+        |
+        v
+  Windows / AD Systems
+        |
+        +------> Windows Security Events
+        |
+        +------> Sysmon Telemetry
+        |
+        v
+   Splunk Enterprise
+        |
+        +------> Searches
+        +------> Detections
+        +------> Alerts
+        +------> Dashboards
+        +------> Investigation
+</pre>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     TROUBLESHOOTING
+===================================================== -->
+
+<section class="section">
+
+    <h2>
+        Troubleshooting Experience
+    </h2>
+
+    <p>
+        Building the environment required troubleshooting across multiple
+        infrastructure and security layers.
+    </p>
+
+
+    <div class="skills-grid">
+
+
+        <div>
+            <h3>Networking</h3>
+
+            <p>
+                Routing, IP addressing,
+                VMware virtual networks,
+                pfSense rules, NAT,
+                DHCP, and connectivity.
+            </p>
+        </div>
+
+
+        <div>
+            <h3>Active Directory</h3>
+
+            <p>
+                Domain membership, DNS,
+                Group Policy processing,
+                service accounts, and replication.
+            </p>
+        </div>
+
+
+        <div>
+            <h3>Splunk</h3>
+
+            <p>
+                Universal Forwarder connectivity,
+                indexes, source types,
+                log ingestion, searches,
+                parsing, and dashboards.
+            </p>
+        </div>
+
+
+        <div>
+            <h3>Security Telemetry</h3>
+
+            <p>
+                Sysmon visibility,
+                Windows event collection,
+                pfSense syslog,
+                and Snort IDS ingestion.
+            </p>
+        </div>
+
+
+        <div>
+            <h3>Detection Logic</h3>
+
+            <p>
+                SPL validation,
+                zero-result searches,
+                alert conditions,
+                event interpretation,
+                and detection tuning.
+            </p>
+        </div>
+
+
+        <div>
+            <h3>System Resources</h3>
+
+            <p>
+                VM memory allocation,
+                service availability,
+                system startup,
+                and multi-VM lab performance.
+            </p>
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     RESULTS
+===================================================== -->
+
+<section class="section">
+
+    <h2>
+        Final Results
+    </h2>
+
+
+    <div class="skills-grid">
+
+
+        <div>
+            <h3>Enterprise Identity</h3>
+
+            <p>
+                Operational multi-domain-controller
+                Active Directory environment.
+            </p>
+        </div>
+
+
+        <div>
+            <h3>Segmentation</h3>
+
+            <p>
+                Multiple security zones enforced
+                through pfSense.
+            </p>
+        </div>
+
+
+        <div>
+            <h3>Centralized SIEM</h3>
+
+            <p>
+                Windows, Sysmon, firewall,
+                and IDS telemetry centralized in Splunk.
+            </p>
+        </div>
+
+
+        <div>
+            <h3>Detection Coverage</h3>
+
+            <p>
+                Custom searches, alerts,
+                dashboards, and detection logic implemented.
+            </p>
+        </div>
+
+
+        <div>
+            <h3>Network IDS</h3>
+
+            <p>
+                Snort IDS deployed and integrated
+                with Splunk monitoring.
+            </p>
+        </div>
+
+
+        <div>
+            <h3>Validated Security Controls</h3>
+
+            <p>
+                Authorized testing confirmed
+                firewall, logging, IDS,
+                and SIEM visibility.
+            </p>
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     SKILLS DEMONSTRATED
+===================================================== -->
+
+<section class="section">
+
+    <h2>
+        Skills Demonstrated
+    </h2>
+
+
+    <div class="tags">
+
+        <span>Windows Server</span>
         <span>Active Directory</span>
-        <span>Group Policy</span>
+        <span>Domain Controllers</span>
         <span>DNS</span>
+        <span>Group Policy</span>
         <span>VMware Workstation</span>
+
+        <span>TCP/IP</span>
+        <span>Routing</span>
+        <span>DHCP</span>
+        <span>NAT</span>
+        <span>Network Segmentation</span>
+
         <span>pfSense</span>
+        <span>Firewall Administration</span>
+
         <span>Splunk Enterprise</span>
+        <span>Universal Forwarder</span>
+        <span>SPL</span>
+        <span>Dashboards</span>
+        <span>Alerts</span>
+
         <span>Sysmon</span>
         <span>Snort IDS</span>
-        <span>PowerShell</span>
+
+        <span>Detection Engineering</span>
+        <span>Log Analysis</span>
+        <span>Threat Investigation</span>
+
         <span>Kali Linux</span>
+        <span>Security Testing</span>
+
+        <span>Troubleshooting</span>
+        <span>Technical Documentation</span>
+
     </div>
+
 </section>
 
-<section class="section">
-    <h2>Active Directory</h2>
 
-    <p>
-        I deployed the corp.local Active Directory domain using two domain
-        controllers to provide centralized authentication, DNS, Group Policy
-        and directory services.
+
+<!-- =====================================================
+     GITHUB
+===================================================== -->
+
+<section class="section contact">
+
+    <h2>
+        Full Technical Documentation
+    </h2>
+
+    <p class="contact-intro">
+        The GitHub repository contains additional implementation details,
+        configuration evidence, troubleshooting notes, and supporting
+        technical documentation for this project.
     </p>
 
-    <p>
-        Organizational Units, users, security groups and policies were created
-        to simulate centralized administration in an enterprise Windows
-        environment.
-    </p>
-</section>
 
-<section class="section">
-    <h2>Network Security & Segmentation</h2>
+    <div class="contact-links">
 
-    <p>
-        pfSense operates as the central routing and firewall platform between
-        the different network segments.
-    </p>
+        <a href="https://github.com/PREMPE/Enterprise-AD-SOC-Lab"
+           target="_blank"
+           rel="noopener noreferrer">
+            View GitHub Repository
+        </a>
 
-    <p>
-        Separate VMware networks were created for servers, clients,
-        management systems, DMZ systems and controlled external security
-        testing. Firewall policies control communication between these
-        networks.
-    </p>
-</section>
+        <a href="../index.html#projects">
+            Back to Projects
+        </a>
 
-<section class="section">
-    <h2>Security Monitoring</h2>
-
-    <p>
-        Splunk Enterprise was deployed as the centralized SIEM platform.
-        Windows Event Logs and Sysmon telemetry were collected from Windows
-        systems while pfSense and Snort supplied network-security visibility.
-    </p>
-
-    <p>
-        SOC dashboards and searches were developed for authentication events,
-        account activity, PowerShell execution, privileged-group changes,
-        firewall events and IDS detections.
-    </p>
-</section>
-
-<section class="section">
-    <h2>Detection Engineering</h2>
-
-    <p>
-        I created detection searches for failed authentication, account
-        lockouts, account changes, PowerShell activity, privileged-group
-        modifications, Kerberos and NTLM failures, discovery activity and
-        other security-relevant behavior.
-    </p>
-
-    <p>
-        I also worked with authentication correlation to identify patterns
-        involving multiple failed authentication attempts followed by a
-        successful authentication.
-    </p>
-</section>
-
-<section class="section">
-    <h2>Troubleshooting & Lessons Learned</h2>
-
-    <p>
-        A significant part of the project involved diagnosing real
-        configuration problems rather than simply following installation
-        procedures.
-    </p>
-
-    <p>
-        Troubleshooting included inter-network connectivity, Windows Firewall,
-        pfSense firewall policy, VMware virtual network mappings, DNS,
-        Splunk log ingestion, Snort field extraction and VM resource
-        constraints.
-    </p>
-
-    <p>
-        These problems reinforced the importance of validating each layer
-        independently instead of assuming that a configuration is working.
-    </p>
-</section>
-
-<section class="section">
-    <h2>Results</h2>
-
-    <p>
-        The completed environment provides centralized identity management,
-        segmented networking, firewall enforcement, endpoint telemetry,
-        intrusion detection and centralized SIEM visibility.
-    </p>
-
-    <p>
-        The project provides a platform for additional work in EDR,
-        security automation, incident response, cloud integration and
-        advanced detection engineering.
-    </p>
-</section>
-
-<section id="video" class="section">
-    <h2>Video Demonstration</h2>
-
-    <div class="video-placeholder">
-        Project walkthrough coming soon
     </div>
+
 </section>
 
-<section class="section">
-    <a href="../index.html#projects" class="btn secondary">
-        ← Back to Projects
-    </a>
-</section>
 
 </main>
 
+
+
 <footer>
-    <p>© 2026 Agyemang Prempeh | prempehtech.ca</p>
+
+    <p>
+        © 2026 Agyemang Prempeh | PrempehTech
+    </p>
+
 </footer>
 
+
+<script src="../script.js"></script>
+
 </body>
+
 </html>
