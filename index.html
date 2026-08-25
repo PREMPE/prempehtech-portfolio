@@ -1,1152 +1,828 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <title>PrempehTech.ca | Infrastructure & Cybersecurity Portfolio</title>
 
-    <title>
-        Agyemang Prempeh | Systems Administration, Cloud & Cybersecurity
-    </title>
+    <meta
+        name="description"
+        content="Agyemang Prempeh's hands-on portfolio covering systems administration, networking, cybersecurity, AWS, Microsoft Entra ID, Splunk, pfSense, Active Directory, VPNs, endpoint security, and automation."
+    >
 
-    <meta name="description"
-          content="Technical portfolio of Agyemang Prempeh featuring enterprise Active Directory, SOC engineering, AWS hybrid cloud infrastructure, Microsoft Entra hybrid identity, secure VPN deployments, networking, endpoint security, and security automation projects.">
-
-    <link rel="stylesheet"
-          href="style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 
-
-<body>
-
-
-<!-- =========================================================
-     NAVIGATION
-========================================================= -->
-
-<header>
-
-    <nav class="navbar">
-
-        <a href="#home"
-           class="logo">
-            PrempehTech
-        </a>
-
-
-        <ul class="nav-links">
-
-            <li>
-                <a href="#home">
-                    Home
-                </a>
-            </li>
-
-            <li>
-                <a href="#about">
-                    About
-                </a>
-            </li>
-
-            <li>
-                <a href="#projects">
-                    Projects
-                </a>
-            </li>
-
-            <li>
-                <a href="#evidence">
-                    Evidence
-                </a>
-            </li>
-
-            <li>
-                <a href="#skills">
-                    Skills
-                </a>
-            </li>
-
-            <li>
-                <a href="#certifications">
-                    Certifications
-                </a>
-            </li>
-
-            <li>
-                <a href="#contact">
-                    Contact
-                </a>
-            </li>
-
-        </ul>
-
-    </nav>
-
-</header>
-
-
-
-<main>
-
-
-<!-- =========================================================
-     HERO
-========================================================= -->
-
-<section class="hero"
-         id="home">
-
-    <div class="hero-content">
-
-
-        <p class="eyebrow">
-            SYSTEMS ADMINISTRATION • NETWORKING • CYBERSECURITY
-        </p>
-
-
-        <h1>
-            Agyemang Prempeh
-        </h1>
-
-
-        <h2>
-            Building secure enterprise infrastructure,
-            hybrid cloud environments, and security
-            monitoring solutions.
-        </h2>
-
-
-        <p>
-            I design and build practical infrastructure and security
-            projects involving Windows Server, Active Directory,
-            Microsoft Entra ID, AWS, pfSense, Splunk, Sysmon,
-            Snort, VPNs, endpoint security, automation,
-            networking, and security operations.
-        </p>
-
-
-        <div class="hero-buttons">
-
-
-            <a href="#projects"
-               class="btn primary">
-                View Projects
-            </a>
-
-
-            <a href="assets/resume/Agyemang-Prempeh-Resume.pdf"
-               class="btn secondary"
-               target="_blank">
-                View Resume
-            </a>
-
-
-            <a href="#contact"
-               class="btn secondary">
-                Contact Me
-            </a>
-
-
-        </div>
-
-    </div>
-
-</section>
-
-
-
-<!-- =========================================================
-     ABOUT
-========================================================= -->
-
-<section class="section"
-         id="about">
-
-    <h2>
-        About Me
-    </h2>
-
-
-    <p>
-        I am developing practical experience across systems
-        administration, networking, cybersecurity, cloud
-        infrastructure, identity management, security operations,
-        and enterprise troubleshooting.
-    </p>
-
-
-    <p>
-        My work focuses on building complete environments rather
-        than studying technologies in isolation. I design systems,
-        configure infrastructure, implement security controls,
-        collect telemetry, create detections, test access,
-        troubleshoot failures, and document the final result.
-    </p>
-
-
-    <p>
-        My current portfolio includes Active Directory and SOC
-        engineering, AWS hybrid cloud infrastructure, Microsoft
-        Entra hybrid identity, secure IKEv2 remote access VPNs,
-        centralized monitoring with Splunk, endpoint telemetry
-        with Sysmon, network detection with Snort, and controlled
-        security testing.
-    </p>
-
-
-    <p>
-        I am also expanding my hands-on work into endpoint detection
-        and response and security automation, with dedicated EDR and
-        automation projects being added to the portfolio.
-    </p>
-
-
-    <p class="eyebrow">
-        CURRENT FOCUS
-    </p>
-
-
-    <div class="skills-grid">
-
-
-        <div>
-
-            <h3>
-                SOC & Detection Engineering
-            </h3>
-
-            <p>
-                Splunk, Sysmon, Snort, Windows Security Events,
-                detections, dashboards, alerts, investigations,
-                and security monitoring.
-            </p>
-
-        </div>
-
-
-        <div>
-
-            <h3>
-                Infrastructure Security
-            </h3>
-
-            <p>
-                Active Directory, pfSense, network segmentation,
-                firewall rules, DNS, access control,
-                and enterprise troubleshooting.
-            </p>
-
-        </div>
-
-
-        <div>
-
-            <h3>
-                Cloud & Identity
-            </h3>
-
-            <p>
-                AWS, VPC, EC2, IPsec, Microsoft Entra ID,
-                Microsoft Entra Connect, and hybrid identity.
-            </p>
-
-        </div>
-
-
-        <div>
-
-            <h3>
-                Endpoint Security
-            </h3>
-
-            <p>
-                EDR concepts, endpoint telemetry, process behavior,
-                alert triage, investigation, containment concepts,
-                and response workflows.
-            </p>
-
-        </div>
-
-
-        <div>
-
-            <h3>
-                Security Automation
-            </h3>
-
-            <p>
-                PowerShell, Python, Bash, log processing,
-                repeatable administrative tasks,
-                alert enrichment, and response automation.
-            </p>
-
-        </div>
-
-
-    </div>
-
-</section>
-
-
-
-<!-- =========================================================
-     FEATURED PROJECTS
-========================================================= -->
-
-<section class="section"
-         id="projects">
-
-    <h2>
-        Featured Projects
-    </h2>
-
-
-    <p>
-        Hands-on infrastructure and cybersecurity projects
-        demonstrating enterprise administration, networking,
-        cloud, identity, security monitoring, access control,
-        testing, and troubleshooting.
-    </p>
-
-
-    <div class="project-grid">
-
-
-        <!-- =================================================
-             ENTERPRISE ACTIVE DIRECTORY & SOC
-        ================================================== -->
-
-        <article class="project-card">
-
-            <h3>
-                Enterprise Active Directory & SOC Project
-            </h3>
-
-
-            <p>
-                Built a segmented Windows enterprise environment
-                using Active Directory, multiple domain controllers,
-                Group Policy, pfSense, Splunk Enterprise, Sysmon,
-                Snort IDS, and controlled security testing.
-            </p>
-
-
-            <div class="tags">
-
-                <span>Active Directory</span>
-                <span>Windows Server</span>
-                <span>Splunk</span>
-                <span>pfSense</span>
-                <span>Sysmon</span>
-                <span>Snort</span>
-
-            </div>
-
-
-            <div class="project-actions">
-
-                <a href="projects/enterprise-ad-soc.html"
-                   class="project-link">
-                    View Case Study →
-                </a>
-
-
-                <a href="https://github.com/PREMPE"
-                   class="project-link"
-                   target="_blank"
-                   rel="noopener noreferrer">
-                    GitHub →
+<body id="top">
+
+    <!-- =====================================================
+         HEADER / NAVIGATION
+    ====================================================== -->
+    <header class="site-header">
+        <div class="container nav-container">
+
+            <div class="nav-left">
+
+                <!-- Back button -->
+                <button
+                    class="back-button"
+                    type="button"
+                    onclick="history.back()"
+                    aria-label="Go back"
+                    title="Go back"
+                >
+                    &#8592;
+                </button>
+
+                <!-- Brand -->
+                <a href="#home" class="brand">
+                    PrempehTech.ca
                 </a>
 
             </div>
 
-        </article>
+            <nav class="main-nav" aria-label="Main navigation">
+                <a href="#home">Home</a>
+                <a href="#about">About</a>
+                <a href="#projects">Projects</a>
+                <a href="#evidence">Evidence</a>
+                <a href="#skills">Skills</a>
+                <a href="#certifications">Certifications</a>
+                <a href="#contact">Contact</a>
+            </nav>
+
+        </div>
+    </header>
 
 
+    <main>
 
-        <!-- =================================================
-             AWS HYBRID CLOUD
-        ================================================== -->
+        <!-- =====================================================
+             HERO
+        ====================================================== -->
+        <section id="home" class="hero">
 
-        <article class="project-card">
+            <div class="container hero-container">
 
-            <h3>
-                AWS Hybrid Cloud Infrastructure
-            </h3>
+                <p class="eyebrow">
+                    SYSTEMS ADMINISTRATION • NETWORKING • CYBERSECURITY
+                </p>
 
+                <h1>Agyemang Prempeh</h1>
+
+                <h2 class="hero-heading">
+                    Building secure enterprise infrastructure, hybrid cloud
+                    environments, and security monitoring solutions.
+                </h2>
+
+                <p class="hero-description">
+                    I design and build practical infrastructure and security
+                    projects involving Windows Server, Active Directory,
+                    Microsoft Entra ID, AWS, pfSense, Splunk, Sysmon, Snort,
+                    VPNs, endpoint security, automation, networking, and
+                    security operations.
+                </p>
+
+                <div class="hero-actions">
+                    <a href="#projects" class="btn btn-primary">
+                        View Projects
+                    </a>
+
+                    <a href="assets/Agyemang-Prempeh-Resume.pdf"
+                       class="btn btn-secondary"
+                       target="_blank"
+                       rel="noopener">
+                        View Resume
+                    </a>
+
+                    <a href="#contact" class="btn btn-secondary">
+                        Contact Me
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- =====================================================
+             ABOUT
+        ====================================================== -->
+        <section id="about" class="section">
+
+            <div class="container">
+
+                <div class="section-heading">
+                    <h2>About Me</h2>
+                    <div class="heading-line"></div>
+                </div>
+
+                <div class="about-content">
+
+                    <p>
+                        I am developing practical experience across systems
+                        administration, networking, cybersecurity, cloud
+                        infrastructure, identity management, security
+                        operations, and enterprise troubleshooting.
+                    </p>
+
+                    <p>
+                        My work focuses on building complete environments rather
+                        than studying technologies in isolation. I design
+                        systems, configure infrastructure, implement security
+                        controls, collect telemetry, create detections, test
+                        access, troubleshoot failures, and document the final
+                        result.
+                    </p>
+
+                    <p>
+                        My current portfolio includes Active Directory and SOC
+                        engineering, AWS hybrid cloud infrastructure, Microsoft
+                        Entra hybrid identity, secure IKEv2 remote access VPNs,
+                        centralized monitoring with Splunk, endpoint telemetry
+                        with Sysmon, network detection with Snort, and controlled
+                        security testing.
+                    </p>
+
+                    <p>
+                        I am also expanding my hands-on work into endpoint
+                        detection and response and security automation, with
+                        dedicated EDR and automation projects being added to
+                        the portfolio.
+                    </p>
+
+                </div>
+
+
+                <div class="subsection-heading">
+                    <span>CURRENT FOCUS</span>
+                </div>
+
+
+                <div class="focus-grid">
+
+                    <article class="focus-card">
+                        <h3>SOC &amp; Detection Engineering</h3>
+                        <p>
+                            Splunk, Sysmon, Snort, Windows Security Events,
+                            detections, dashboards, alerts, investigations,
+                            and security monitoring.
+                        </p>
+                    </article>
+
+
+                    <article class="focus-card">
+                        <h3>Infrastructure Security</h3>
+                        <p>
+                            Active Directory, pfSense, network segmentation,
+                            firewall rules, DNS, access control, and enterprise
+                            troubleshooting.
+                        </p>
+                    </article>
+
+
+                    <article class="focus-card">
+                        <h3>Cloud &amp; Identity</h3>
+                        <p>
+                            AWS, VPC, EC2, IPsec, Microsoft Entra ID,
+                            Microsoft Entra Connect, and hybrid identity.
+                        </p>
+                    </article>
+
+
+                    <article class="focus-card">
+                        <h3>Endpoint Security</h3>
+                        <p>
+                            EDR concepts, endpoint telemetry, process behavior,
+                            alert triage, investigation, containment concepts,
+                            and response workflows.
+                        </p>
+                    </article>
+
+
+                    <article class="focus-card">
+                        <h3>Security Automation</h3>
+                        <p>
+                            PowerShell, Python, Bash, log processing,
+                            repeatable administrative tasks, alert enrichment,
+                            and response automation.
+                        </p>
+                    </article>
+
+
+                    <article class="focus-card">
+                        <h3>Networking</h3>
+                        <p>
+                            TCP/IP, subnetting, routing, VPNs, Wireshark
+                            analysis, VMware networking, and connectivity
+                            troubleshooting.
+                        </p>
+                    </article>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- =====================================================
+             PROJECTS
+        ====================================================== -->
+        <section id="projects" class="section section-alt">
+
+            <div class="container">
+
+                <div class="section-heading">
+                    <h2>Featured Projects</h2>
+                    <div class="heading-line"></div>
+                </div>
+
+                <p class="section-intro">
+                    Hands-on infrastructure and cybersecurity projects
+                    demonstrating enterprise administration, networking,
+                    cloud, identity, security monitoring, access control,
+                    testing, and troubleshooting.
+                </p>
+
+
+                <div class="projects-grid">
+
+                    <!-- AD / SOC -->
+                    <article class="project-card">
+
+                        <h3>
+                            Enterprise Active Directory &amp; SOC Project
+                        </h3>
+
+                        <p>
+                            Built a segmented Windows enterprise environment
+                            using Active Directory, multiple domain controllers,
+                            Group Policy, pfSense, Splunk Enterprise, Sysmon,
+                            Snort IDS, and controlled security testing.
+                        </p>
+
+                        <div class="tags">
+                            <span>Active Directory</span>
+                            <span>Windows Server</span>
+                            <span>Splunk</span>
+                            <span>pfSense</span>
+                            <span>Sysmon</span>
+                            <span>Snort</span>
+                        </div>
+
+                        <div class="card-actions">
+                            <a href="projects/active-directory.html"
+                               class="btn btn-secondary">
+                                View Case Study →
+                            </a>
+
+                            <a href="#"
+                               class="btn btn-secondary">
+                                GitHub →
+                            </a>
+                        </div>
+
+                    </article>
+
+
+                    <!-- AWS -->
+                    <article class="project-card">
+
+                        <h3>AWS Hybrid Cloud Infrastructure</h3>
+
+                        <p>
+                            Designed an AWS VPC and securely connected it to
+                            an on-premises VMware infrastructure through
+                            pfSense using redundant IPsec Site-to-Site VPN
+                            tunnels.
+                        </p>
+
+                        <div class="tags">
+                            <span>AWS</span>
+                            <span>VPC</span>
+                            <span>EC2</span>
+                            <span>IAM</span>
+                            <span>IPsec</span>
+                            <span>pfSense</span>
+                            <span>CloudTrail</span>
+                        </div>
+
+                        <div class="card-actions">
+                            <a href="projects/aws-hybrid-cloud.html"
+                               class="btn btn-secondary">
+                                View Case Study →
+                            </a>
+
+                            <a href="#"
+                               class="btn btn-secondary">
+                                GitHub →
+                            </a>
+                        </div>
+
+                    </article>
+
+
+                    <!-- ENTRA -->
+                    <article class="project-card">
+
+                        <h3>Microsoft Entra ID Hybrid Identity</h3>
+
+                        <p>
+                            Extended an on-premises Active Directory
+                            environment into Microsoft Entra ID and
+                            implemented hybrid identity using Microsoft
+                            Entra Connect Sync.
+                        </p>
+
+                        <div class="tags">
+                            <span>Entra ID</span>
+                            <span>Active Directory</span>
+                            <span>Entra Connect</span>
+                            <span>Hybrid Identity</span>
+                            <span>Windows Server</span>
+                        </div>
+
+                        <div class="card-actions">
+                            <a href="projects/entra-hybrid-identity.html"
+                               class="btn btn-secondary">
+                                View Case Study →
+                            </a>
+
+                            <a href="#"
+                               class="btn btn-secondary">
+                                GitHub →
+                            </a>
+                        </div>
+
+                    </article>
+
+
+                    <!-- VPN -->
+                    <article class="project-card">
+
+                        <h3>Secure IKEv2 Remote Access VPN</h3>
+
+                        <p>
+                            Designed, implemented, and validated a secure
+                            remote-access VPN using pfSense, IKEv2/IPsec,
+                            Windows clients, network segmentation,
+                            least-privilege firewall rules, split tunneling,
+                            and Splunk authentication monitoring.
+                        </p>
+
+                        <div class="tags">
+                            <span>pfSense</span>
+                            <span>IKEv2</span>
+                            <span>IPsec</span>
+                            <span>VPN</span>
+                            <span>Windows</span>
+                            <span>Splunk</span>
+                        </div>
+
+                        <div class="card-actions">
+                            <a href="projects/ikev2-vpn.html"
+                               class="btn btn-secondary">
+                                View Case Study →
+                            </a>
+
+                            <a href="#"
+                               class="btn btn-secondary">
+                                GitHub →
+                            </a>
+                        </div>
+
+                    </article>
+
+
+                    <!-- EDR -->
+                    <article class="project-card project-upcoming">
+
+                        <h3>Endpoint Detection &amp; Response Project</h3>
+
+                        <p>
+                            Upcoming endpoint security project focused on
+                            endpoint telemetry, process behavior, alert triage,
+                            investigation, detection logic, containment, and
+                            response workflows.
+                        </p>
+
+                        <div class="tags">
+                            <span>EDR</span>
+                            <span>Endpoint Security</span>
+                            <span>Telemetry</span>
+                            <span>Threat Detection</span>
+                            <span>Investigation</span>
+                        </div>
+
+                        <p class="project-status">
+                            Project In Progress
+                        </p>
+
+                    </article>
+
+
+                    <!-- AUTOMATION -->
+                    <article class="project-card project-upcoming">
+
+                        <h3>Security Automation Project</h3>
+
+                        <p>
+                            Upcoming security automation project focused on
+                            PowerShell, Python, Bash, log processing, alert
+                            enrichment, IOC handling, scheduled checks,
+                            repeatable workflows, and response automation.
+                        </p>
+
+                        <div class="tags">
+                            <span>Automation</span>
+                            <span>PowerShell</span>
+                            <span>Python</span>
+                            <span>Bash</span>
+                            <span>Security Operations</span>
+                        </div>
+
+                        <p class="project-status">
+                            Project In Progress
+                        </p>
+
+                    </article>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- =====================================================
+             EVIDENCE
+        ====================================================== -->
+        <section id="evidence" class="section">
+
+            <div class="container">
+
+                <div class="section-heading">
+                    <h2>Project Evidence &amp; Lab Highlights</h2>
+                    <div class="heading-line"></div>
+                </div>
+
+                <p class="section-intro">
+                    Selected technical evidence from my infrastructure and
+                    cybersecurity projects. Detailed screenshots,
+                    configurations, testing results, architecture diagrams,
+                    and troubleshooting notes are available inside each case
+                    study and GitHub repository.
+                </p>
+
+
+                <div class="evidence-grid">
+
+                    <article class="evidence-card">
+                        <p class="card-eyebrow">ENTERPRISE SOC</p>
+
+                        <h3>
+                            Active Directory &amp; Security Monitoring
+                        </h3>
+
+                        <p>
+                            Multi-domain-controller Windows environment with
+                            Group Policy, centralized logging, Sysmon telemetry,
+                            Splunk detections, pfSense segmentation, and Snort
+                            IDS.
+                        </p>
+
+                        <div class="tags">
+                            <span>Active Directory</span>
+                            <span>Splunk</span>
+                            <span>Sysmon</span>
+                            <span>Snort</span>
+                        </div>
+
+                        <a href="projects/active-directory.html"
+                           class="text-link">
+                            View Evidence →
+                        </a>
+                    </article>
+
+
+                    <article class="evidence-card">
+                        <p class="card-eyebrow">HYBRID CLOUD</p>
+
+                        <h3>AWS &amp; On-Premises Connectivity</h3>
+
+                        <p>
+                            AWS VPC architecture, EC2 workloads, IAM controls,
+                            CloudTrail and CloudWatch monitoring, pfSense IPsec
+                            connectivity, private network testing, and redundant
+                            VPN tunnel validation.
+                        </p>
+
+                        <div class="tags">
+                            <span>AWS</span>
+                            <span>VPC</span>
+                            <span>IPsec</span>
+                            <span>pfSense</span>
+                        </div>
+
+                        <a href="projects/aws-hybrid-cloud.html"
+                           class="text-link">
+                            View Evidence →
+                        </a>
+                    </article>
+
+
+                    <article class="evidence-card">
+                        <p class="card-eyebrow">HYBRID IDENTITY</p>
+
+                        <h3>Active Directory to Microsoft Entra ID</h3>
+
+                        <p>
+                            Public-domain integration, UPN configuration,
+                            Microsoft Entra Connect Sync, synchronized identity
+                            validation, on-premises attribute verification, and
+                            cloud authentication.
+                        </p>
+
+                        <div class="tags">
+                            <span>Entra ID</span>
+                            <span>Active Directory</span>
+                            <span>Entra Connect</span>
+                            <span>Identity</span>
+                        </div>
+
+                        <a href="projects/entra-hybrid-identity.html"
+                           class="text-link">
+                            View Evidence →
+                        </a>
+                    </article>
+
+
+                    <article class="evidence-card">
+                        <p class="card-eyebrow">
+                            REMOTE ACCESS SECURITY
+                        </p>
+
+                        <h3>IKEv2 VPN &amp; Least-Privilege Access</h3>
+
+                        <p>
+                            Encrypted remote access, dedicated VPN addressing,
+                            split tunneling, DNS and SMB access controls,
+                            blocked-service testing, and Splunk authentication
+                            monitoring.
+                        </p>
+
+                        <div class="tags">
+                            <span>pfSense</span>
+                            <span>IKEv2</span>
+                            <span>IPsec</span>
+                            <span>Splunk</span>
+                        </div>
+
+                        <a href="projects/ikev2-vpn.html"
+                           class="text-link">
+                            View Evidence →
+                        </a>
+                    </article>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- =====================================================
+             SKILLS
+        ====================================================== -->
+        <section id="skills" class="section section-alt">
+
+            <div class="container">
+
+                <div class="section-heading">
+                    <h2>Technical Skills</h2>
+                    <div class="heading-line"></div>
+                </div>
+
+
+                <div class="skills-grid">
+
+                    <article class="skill-card">
+                        <h3>Systems Administration</h3>
+                        <p>
+                            Windows Server 2016, 2019 &amp; 2022, Active
+                            Directory Domain Services, domain controllers,
+                            AD replication, DNS, DHCP, Group Policy, users
+                            and groups, Organizational Units, file services,
+                            NTFS/share permissions, VMware, and Windows
+                            administration.
+                        </p>
+                    </article>
+
+
+                    <article class="skill-card">
+                        <h3>Networking &amp; Infrastructure</h3>
+                        <p>
+                            TCP/IP, IPv4, subnetting, LAN/WAN networking,
+                            routing, DHCP, NAT, network segmentation, pfSense,
+                            firewall rules, access control, IPsec,
+                            Site-to-Site VPN, Remote Access VPN, Wireshark,
+                            and VMware networking.
+                        </p>
+                    </article>
+
+
+                    <article class="skill-card">
+                        <h3>Cybersecurity &amp; SOC</h3>
+                        <p>
+                            Splunk Enterprise, Universal Forwarder, SPL
+                            searches, dashboards, alerts, Sysmon, Snort IDS,
+                            Windows Security Events, centralized logging,
+                            detection engineering, threat investigation,
+                            vulnerability assessment, firewall validation,
+                            security hardening, and incident response
+                            fundamentals.
+                        </p>
+                    </article>
+
+
+                    <article class="skill-card">
+                        <h3>Endpoint Security &amp; EDR</h3>
+                        <p>
+                            Endpoint telemetry, process and network activity
+                            analysis, behavioral detection concepts, alert
+                            triage, investigation workflows, containment
+                            concepts, persistence analysis, authentication
+                            telemetry, and response workflows.
+                        </p>
+                    </article>
+
+
+                    <article class="skill-card">
+                        <h3>Security Automation</h3>
+                        <p>
+                            PowerShell, Python fundamentals, Bash scripting,
+                            log parsing, alert enrichment, IOC handling,
+                            scheduled checks, repetitive-task automation,
+                            workflow automation, and repeatable remediation
+                            concepts.
+                        </p>
+                    </article>
+
+
+                    <article class="skill-card">
+                        <h3>Cloud &amp; Identity</h3>
+                        <p>
+                            AWS, EC2, VPC, IAM, S3, CloudTrail, CloudWatch,
+                            Microsoft Entra ID, Microsoft Entra Connect,
+                            hybrid identity, identity and access management.
+                        </p>
+                    </article>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- =====================================================
+             CERTIFICATIONS
+        ====================================================== -->
+        <section id="certifications" class="section">
+
+            <div class="container">
+
+                <div class="section-heading">
+                    <h2>Certifications &amp; Training</h2>
+                    <div class="heading-line"></div>
+                </div>
+
+
+                <div class="cert-grid">
+
+                    <article class="cert-card">
+                        <h3>CCNA</h3>
+                        <p>
+                            Enterprise Networking, Security and Automation
+                        </p>
+                    </article>
+
+                    <article class="cert-card">
+                        <h3>Google Cybersecurity</h3>
+                        <p>Professional Certificate</p>
+                    </article>
+
+                    <article class="cert-card">
+                        <h3>TryHackMe</h3>
+                        <p>SOC Level 1 Certificate</p>
+                    </article>
+
+                    <article class="cert-card">
+                        <h3>AWS</h3>
+                        <p>Technology Cloud Essentials Badge</p>
+                    </article>
+
+                    <article class="cert-card">
+                        <h3>EC-Council</h3>
+                        <p>Deep Web &amp; Cybersecurity Certificate</p>
+                    </article>
+
+                    <article class="cert-card">
+                        <h3>IBM &amp; ISC2</h3>
+                        <p>Cybersecurity Specialist</p>
+                    </article>
+
+                    <article class="cert-card">
+                        <h3>Coursera</h3>
+                        <p>Network Projects Certificate</p>
+                    </article>
+
+                    <article class="cert-card">
+                        <h3>Networking Projects</h3>
+                        <p>
+                            Routing, switching, subnetting, packet analysis,
+                            connectivity testing, and troubleshooting.
+                        </p>
+                    </article>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- =====================================================
+             CONTACT
+        ====================================================== -->
+        <section id="contact" class="section section-alt">
+
+            <div class="container">
+
+                <div class="section-heading">
+                    <h2>Contact</h2>
+                    <div class="heading-line"></div>
+                </div>
+
+                <div class="contact-content">
+
+                    <p>
+                        I am interested in opportunities involving systems
+                        administration, networking, cybersecurity, SOC
+                        operations, cloud infrastructure, identity management,
+                        endpoint security, automation, and enterprise IT
+                        infrastructure.
+                    </p>
+
+                    <div class="contact-links">
+
+                        <!-- Replace with your real URLs -->
+                        <a href="#" target="_blank" rel="noopener">
+                            LinkedIn
+                        </a>
+
+                        <a href="#" target="_blank" rel="noopener">
+                            GitHub
+                        </a>
+
+                        <!-- Replace with your real email -->
+                        <a href="mailto:your-email@example.com">
+                            Email
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+    <footer class="site-footer">
+
+        <div class="container footer-container">
 
             <p>
-                Designed an AWS VPC and securely connected it
-                to an on-premises VMware infrastructure through
-                pfSense using redundant IPsec Site-to-Site VPN tunnels.
-            </p>
-
-
-            <div class="tags">
-
-                <span>AWS</span>
-                <span>VPC</span>
-                <span>EC2</span>
-                <span>IAM</span>
-                <span>IPsec</span>
-                <span>pfSense</span>
-                <span>CloudTrail</span>
-
-            </div>
-
-
-            <div class="project-actions">
-
-                <a href="projects/aws-hybrid-cloud.html"
-                   class="project-link">
-                    View Case Study →
-                </a>
-
-
-                <a href="https://github.com/PREMPE/AWS-HYBRID-CLOUD-INFRASTRUCTURE"
-                   class="project-link"
-                   target="_blank"
-                   rel="noopener noreferrer">
-                    GitHub →
-                </a>
-
-            </div>
-
-        </article>
-
-
-
-        <!-- =================================================
-             MICROSOFT ENTRA HYBRID IDENTITY
-        ================================================== -->
-
-        <article class="project-card">
-
-            <h3>
-                Microsoft Entra ID Hybrid Identity
-            </h3>
-
-
-            <p>
-                Extended an on-premises Active Directory environment
-                into Microsoft Entra ID and implemented hybrid identity
-                using Microsoft Entra Connect Sync.
-            </p>
-
-
-            <div class="tags">
-
-                <span>Entra ID</span>
-                <span>Active Directory</span>
-                <span>Entra Connect</span>
-                <span>Hybrid Identity</span>
-                <span>Windows Server</span>
-
-            </div>
-
-
-            <div class="project-actions">
-
-                <a href="projects/entra-hybrid-identity.html"
-                   class="project-link">
-                    View Case Study →
-                </a>
-
-
-                <a href="https://github.com/PREMPE/Hybrid-Identity-Active-Directory-to-Microsoft-Entra-ID"
-                   class="project-link"
-                   target="_blank"
-                   rel="noopener noreferrer">
-                    GitHub →
-                </a>
-
-            </div>
-
-        </article>
-
-
-
-        <!-- =================================================
-             SECURE VPN
-        ================================================== -->
-
-        <article class="project-card">
-
-            <h3>
-                Secure IKEv2 Remote Access VPN
-            </h3>
-
-
-            <p>
-                Designed, implemented, and validated a secure
-                remote-access VPN using pfSense, IKEv2/IPsec,
-                Windows clients, network segmentation,
-                least-privilege firewall rules, split tunneling,
-                and Splunk authentication monitoring.
-            </p>
-
-
-            <div class="tags">
-
-                <span>pfSense</span>
-                <span>IKEv2</span>
-                <span>IPsec</span>
-                <span>VPN</span>
-                <span>Windows</span>
-                <span>Splunk</span>
-
-            </div>
-
-
-            <div class="project-actions">
-
-                <a href="projects/pfsense-vpn.html"
-                   class="project-link">
-                    View Case Study →
-                </a>
-
-
-                <a href="https://github.com/PREMPE/PFSENSE-VPN-CREATION"
-                   class="project-link"
-                   target="_blank"
-                   rel="noopener noreferrer">
-                    GitHub →
-                </a>
-
-            </div>
-
-        </article>
-
-
-
-        <!-- =================================================
-             EDR PROJECT
-        ================================================== -->
-
-        <article class="project-card">
-
-            <h3>
-                Endpoint Detection & Response Project
-            </h3>
-
-
-            <p>
-                Upcoming endpoint security project focused on
-                endpoint telemetry, process behavior, alert triage,
-                investigation, detection logic, containment,
-                and response workflows.
-            </p>
-
-
-            <div class="tags">
-
-                <span>EDR</span>
-                <span>Endpoint Security</span>
-                <span>Telemetry</span>
-                <span>Threat Detection</span>
-                <span>Investigation</span>
-
-            </div>
-
-
-            <span class="project-status">
-                Project In Progress
-            </span>
-
-        </article>
-
-
-
-        <!-- =================================================
-             AUTOMATION PROJECT
-        ================================================== -->
-
-        <article class="project-card">
-
-            <h3>
-                Security Automation Project
-            </h3>
-
-
-            <p>
-                Upcoming security automation project focused
-                on PowerShell, Python, Bash, log processing,
-                alert enrichment, IOC handling, scheduled checks,
-                repeatable workflows, and response automation.
-            </p>
-
-
-            <div class="tags">
-
-                <span>Automation</span>
-                <span>PowerShell</span>
-                <span>Python</span>
-                <span>Bash</span>
-                <span>Security Operations</span>
-
-            </div>
-
-
-            <span class="project-status">
-                Project In Progress
-            </span>
-
-        </article>
-
-
-    </div>
-
-</section>
-
-
-
-<!-- =========================================================
-     PROJECT EVIDENCE
-========================================================= -->
-
-<section class="section"
-         id="evidence">
-
-    <h2>
-        Project Evidence & Lab Highlights
-    </h2>
-
-
-    <p>
-        Selected technical evidence from my infrastructure
-        and cybersecurity projects. Detailed screenshots,
-        configurations, testing results, architecture diagrams,
-        and troubleshooting notes are available inside each
-        case study and GitHub repository.
-    </p>
-
-
-    <div class="evidence-grid">
-
-
-        <!-- =================================================
-             ENTERPRISE SOC
-        ================================================== -->
-
-        <article class="evidence-card">
-
-            <div class="evidence-label">
-                ENTERPRISE SOC
-            </div>
-
-
-            <h3>
-                Active Directory & Security Monitoring
-            </h3>
-
-
-            <p>
-                Multi-domain-controller Windows environment
-                with Group Policy, centralized logging,
-                Sysmon telemetry, Splunk detections,
-                pfSense segmentation, and Snort IDS.
-            </p>
-
-
-            <div class="evidence-tags">
-
-                <span>Active Directory</span>
-                <span>Splunk</span>
-                <span>Sysmon</span>
-                <span>Snort</span>
-
-            </div>
-
-
-            <a href="projects/enterprise-ad-soc.html"
-               class="evidence-link">
-                View Evidence →
-            </a>
-
-        </article>
-
-
-
-        <!-- =================================================
-             AWS HYBRID CLOUD
-        ================================================== -->
-
-        <article class="evidence-card">
-
-            <div class="evidence-label">
-                HYBRID CLOUD
-            </div>
-
-
-            <h3>
-                AWS & On-Premises Connectivity
-            </h3>
-
-
-            <p>
-                AWS VPC architecture, EC2 workloads,
-                IAM controls, CloudTrail and CloudWatch monitoring,
-                pfSense IPsec connectivity, private network testing,
-                and redundant VPN tunnel validation.
-            </p>
-
-
-            <div class="evidence-tags">
-
-                <span>AWS</span>
-                <span>VPC</span>
-                <span>IPsec</span>
-                <span>pfSense</span>
-
-            </div>
-
-
-            <a href="projects/aws-hybrid-cloud.html"
-               class="evidence-link">
-                View Evidence →
-            </a>
-
-        </article>
-
-
-
-        <!-- =================================================
-             ENTRA HYBRID IDENTITY
-        ================================================== -->
-
-        <article class="evidence-card">
-
-            <div class="evidence-label">
-                HYBRID IDENTITY
-            </div>
-
-
-            <h3>
-                Active Directory to Microsoft Entra ID
-            </h3>
-
-
-            <p>
-                Public-domain integration, UPN configuration,
-                Microsoft Entra Connect Sync, synchronized identity
-                validation, on-premises attribute verification,
-                and cloud authentication.
-            </p>
-
-
-            <div class="evidence-tags">
-
-                <span>Entra ID</span>
-                <span>Active Directory</span>
-                <span>Entra Connect</span>
-                <span>Identity</span>
-
-            </div>
-
-
-            <a href="projects/entra-hybrid-identity.html"
-               class="evidence-link">
-                View Evidence →
-            </a>
-
-        </article>
-
-
-
-        <!-- =================================================
-             VPN
-        ================================================== -->
-
-        <article class="evidence-card">
-
-            <div class="evidence-label">
-                REMOTE ACCESS SECURITY
-            </div>
-
-
-            <h3>
-                IKEv2 VPN & Least-Privilege Access
-            </h3>
-
-
-            <p>
-                Encrypted remote access, dedicated VPN addressing,
-                split tunneling, DNS and SMB access controls,
-                blocked-service testing, and Splunk
-                authentication monitoring.
-            </p>
-
-
-            <div class="evidence-tags">
-
-                <span>pfSense</span>
-                <span>IKEv2</span>
-                <span>IPsec</span>
-                <span>Splunk</span>
-
-            </div>
-
-
-            <a href="projects/pfsense-vpn.html"
-               class="evidence-link">
-                View Evidence →
-            </a>
-
-        </article>
-
-
-    </div>
-
-</section>
-
-
-
-<!-- =========================================================
-     TECHNICAL SKILLS
-========================================================= -->
-
-<section class="section"
-         id="skills">
-
-    <h2>
-        Technical Skills
-    </h2>
-
-
-    <div class="skills-grid">
-
-
-        <div>
-
-            <h3>
-                Systems Administration
-            </h3>
-
-
-            <p>
-                Windows Server 2016, 2019 & 2022,
-                Active Directory Domain Services,
-                domain controllers, AD replication,
-                DNS, DHCP, Group Policy, users and groups,
-                Organizational Units, file services,
-                NTFS/share permissions, VMware,
-                and Windows administration.
+                &copy; 2026 Agyemang Prempeh |
+                <span>PrempehTech.ca</span>
             </p>
 
         </div>
 
+    </footer>
 
 
-        <div>
+    <!-- Scroll to top -->
+    <a href="#top"
+       class="scroll-top"
+       aria-label="Back to top"
+       title="Back to top">
+        ↑
+    </a>
 
-            <h3>
-                Networking & Infrastructure
-            </h3>
 
-
-            <p>
-                TCP/IP, IPv4, subnetting, LAN/WAN networking,
-                routing, DHCP, NAT, network segmentation,
-                pfSense, firewall rules, access control,
-                IPsec, Site-to-Site VPN,
-                Remote Access VPN, Wireshark,
-                and VMware networking.
-            </p>
-
-        </div>
-
-
-
-        <div>
-
-            <h3>
-                Cybersecurity & SOC
-            </h3>
-
-
-            <p>
-                Splunk Enterprise, Universal Forwarder,
-                SPL searches, dashboards, alerts,
-                Sysmon, Snort IDS, Windows Security Events,
-                centralized logging, detection engineering,
-                threat investigation, vulnerability assessment,
-                firewall validation, security hardening,
-                and incident response fundamentals.
-            </p>
-
-        </div>
-
-
-
-        <div>
-
-            <h3>
-                Endpoint Security & EDR
-            </h3>
-
-
-            <p>
-                Endpoint telemetry, process and network activity
-                analysis, behavioral detection concepts,
-                alert triage, investigation workflows,
-                containment concepts, persistence analysis,
-                authentication telemetry, and response workflows.
-            </p>
-
-        </div>
-
-
-
-        <div>
-
-            <h3>
-                Security Automation
-            </h3>
-
-
-            <p>
-                PowerShell, Python fundamentals, Bash scripting,
-                log parsing, alert enrichment, IOC handling,
-                scheduled checks, repetitive-task automation,
-                workflow automation, and repeatable
-                remediation concepts.
-            </p>
-
-        </div>
-
-
-
-        <div>
-
-            <h3>
-                Cloud & Identity
-            </h3>
-
-
-            <p>
-                AWS, EC2, VPC, IAM, S3,
-                CloudTrail, CloudWatch,
-                Microsoft Entra ID,
-                Microsoft Entra Connect,
-                hybrid identity,
-                identity and access management.
-            </p>
-
-        </div>
-
-
-    </div>
-
-</section>
-
-
-
-<!-- =========================================================
-     CERTIFICATIONS
-========================================================= -->
-
-<section class="section"
-         id="certifications">
-
-    <h2>
-        Certifications & Training
-    </h2>
-
-
-    <div class="cert-grid">
-
-
-        <div class="cert-card">
-
-            <h3>
-                CCNA
-            </h3>
-
-            <p>
-                Enterprise Networking,
-                Security and Automation
-            </p>
-
-        </div>
-
-
-
-        <div class="cert-card">
-
-            <h3>
-                Google Cybersecurity
-            </h3>
-
-            <p>
-                Professional Certificate
-            </p>
-
-        </div>
-
-
-
-        <div class="cert-card">
-
-            <h3>
-                TryHackMe
-            </h3>
-
-            <p>
-                SOC Level 1 Certificate
-            </p>
-
-        </div>
-
-
-
-        <div class="cert-card">
-
-            <h3>
-                AWS
-            </h3>
-
-            <p>
-                Technology Cloud Essentials Badge
-            </p>
-
-        </div>
-
-
-
-        <div class="cert-card">
-
-            <h3>
-                EC-Council
-            </h3>
-
-            <p>
-                Deep Web & Cybersecurity Certificate
-            </p>
-
-        </div>
-
-
-
-        <div class="cert-card">
-
-            <h3>
-                IBM & ISC2
-            </h3>
-
-            <p>
-                Cybersecurity Specialist
-            </p>
-
-        </div>
-
-
-
-        <div class="cert-card">
-
-            <h3>
-                Coursera
-            </h3>
-
-            <p>
-                Network Projects Certificate
-            </p>
-
-        </div>
-
-
-
-        <div class="cert-card">
-
-            <h3>
-                Networking Projects
-            </h3>
-
-            <p>
-                Routing, switching, subnetting,
-                packet analysis, connectivity testing,
-                and troubleshooting.
-            </p>
-
-        </div>
-
-
-    </div>
-
-</section>
-
-
-
-<!-- =========================================================
-     CONTACT
-========================================================= -->
-
-<section class="section contact"
-         id="contact">
-
-    <h2>
-        Contact
-    </h2>
-
-
-    <p>
-        I am interested in opportunities involving
-        systems administration, networking, cybersecurity,
-        SOC operations, cloud infrastructure,
-        identity management, endpoint security,
-        automation, and enterprise IT infrastructure.
-    </p>
-
-
-    <div class="contact-links">
-
-
-        <a href="https://www.linkedin.com/in/agyemang-prempeh-27a438277"
-           target="_blank"
-           rel="noopener noreferrer">
-            LinkedIn
-        </a>
-
-
-        <a href="https://github.com/PREMPE"
-           target="_blank"
-           rel="noopener noreferrer">
-            GitHub
-        </a>
-
-
-        <a href="mailto:cbsprempeh@gmail.com">
-            Email
-        </a>
-
-
-    </div>
-
-</section>
-
-
-</main>
-
-
-
-<!-- =========================================================
-     FOOTER
-========================================================= -->
-
-<footer>
-
-    <p>
-        © 2026 Agyemang Prempeh | PrempehTech
-    </p>
-
-</footer>
-
-
-
-<script src="script.js"></script>
-
+    <script src="script.js"></script>
 
 </body>
-
 </html>
