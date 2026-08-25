@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,19 +17,21 @@
 
 <body>
 
-    <!-- =========================================================
+    <!-- ======================================================
          HEADER
-    ========================================================== -->
+    ======================================================= -->
+
     <header class="site-header">
+
         <div class="nav-container">
 
-            <div class="nav-brand-group">
+            <div class="brand-group">
+
                 <button
                     class="back-button"
                     type="button"
                     onclick="goBack()"
-                    aria-label="Go to previous page"
-                    title="Go back"
+                    aria-label="Go back"
                 >
                     ←
                 </button>
@@ -36,9 +39,11 @@
                 <a href="#home" class="brand">
                     PrempehTech<span>.ca</span>
                 </a>
+
             </div>
 
-            <nav class="main-nav" id="mainNav" aria-label="Main navigation">
+            <nav class="main-nav" id="mainNav">
+
                 <a href="#home" class="nav-link active">Home</a>
                 <a href="#about" class="nav-link">About</a>
                 <a href="#projects" class="nav-link">Projects</a>
@@ -46,40 +51,43 @@
                 <a href="#skills" class="nav-link">Skills</a>
                 <a href="#certifications" class="nav-link">Certifications</a>
                 <a href="#contact" class="nav-link">Contact</a>
+
             </nav>
 
             <button
-                class="mobile-menu-button"
-                id="mobileMenuButton"
+                class="mobile-menu"
+                id="mobileMenu"
                 type="button"
-                aria-label="Open navigation menu"
-                aria-expanded="false"
+                aria-label="Open menu"
             >
                 ☰
             </button>
 
         </div>
+
     </header>
 
 
     <main>
 
-        <!-- =====================================================
-             HOME / HERO
-        ====================================================== -->
+        <!-- ======================================================
+             HOME
+        ======================================================= -->
+
         <section id="home" class="hero section-anchor">
 
-            <div class="container hero-container">
+            <div class="container hero-content">
 
-                <p class="eyebrow">
+                <p class="hero-eyebrow">
                     SYSTEMS ADMINISTRATION • NETWORKING • CYBERSECURITY
                 </p>
 
                 <h1>Agyemang Prempeh</h1>
 
                 <h2>
-                    Building secure enterprise infrastructure, hybrid
-                    cloud environments, and security monitoring solutions.
+                    Building secure enterprise infrastructure,
+                    hybrid cloud environments, and security
+                    monitoring solutions.
                 </h2>
 
                 <p class="hero-description">
@@ -90,46 +98,41 @@
                     security operations.
                 </p>
 
-                <div class="hero-actions">
+                <div class="hero-buttons">
 
-                    <a href="#projects" class="button button-primary">
+                    <a href="#projects" class="btn btn-primary">
                         View Projects
                     </a>
 
-                    <!-- Change resume.pdf if your resume has a different filename -->
                     <a
                         href="resume.pdf"
-                        class="button button-secondary"
+                        class="btn btn-outline"
                         target="_blank"
-                        rel="noopener"
                     >
                         View Resume
                     </a>
 
-                    <a href="#contact" class="button button-secondary">
+                    <a href="#contact" class="btn btn-outline">
                         Contact Me
                     </a>
 
                 </div>
 
             </div>
+
         </section>
 
 
-        <!-- =====================================================
+        <!-- ======================================================
              ABOUT
-        ====================================================== -->
-        <section id="about" class="page-section section-anchor">
+             "About Me" and "Current Focus" removed
+        ======================================================= -->
+
+        <section id="about" class="section section-anchor">
 
             <div class="container">
 
-                <div class="section-heading">
-                    <p class="section-label">ABOUT</p>
-                    <h2>About Me</h2>
-                    <div class="heading-line"></div>
-                </div>
-
-                <div class="about-copy">
+                <div class="about-intro">
 
                     <p>
                         I am developing practical experience across systems
@@ -158,116 +161,152 @@
 
                     <p>
                         I am also expanding my hands-on work into endpoint
-                        detection and response and security automation, with
-                        dedicated EDR and automation projects being added
-                        to the portfolio.
+                        detection and response and security automation,
+                        with dedicated EDR and automation projects being
+                        added to the portfolio.
                     </p>
 
-                </div>
-
-
-                <div class="subsection-heading">
-                    <span></span>
-                    <h3>Current Focus</h3>
-                    <span></span>
                 </div>
 
 
                 <div class="focus-grid">
 
-                    <article class="focus-card">
-                        <div class="focus-icon">◈</div>
+                    <article class="info-card">
+
+                        <div class="card-icon">SOC</div>
+
                         <h3>SOC &amp; Detection Engineering</h3>
+
                         <p>
                             Splunk, Sysmon, Snort, Windows Security Events,
                             detections, dashboards, alerts, investigations,
                             and security monitoring.
                         </p>
+
                     </article>
 
-                    <article class="focus-card">
-                        <div class="focus-icon">▦</div>
+
+                    <article class="info-card">
+
+                        <div class="card-icon">INF</div>
+
                         <h3>Infrastructure Security</h3>
+
                         <p>
                             Active Directory, pfSense, network segmentation,
                             firewall rules, DNS, access control, and
                             enterprise troubleshooting.
                         </p>
+
                     </article>
 
-                    <article class="focus-card">
-                        <div class="focus-icon">☁</div>
+
+                    <article class="info-card">
+
+                        <div class="card-icon">CLD</div>
+
                         <h3>Cloud &amp; Identity</h3>
+
                         <p>
                             AWS, VPC, EC2, IPsec, Microsoft Entra ID,
                             Microsoft Entra Connect, and hybrid identity.
                         </p>
+
                     </article>
 
-                    <article class="focus-card">
-                        <div class="focus-icon">▣</div>
+
+                    <article class="info-card">
+
+                        <div class="card-icon">EDR</div>
+
                         <h3>Endpoint Security</h3>
+
                         <p>
-                            EDR concepts, endpoint telemetry, process behavior,
-                            alert triage, investigation, containment concepts,
+                            Endpoint telemetry, process behavior, alert
+                            triage, investigation, containment concepts,
                             and response workflows.
                         </p>
+
                     </article>
 
-                    <article class="focus-card">
-                        <div class="focus-icon">&lt;/&gt;</div>
+
+                    <article class="info-card">
+
+                        <div class="card-icon">AUT</div>
+
                         <h3>Security Automation</h3>
+
                         <p>
                             PowerShell, Python, Bash, log processing,
-                            repeatable administrative tasks, alert enrichment,
-                            and response automation.
+                            repeatable administrative tasks, alert
+                            enrichment, and response automation.
                         </p>
+
                     </article>
 
-                    <article class="focus-card">
-                        <div class="focus-icon">⌘</div>
+
+                    <article class="info-card">
+
+                        <div class="card-icon">NET</div>
+
                         <h3>Networking</h3>
+
                         <p>
                             TCP/IP, subnetting, routing, VPNs, Wireshark
                             analysis, VMware networking, and connectivity
                             troubleshooting.
                         </p>
+
                     </article>
 
                 </div>
+
             </div>
+
         </section>
 
 
-        <!-- =====================================================
+        <!-- ======================================================
              PROJECTS
-        ====================================================== -->
-        <section id="projects" class="page-section alternate-section section-anchor">
+             "PORTFOLIO" removed
+        ======================================================= -->
+
+        <section
+            id="projects"
+            class="section section-alt section-anchor"
+        >
 
             <div class="container">
 
-                <div class="section-heading">
-                    <p class="section-label">PORTFOLIO</p>
+                <div class="section-header">
+
                     <h2>Featured Projects</h2>
 
-                    <p class="section-description">
+                    <p>
                         Hands-on infrastructure and cybersecurity projects
                         demonstrating enterprise administration, networking,
                         cloud, identity, security monitoring, access control,
                         testing, and troubleshooting.
                     </p>
+
                 </div>
 
 
                 <div class="projects-grid">
 
-                    <!-- ACTIVE DIRECTORY / SOC -->
+                    <!-- PROJECT 1 -->
+
                     <article class="project-card">
 
                         <div>
-                            <p class="card-category">ENTERPRISE SOC</p>
 
-                            <h3>Enterprise Active Directory &amp; SOC Project</h3>
+                            <span class="project-type">
+                                ENTERPRISE SOC
+                            </span>
+
+                            <h3>
+                                Enterprise Active Directory &amp; SOC Project
+                            </h3>
 
                             <p>
                                 Built a segmented Windows enterprise environment
@@ -278,36 +317,46 @@
                             </p>
 
                             <div class="tags">
+
                                 <span>Active Directory</span>
                                 <span>Windows Server</span>
                                 <span>Splunk</span>
                                 <span>pfSense</span>
                                 <span>Sysmon</span>
                                 <span>Snort</span>
+
                             </div>
+
                         </div>
 
-                        <div class="card-actions">
-                            <a href="#evidence" class="card-button">
+                        <div class="project-actions">
+
+                            <a href="#evidence" class="project-link">
                                 View Case Study →
                             </a>
 
-                            <!-- Replace with your existing repository URL -->
-                            <a href="#" class="card-button">
+                            <a href="#" class="project-link">
                                 GitHub →
                             </a>
+
                         </div>
 
                     </article>
 
 
-                    <!-- AWS -->
+                    <!-- PROJECT 2 -->
+
                     <article class="project-card">
 
                         <div>
-                            <p class="card-category">HYBRID CLOUD</p>
 
-                            <h3>AWS Hybrid Cloud Infrastructure</h3>
+                            <span class="project-type">
+                                HYBRID CLOUD
+                            </span>
+
+                            <h3>
+                                AWS Hybrid Cloud Infrastructure
+                            </h3>
 
                             <p>
                                 Designed an AWS VPC and securely connected it
@@ -317,6 +366,7 @@
                             </p>
 
                             <div class="tags">
+
                                 <span>AWS</span>
                                 <span>VPC</span>
                                 <span>EC2</span>
@@ -324,29 +374,39 @@
                                 <span>IPsec</span>
                                 <span>pfSense</span>
                                 <span>CloudTrail</span>
+
                             </div>
+
                         </div>
 
-                        <div class="card-actions">
-                            <a href="#evidence" class="card-button">
+                        <div class="project-actions">
+
+                            <a href="#evidence" class="project-link">
                                 View Case Study →
                             </a>
 
-                            <a href="#" class="card-button">
+                            <a href="#" class="project-link">
                                 GitHub →
                             </a>
+
                         </div>
 
                     </article>
 
 
-                    <!-- ENTRA -->
+                    <!-- PROJECT 3 -->
+
                     <article class="project-card">
 
                         <div>
-                            <p class="card-category">HYBRID IDENTITY</p>
 
-                            <h3>Microsoft Entra ID Hybrid Identity</h3>
+                            <span class="project-type">
+                                HYBRID IDENTITY
+                            </span>
+
+                            <h3>
+                                Microsoft Entra ID Hybrid Identity
+                            </h3>
 
                             <p>
                                 Extended an on-premises Active Directory
@@ -356,153 +416,191 @@
                             </p>
 
                             <div class="tags">
+
                                 <span>Entra ID</span>
                                 <span>Active Directory</span>
                                 <span>Entra Connect</span>
                                 <span>Hybrid Identity</span>
                                 <span>Windows Server</span>
+
                             </div>
+
                         </div>
 
-                        <div class="card-actions">
-                            <a href="#evidence" class="card-button">
+                        <div class="project-actions">
+
+                            <a href="#evidence" class="project-link">
                                 View Case Study →
                             </a>
 
-                            <a href="#" class="card-button">
+                            <a href="#" class="project-link">
                                 GitHub →
                             </a>
+
                         </div>
 
                     </article>
 
 
-                    <!-- IKEV2 -->
+                    <!-- PROJECT 4 -->
+
                     <article class="project-card">
 
                         <div>
-                            <p class="card-category">REMOTE ACCESS SECURITY</p>
 
-                            <h3>Secure IKEv2 Remote Access VPN</h3>
+                            <span class="project-type">
+                                REMOTE ACCESS SECURITY
+                            </span>
+
+                            <h3>
+                                Secure IKEv2 Remote Access VPN
+                            </h3>
 
                             <p>
-                                Designed, implemented, and validated a secure
-                                remote-access VPN using pfSense, IKEv2/IPsec,
+                                Designed, implemented, and validated secure
+                                remote access using pfSense, IKEv2/IPsec,
                                 Windows clients, network segmentation,
-                                least-privilege firewall rules, split tunneling,
-                                and Splunk authentication monitoring.
+                                least-privilege firewall rules, split
+                                tunneling, and Splunk monitoring.
                             </p>
 
                             <div class="tags">
+
                                 <span>pfSense</span>
                                 <span>IKEv2</span>
                                 <span>IPsec</span>
                                 <span>VPN</span>
                                 <span>Windows</span>
                                 <span>Splunk</span>
+
                             </div>
+
                         </div>
 
-                        <div class="card-actions">
-                            <a href="#evidence" class="card-button">
+                        <div class="project-actions">
+
+                            <a href="#evidence" class="project-link">
                                 View Case Study →
                             </a>
 
-                            <a href="#" class="card-button">
+                            <a href="#" class="project-link">
                                 GitHub →
                             </a>
+
                         </div>
 
                     </article>
 
 
-                    <!-- EDR -->
-                    <article class="project-card upcoming-card">
+                    <!-- PROJECT 5 -->
+
+                    <article class="project-card">
 
                         <div>
-                            <p class="card-category">ENDPOINT SECURITY</p>
 
-                            <h3>Endpoint Detection &amp; Response Project</h3>
+                            <span class="project-type">
+                                ENDPOINT SECURITY
+                            </span>
+
+                            <h3>
+                                Endpoint Detection &amp; Response Project
+                            </h3>
 
                             <p>
-                                Upcoming endpoint security project focused on
-                                endpoint telemetry, process behavior, alert
-                                triage, investigation, detection logic,
-                                containment, and response workflows.
+                                Endpoint security project focused on endpoint
+                                telemetry, process behavior, alert triage,
+                                investigation, detection logic, containment,
+                                and response workflows.
                             </p>
 
                             <div class="tags">
+
                                 <span>EDR</span>
                                 <span>Endpoint Security</span>
                                 <span>Telemetry</span>
                                 <span>Threat Detection</span>
                                 <span>Investigation</span>
+
                             </div>
+
                         </div>
 
-                        <div class="project-status">
-                            <span class="status-dot"></span>
-                            Project In Progress
+                        <div class="status">
+                            <span></span>
+                            In Progress
                         </div>
 
                     </article>
 
 
-                    <!-- AUTOMATION -->
-                    <article class="project-card upcoming-card">
+                    <!-- PROJECT 6 -->
+
+                    <article class="project-card">
 
                         <div>
-                            <p class="card-category">SECURITY ENGINEERING</p>
 
-                            <h3>Security Automation Project</h3>
+                            <span class="project-type">
+                                SECURITY ENGINEERING
+                            </span>
+
+                            <h3>
+                                Security Automation Project
+                            </h3>
 
                             <p>
-                                Upcoming security automation project focused
-                                on PowerShell, Python, Bash, log processing,
+                                Security automation project focused on
+                                PowerShell, Python, Bash, log processing,
                                 alert enrichment, IOC handling, scheduled
                                 checks, repeatable workflows, and response
                                 automation.
                             </p>
 
                             <div class="tags">
+
                                 <span>Automation</span>
                                 <span>PowerShell</span>
                                 <span>Python</span>
                                 <span>Bash</span>
-                                <span>Security Operations</span>
+
                             </div>
+
                         </div>
 
-                        <div class="project-status">
-                            <span class="status-dot"></span>
-                            Project In Progress
+                        <div class="status">
+                            <span></span>
+                            In Progress
                         </div>
 
                     </article>
 
                 </div>
+
             </div>
+
         </section>
 
 
-        <!-- =====================================================
+        <!-- ======================================================
              EVIDENCE
-        ====================================================== -->
-        <section id="evidence" class="page-section section-anchor">
+             "DOCUMENTATION" removed
+        ======================================================= -->
+
+        <section id="evidence" class="section section-anchor">
 
             <div class="container">
 
-                <div class="section-heading">
-                    <p class="section-label">DOCUMENTATION</p>
+                <div class="section-header">
+
                     <h2>Project Evidence &amp; Lab Highlights</h2>
 
-                    <p class="section-description">
+                    <p>
                         Selected technical evidence from my infrastructure
                         and cybersecurity projects. Detailed screenshots,
                         configurations, testing results, architecture diagrams,
                         and troubleshooting notes are available inside each
                         case study and GitHub repository.
                     </p>
+
                 </div>
 
 
@@ -510,9 +608,13 @@
 
                     <article class="evidence-card">
 
-                        <p class="card-category">ENTERPRISE SOC</p>
+                        <span class="project-type">
+                            ENTERPRISE SOC
+                        </span>
 
-                        <h3>Active Directory &amp; Security Monitoring</h3>
+                        <h3>
+                            Active Directory &amp; Security Monitoring
+                        </h3>
 
                         <p>
                             Multi-domain-controller Windows environment with
@@ -522,13 +624,15 @@
                         </p>
 
                         <div class="tags">
+
                             <span>Active Directory</span>
                             <span>Splunk</span>
                             <span>Sysmon</span>
                             <span>Snort</span>
+
                         </div>
 
-                        <a href="#" class="text-link">
+                        <a href="#" class="evidence-link">
                             View Evidence →
                         </a>
 
@@ -537,25 +641,31 @@
 
                     <article class="evidence-card">
 
-                        <p class="card-category">HYBRID CLOUD</p>
+                        <span class="project-type">
+                            HYBRID CLOUD
+                        </span>
 
-                        <h3>AWS &amp; On-Premises Connectivity</h3>
+                        <h3>
+                            AWS &amp; On-Premises Connectivity
+                        </h3>
 
                         <p>
                             AWS VPC architecture, EC2 workloads, IAM controls,
                             CloudTrail and CloudWatch monitoring, pfSense IPsec
-                            connectivity, private network testing, and redundant
-                            VPN tunnel validation.
+                            connectivity, private network testing, and
+                            redundant VPN tunnel validation.
                         </p>
 
                         <div class="tags">
+
                             <span>AWS</span>
                             <span>VPC</span>
                             <span>IPsec</span>
                             <span>pfSense</span>
+
                         </div>
 
-                        <a href="#" class="text-link">
+                        <a href="#" class="evidence-link">
                             View Evidence →
                         </a>
 
@@ -564,25 +674,31 @@
 
                     <article class="evidence-card">
 
-                        <p class="card-category">HYBRID IDENTITY</p>
+                        <span class="project-type">
+                            HYBRID IDENTITY
+                        </span>
 
-                        <h3>Active Directory to Microsoft Entra ID</h3>
+                        <h3>
+                            Active Directory to Microsoft Entra ID
+                        </h3>
 
                         <p>
                             Public-domain integration, UPN configuration,
-                            Microsoft Entra Connect Sync, synchronized identity
-                            validation, on-premises attribute verification,
-                            and cloud authentication.
+                            Microsoft Entra Connect Sync, synchronized
+                            identity validation, on-premises attribute
+                            verification, and cloud authentication.
                         </p>
 
                         <div class="tags">
+
                             <span>Entra ID</span>
                             <span>Active Directory</span>
                             <span>Entra Connect</span>
                             <span>Identity</span>
+
                         </div>
 
-                        <a href="#" class="text-link">
+                        <a href="#" class="evidence-link">
                             View Evidence →
                         </a>
 
@@ -591,9 +707,13 @@
 
                     <article class="evidence-card">
 
-                        <p class="card-category">REMOTE ACCESS SECURITY</p>
+                        <span class="project-type">
+                            REMOTE ACCESS SECURITY
+                        </span>
 
-                        <h3>IKEv2 VPN &amp; Least-Privilege Access</h3>
+                        <h3>
+                            IKEv2 VPN &amp; Least-Privilege Access
+                        </h3>
 
                         <p>
                             Encrypted remote access, dedicated VPN addressing,
@@ -603,32 +723,40 @@
                         </p>
 
                         <div class="tags">
+
                             <span>pfSense</span>
                             <span>IKEv2</span>
                             <span>IPsec</span>
                             <span>Splunk</span>
+
                         </div>
 
-                        <a href="#" class="text-link">
+                        <a href="#" class="evidence-link">
                             View Evidence →
                         </a>
 
                     </article>
 
                 </div>
+
             </div>
+
         </section>
 
 
-        <!-- =====================================================
+        <!-- ======================================================
              SKILLS
-        ====================================================== -->
-        <section id="skills" class="page-section alternate-section section-anchor">
+             "CAPABILITIES" removed
+        ======================================================= -->
+
+        <section
+            id="skills"
+            class="section section-alt section-anchor"
+        >
 
             <div class="container">
 
-                <div class="section-heading">
-                    <p class="section-label">CAPABILITIES</p>
+                <div class="section-header">
                     <h2>Technical Skills</h2>
                 </div>
 
@@ -636,6 +764,7 @@
                 <div class="skills-grid">
 
                     <article class="skill-card">
+
                         <h3>Systems Administration</h3>
 
                         <p>
@@ -646,23 +775,27 @@
                             Units, file services, NTFS/share permissions,
                             VMware, and Windows administration.
                         </p>
+
                     </article>
 
 
                     <article class="skill-card">
+
                         <h3>Networking &amp; Infrastructure</h3>
 
                         <p>
                             TCP/IP, IPv4, subnetting, LAN/WAN networking,
                             routing, DHCP, NAT, network segmentation,
-                            pfSense, firewall rules, access control, IPsec,
-                            Site-to-Site VPN, Remote Access VPN, Wireshark,
-                            and VMware networking.
+                            pfSense, firewall rules, access control,
+                            IPsec, Site-to-Site VPN, Remote Access VPN,
+                            Wireshark, and VMware networking.
                         </p>
+
                     </article>
 
 
                     <article class="skill-card">
+
                         <h3>Cybersecurity &amp; SOC</h3>
 
                         <p>
@@ -671,13 +804,14 @@
                             Windows Security Events, centralized logging,
                             detection engineering, threat investigation,
                             vulnerability assessment, firewall validation,
-                            security hardening, and incident response
-                            fundamentals.
+                            security hardening, and incident response.
                         </p>
+
                     </article>
 
 
                     <article class="skill-card">
+
                         <h3>Endpoint Security &amp; EDR</h3>
 
                         <p>
@@ -687,23 +821,26 @@
                             concepts, persistence analysis, authentication
                             telemetry, and response workflows.
                         </p>
+
                     </article>
 
 
                     <article class="skill-card">
+
                         <h3>Security Automation</h3>
 
                         <p>
                             PowerShell, Python fundamentals, Bash scripting,
                             log parsing, alert enrichment, IOC handling,
                             scheduled checks, repetitive-task automation,
-                            workflow automation, and repeatable remediation
-                            concepts.
+                            workflow automation, and repeatable remediation.
                         </p>
+
                     </article>
 
 
                     <article class="skill-card">
+
                         <h3>Cloud &amp; Identity</h3>
 
                         <p>
@@ -711,191 +848,367 @@
                             Microsoft Entra ID, Microsoft Entra Connect,
                             hybrid identity, identity and access management.
                         </p>
+
                     </article>
 
                 </div>
+
             </div>
+
         </section>
 
 
-        <!-- =====================================================
+        <!-- ======================================================
              CERTIFICATIONS
-        ====================================================== -->
+             "LEARNING & VALIDATION" removed
+
+             Structure fixed:
+             each certification is now ONE card.
+        ======================================================= -->
+
         <section
             id="certifications"
-            class="page-section section-anchor"
+            class="section section-anchor"
         >
 
             <div class="container">
 
-                <div class="section-heading">
-                    <p class="section-label">LEARNING &amp; VALIDATION</p>
+                <div class="section-header certification-heading">
+
                     <h2>Certifications &amp; Training</h2>
 
-                    <p class="section-description">
+                    <p>
                         Technical training across networking, cybersecurity,
                         cloud computing, SOC operations, and infrastructure.
                     </p>
+
                 </div>
 
 
                 <div class="cert-grid">
 
+                    <!-- CISCO -->
+
                     <article class="cert-card">
-                        <div class="cert-icon">C</div>
-                        <div>
-                            <p class="cert-provider">CISCO</p>
+
+                        <div class="cert-badge">
+                            <span>C</span>
+                        </div>
+
+                        <div class="cert-content">
+
+                            <span class="cert-provider">
+                                CISCO
+                            </span>
+
                             <h3>CCNA</h3>
+
                             <p>
                                 Enterprise Networking, Security and Automation
                             </p>
+
                         </div>
+
                     </article>
 
 
+                    <!-- GOOGLE -->
+
                     <article class="cert-card">
-                        <div class="cert-icon">G</div>
-                        <div>
-                            <p class="cert-provider">GOOGLE</p>
-                            <h3>Google Cybersecurity</h3>
-                            <p>Professional Certificate</p>
+
+                        <div class="cert-badge">
+                            <span>G</span>
                         </div>
-                    </article>
 
+                        <div class="cert-content">
 
-                    <article class="cert-card">
-                        <div class="cert-icon">T</div>
-                        <div>
-                            <p class="cert-provider">TRYHACKME</p>
-                            <h3>SOC Level 1</h3>
-                            <p>Certificate</p>
-                        </div>
-                    </article>
+                            <span class="cert-provider">
+                                GOOGLE
+                            </span>
 
+                            <h3>
+                                Google Cybersecurity
+                            </h3>
 
-                    <article class="cert-card">
-                        <div class="cert-icon">A</div>
-                        <div>
-                            <p class="cert-provider">AWS</p>
-                            <h3>Technology Cloud Essentials</h3>
-                            <p>Badge</p>
-                        </div>
-                    </article>
-
-
-                    <article class="cert-card">
-                        <div class="cert-icon">E</div>
-                        <div>
-                            <p class="cert-provider">EC-COUNCIL</p>
-                            <h3>Deep Web &amp; Cybersecurity</h3>
-                            <p>Certificate</p>
-                        </div>
-                    </article>
-
-
-                    <article class="cert-card">
-                        <div class="cert-icon">I</div>
-                        <div>
-                            <p class="cert-provider">IBM &amp; ISC2</p>
-                            <h3>Cybersecurity Specialist</h3>
-                            <p>Cybersecurity Training</p>
-                        </div>
-                    </article>
-
-
-                    <article class="cert-card">
-                        <div class="cert-icon">C</div>
-                        <div>
-                            <p class="cert-provider">COURSERA</p>
-                            <h3>Network Projects</h3>
-                            <p>Certificate</p>
-                        </div>
-                    </article>
-
-
-                    <article class="cert-card">
-                        <div class="cert-icon">N</div>
-                        <div>
-                            <p class="cert-provider">NETWORKING</p>
-                            <h3>Networking Projects</h3>
                             <p>
-                                Routing, switching, subnetting, packet analysis,
-                                connectivity testing, and troubleshooting.
+                                Professional Certificate
                             </p>
+
                         </div>
+
+                    </article>
+
+
+                    <!-- TRYHACKME -->
+
+                    <article class="cert-card">
+
+                        <div class="cert-badge">
+                            <span>T</span>
+                        </div>
+
+                        <div class="cert-content">
+
+                            <span class="cert-provider">
+                                TRYHACKME
+                            </span>
+
+                            <h3>
+                                SOC Level 1
+                            </h3>
+
+                            <p>
+                                Certificate
+                            </p>
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- AWS -->
+
+                    <article class="cert-card">
+
+                        <div class="cert-badge">
+                            <span>A</span>
+                        </div>
+
+                        <div class="cert-content">
+
+                            <span class="cert-provider">
+                                AWS
+                            </span>
+
+                            <h3>
+                                Technology Cloud Essentials
+                            </h3>
+
+                            <p>
+                                Cloud Technology Badge
+                            </p>
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- EC COUNCIL -->
+
+                    <article class="cert-card">
+
+                        <div class="cert-badge">
+                            <span>E</span>
+                        </div>
+
+                        <div class="cert-content">
+
+                            <span class="cert-provider">
+                                EC-COUNCIL
+                            </span>
+
+                            <h3>
+                                Deep Web &amp; Cybersecurity
+                            </h3>
+
+                            <p>
+                                Certificate
+                            </p>
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- IBM ISC2 -->
+
+                    <article class="cert-card">
+
+                        <div class="cert-badge">
+                            <span>I</span>
+                        </div>
+
+                        <div class="cert-content">
+
+                            <span class="cert-provider">
+                                IBM &amp; ISC2
+                            </span>
+
+                            <h3>
+                                Cybersecurity Specialist
+                            </h3>
+
+                            <p>
+                                Cybersecurity Training
+                            </p>
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- COURSERA -->
+
+                    <article class="cert-card">
+
+                        <div class="cert-badge">
+                            <span>C</span>
+                        </div>
+
+                        <div class="cert-content">
+
+                            <span class="cert-provider">
+                                COURSERA
+                            </span>
+
+                            <h3>
+                                Network Projects
+                            </h3>
+
+                            <p>
+                                Network Projects Certificate
+                            </p>
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- NETWORKING -->
+
+                    <article class="cert-card">
+
+                        <div class="cert-badge">
+                            <span>N</span>
+                        </div>
+
+                        <div class="cert-content">
+
+                            <span class="cert-provider">
+                                PRACTICAL TRAINING
+                            </span>
+
+                            <h3>
+                                Networking Projects
+                            </h3>
+
+                            <p>
+                                Routing, switching, subnetting, packet
+                                analysis, connectivity testing, and
+                                troubleshooting.
+                            </p>
+
+                        </div>
+
                     </article>
 
                 </div>
+
             </div>
+
         </section>
 
 
-        <!-- =====================================================
+        <!-- ======================================================
              CONTACT
-        ====================================================== -->
-        <section id="contact" class="contact-section section-anchor">
+             "GET IN TOUCH" removed
+        ======================================================= -->
 
-            <div class="container contact-container">
+        <section
+            id="contact"
+            class="contact-section section-anchor"
+        >
 
-                <p class="section-label">GET IN TOUCH</p>
+            <div class="container">
 
-                <h2>Contact</h2>
+                <div class="contact-card">
 
-                <p>
-                    I am interested in opportunities involving systems
-                    administration, networking, cybersecurity, SOC operations,
-                    cloud infrastructure, identity management, endpoint
-                    security, automation, and enterprise IT infrastructure.
-                </p>
+                    <div class="contact-copy">
 
-                <div class="contact-links">
+                        <h2>Contact</h2>
 
-                    <!-- Put your real URLs here -->
-                    <a
-                        href="#"
-                        target="_blank"
-                        rel="noopener"
-                        class="contact-button"
-                    >
-                        LinkedIn
-                    </a>
+                        <p>
+                            I am interested in opportunities involving
+                            systems administration, networking,
+                            cybersecurity, SOC operations, cloud
+                            infrastructure, identity management,
+                            endpoint security, automation, and
+                            enterprise IT infrastructure.
+                        </p>
 
-                    <a
-                        href="#"
-                        target="_blank"
-                        rel="noopener"
-                        class="contact-button"
-                    >
-                        GitHub
-                    </a>
+                    </div>
 
-                    <!-- Replace with your email -->
-                    <a
-                        href="mailto:your-email@example.com"
-                        class="contact-button"
-                    >
-                        Email
-                    </a>
+
+                    <div class="contact-actions">
+
+                        <!-- Replace # with your real LinkedIn URL -->
+                        <a
+                            href="#"
+                            target="_blank"
+                            rel="noopener"
+                            class="contact-link"
+                        >
+                            <span>in</span>
+
+                            <div>
+                                <small>Professional Profile</small>
+                                <strong>LinkedIn</strong>
+                            </div>
+                        </a>
+
+
+                        <!-- Replace # with your real GitHub URL -->
+                        <a
+                            href="#"
+                            target="_blank"
+                            rel="noopener"
+                            class="contact-link"
+                        >
+                            <span>&lt;/&gt;</span>
+
+                            <div>
+                                <small>Projects &amp; Code</small>
+                                <strong>GitHub</strong>
+                            </div>
+                        </a>
+
+
+                        <!-- Replace with your real email -->
+                        <a
+                            href="mailto:your-email@example.com"
+                            class="contact-link"
+                        >
+                            <span>@</span>
+
+                            <div>
+                                <small>Direct Contact</small>
+                                <strong>Email</strong>
+                            </div>
+                        </a>
+
+                    </div>
 
                 </div>
 
             </div>
+
         </section>
 
     </main>
 
 
-    <!-- =========================================================
+    <!-- ======================================================
          FOOTER
-    ========================================================== -->
+    ======================================================= -->
+
     <footer class="site-footer">
 
-        <div class="container footer-container">
+        <div class="container">
 
             <p>
                 © 2026 Agyemang Prempeh
                 <span>|</span>
-                <a href="#home">PrempehTech.ca</a>
+                PrempehTech.ca
             </p>
 
         </div>
@@ -903,95 +1216,97 @@
     </footer>
 
 
-    <!-- Scroll to top -->
+    <!-- ======================================================
+         SCROLL TO TOP
+    ======================================================= -->
+
     <button
-        id="scrollTopButton"
         class="scroll-top"
+        id="scrollTop"
         type="button"
-        aria-label="Scroll to top"
-        title="Back to top"
+        aria-label="Back to top"
     >
         ↑
     </button>
 
 
-    <!-- =========================================================
+    <!-- ======================================================
          JAVASCRIPT
-    ========================================================== -->
+    ======================================================= -->
+
     <script>
 
-        // ---------------------------------------------------------
-        // BACK BUTTON
-        // ---------------------------------------------------------
+        /* Back button */
         function goBack() {
+
             if (window.history.length > 1) {
                 window.history.back();
             } else {
-                window.location.href = "#home";
+                window.location.hash = "home";
             }
+
         }
 
 
-        // ---------------------------------------------------------
-        // MOBILE NAVIGATION
-        // ---------------------------------------------------------
-        const mobileMenuButton =
-            document.getElementById("mobileMenuButton");
+        /* Mobile navigation */
+
+        const mobileMenu =
+            document.getElementById("mobileMenu");
 
         const mainNav =
             document.getElementById("mainNav");
 
-        mobileMenuButton.addEventListener("click", function () {
 
-            mainNav.classList.toggle("nav-open");
+        mobileMenu.addEventListener("click", function () {
 
-            const isOpen =
-                mainNav.classList.contains("nav-open");
+            mainNav.classList.toggle("open");
 
-            mobileMenuButton.setAttribute(
-                "aria-expanded",
-                isOpen
-            );
-
-            mobileMenuButton.textContent =
-                isOpen ? "✕" : "☰";
-        });
-
-
-        // Close mobile menu after clicking a link
-        document.querySelectorAll(".nav-link").forEach(function (link) {
-
-            link.addEventListener("click", function () {
-
-                mainNav.classList.remove("nav-open");
-
-                mobileMenuButton.setAttribute(
-                    "aria-expanded",
-                    "false"
-                );
-
-                mobileMenuButton.textContent = "☰";
-            });
-        });
-
-
-        // ---------------------------------------------------------
-        // SCROLL TO TOP
-        // ---------------------------------------------------------
-        const scrollTopButton =
-            document.getElementById("scrollTopButton");
-
-        window.addEventListener("scroll", function () {
-
-            if (window.scrollY > 500) {
-                scrollTopButton.classList.add("show");
+            if (mainNav.classList.contains("open")) {
+                mobileMenu.textContent = "✕";
             } else {
-                scrollTopButton.classList.remove("show");
+                mobileMenu.textContent = "☰";
             }
 
         });
 
-        scrollTopButton.addEventListener("click", function () {
+
+        document
+            .querySelectorAll(".nav-link")
+            .forEach(function (link) {
+
+                link.addEventListener("click", function () {
+
+                    mainNav.classList.remove("open");
+
+                    mobileMenu.textContent = "☰";
+
+                });
+
+            });
+
+
+        /* Scroll top button */
+
+        const scrollTop =
+            document.getElementById("scrollTop");
+
+
+        window.addEventListener("scroll", function () {
+
+            if (window.scrollY > 450) {
+
+                scrollTop.classList.add("visible");
+
+            } else {
+
+                scrollTop.classList.remove("visible");
+
+            }
+
+        });
+
+
+        scrollTop.addEventListener("click", function () {
 
             window.scrollTo({
                 top: 0,
@@ -1001,48 +1316,53 @@
         });
 
 
-        // ---------------------------------------------------------
-        // ACTIVE NAVIGATION LINK
-        // ---------------------------------------------------------
+        /* Active navigation */
+
         const sections =
             document.querySelectorAll(".section-anchor");
 
-        const navLinks =
+        const links =
             document.querySelectorAll(".nav-link");
 
-        const observerOptions = {
-            root: null,
-            rootMargin: "-35% 0px -55% 0px",
-            threshold: 0
-        };
 
         const observer =
-            new IntersectionObserver(function (entries) {
+            new IntersectionObserver(
 
-                entries.forEach(function (entry) {
+                function (entries) {
 
-                    if (!entry.isIntersecting) {
-                        return;
-                    }
+                    entries.forEach(function (entry) {
 
-                    navLinks.forEach(function (link) {
-                        link.classList.remove("active");
+                        if (!entry.isIntersecting) {
+                            return;
+                        }
+
+                        links.forEach(function (link) {
+                            link.classList.remove("active");
+                        });
+
+
+                        const active =
+                            document.querySelector(
+                                '.nav-link[href="#' +
+                                entry.target.id +
+                                '"]'
+                            );
+
+
+                        if (active) {
+                            active.classList.add("active");
+                        }
+
                     });
 
-                    const activeLink =
-                        document.querySelector(
-                            '.nav-link[href="#' +
-                            entry.target.id +
-                            '"]'
-                        );
+                },
 
-                    if (activeLink) {
-                        activeLink.classList.add("active");
-                    }
+                {
+                    rootMargin: "-35% 0px -55% 0px"
+                }
 
-                });
+            );
 
-            }, observerOptions);
 
         sections.forEach(function (section) {
             observer.observe(section);
@@ -1051,4 +1371,5 @@
     </script>
 
 </body>
+
 </html>
