@@ -1,38 +1,1484 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AWS Hybrid Cloud | Agyemang Prempeh</title>
-    <link rel="stylesheet" href="../style.css">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        AWS Hybrid Cloud Infrastructure | PrempehTech
+    </title>
+
+    <meta name="description"
+          content="AWS hybrid cloud infrastructure case study integrating an on-premises VMware and pfSense environment with AWS using redundant Site-to-Site IPsec VPN tunnels, VPC segmentation, EC2, IAM, S3, CloudTrail and CloudWatch.">
+
+    <link rel="stylesheet"
+          href="../style.css">
 </head>
+
 
 <body>
 
+
 <header>
+
     <nav class="navbar">
-        <a class="logo" href="../index.html">PrempehTech</a>
+
+        <a href="../index.html"
+           class="logo">
+            PrempehTech
+        </a>
+
+
+        <ul class="nav-links">
+
+            <li>
+                <a href="../index.html">
+                    Home
+                </a>
+            </li>
+
+            <li>
+                <a href="../index.html#about">
+                    About
+                </a>
+            </li>
+
+            <li>
+                <a href="../index.html#projects">
+                    Projects
+                </a>
+            </li>
+
+            <li>
+                <a href="../index.html#evidence">
+                    Evidence
+                </a>
+            </li>
+
+            <li>
+                <a href="../index.html#skills">
+                    Skills
+                </a>
+            </li>
+
+            <li>
+                <a href="../index.html#contact">
+                    Contact
+                </a>
+            </li>
+
+        </ul>
+
     </nav>
+
 </header>
 
-<main>
-    <section class="hero">
-        <div class="hero-content">
-            <p class="eyebrow">AWS • NETWORKING • IPSEC</p>
-            <h1>AWS Hybrid Cloud Infrastructure</h1>
-            <h2>Connecting enterprise infrastructure to AWS through redundant IPsec Site-to-Site VPN connectivity.</h2>
-        </div>
-    </section>
 
-    <section class="section">
-        <h2>Full Case Study Coming Next</h2>
-        <p>
-            This page will document the AWS VPC architecture, EC2 infrastructure,
-            security groups, IAM, CloudTrail, CloudWatch, pfSense IPsec configuration,
-            private connectivity and VPN failover validation.
+
+<main>
+
+
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+<section class="hero project-hero">
+
+    <div class="hero-content">
+
+        <p class="eyebrow">
+            AWS • HYBRID CLOUD • NETWORKING • SECURITY
         </p>
-    </section>
+
+        <h1>
+            AWS Hybrid Cloud Infrastructure
+        </h1>
+
+        <h2>
+            Secure Site-to-Site connectivity between an on-premises
+            enterprise lab and AWS using pfSense, redundant IPsec VPN
+            tunnels, segmented VPC networking, EC2 workloads,
+            IAM controls, and centralized cloud monitoring.
+        </h2>
+
+        <p>
+            I designed and deployed a hybrid cloud environment that connects
+            my VMware-based enterprise infrastructure to AWS through pfSense.
+            The project combines cloud networking, secure routing, compute,
+            identity, logging, monitoring, and redundancy into a working
+            enterprise-style architecture.
+        </p>
+
+
+        <div class="hero-buttons">
+
+            <a href="https://github.com/PREMPE/AWS-HYBRID-CLOUD-INFRASTRUCTURE"
+               class="btn primary"
+               target="_blank"
+               rel="noopener noreferrer">
+                View GitHub Repository
+            </a>
+
+            <a href="../index.html#projects"
+               class="btn secondary">
+                Back to Projects
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     PROJECT SNAPSHOT
+===================================================== -->
+
+<section class="section">
+
+    <h2>
+        Project Snapshot
+    </h2>
+
+
+    <div class="skills-grid">
+
+
+        <div>
+
+            <h3>
+                Hybrid Connectivity
+            </h3>
+
+            <p>
+                Connected the on-premises VMware environment to AWS
+                through pfSense using AWS Site-to-Site IPsec VPN.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                Redundant VPN Tunnels
+            </h3>
+
+            <p>
+                Configured both AWS-provided VPN tunnels and validated
+                tunnel establishment from the AWS and pfSense sides.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                AWS Networking
+            </h3>
+
+            <p>
+                Built a dedicated VPC with public and private subnets,
+                route tables, an Internet Gateway, and controlled
+                hybrid routing.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                Compute
+            </h3>
+
+            <p>
+                Deployed EC2 workloads for public web services
+                and private application infrastructure.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                Security
+            </h3>
+
+            <p>
+                Applied security groups, IAM roles, root-account
+                MFA, IMDSv2, and network-level access restrictions.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                Monitoring & Audit
+            </h3>
+
+            <p>
+                Used CloudTrail, CloudWatch, alarms, and S3
+                to support visibility, auditing, and operational monitoring.
+            </p>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     ARCHITECTURE
+===================================================== -->
+
+<section class="section">
+
+    <p class="eyebrow">
+        HYBRID ARCHITECTURE
+    </p>
+
+    <h2>
+        Environment Architecture
+    </h2>
+
+    <p>
+        The project extends the on-premises enterprise environment into AWS
+        while keeping the two environments logically segmented.
+        pfSense acts as the hybrid-cloud edge device and provides encrypted
+        Site-to-Site connectivity between the local corporate networks
+        and the AWS VPC.
+    </p>
+
+
+    <div class="architecture-block">
+
+<pre>
+                         ON-PREMISES
+                     VMware Workstation
+                              |
+                              |
+                     +----------------+
+                     |    pfSense     |
+                     | Firewall / VPN |
+                     +----------------+
+                              |
+                   Site-to-Site IPsec VPN
+                     Tunnel 1 + Tunnel 2
+                              |
+                              v
+                       AWS VIRTUAL PRIVATE
+                            GATEWAY
+                              |
+                              v
+                     +------------------+
+                     |     CORP-VPC     |
+                     |   10.10.0.0/16   |
+                     +------------------+
+                              |
+             +----------------+----------------+
+             |                                 |
+             v                                 v
+
+     CORP-PUBLIC-SUBNET                CORP-PRIVATE-SUBNET
+       Public Workloads                  Private Workloads
+             |                                 |
+             v                                 v
+
+         CORP-WEB01                       CORP-APP01
+        10.10.10.133                      Private EC2
+
+             |                                 |
+             +----------------+----------------+
+                              |
+                              v
+
+                 AWS SECURITY & OPERATIONS
+                 -------------------------
+                 IAM
+                 Security Groups
+                 CloudTrail
+                 CloudWatch
+                 S3
+</pre>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     VPC
+===================================================== -->
+
+<section class="section">
+
+    <p class="eyebrow">
+        AWS NETWORKING
+    </p>
+
+    <h2>
+        VPC Design & Segmentation
+    </h2>
+
+    <p>
+        I created a dedicated AWS VPC using the
+        <strong>10.10.0.0/16</strong> address space and separated
+        cloud workloads into public and private subnets.
+    </p>
+
+    <p>
+        The public subnet supports internet-facing resources while
+        the private subnet provides a separate security zone for
+        internal application infrastructure.
+    </p>
+
+
+    <div class="tags">
+
+        <span>AWS VPC</span>
+        <span>10.10.0.0/16</span>
+        <span>Public Subnet</span>
+        <span>Private Subnet</span>
+        <span>Route Tables</span>
+        <span>Internet Gateway</span>
+        <span>Hybrid Routing</span>
+
+    </div>
+
+
+    <figure class="case-image featured-image">
+
+        <img src="../assets/projects/aws-hybrid-cloud/aws-vpc-overview.png"
+             alt="AWS CORP VPC resource map showing public and private subnets and route tables"
+             loading="lazy">
+
+        <figcaption>
+            CORP-VPC resource map showing the public and private
+            subnet structure, route tables, and Internet Gateway.
+        </figcaption>
+
+    </figure>
+
+</section>
+
+
+
+<!-- =====================================================
+     EC2
+===================================================== -->
+
+<section class="section">
+
+    <h2>
+        EC2 Infrastructure
+    </h2>
+
+    <p>
+        The cloud environment contains multiple EC2 workloads with
+        different infrastructure roles.
+    </p>
+
+    <p>
+        The public-facing system provides the web-service layer while
+        the private system demonstrates separation of application workloads
+        from directly exposed infrastructure.
+    </p>
+
+
+    <figure class="case-image featured-image">
+
+        <img src="../assets/projects/aws-hybrid-cloud/aws-ec2-instances.png"
+             alt="AWS EC2 instances CORP-WEB01 and CORP-APP01"
+             loading="lazy">
+
+        <figcaption>
+            AWS EC2 environment containing CORP-WEB01 and CORP-APP01
+            workloads inside the CORP VPC.
+        </figcaption>
+
+    </figure>
+
+
+
+    <figure class="case-image featured-image">
+
+        <img src="../assets/projects/aws-hybrid-cloud/aws-web-server.png"
+             alt="AWS EC2 CORP-WEB01 instance details"
+             loading="lazy">
+
+        <figcaption>
+            CORP-WEB01 EC2 instance with private address
+            <strong>10.10.10.133</strong>, assigned IAM role,
+            VPC membership, and IMDSv2 protection.
+        </figcaption>
+
+    </figure>
+
+</section>
+
+
+
+<!-- =====================================================
+     SECURITY GROUPS
+===================================================== -->
+
+<section class="section">
+
+    <p class="eyebrow">
+        CLOUD SECURITY
+    </p>
+
+    <h2>
+        Security Group Segmentation
+    </h2>
+
+    <p>
+        Security groups were created according to workload role rather than
+        applying the same access policy to every EC2 instance.
+    </p>
+
+    <p>
+        The web-server security group supports required web administration
+        and HTTP connectivity, while the private application security group
+        uses a more restrictive inbound policy.
+    </p>
+
+
+    <figure class="case-image featured-image">
+
+        <img src="../assets/projects/aws-hybrid-cloud/aws-security-groups.png"
+             alt="AWS security groups for public web server and private application server"
+             loading="lazy">
+
+        <figcaption>
+            Separate security groups for the public web server
+            and private application server, supporting workload-specific
+            access control.
+        </figcaption>
+
+    </figure>
+
+</section>
+
+
+
+<!-- =====================================================
+     VPN
+===================================================== -->
+
+<section class="section">
+
+    <p class="eyebrow">
+        HYBRID CONNECTIVITY
+    </p>
+
+    <h2>
+        AWS Site-to-Site VPN
+    </h2>
+
+    <p>
+        AWS Site-to-Site VPN was used to securely connect the local
+        pfSense firewall to the AWS Virtual Private Gateway.
+    </p>
+
+    <p>
+        AWS provides two VPN tunnels for the connection. Both tunnel
+        endpoints were configured in pfSense so the hybrid environment
+        could use redundant encrypted paths.
+    </p>
+
+
+    <div class="skills-grid">
+
+
+        <div>
+
+            <h3>
+                Customer Gateway
+            </h3>
+
+            <p>
+                pfSense represents the on-premises side of
+                the AWS Site-to-Site VPN connection.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                Virtual Private Gateway
+            </h3>
+
+            <p>
+                AWS Virtual Private Gateway provides the cloud-side
+                VPN termination point for the CORP VPC.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                IPsec
+            </h3>
+
+            <p>
+                Traffic between environments is encrypted through
+                IPsec tunnels across the public network.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                Static Routing
+            </h3>
+
+            <p>
+                Routes direct on-premises and AWS traffic through
+                the hybrid VPN connection.
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+    <figure class="case-image featured-image">
+
+        <img src="../assets/projects/aws-hybrid-cloud/aws-site-to-site-vpn.png"
+             alt="AWS Site-to-Site VPN showing both tunnels up"
+             loading="lazy">
+
+        <figcaption>
+            AWS Site-to-Site VPN connection showing both
+            AWS tunnel endpoints in an <strong>Up</strong> state.
+        </figcaption>
+
+    </figure>
+
+</section>
+
+
+
+<!-- =====================================================
+     PFSENSE VPN
+===================================================== -->
+
+<section class="section">
+
+    <h2>
+        pfSense IPsec Validation
+    </h2>
+
+    <p>
+        Tunnel status was also validated directly from pfSense rather than
+        relying only on the AWS console.
+    </p>
+
+
+    <figure class="case-image featured-image">
+
+        <img src="../assets/projects/aws-hybrid-cloud/aws-pfsense-ipsec-status.png"
+             alt="pfSense showing AWS Tunnel 1 and AWS Tunnel 2 established"
+             loading="lazy">
+
+        <figcaption>
+            pfSense IPsec status showing both
+            <strong>AWS Tunnel 1</strong> and
+            <strong>AWS Tunnel 2</strong> established.
+        </figcaption>
+
+    </figure>
+
+</section>
+
+
+
+<!-- =====================================================
+     REDUNDANCY
+===================================================== -->
+
+<section class="section">
+
+    <p class="eyebrow">
+        RESILIENCY
+    </p>
+
+    <h2>
+        VPN Redundancy & Failover Testing
+    </h2>
+
+    <p>
+        The dual-tunnel design provides a second VPN path when one tunnel
+        is unavailable. Tunnel state was observed during validation to
+        verify that the secondary connection could remain available
+        independently of the primary path.
+    </p>
+
+
+    <figure class="case-image featured-image">
+
+        <img src="../assets/projects/aws-hybrid-cloud/aws-vpn-failover.png"
+             alt="pfSense AWS VPN tunnel failover validation"
+             loading="lazy">
+
+        <figcaption>
+            VPN tunnel-state validation from pfSense during
+            redundancy and connectivity testing.
+        </figcaption>
+
+    </figure>
+
+</section>
+
+
+
+<!-- =====================================================
+     PRIVATE CONNECTIVITY
+===================================================== -->
+
+<section class="section">
+
+    <p class="eyebrow">
+        CONNECTIVITY VALIDATION
+    </p>
+
+    <h2>
+        On-Premises to AWS Private Connectivity
+    </h2>
+
+    <p>
+        Establishing the VPN tunnel was only part of the test.
+        I also validated real application connectivity across the
+        hybrid network.
+    </p>
+
+    <p>
+        DC01 on the on-premises network successfully connected to
+        the AWS web server at private address
+        <strong>10.10.10.133</strong> on TCP port 80.
+    </p>
+
+
+    <figure class="case-image featured-image">
+
+        <img src="../assets/projects/aws-hybrid-cloud/aws-private-connectivity-test.png"
+             alt="PowerShell Test-NetConnection successfully reaching private AWS web server"
+             loading="lazy">
+
+        <figcaption>
+            PowerShell validation from on-premises DC01 showing
+            successful TCP connectivity to
+            <strong>10.10.10.133:80</strong> across the Site-to-Site VPN.
+        </figcaption>
+
+    </figure>
+
+</section>
+
+
+
+<!-- =====================================================
+     PRIVATE WEB ACCESS
+===================================================== -->
+
+<section class="section">
+
+    <h2>
+        Private Web Application Access
+    </h2>
+
+    <p>
+        The private AWS address was also tested at the application layer
+        from the on-premises environment.
+    </p>
+
+
+    <figure class="case-image featured-image">
+
+        <img src="../assets/projects/aws-hybrid-cloud/aws-private-web-access.png"
+             alt="On-premises browser reaching AWS web server using private address 10.10.10.133"
+             loading="lazy">
+
+        <figcaption>
+            CORP AWS Web Server reached from the on-premises
+            environment through the private AWS address
+            <strong>10.10.10.133</strong>.
+        </figcaption>
+
+    </figure>
+
+</section>
+
+
+
+<!-- =====================================================
+     SSH
+===================================================== -->
+
+<section class="section">
+
+    <h2>
+        EC2 Administration
+    </h2>
+
+    <p>
+        Administrative access to the Linux EC2 workload was validated
+        using SSH and key-based authentication.
+    </p>
+
+
+    <figure class="case-image featured-image">
+
+        <img src="../assets/projects/aws-hybrid-cloud/aws-ssh-access.png"
+             alt="SSH connection from Windows PowerShell to Amazon Linux EC2"
+             loading="lazy">
+
+        <figcaption>
+            Successful SSH administration session from Windows
+            PowerShell to the Amazon Linux EC2 instance.
+        </figcaption>
+
+    </figure>
+
+</section>
+
+
+
+<!-- =====================================================
+     IAM
+===================================================== -->
+
+<section class="section">
+
+    <p class="eyebrow">
+        IDENTITY & ACCESS MANAGEMENT
+    </p>
+
+    <h2>
+        AWS IAM Security
+    </h2>
+
+    <p>
+        IAM was used to support service permissions and improve account
+        security rather than embedding long-lived credentials into
+        cloud workloads.
+    </p>
+
+    <p>
+        The environment includes IAM roles for AWS resources,
+        root-account MFA, and no active root access keys.
+    </p>
+
+
+    <figure class="case-image featured-image">
+
+        <img src="../assets/projects/aws-hybrid-cloud/aws-iam.png"
+             alt="AWS IAM dashboard showing root MFA and IAM resources"
+             loading="lazy">
+
+        <figcaption>
+            IAM dashboard showing root MFA enabled,
+            no active root access keys, IAM roles,
+            and account security recommendations.
+        </figcaption>
+
+    </figure>
+
+</section>
+
+
+
+<!-- =====================================================
+     S3
+===================================================== -->
+
+<section class="section">
+
+    <h2>
+        S3 Storage
+    </h2>
+
+    <p>
+        Amazon S3 was incorporated into the environment for project
+        storage and CloudTrail log retention.
+    </p>
+
+
+    <figure class="case-image featured-image">
+
+        <img src="../assets/projects/aws-hybrid-cloud/aws-s3-buckets.png"
+             alt="Amazon S3 buckets including CloudTrail logging bucket"
+             loading="lazy">
+
+        <figcaption>
+            S3 resources including the project storage bucket
+            and the AWS CloudTrail log bucket.
+        </figcaption>
+
+    </figure>
+
+</section>
+
+
+
+<!-- =====================================================
+     CLOUDTRAIL
+===================================================== -->
+
+<section class="section">
+
+    <p class="eyebrow">
+        AUDITING
+    </p>
+
+    <h2>
+        CloudTrail Activity Logging
+    </h2>
+
+    <p>
+        AWS CloudTrail was enabled to provide an audit trail of
+        management-plane activity inside the AWS environment.
+    </p>
+
+    <p>
+        This provides visibility into infrastructure changes such as
+        VPN creation, gateway attachment, routing changes,
+        and monitoring configuration.
+    </p>
+
+
+    <figure class="case-image featured-image">
+
+        <img src="../assets/projects/aws-hybrid-cloud/aws-cloudtrail.png"
+             alt="AWS CloudTrail dashboard and event history"
+             loading="lazy">
+
+        <figcaption>
+            CloudTrail logging with event history showing actions associated
+            with VPN, routing, and monitoring configuration.
+        </figcaption>
+
+    </figure>
+
+</section>
+
+
+
+<!-- =====================================================
+     CLOUDWATCH
+===================================================== -->
+
+<section class="section">
+
+    <p class="eyebrow">
+        MONITORING
+    </p>
+
+    <h2>
+        CloudWatch Monitoring & Alarms
+    </h2>
+
+    <p>
+        Amazon CloudWatch was configured to provide operational visibility
+        into EC2 workloads and alert on abnormal resource conditions.
+    </p>
+
+
+    <div class="skills-grid">
+
+
+        <div>
+
+            <h3>
+                CPU Monitoring
+            </h3>
+
+            <p>
+                CPU utilization metrics provide visibility into
+                compute workload behavior.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                Network Monitoring
+            </h3>
+
+            <p>
+                NetworkIn and NetworkOut metrics help track
+                traffic activity on cloud workloads.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                Status Checks
+            </h3>
+
+            <p>
+                EC2 status-check alarms support detection
+                of infrastructure or instance failures.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                Threshold Alarms
+            </h3>
+
+            <p>
+                Resource thresholds can trigger alarms when
+                utilization exceeds defined limits.
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+    <figure class="case-image featured-image">
+
+        <img src="../assets/projects/aws-hybrid-cloud/aws-cloudwatch.png"
+             alt="AWS CloudWatch dashboard showing EC2 metrics and alarms"
+             loading="lazy">
+
+        <figcaption>
+            CloudWatch EC2 monitoring with CPU, network,
+            status-check metrics, and configured alarms.
+        </figcaption>
+
+    </figure>
+
+</section>
+
+
+
+<!-- =====================================================
+     SECURITY MODEL
+===================================================== -->
+
+<section class="section">
+
+    <h2>
+        Hybrid Security Model
+    </h2>
+
+
+    <div class="architecture-block">
+
+<pre>
+On-Premises Infrastructure
+        |
+        v
+pfSense Firewall
+        |
+        +---- Firewall Policy
+        |
+        +---- Site-to-Site IPsec
+        |
+        v
+AWS Virtual Private Gateway
+        |
+        v
+CORP-VPC
+10.10.0.0/16
+        |
+        +-------------------------------+
+        |                               |
+        v                               v
+Public Subnet                     Private Subnet
+        |                               |
+        v                               v
+Public EC2                       Private EC2
+        |                               |
+        +---------------+---------------+
+                        |
+                        v
+                 Security Groups
+                        |
+                        v
+                  IAM Permissions
+                        |
+             +----------+----------+
+             |                     |
+             v                     v
+         CloudTrail             CloudWatch
+          Audit Logs          Metrics / Alarms
+             |
+             v
+             S3
+</pre>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     VALIDATION SUMMARY
+===================================================== -->
+
+<section class="section">
+
+    <h2>
+        Validation Summary
+    </h2>
+
+
+    <div class="skills-grid">
+
+
+        <div>
+
+            <h3>
+                AWS VPN Tunnel 1
+            </h3>
+
+            <p>
+                <strong>VALIDATED</strong><br>
+                Tunnel successfully established.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                AWS VPN Tunnel 2
+            </h3>
+
+            <p>
+                <strong>VALIDATED</strong><br>
+                Secondary tunnel successfully established.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                Private TCP Connectivity
+            </h3>
+
+            <p>
+                <strong>PASS</strong><br>
+                On-premises host reached AWS private IP
+                over TCP port 80.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                Private Web Access
+            </h3>
+
+            <p>
+                <strong>PASS</strong><br>
+                AWS web application accessible
+                across the hybrid VPN.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                EC2 Administration
+            </h3>
+
+            <p>
+                <strong>PASS</strong><br>
+                SSH connectivity to Amazon Linux
+                successfully validated.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                Cloud Monitoring
+            </h3>
+
+            <p>
+                <strong>OPERATIONAL</strong><br>
+                CloudTrail and CloudWatch providing
+                audit and operational visibility.
+            </p>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     TROUBLESHOOTING
+===================================================== -->
+
+<section class="section">
+
+    <h2>
+        Troubleshooting & Engineering Experience
+    </h2>
+
+    <p>
+        Building the hybrid environment required troubleshooting across
+        cloud networking, VPN negotiation, routing, access control,
+        compute, and monitoring.
+    </p>
+
+
+    <div class="skills-grid">
+
+
+        <div>
+
+            <h3>
+                IPsec Negotiation
+            </h3>
+
+            <p>
+                Validated Phase 1 and Phase 2 tunnel state
+                across pfSense and AWS.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                Hybrid Routing
+            </h3>
+
+            <p>
+                Verified routing between
+                172.16.x.x on-premises networks
+                and the AWS 10.10.0.0/16 VPC.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                Security Groups
+            </h3>
+
+            <p>
+                Adjusted cloud access policies to permit
+                required application and administrative traffic.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                EC2 Connectivity
+            </h3>
+
+            <p>
+                Tested HTTP and SSH connectivity using
+                service-specific tools.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                Monitoring
+            </h3>
+
+            <p>
+                Configured CloudWatch metrics and alarms
+                and validated CloudTrail event logging.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                Redundancy
+            </h3>
+
+            <p>
+                Validated both AWS-provided VPN tunnels
+                and observed tunnel behavior during testing.
+            </p>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     RESULTS
+===================================================== -->
+
+<section class="section">
+
+    <h2>
+        Final Results
+    </h2>
+
+
+    <div class="skills-grid">
+
+
+        <div>
+
+            <h3>
+                Hybrid Network
+            </h3>
+
+            <p>
+                Working on-premises-to-AWS connectivity
+                through pfSense Site-to-Site IPsec VPN.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                Redundant Tunnels
+            </h3>
+
+            <p>
+                Both AWS VPN tunnel endpoints configured
+                and successfully established.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                Segmented AWS Network
+            </h3>
+
+            <p>
+                Public and private cloud workloads separated
+                inside a dedicated VPC.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                Cloud Security
+            </h3>
+
+            <p>
+                Security groups, IAM roles,
+                root MFA, and IMDSv2 applied.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                Operational Monitoring
+            </h3>
+
+            <p>
+                CloudWatch metrics and alarms provide
+                visibility into EC2 workload health.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                Audit Logging
+            </h3>
+
+            <p>
+                CloudTrail records AWS management actions
+                and stores audit data in S3.
+            </p>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     SKILLS DEMONSTRATED
+===================================================== -->
+
+<section class="section">
+
+    <h2>
+        Skills Demonstrated
+    </h2>
+
+
+    <div class="tags">
+
+        <span>AWS</span>
+        <span>Hybrid Cloud</span>
+
+        <span>VPC</span>
+        <span>Subnets</span>
+        <span>Route Tables</span>
+        <span>Internet Gateway</span>
+
+        <span>EC2</span>
+        <span>Amazon Linux</span>
+        <span>SSH</span>
+
+        <span>pfSense</span>
+        <span>Site-to-Site VPN</span>
+        <span>IPsec</span>
+        <span>IKEv2</span>
+
+        <span>TCP/IP</span>
+        <span>Routing</span>
+        <span>Network Segmentation</span>
+
+        <span>Security Groups</span>
+        <span>IAM</span>
+        <span>IAM Roles</span>
+        <span>MFA</span>
+        <span>IMDSv2</span>
+
+        <span>Amazon S3</span>
+        <span>CloudTrail</span>
+        <span>CloudWatch</span>
+        <span>Cloud Monitoring</span>
+
+        <span>High Availability</span>
+        <span>VPN Redundancy</span>
+
+        <span>PowerShell</span>
+        <span>Connectivity Testing</span>
+        <span>Troubleshooting</span>
+        <span>Technical Documentation</span>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     DOCUMENTATION
+===================================================== -->
+
+<section class="section contact">
+
+    <h2>
+        Full Technical Documentation
+    </h2>
+
+    <p class="contact-intro">
+        The GitHub repository contains additional implementation details,
+        AWS configuration evidence, networking documentation,
+        VPN setup, testing results, troubleshooting notes,
+        and supporting project documentation.
+    </p>
+
+
+    <div class="contact-links">
+
+        <a href="https://github.com/PREMPE/AWS-HYBRID-CLOUD-INFRASTRUCTURE"
+           target="_blank"
+           rel="noopener noreferrer">
+            View GitHub Repository
+        </a>
+
+        <a href="../index.html#projects">
+            Back to Projects
+        </a>
+
+    </div>
+
+</section>
+
+
 </main>
 
+
+
+<footer>
+
+    <p>
+        © 2026 Agyemang Prempeh | PrempehTech
+    </p>
+
+</footer>
+
+
+<script src="../script.js"></script>
+
 </body>
+
 </html>
