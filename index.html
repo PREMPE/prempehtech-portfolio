@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,35 +10,86 @@
     <meta name="description"
           content="Portfolio of Agyemang Prempeh - Systems Administration, Networking, Cybersecurity, SOC, Cloud and Hybrid Infrastructure projects.">
 
+    <!-- Social sharing -->
+    <meta property="og:title"
+          content="Agyemang Prempeh | Systems Administration & Cybersecurity">
+
+    <meta property="og:description"
+          content="Enterprise infrastructure, cybersecurity, SOC, cloud and hybrid identity projects.">
+
+    <meta property="og:type"
+          content="website">
+
+    <meta property="og:url"
+          content="https://prempe.github.io/prempehtech-portfolio/">
+
     <link rel="stylesheet" href="style.css">
 </head>
+
 
 <body>
 
 <header>
     <nav class="navbar">
-        <div class="logo">PrempehTech</div>
+
+        <a href="#home" class="logo">
+            PrempehTech
+        </a>
 
         <ul class="nav-links">
-            <li><a href="#home">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#videos">Videos</a></li>
-            <li><a href="#skills">Skills</a></li>
-            <li><a href="#certifications">Certifications</a></li>
-            <li><a href="#contact">Contact</a></li>
+
+            <li>
+                <a href="#home">Home</a>
+            </li>
+
+            <li>
+                <a href="#about">About</a>
+            </li>
+
+            <li>
+                <a href="#projects">Projects</a>
+            </li>
+
+            <li>
+                <a href="#videos">Videos</a>
+            </li>
+
+            <li>
+                <a href="#skills">Skills</a>
+            </li>
+
+            <li>
+                <a href="#certifications">Certifications</a>
+            </li>
+
+            <li>
+                <a href="#contact">Contact</a>
+            </li>
+
         </ul>
+
     </nav>
 </header>
 
+
 <main>
 
+
+<!-- =====================================================
+     HERO
+===================================================== -->
+
 <section id="home" class="hero">
+
     <div class="hero-content">
 
-        <p class="eyebrow">SYSTEMS ADMINISTRATION • NETWORKING • CYBERSECURITY</p>
+        <p class="eyebrow">
+            SYSTEMS ADMINISTRATION • NETWORKING • CYBERSECURITY
+        </p>
 
-        <h1>Agyemang Prempeh</h1>
+        <h1>
+            Agyemang Prempeh
+        </h1>
 
         <h2>
             Building secure enterprise infrastructure,
@@ -51,16 +103,34 @@
         </p>
 
         <div class="hero-buttons">
-            <a href="#projects" class="btn primary">View Projects</a>
-            <a href="#contact" class="btn secondary">Contact Me</a>
+
+            <a href="#projects"
+               class="btn primary">
+                View Projects
+            </a>
+
+            <a href="#contact"
+               class="btn secondary">
+                Contact Me
+            </a>
+
         </div>
 
     </div>
+
 </section>
 
 
+
+<!-- =====================================================
+     ABOUT
+===================================================== -->
+
 <section id="about" class="section">
-    <h2>About Me</h2>
+
+    <h2>
+        About Me
+    </h2>
 
     <p>
         I am developing practical experience across systems administration,
@@ -68,216 +138,547 @@
     </p>
 
     <p>
-        My projects focus on designing, securing, monitoring, and troubleshooting
-        enterprise-style environments rather than studying technologies in isolation.
+        My projects focus on designing, securing, monitoring, testing,
+        and troubleshooting enterprise-style environments rather than
+        studying technologies in isolation.
     </p>
+
 </section>
 
 
+
+<!-- =====================================================
+     FEATURED PROJECTS
+===================================================== -->
+
 <section id="projects" class="section">
-    <h2>Featured Projects</h2>
+
+    <h2>
+        Featured Projects
+    </h2>
+
+    <p>
+        Hands-on infrastructure and cybersecurity projects demonstrating
+        enterprise administration, networking, cloud, identity, security
+        monitoring, and troubleshooting.
+    </p>
+
 
     <div class="project-grid">
 
+
+        <!-- =============================================
+             ENTERPRISE AD & SOC
+        ============================================== -->
+
         <article class="project-card">
-            <h3>Enterprise Active Directory & SOC Project</h3>
+
+            <h3>
+                Enterprise Active Directory & SOC Project
+            </h3>
 
             <p>
-                Built a segmented Windows enterprise environment using Active Directory,
-                multiple domain controllers, Group Policy, pfSense, Splunk Enterprise,
-                Sysmon, and Snort IDS.
+                Built a segmented Windows enterprise environment using
+                Active Directory, multiple domain controllers, Group Policy,
+                pfSense, Splunk Enterprise, Sysmon, and Snort IDS.
             </p>
 
             <div class="tags">
+
                 <span>Active Directory</span>
+                <span>Windows Server</span>
                 <span>Splunk</span>
                 <span>pfSense</span>
                 <span>Sysmon</span>
                 <span>Snort</span>
+
             </div>
 
-            <a href="#" class="project-link">View Project →</a>
+
+            <div class="project-actions">
+
+                <a href="projects/enterprise-ad-soc.html"
+                   class="project-link">
+                    View Case Study →
+                </a>
+
+                <a href="https://github.com/PREMPE/Enterprise-AD-SOC-Lab"
+                   class="project-link"
+                   target="_blank"
+                   rel="noopener noreferrer">
+                    GitHub →
+                </a>
+
+            </div>
+
         </article>
 
 
+
+        <!-- =============================================
+             AWS HYBRID CLOUD
+        ============================================== -->
+
         <article class="project-card">
-            <h3>AWS Hybrid Cloud Infrastructure</h3>
+
+            <h3>
+                AWS Hybrid Cloud Infrastructure
+            </h3>
 
             <p>
-                Designed an AWS VPC and connected it to my existing infrastructure
-                using redundant IPsec Site-to-Site VPN tunnels through pfSense.
+                Designed an AWS VPC and securely connected it to an
+                on-premises VMware infrastructure through pfSense using
+                redundant IPsec Site-to-Site VPN tunnels.
             </p>
 
             <div class="tags">
+
                 <span>AWS</span>
                 <span>VPC</span>
                 <span>EC2</span>
+                <span>IAM</span>
                 <span>IPsec</span>
+                <span>pfSense</span>
                 <span>CloudTrail</span>
+
             </div>
 
-            <a href="#" class="project-link">View Project →</a>
+
+            <div class="project-actions">
+
+                <a href="projects/aws-hybrid-cloud.html"
+                   class="project-link">
+                    View Case Study →
+                </a>
+
+                <a href="https://github.com/PREMPE/AWS-HYBRID-CLOUD-INFRASTRUCTURE"
+                   class="project-link"
+                   target="_blank"
+                   rel="noopener noreferrer">
+                    GitHub →
+                </a>
+
+            </div>
+
         </article>
 
 
+
+        <!-- =============================================
+             MICROSOFT ENTRA HYBRID IDENTITY
+        ============================================== -->
+
         <article class="project-card">
-            <h3>Microsoft Entra ID Hybrid Identity</h3>
+
+            <h3>
+                Microsoft Entra ID Hybrid Identity
+            </h3>
 
             <p>
-                Extended an existing corp.local Active Directory environment into
-                Microsoft Entra ID using a verified public domain and hybrid identity
-                architecture.
+                Extended an on-premises Active Directory environment into
+                Microsoft Entra ID and implemented hybrid identity using
+                Microsoft Entra Connect Sync.
             </p>
 
             <div class="tags">
+
                 <span>Entra ID</span>
                 <span>Active Directory</span>
+                <span>Entra Connect</span>
                 <span>Hybrid Identity</span>
                 <span>Windows Server</span>
+
             </div>
 
-            <a href="#" class="project-link">View Project →</a>
+
+            <div class="project-actions">
+
+                <a href="projects/entra-hybrid-identity.html"
+                   class="project-link">
+                    View Case Study →
+                </a>
+
+                <a href="https://github.com/PREMPE/Hybrid-Identity-Active-Directory-to-Microsoft-Entra-ID"
+                   class="project-link"
+                   target="_blank"
+                   rel="noopener noreferrer">
+                    GitHub →
+                </a>
+
+            </div>
+
         </article>
 
+
+
+        <!-- =============================================
+             PFSENSE VPN
+        ============================================== -->
+
+        <article class="project-card">
+
+            <h3>
+                Secure IKEv2 Remote Access VPN
+            </h3>
+
+            <p>
+                Built and validated a secure remote-access VPN environment
+                using pfSense, IKEv2, Windows clients, certificate-based
+                security controls, firewall rules, and Splunk monitoring.
+            </p>
+
+            <div class="tags">
+
+                <span>pfSense</span>
+                <span>IKEv2</span>
+                <span>IPsec</span>
+                <span>VPN</span>
+                <span>Windows</span>
+                <span>Splunk</span>
+
+            </div>
+
+
+            <div class="project-actions">
+
+                <a href="https://github.com/PREMPE/PFSENSE-VPN-CREATION"
+                   class="project-link"
+                   target="_blank"
+                   rel="noopener noreferrer">
+                    View GitHub Project →
+                </a>
+
+            </div>
+
+        </article>
+
+
     </div>
+
 </section>
 
 
+
+<!-- =====================================================
+     PROJECT DEMONSTRATIONS
+===================================================== -->
+
 <section id="videos" class="section">
-    <h2>Project Demonstrations</h2>
+
+    <h2>
+        Project Demonstrations
+    </h2>
 
     <p>
-        Video demonstrations of selected infrastructure and cybersecurity projects.
+        Video demonstrations of selected infrastructure and
+        cybersecurity projects will be added here.
     </p>
+
 
     <div class="video-grid">
 
+
         <div class="video-card">
-            <h3>Enterprise AD & SOC Walkthrough</h3>
+
+            <h3>
+                Enterprise AD & SOC Walkthrough
+            </h3>
 
             <div class="video-placeholder">
                 Video coming soon
             </div>
+
         </div>
 
 
+
         <div class="video-card">
-            <h3>AWS Hybrid Cloud VPN Demo</h3>
+
+            <h3>
+                AWS Hybrid Cloud VPN Demo
+            </h3>
 
             <div class="video-placeholder">
                 Video coming soon
             </div>
+
         </div>
 
 
+
         <div class="video-card">
-            <h3>Microsoft Entra Hybrid Identity</h3>
+
+            <h3>
+                Microsoft Entra Hybrid Identity
+            </h3>
 
             <div class="video-placeholder">
                 Video coming soon
             </div>
+
         </div>
+
+
+
+        <div class="video-card">
+
+            <h3>
+                pfSense IKEv2 VPN Demonstration
+            </h3>
+
+            <div class="video-placeholder">
+                Video coming soon
+            </div>
+
+        </div>
+
 
     </div>
+
 </section>
 
 
+
+<!-- =====================================================
+     TECHNICAL SKILLS
+===================================================== -->
+
 <section id="skills" class="section">
-    <h2>Technical Skills</h2>
+
+    <h2>
+        Technical Skills
+    </h2>
+
 
     <div class="skills-grid">
 
-        <div>
-            <h3>Systems Administration</h3>
-            <p>
-                Windows Server 2022, Active Directory, DNS,
-                Group Policy, VMware, Windows administration
-            </p>
-        </div>
 
         <div>
-            <h3>Networking</h3>
+
+            <h3>
+                Systems Administration
+            </h3>
+
             <p>
-                TCP/IP, subnetting, routing, DHCP,
-                VLAN-style segmentation, pfSense, VPNs
+                Windows Server 2022,
+                Active Directory Domain Services,
+                DNS,
+                Group Policy,
+                VMware,
+                Windows administration
             </p>
+
         </div>
 
+
+
         <div>
-            <h3>Cybersecurity</h3>
+
+            <h3>
+                Networking
+            </h3>
+
             <p>
-                Splunk, Sysmon, Snort IDS,
-                SIEM monitoring, detection engineering,
+                TCP/IP,
+                subnetting,
+                routing,
+                DHCP,
+                network segmentation,
+                pfSense,
+                IPsec,
+                Site-to-Site VPN,
+                Remote Access VPN
+            </p>
+
+        </div>
+
+
+
+        <div>
+
+            <h3>
+                Cybersecurity
+            </h3>
+
+            <p>
+                Splunk Enterprise,
+                Sysmon,
+                Snort IDS,
+                SIEM monitoring,
+                detection engineering,
+                security event analysis,
                 firewall administration
             </p>
+
         </div>
+
+
 
         <div>
-            <h3>Cloud & Identity</h3>
+
+            <h3>
+                Cloud & Identity
+            </h3>
+
             <p>
-                AWS, EC2, VPC, IAM, S3,
-                CloudTrail, CloudWatch,
-                Microsoft Entra ID, Hybrid Identity
+                AWS,
+                EC2,
+                VPC,
+                IAM,
+                S3,
+                CloudTrail,
+                CloudWatch,
+                Microsoft Entra ID,
+                Entra Connect,
+                Hybrid Identity
             </p>
+
         </div>
 
+
     </div>
+
 </section>
 
 
+
+<!-- =====================================================
+     CERTIFICATIONS
+===================================================== -->
+
 <section id="certifications" class="section">
-    <h2>Certifications & Training</h2>
+
+    <h2>
+        Certifications & Training
+    </h2>
+
 
     <div class="cert-grid">
 
-        <div class="cert-card">
-            <h3>CCNA</h3>
-            <p>Enterprise Networking, Security and Automation</p>
-        </div>
 
         <div class="cert-card">
-            <h3>Google Cybersecurity</h3>
-            <p>Professional Certificate</p>
+
+            <h3>
+                CCNA
+            </h3>
+
+            <p>
+                Enterprise Networking, Security and Automation
+            </p>
+
         </div>
 
-        <div class="cert-card">
-            <h3>TryHackMe</h3>
-            <p>SOC Level 1</p>
-        </div>
+
 
         <div class="cert-card">
-            <h3>AWS</h3>
-            <p>Technology Cloud Essentials</p>
+
+            <h3>
+                Google Cybersecurity
+            </h3>
+
+            <p>
+                Professional Certificate
+            </p>
+
         </div>
+
+
+
+        <div class="cert-card">
+
+            <h3>
+                TryHackMe
+            </h3>
+
+            <p>
+                SOC Level 1
+            </p>
+
+        </div>
+
+
+
+        <div class="cert-card">
+
+            <h3>
+                AWS
+            </h3>
+
+            <p>
+                Technology Cloud Essentials
+            </p>
+
+        </div>
+
 
     </div>
+
 </section>
 
 
+
+<!-- =====================================================
+     CONTACT
+===================================================== -->
+
 <section id="contact" class="section contact">
-    <h2>Contact</h2>
+
+    <h2>
+        Contact
+    </h2>
 
     <p>
         I am interested in opportunities involving systems administration,
         networking, cybersecurity, SOC operations, cloud infrastructure,
-        and IT infrastructure.
+        identity management, and IT infrastructure.
     </p>
 
+
     <div class="contact-links">
-        <a href="#">LinkedIn</a>
-        <a href="#">GitHub</a>
-        <a href="#">Resume</a>
+
+        <a href="https://www.linkedin.com/in/agyemang-prempeh-27a438277"
+           target="_blank"
+           rel="noopener noreferrer">
+            LinkedIn
+        </a>
+
+
+        <a href="https://github.com/PREMPE"
+           target="_blank"
+           rel="noopener noreferrer">
+            GitHub
+        </a>
+
+
+        <span>
+            Resume Coming Soon
+        </span>
+
     </div>
+
 </section>
+
 
 </main>
 
 
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
 <footer>
-    <p>© 2026 Agyemang Prempeh | prempehtech.ca</p>
+
+    <p>
+        © 2026 Agyemang Prempeh | PrempehTech
+    </p>
+
 </footer>
+
 
 <script src="script.js"></script>
 
 </body>
+
 </html>
+
