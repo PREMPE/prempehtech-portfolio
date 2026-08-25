@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise Active Directory & SOC | Agyemang Prempeh</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+
+<header>
+    <nav class="navbar">
+        <a class="logo" href="../index.html">PrempehTech</a>
+
+        <ul class="nav-links">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="../index.html#projects">Projects</a></li>
+            <li><a href="../index.html#skills">Skills</a></li>
+            <li><a href="../index.html#contact">Contact</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+
+<section class="hero">
+    <div class="hero-content">
+        <p class="eyebrow">ENTERPRISE INFRASTRUCTURE • SOC • CYBERSECURITY</p>
+
+        <h1>Enterprise Active Directory & SOC Environment</h1>
+
+        <h2>
+            A segmented enterprise-style Windows infrastructure integrating
+            Active Directory, pfSense, Splunk, Sysmon and Snort.
+        </h2>
+
+        <p>
+            This project was built to develop practical experience in systems
+            administration, networking, cybersecurity, security monitoring,
+            detection engineering and enterprise troubleshooting.
+        </p>
+
+        <div class="hero-buttons">
+            <a href="#architecture" class="btn primary">Explore Project</a>
+            <a href="#video" class="btn secondary">Watch Demo</a>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <h2>Project Overview</h2>
+
+    <p>
+        I designed and built an enterprise-style infrastructure in VMware
+        Workstation using multiple Windows Server systems, segmented networks,
+        centralized identity management, firewall controls and centralized
+        security monitoring.
+    </p>
+
+    <p>
+        The environment evolved from an Active Directory lab into a broader
+        security operations environment incorporating network segmentation,
+        endpoint telemetry, intrusion detection and SIEM-based monitoring.
+    </p>
+</section>
+
+<section id="architecture" class="section">
+    <h2>Architecture</h2>
+
+    <div class="project-card">
+        <h3>Network Segmentation</h3>
+
+        <p>Servers / LAN — 172.16.10.0/24</p>
+        <p>Clients — 172.16.20.0/24</p>
+        <p>Management — 172.16.30.0/24</p>
+        <p>DMZ — 172.16.40.0/24</p>
+        <p>External / Security Testing — 172.16.50.0/24</p>
+    </div>
+
+    <div class="project-card">
+        <h3>Core Systems</h3>
+
+        <p>DC01 — Active Directory / DNS</p>
+        <p>DC02 — Secondary Domain Controller / DNS</p>
+        <p>SPLUNK01 — Splunk Enterprise SIEM</p>
+        <p>ClientMachine — Domain-joined Windows endpoint</p>
+        <p>pfSense — Routing / Firewall / DHCP</p>
+        <p>Kali Linux — Controlled security-testing system</p>
+    </div>
+</section>
+
+<section class="section">
+    <h2>Technologies Used</h2>
+
+    <div class="tags">
+        <span>Windows Server 2022</span>
+        <span>Active Directory</span>
+        <span>Group Policy</span>
+        <span>DNS</span>
+        <span>VMware Workstation</span>
+        <span>pfSense</span>
+        <span>Splunk Enterprise</span>
+        <span>Sysmon</span>
+        <span>Snort IDS</span>
+        <span>PowerShell</span>
+        <span>Kali Linux</span>
+    </div>
+</section>
+
+<section class="section">
+    <h2>Active Directory</h2>
+
+    <p>
+        I deployed the corp.local Active Directory domain using two domain
+        controllers to provide centralized authentication, DNS, Group Policy
+        and directory services.
+    </p>
+
+    <p>
+        Organizational Units, users, security groups and policies were created
+        to simulate centralized administration in an enterprise Windows
+        environment.
+    </p>
+</section>
+
+<section class="section">
+    <h2>Network Security & Segmentation</h2>
+
+    <p>
+        pfSense operates as the central routing and firewall platform between
+        the different network segments.
+    </p>
+
+    <p>
+        Separate VMware networks were created for servers, clients,
+        management systems, DMZ systems and controlled external security
+        testing. Firewall policies control communication between these
+        networks.
+    </p>
+</section>
+
+<section class="section">
+    <h2>Security Monitoring</h2>
+
+    <p>
+        Splunk Enterprise was deployed as the centralized SIEM platform.
+        Windows Event Logs and Sysmon telemetry were collected from Windows
+        systems while pfSense and Snort supplied network-security visibility.
+    </p>
+
+    <p>
+        SOC dashboards and searches were developed for authentication events,
+        account activity, PowerShell execution, privileged-group changes,
+        firewall events and IDS detections.
+    </p>
+</section>
+
+<section class="section">
+    <h2>Detection Engineering</h2>
+
+    <p>
+        I created detection searches for failed authentication, account
+        lockouts, account changes, PowerShell activity, privileged-group
+        modifications, Kerberos and NTLM failures, discovery activity and
+        other security-relevant behavior.
+    </p>
+
+    <p>
+        I also worked with authentication correlation to identify patterns
+        involving multiple failed authentication attempts followed by a
+        successful authentication.
+    </p>
+</section>
+
+<section class="section">
+    <h2>Troubleshooting & Lessons Learned</h2>
+
+    <p>
+        A significant part of the project involved diagnosing real
+        configuration problems rather than simply following installation
+        procedures.
+    </p>
+
+    <p>
+        Troubleshooting included inter-network connectivity, Windows Firewall,
+        pfSense firewall policy, VMware virtual network mappings, DNS,
+        Splunk log ingestion, Snort field extraction and VM resource
+        constraints.
+    </p>
+
+    <p>
+        These problems reinforced the importance of validating each layer
+        independently instead of assuming that a configuration is working.
+    </p>
+</section>
+
+<section class="section">
+    <h2>Results</h2>
+
+    <p>
+        The completed environment provides centralized identity management,
+        segmented networking, firewall enforcement, endpoint telemetry,
+        intrusion detection and centralized SIEM visibility.
+    </p>
+
+    <p>
+        The project provides a platform for additional work in EDR,
+        security automation, incident response, cloud integration and
+        advanced detection engineering.
+    </p>
+</section>
+
+<section id="video" class="section">
+    <h2>Video Demonstration</h2>
+
+    <div class="video-placeholder">
+        Project walkthrough coming soon
+    </div>
+</section>
+
+<section class="section">
+    <a href="../index.html#projects" class="btn secondary">
+        ← Back to Projects
+    </a>
+</section>
+
+</main>
+
+<footer>
+    <p>© 2026 Agyemang Prempeh | prempehtech.ca</p>
+</footer>
+
+</body>
+</html>
