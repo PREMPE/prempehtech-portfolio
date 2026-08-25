@@ -17,7 +17,342 @@
     <title>Agyemang Prempeh | PrempehTech.ca</title>
 
     <link rel="stylesheet" href="style.css">
+
+
+    <!-- =====================================================
+         TARGETED FIXES ONLY
+         These override the old CSS for:
+         1. Navigation
+         2. Certifications
+         3. Contact
+    ====================================================== -->
+
+    <style>
+
+        /* =================================================
+           TOP NAVIGATION
+           Brand stays left.
+           All seven links stay grouped on the right.
+        ================================================= */
+
+        .nav-container {
+            display: flex !important;
+            align-items: center !important;
+            width: min(1420px, calc(100% - 64px)) !important;
+            margin: 0 auto !important;
+        }
+
+        .brand {
+            flex: 0 0 auto !important;
+        }
+
+        .main-nav {
+            margin-left: auto !important;
+            width: auto !important;
+
+            display: flex !important;
+            align-items: center !important;
+            justify-content: flex-end !important;
+
+            gap: 30px !important;
+        }
+
+        .main-nav .nav-link {
+            flex: none !important;
+            width: auto !important;
+
+            white-space: nowrap !important;
+            text-align: center !important;
+        }
+
+
+        /* =================================================
+           MAIN SECTION HEADINGS
+           ONLY the big section headings are centered.
+        ================================================= */
+
+        .centered-header {
+            width: 100% !important;
+            max-width: 900px !important;
+
+            margin-left: auto !important;
+            margin-right: auto !important;
+
+            text-align: center !important;
+        }
+
+        .centered-header h2,
+        .centered-header p {
+            text-align: center !important;
+        }
+
+
+        /* =================================================
+           CERTIFICATIONS
+           Compact professional cards.
+           No giant empty boxes.
+        ================================================= */
+
+        #certifications .cert-grid {
+            display: grid !important;
+
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr)) !important;
+
+            gap: 18px !important;
+
+            align-items: stretch !important;
+
+            margin-top: 40px !important;
+        }
+
+        #certifications .cert-card {
+            min-height: 0 !important;
+            height: auto !important;
+
+            padding: 24px 22px !important;
+
+            display: block !important;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(18, 39, 63, 0.92),
+                    rgba(12, 29, 48, 0.92)
+                ) !important;
+
+            border: 1px solid #234563 !important;
+
+            border-radius: 10px !important;
+
+            box-shadow: none !important;
+
+            text-align: left !important;
+        }
+
+        #certifications .cert-card:hover {
+            transform: translateY(-3px) !important;
+
+            border-color: #4388cf !important;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #132b46,
+                    #0d2137
+                ) !important;
+        }
+
+        #certifications .cert-provider {
+            display: block !important;
+
+            margin: 0 0 8px !important;
+
+            color: #64adff !important;
+
+            font-size: 0.72rem !important;
+
+            font-weight: 800 !important;
+
+            letter-spacing: 0.14em !important;
+
+            line-height: 1.3 !important;
+        }
+
+        #certifications .cert-card h3 {
+            margin: 0 0 8px !important;
+
+            color: #f3f7fc !important;
+
+            font-size: 1.05rem !important;
+
+            line-height: 1.35 !important;
+
+            text-align: left !important;
+        }
+
+        #certifications .cert-card p {
+            margin: 0 !important;
+
+            color: #9fb9d5 !important;
+
+            font-size: 0.9rem !important;
+
+            line-height: 1.55 !important;
+
+            text-align: left !important;
+        }
+
+
+        /* =================================================
+           CONTACT
+           Small horizontal rectangles.
+        ================================================= */
+
+        #contact.contact-section {
+            padding-top: 80px !important;
+            padding-bottom: 75px !important;
+        }
+
+        #contact .section-header {
+            margin-bottom: 35px !important;
+        }
+
+        #contact .contact-actions {
+            width: min(760px, 100%) !important;
+
+            margin: 0 auto !important;
+
+            display: grid !important;
+
+            grid-template-columns:
+                repeat(3, minmax(0, 1fr)) !important;
+
+            gap: 14px !important;
+        }
+
+        #contact .contact-link {
+            min-height: 64px !important;
+            height: 64px !important;
+
+            padding: 10px 18px !important;
+
+            display: flex !important;
+
+            align-items: center !important;
+            justify-content: center !important;
+
+            gap: 11px !important;
+
+            border-radius: 9px !important;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #10243a,
+                    #0b1d30
+                ) !important;
+
+            border: 1px solid #2a5279 !important;
+
+            box-shadow: none !important;
+
+            text-decoration: none !important;
+        }
+
+        #contact .contact-link:hover {
+            transform: translateY(-2px) !important;
+
+            border-color: #55a7ff !important;
+
+            background: #122a44 !important;
+        }
+
+        #contact .contact-icon {
+            width: 34px !important;
+            height: 34px !important;
+
+            min-width: 34px !important;
+
+            display: grid !important;
+            place-items: center !important;
+
+            padding: 7px !important;
+
+            border-radius: 7px !important;
+
+            color: #5caaff !important;
+
+            background: #102b48 !important;
+
+            border: 1px solid #32628f !important;
+        }
+
+        #contact .contact-icon svg {
+            width: 19px !important;
+            height: 19px !important;
+        }
+
+        #contact .contact-label {
+            color: #f1f6fc !important;
+
+            font-size: 0.82rem !important;
+
+            font-weight: 800 !important;
+
+            letter-spacing: 0.06em !important;
+        }
+
+
+        /* =================================================
+           TABLET
+        ================================================= */
+
+        @media (max-width: 1100px) {
+
+            .main-nav {
+                gap: 20px !important;
+            }
+
+            .main-nav .nav-link {
+                font-size: 0.84rem !important;
+            }
+
+            #certifications .cert-grid {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr)) !important;
+            }
+
+        }
+
+
+        /* =================================================
+           MOBILE
+        ================================================= */
+
+        @media (max-width: 850px) {
+
+            .nav-container {
+                width: min(100% - 32px, 1420px) !important;
+            }
+
+            .main-nav {
+                display: none !important;
+            }
+
+            .main-nav.open {
+                display: flex !important;
+
+                width: 100% !important;
+
+                flex-direction: column !important;
+
+                align-items: flex-start !important;
+
+                gap: 0 !important;
+            }
+
+            #contact .contact-actions {
+                grid-template-columns: 1fr !important;
+
+                max-width: 420px !important;
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            #certifications .cert-grid {
+                grid-template-columns: 1fr !important;
+            }
+
+        }
+
+    </style>
+
 </head>
+
 
 
 <body id="top">
@@ -31,26 +366,47 @@
 
     <div class="nav-container">
 
-        <!-- LEFT -->
-        <a href="#home" class="brand">
+        <a
+            href="#home"
+            class="brand"
+        >
             PrempehTech<span>.ca</span>
         </a>
 
 
-        <!-- RIGHT -->
         <nav
             class="main-nav"
             id="mainNav"
             aria-label="Primary navigation"
         >
 
-            <a href="#home" class="nav-link active">Home</a>
-            <a href="#about" class="nav-link">About</a>
-            <a href="#projects" class="nav-link">Projects</a>
-            <a href="#evidence" class="nav-link">Evidence</a>
-            <a href="#skills" class="nav-link">Skills</a>
-            <a href="#certifications" class="nav-link">Certifications</a>
-            <a href="#contact" class="nav-link">Contact</a>
+            <a href="#home" class="nav-link active">
+                Home
+            </a>
+
+            <a href="#about" class="nav-link">
+                About
+            </a>
+
+            <a href="#projects" class="nav-link">
+                Projects
+            </a>
+
+            <a href="#evidence" class="nav-link">
+                Evidence
+            </a>
+
+            <a href="#skills" class="nav-link">
+                Skills
+            </a>
+
+            <a href="#certifications" class="nav-link">
+                Certifications
+            </a>
+
+            <a href="#contact" class="nav-link">
+                Contact
+            </a>
 
         </nav>
 
@@ -156,10 +512,12 @@
 
     <div class="container">
 
-
-        <!-- MAIN HEADING ONLY -->
         <div class="section-header centered-header">
-            <h2>About</h2>
+
+            <h2>
+                About
+            </h2>
+
         </div>
 
 
@@ -206,7 +564,9 @@
 
             <article class="info-card">
 
-                <h3>SOC &amp; Detection Engineering</h3>
+                <h3>
+                    SOC &amp; Detection Engineering
+                </h3>
 
                 <p>
                     Splunk, Sysmon, Snort, Windows Security Events,
@@ -220,7 +580,9 @@
 
             <article class="info-card">
 
-                <h3>Infrastructure Security</h3>
+                <h3>
+                    Infrastructure Security
+                </h3>
 
                 <p>
                     Active Directory, pfSense, network segmentation,
@@ -234,7 +596,9 @@
 
             <article class="info-card">
 
-                <h3>Cloud &amp; Identity</h3>
+                <h3>
+                    Cloud &amp; Identity
+                </h3>
 
                 <p>
                     AWS, VPC, EC2, IPsec, Microsoft Entra ID,
@@ -247,7 +611,9 @@
 
             <article class="info-card">
 
-                <h3>Endpoint Security</h3>
+                <h3>
+                    Endpoint Security
+                </h3>
 
                 <p>
                     Endpoint telemetry, process behavior,
@@ -261,7 +627,9 @@
 
             <article class="info-card">
 
-                <h3>Security Automation</h3>
+                <h3>
+                    Security Automation
+                </h3>
 
                 <p>
                     PowerShell, Python, Bash, log processing,
@@ -275,7 +643,9 @@
 
             <article class="info-card">
 
-                <h3>Networking</h3>
+                <h3>
+                    Networking
+                </h3>
 
                 <p>
                     TCP/IP, subnetting, routing, VPNs,
@@ -305,8 +675,6 @@
 
     <div class="container">
 
-
-        <!-- MAIN HEADING CENTERED -->
         <div class="section-header centered-header">
 
             <h2>
@@ -327,7 +695,7 @@
         <div class="projects-grid">
 
 
-<!-- AD SOC -->
+            <!-- AD SOC -->
 
             <article class="project-card">
 
@@ -337,9 +705,11 @@
                         ENTERPRISE SOC
                     </span>
 
+
                     <h3>
                         Enterprise Active Directory &amp; SOC Project
                     </h3>
+
 
                     <p>
                         Built a segmented Windows enterprise environment
@@ -350,12 +720,14 @@
 
 
                     <div class="tags">
+
                         <span>Active Directory</span>
                         <span>Windows Server</span>
                         <span>Splunk</span>
                         <span>pfSense</span>
                         <span>Sysmon</span>
                         <span>Snort</span>
+
                     </div>
 
                 </div>
@@ -370,6 +742,7 @@
                         View Case Study →
                     </a>
 
+
                     <a
                         href="projects/enterprise-ad-soc.html"
                         class="project-link"
@@ -383,7 +756,7 @@
 
 
 
-<!-- AWS -->
+            <!-- AWS -->
 
             <article class="project-card">
 
@@ -393,9 +766,11 @@
                         HYBRID CLOUD
                     </span>
 
+
                     <h3>
                         AWS Hybrid Cloud Infrastructure
                     </h3>
+
 
                     <p>
                         Designed an AWS VPC and securely connected it
@@ -406,6 +781,7 @@
 
 
                     <div class="tags">
+
                         <span>AWS</span>
                         <span>VPC</span>
                         <span>EC2</span>
@@ -413,6 +789,7 @@
                         <span>IPsec</span>
                         <span>pfSense</span>
                         <span>CloudTrail</span>
+
                     </div>
 
                 </div>
@@ -427,6 +804,7 @@
                         View Case Study →
                     </a>
 
+
                     <a
                         href="projects/aws-hybrid-cloud.html"
                         class="project-link"
@@ -440,7 +818,7 @@
 
 
 
-<!-- ENTRA -->
+            <!-- ENTRA -->
 
             <article class="project-card">
 
@@ -450,9 +828,11 @@
                         HYBRID IDENTITY
                     </span>
 
+
                     <h3>
                         Microsoft Entra ID Hybrid Identity
                     </h3>
+
 
                     <p>
                         Extended an on-premises Active Directory
@@ -463,11 +843,13 @@
 
 
                     <div class="tags">
+
                         <span>Entra ID</span>
                         <span>Active Directory</span>
                         <span>Entra Connect</span>
                         <span>Hybrid Identity</span>
                         <span>Windows Server</span>
+
                     </div>
 
                 </div>
@@ -482,6 +864,7 @@
                         View Case Study →
                     </a>
 
+
                     <a
                         href="projects/entra-hybrid-identity.html"
                         class="project-link"
@@ -495,7 +878,7 @@
 
 
 
-<!-- VPN -->
+            <!-- VPN -->
 
             <article class="project-card">
 
@@ -505,9 +888,11 @@
                         REMOTE ACCESS SECURITY
                     </span>
 
+
                     <h3>
                         Secure IKEv2 Remote Access VPN
                     </h3>
+
 
                     <p>
                         Designed, implemented, and validated secure
@@ -519,12 +904,14 @@
 
 
                     <div class="tags">
+
                         <span>pfSense</span>
                         <span>IKEv2</span>
                         <span>IPsec</span>
                         <span>VPN</span>
                         <span>Windows</span>
                         <span>Splunk</span>
+
                     </div>
 
                 </div>
@@ -539,6 +926,7 @@
                         View Case Study →
                     </a>
 
+
                     <a
                         href="projects/pfsense-vpn.html"
                         class="project-link"
@@ -552,7 +940,7 @@
 
 
 
-<!-- EDR -->
+            <!-- EDR -->
 
             <article class="project-card">
 
@@ -562,9 +950,11 @@
                         ENDPOINT SECURITY
                     </span>
 
+
                     <h3>
                         Endpoint Detection &amp; Response Project
                     </h3>
+
 
                     <p>
                         Upcoming endpoint security project focused on
@@ -575,11 +965,13 @@
 
 
                     <div class="tags">
+
                         <span>EDR</span>
                         <span>Endpoint Security</span>
                         <span>Telemetry</span>
                         <span>Threat Detection</span>
                         <span>Investigation</span>
+
                     </div>
 
                 </div>
@@ -593,7 +985,7 @@
 
 
 
-<!-- AUTOMATION -->
+            <!-- AUTOMATION -->
 
             <article class="project-card">
 
@@ -603,9 +995,11 @@
                         SECURITY AUTOMATION
                     </span>
 
+
                     <h3>
                         Security Automation Project
                     </h3>
+
 
                     <p>
                         Upcoming security automation project focused
@@ -616,10 +1010,12 @@
 
 
                     <div class="tags">
+
                         <span>Automation</span>
                         <span>PowerShell</span>
                         <span>Python</span>
                         <span>Bash</span>
+
                     </div>
 
                 </div>
@@ -651,8 +1047,6 @@
 
     <div class="container">
 
-
-        <!-- MAIN HEADING CENTERED -->
         <div class="section-header centered-header">
 
             <h2>
@@ -660,8 +1054,8 @@
             </h2>
 
             <p>
-                Selected technical evidence from completed infrastructure
-                and cybersecurity projects.
+                Selected technical evidence from completed
+                infrastructure and cybersecurity projects.
             </p>
 
         </div>
@@ -682,20 +1076,20 @@
                 </h3>
 
                 <p>
-                    Multi-domain-controller Windows environment with
-                    Group Policy, centralized logging, Sysmon telemetry,
-                    Splunk detections, pfSense segmentation,
-                    and Snort IDS.
+                    Multi-domain-controller Windows environment
+                    with Group Policy, centralized logging,
+                    Sysmon telemetry, Splunk detections,
+                    pfSense segmentation, and Snort IDS.
                 </p>
 
-
                 <div class="tags">
+
                     <span>Active Directory</span>
                     <span>Splunk</span>
                     <span>Sysmon</span>
                     <span>Snort</span>
-                </div>
 
+                </div>
 
                 <a
                     href="projects/enterprise-ad-soc.html"
@@ -726,14 +1120,14 @@
                     and redundant VPN validation.
                 </p>
 
-
                 <div class="tags">
+
                     <span>AWS</span>
                     <span>VPC</span>
                     <span>IPsec</span>
                     <span>pfSense</span>
-                </div>
 
+                </div>
 
                 <a
                     href="projects/aws-hybrid-cloud.html"
@@ -764,14 +1158,14 @@
                     and cloud authentication.
                 </p>
 
-
                 <div class="tags">
+
                     <span>Entra ID</span>
                     <span>Active Directory</span>
                     <span>Entra Connect</span>
                     <span>Identity</span>
-                </div>
 
+                </div>
 
                 <a
                     href="projects/entra-hybrid-identity.html"
@@ -795,20 +1189,22 @@
                 </h3>
 
                 <p>
-                    Encrypted remote access, dedicated VPN addressing,
-                    split tunneling, DNS and SMB access controls,
+                    Encrypted remote access,
+                    dedicated VPN addressing,
+                    split tunneling,
+                    DNS and SMB access controls,
                     blocked-service testing,
                     and Splunk authentication monitoring.
                 </p>
 
-
                 <div class="tags">
+
                     <span>pfSense</span>
                     <span>IKEv2</span>
                     <span>IPsec</span>
                     <span>Splunk</span>
-                </div>
 
+                </div>
 
                 <a
                     href="projects/pfsense-vpn.html"
@@ -839,8 +1235,6 @@
 
     <div class="container">
 
-
-        <!-- MAIN HEADING CENTERED -->
         <div class="section-header centered-header">
 
             <h2>
@@ -856,16 +1250,18 @@
 
             <article class="skill-card">
 
-                <h3>Systems Administration</h3>
+                <h3>
+                    Systems Administration
+                </h3>
 
                 <p>
                     Windows Server 2016, 2019 &amp; 2022,
                     Active Directory Domain Services,
                     domain controllers, AD replication,
-                    DNS, DHCP, Group Policy, users and groups,
-                    Organizational Units, file services,
-                    NTFS/share permissions, VMware,
-                    and Windows administration.
+                    DNS, DHCP, Group Policy,
+                    users and groups, Organizational Units,
+                    file services, NTFS/share permissions,
+                    VMware, and Windows administration.
                 </p>
 
             </article>
@@ -874,13 +1270,18 @@
 
             <article class="skill-card">
 
-                <h3>Networking &amp; Infrastructure</h3>
+                <h3>
+                    Networking &amp; Infrastructure
+                </h3>
 
                 <p>
-                    TCP/IP, IPv4, subnetting, LAN/WAN networking,
-                    routing, DHCP, NAT, network segmentation,
-                    pfSense, firewall rules, access control,
-                    IPsec, Site-to-Site VPN, Remote Access VPN,
+                    TCP/IP, IPv4, subnetting,
+                    LAN/WAN networking, routing,
+                    DHCP, NAT, network segmentation,
+                    pfSense, firewall rules,
+                    access control, IPsec,
+                    Site-to-Site VPN,
+                    Remote Access VPN,
                     Wireshark, and VMware networking.
                 </p>
 
@@ -890,15 +1291,23 @@
 
             <article class="skill-card">
 
-                <h3>Cybersecurity &amp; SOC</h3>
+                <h3>
+                    Cybersecurity &amp; SOC
+                </h3>
 
                 <p>
-                    Splunk Enterprise, Universal Forwarder,
-                    SPL searches, dashboards, alerts, Sysmon,
-                    Snort IDS, Windows Security Events,
-                    centralized logging, detection engineering,
-                    threat investigation, vulnerability assessment,
-                    firewall validation, security hardening,
+                    Splunk Enterprise,
+                    Universal Forwarder,
+                    SPL searches,
+                    dashboards, alerts,
+                    Sysmon, Snort IDS,
+                    Windows Security Events,
+                    centralized logging,
+                    detection engineering,
+                    threat investigation,
+                    vulnerability assessment,
+                    firewall validation,
+                    security hardening,
                     and incident response.
                 </p>
 
@@ -908,14 +1317,20 @@
 
             <article class="skill-card">
 
-                <h3>Endpoint Security &amp; EDR</h3>
+                <h3>
+                    Endpoint Security &amp; EDR
+                </h3>
 
                 <p>
-                    Endpoint telemetry, process and network activity
-                    analysis, behavioral detection concepts,
-                    alert triage, investigation workflows,
-                    containment concepts, persistence analysis,
-                    authentication telemetry, and response workflows.
+                    Endpoint telemetry,
+                    process and network activity analysis,
+                    behavioral detection concepts,
+                    alert triage,
+                    investigation workflows,
+                    containment concepts,
+                    persistence analysis,
+                    authentication telemetry,
+                    and response workflows.
                 </p>
 
             </article>
@@ -924,13 +1339,21 @@
 
             <article class="skill-card">
 
-                <h3>Security Automation</h3>
+                <h3>
+                    Security Automation
+                </h3>
 
                 <p>
-                    PowerShell, Python fundamentals, Bash scripting,
-                    log parsing, alert enrichment, IOC handling,
-                    scheduled checks, repetitive-task automation,
-                    workflow automation, and repeatable remediation.
+                    PowerShell,
+                    Python fundamentals,
+                    Bash scripting,
+                    log parsing,
+                    alert enrichment,
+                    IOC handling,
+                    scheduled checks,
+                    repetitive-task automation,
+                    workflow automation,
+                    and repeatable remediation.
                 </p>
 
             </article>
@@ -939,12 +1362,16 @@
 
             <article class="skill-card">
 
-                <h3>Cloud &amp; Identity</h3>
+                <h3>
+                    Cloud &amp; Identity
+                </h3>
 
                 <p>
-                    AWS, EC2, VPC, IAM, S3, CloudTrail,
-                    CloudWatch, Microsoft Entra ID,
-                    Microsoft Entra Connect, hybrid identity,
+                    AWS, EC2, VPC, IAM, S3,
+                    CloudTrail, CloudWatch,
+                    Microsoft Entra ID,
+                    Microsoft Entra Connect,
+                    hybrid identity,
                     and identity and access management.
                 </p>
 
@@ -970,12 +1397,6 @@
 
     <div class="container">
 
-
-        <!--
-            THIS is the heading that should be centered.
-            Individual certification cards stay LEFT aligned.
-        -->
-
         <div class="section-header centered-header">
 
             <h2>
@@ -983,8 +1404,9 @@
             </h2>
 
             <p>
-                Technical training across networking, cybersecurity,
-                cloud computing, SOC operations, and infrastructure.
+                Technical training across networking,
+                cybersecurity, cloud computing,
+                SOC operations, and infrastructure.
             </p>
 
         </div>
@@ -1005,7 +1427,8 @@
                 </h3>
 
                 <p>
-                    Enterprise Networking, Security and Automation
+                    Enterprise Networking,
+                    Security and Automation
                 </p>
 
             </article>
@@ -1158,8 +1581,6 @@
 
     <div class="container">
 
-
-        <!-- MAIN HEADING CENTERED -->
         <div class="section-header centered-header">
 
             <h2>
@@ -1170,22 +1591,17 @@
 
 
 
-        <!--
-            NO unnecessary paragraph.
-            Just three clean professional links.
-        -->
-
         <div class="contact-actions">
 
 
-<!-- LINKEDIN -->
+            <!-- LINKEDIN -->
 
             <a
                 href="https://www.linkedin.com/in/agyemang-prempeh-27a438277/"
                 target="_blank"
                 rel="noopener noreferrer"
                 class="contact-link"
-                aria-label="LinkedIn profile"
+                aria-label="LinkedIn"
             >
 
                 <span class="contact-icon">
@@ -1202,7 +1618,6 @@
 
                 </span>
 
-
                 <span class="contact-label">
                     LINKEDIN
                 </span>
@@ -1211,14 +1626,14 @@
 
 
 
-<!-- GITHUB -->
+            <!-- GITHUB -->
 
             <a
                 href="https://github.com/PREMPE"
                 target="_blank"
                 rel="noopener noreferrer"
                 class="contact-link"
-                aria-label="GitHub profile"
+                aria-label="GitHub"
             >
 
                 <span class="contact-icon">
@@ -1235,7 +1650,6 @@
 
                 </span>
 
-
                 <span class="contact-label">
                     GITHUB
                 </span>
@@ -1244,7 +1658,7 @@
 
 
 
-<!-- EMAIL -->
+            <!-- EMAIL -->
 
             <a
                 href="mailto:YOUR-EMAIL-HERE"
@@ -1265,7 +1679,6 @@
                     </svg>
 
                 </span>
-
 
                 <span class="contact-label">
                     EMAIL
@@ -1305,10 +1718,6 @@
 
 
 
-<!-- =========================================================
-     SCROLL TOP
-========================================================= -->
-
 <button
     class="scroll-top"
     id="scrollTop"
@@ -1320,152 +1729,140 @@
 
 
 
-<!-- =========================================================
-     JAVASCRIPT
-========================================================= -->
-
 <script>
 
+    const mobileMenu =
+        document.getElementById("mobileMenu");
 
-const mobileMenu =
-    document.getElementById("mobileMenu");
-
-const mainNav =
-    document.getElementById("mainNav");
-
-
-mobileMenu.addEventListener(
-    "click",
-    function () {
-
-        mainNav.classList.toggle("open");
-
-        mobileMenu.textContent =
-            mainNav.classList.contains("open")
-                ? "✕"
-                : "☰";
-
-    }
-);
+    const mainNav =
+        document.getElementById("mainNav");
 
 
+    mobileMenu.addEventListener(
+        "click",
+        function () {
 
-document
-    .querySelectorAll(".nav-link")
-    .forEach(
-        function (link) {
+            mainNav.classList.toggle("open");
 
-            link.addEventListener(
-                "click",
-                function () {
+            mobileMenu.textContent =
+                mainNav.classList.contains("open")
+                    ? "✕"
+                    : "☰";
 
-                    mainNav.classList.remove("open");
+        }
+    );
 
-                    mobileMenu.textContent = "☰";
 
-                }
+    document
+        .querySelectorAll(".nav-link")
+        .forEach(
+            function (link) {
+
+                link.addEventListener(
+                    "click",
+                    function () {
+
+                        mainNav.classList.remove("open");
+
+                        mobileMenu.textContent = "☰";
+
+                    }
+                );
+
+            }
+        );
+
+
+    const scrollTop =
+        document.getElementById("scrollTop");
+
+
+    window.addEventListener(
+        "scroll",
+        function () {
+
+            scrollTop.classList.toggle(
+                "visible",
+                window.scrollY > 450
             );
 
         }
     );
 
 
+    scrollTop.addEventListener(
+        "click",
+        function () {
 
-const scrollTop =
-    document.getElementById("scrollTop");
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
 
-
-window.addEventListener(
-    "scroll",
-    function () {
-
-        scrollTop.classList.toggle(
-            "visible",
-            window.scrollY > 450
-        );
-
-    }
-);
+        }
+    );
 
 
-scrollTop.addEventListener(
-    "click",
-    function () {
+    const sections =
+        document.querySelectorAll(".section-anchor");
 
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
-
-    }
-);
+    const navLinks =
+        document.querySelectorAll(".nav-link");
 
 
+    const observer =
+        new IntersectionObserver(
 
-const sections =
-    document.querySelectorAll(".section-anchor");
+            function (entries) {
 
-const navLinks =
-    document.querySelectorAll(".nav-link");
+                entries.forEach(
+                    function (entry) {
 
-
-const observer =
-    new IntersectionObserver(
-
-        function (entries) {
-
-            entries.forEach(
-                function (entry) {
-
-                    if (!entry.isIntersecting) {
-                        return;
-                    }
-
-
-                    navLinks.forEach(
-                        function (link) {
-
-                            link.classList.remove("active");
-
+                        if (!entry.isIntersecting) {
+                            return;
                         }
-                    );
 
 
-                    const activeLink =
-                        document.querySelector(
-                            '.nav-link[href="#' +
-                            entry.target.id +
-                            '"]'
+                        navLinks.forEach(
+                            function (link) {
+
+                                link.classList.remove("active");
+
+                            }
                         );
 
 
-                    if (activeLink) {
+                        const activeLink =
+                            document.querySelector(
+                                '.nav-link[href="#' +
+                                entry.target.id +
+                                '"]'
+                            );
 
-                        activeLink.classList.add("active");
+
+                        if (activeLink) {
+                            activeLink.classList.add("active");
+                        }
 
                     }
+                );
 
-                }
-            );
+            },
 
-        },
+            {
+                rootMargin: "-35% 0px -55% 0px"
+            }
 
-        {
-            rootMargin:
-                "-35% 0px -55% 0px"
+        );
+
+
+    sections.forEach(
+        function (section) {
+
+            observer.observe(section);
+
         }
-
     );
-
-
-sections.forEach(
-    function (section) {
-
-        observer.observe(section);
-
-    }
-);
-
 
 </script>
 
