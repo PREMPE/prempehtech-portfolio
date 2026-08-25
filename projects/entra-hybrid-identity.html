@@ -1,854 +1,1192 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Microsoft Entra Hybrid Identity | Prempeh Tech</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-    <meta
-        name="description"
-        content="Microsoft Entra hybrid identity lab integrating an on-premises Active Directory environment with Microsoft Entra ID using Entra Connect Sync, a verified custom domain, synchronized identities, and cloud authentication."
-    >
+    <title>
+        Microsoft Entra Hybrid Identity | PrempehTech
+    </title>
 
-    <link rel="stylesheet" href="../style.css">
+    <meta name="description"
+          content="Hybrid identity project connecting an on-premises Microsoft Active Directory environment to Microsoft Entra ID using Microsoft Entra Connect Sync, custom domain integration, synchronized identities, and cloud authentication.">
+
+    <link rel="stylesheet"
+          href="../style.css">
 </head>
+
 
 <body>
 
-    <!-- =========================
-         NAVIGATION
-    ========================== -->
+
+<!-- =====================================================
+     NAVIGATION
+===================================================== -->
+
+<header>
+
     <nav class="navbar">
-        <div class="nav-container">
 
-            <a href="../index.html" class="nav-logo">
-                PREMPEH<span>TECH</span>
-            </a>
+        <a href="../index.html"
+           class="logo">
+            PrempehTech
+        </a>
 
-            <div class="nav-links">
-                <a href="../index.html#about">About</a>
-                <a href="../index.html#skills">Skills</a>
-                <a href="../index.html#projects">Projects</a>
-                <a href="../index.html#contact">Contact</a>
-            </div>
 
-        </div>
+        <ul class="nav-links">
+
+            <li>
+                <a href="../index.html">
+                    Home
+                </a>
+            </li>
+
+            <li>
+                <a href="../index.html#about">
+                    About
+                </a>
+            </li>
+
+            <li>
+                <a href="../index.html#projects">
+                    Projects
+                </a>
+            </li>
+
+            <li>
+                <a href="../index.html#evidence">
+                    Evidence
+                </a>
+            </li>
+
+            <li>
+                <a href="../index.html#skills">
+                    Skills
+                </a>
+            </li>
+
+            <li>
+                <a href="../index.html#contact">
+                    Contact
+                </a>
+            </li>
+
+        </ul>
+
     </nav>
 
+</header>
 
-    <main class="project-page">
 
-        <!-- =========================
-             PROJECT HERO
-        ========================== -->
-        <section class="project-hero">
 
-            <div class="project-container">
+<main>
 
-                <a href="../index.html#projects" class="back-link">
-                    ← Back to Projects
-                </a>
 
-                <p class="project-eyebrow">
-                    HYBRID IDENTITY · ACTIVE DIRECTORY · MICROSOFT ENTRA ID
-                </p>
+<!-- =====================================================
+     HERO
+===================================================== -->
 
-                <h1>
-                    Microsoft Entra Hybrid Identity
-                </h1>
+<section class="hero project-hero">
 
-                <p class="project-lead">
-                    Designed and implemented a hybrid identity environment
-                    connecting an on-premises Active Directory domain to
-                    Microsoft Entra ID using Microsoft Entra Connect Sync.
-                    The project included custom-domain integration, routable
-                    UPN configuration, directory synchronization, identity
-                    validation, and successful authentication using a
-                    synchronized hybrid identity.
-                </p>
+    <div class="hero-content">
 
-                <div class="project-tags">
-                    <span>Microsoft Entra ID</span>
-                    <span>Active Directory</span>
-                    <span>Entra Connect</span>
-                    <span>Hybrid Identity</span>
-                    <span>Windows Server</span>
-                    <span>DNS</span>
-                    <span>Identity Management</span>
-                    <span>VMware</span>
-                </div>
+        <p class="eyebrow">
+            MICROSOFT ENTRA ID • HYBRID IDENTITY • ACTIVE DIRECTORY • CLOUD
+        </p>
 
-            </div>
+        <h1>
+            Microsoft Entra Hybrid Identity
+        </h1>
 
-        </section>
 
+        <h2>
+            Extending an on-premises Active Directory environment
+            into Microsoft Entra ID using Microsoft Entra Connect Sync,
+            a verified public domain, synchronized identities,
+            and hybrid cloud authentication.
+        </h2>
 
-        <!-- =========================
-             PROJECT OVERVIEW
-        ========================== -->
-        <section class="project-section">
 
-            <div class="project-container">
+        <p>
+            I designed and implemented a working hybrid identity environment
+            connecting my existing Windows Server Active Directory
+            infrastructure to Microsoft Entra ID. The project included
+            public-domain integration, UPN alignment, Microsoft Entra Connect
+            deployment, directory synchronization, identity validation,
+            and successful cloud authentication using a synchronized
+            on-premises account.
+        </p>
 
-                <div class="section-heading">
-                    <span>01</span>
-                    <h2>Project Overview</h2>
-                </div>
 
-                <p>
-                    This project extends a traditional on-premises Active
-                    Directory environment into Microsoft Entra ID to create
-                    a functional hybrid identity architecture.
-                </p>
+        <div class="hero-buttons">
 
-                <p>
-                    The on-premises environment used the internal
-                    <strong>corp.local</strong> Active Directory domain.
-                    A verified public domain,
-                    <strong>prempehtech.ca</strong>, was introduced as an
-                    alternative User Principal Name suffix so identities
-                    could use a cloud-routable sign-in name while remaining
-                    managed from the local Active Directory environment.
-                </p>
+            <a href="https://github.com/PREMPE/Hybrid-Identity-Active-Directory-to-Microsoft-Entra-ID"
+               class="btn primary"
+               target="_blank"
+               rel="noopener noreferrer">
+                View GitHub Repository
+            </a>
 
-                <p>
-                    Microsoft Entra Connect Sync was then deployed to
-                    synchronize selected Active Directory identities into
-                    the Microsoft Entra tenant. The completed environment
-                    demonstrated that an identity created and managed
-                    on-premises could be represented in Entra ID and used
-                    for cloud authentication.
-                </p>
+            <a href="../index.html#projects"
+               class="btn secondary">
+                Back to Projects
+            </a>
 
+        </div>
 
-                <div class="project-highlights">
+    </div>
 
-                    <div class="highlight-card">
-                        <h3>Identity Source</h3>
-                        <p>Windows Server Active Directory</p>
-                    </div>
+</section>
 
-                    <div class="highlight-card">
-                        <h3>On-Prem Domain</h3>
-                        <p>corp.local</p>
-                    </div>
 
-                    <div class="highlight-card">
-                        <h3>Cloud Identity</h3>
-                        <p>Microsoft Entra ID</p>
-                    </div>
 
-                    <div class="highlight-card">
-                        <h3>Public Domain</h3>
-                        <p>prempehtech.ca</p>
-                    </div>
+<!-- =====================================================
+     PROJECT SNAPSHOT
+===================================================== -->
 
-                </div>
+<section class="section">
 
-            </div>
+    <h2>
+        Project Snapshot
+    </h2>
 
-        </section>
 
+    <div class="skills-grid">
 
-        <!-- =========================
-             ARCHITECTURE
-        ========================== -->
-        <section class="project-section project-section-alt">
 
-            <div class="project-container">
+        <div>
 
-                <div class="section-heading">
-                    <span>02</span>
-                    <h2>Lab Architecture</h2>
-                </div>
-
-                <p>
-                    The hybrid identity deployment was built inside my
-                    VMware Workstation lab. The environment already
-                    contained domain controllers, Windows clients,
-                    management infrastructure, security monitoring systems,
-                    pfSense, Kali Linux, and Splunk.
-                </p>
-
-                <p>
-                    The Management Windows Server was used to host Microsoft
-                    Entra Connect Sync, providing the synchronization bridge
-                    between the local Active Directory environment and
-                    Microsoft Entra ID.
-                </p>
-
-
-                <figure class="project-image">
-                    <img
-                        src="../assets/projects/entra-hybrid-identity/entra-lab-topology.png"
-                        alt="VMware Workstation topology containing pfSense, domain controllers, Windows clients, Splunk, Kali Linux, and the management server"
-                        loading="lazy"
-                    >
-
-                    <figcaption>
-                        VMware Workstation environment supporting the hybrid
-                        Active Directory and Microsoft Entra identity lab.
-                    </figcaption>
-                </figure>
-
-
-                <div class="architecture-flow">
-
-                    <div class="flow-item">
-                        <strong>On-Premises AD</strong>
-                        <span>corp.local</span>
-                    </div>
-
-                    <div class="flow-arrow">→</div>
-
-                    <div class="flow-item">
-                        <strong>Entra Connect</strong>
-                        <span>Synchronization</span>
-                    </div>
-
-                    <div class="flow-arrow">→</div>
-
-                    <div class="flow-item">
-                        <strong>Microsoft Entra ID</strong>
-                        <span>Cloud Identity</span>
-                    </div>
-
-                    <div class="flow-arrow">→</div>
-
-                    <div class="flow-item">
-                        <strong>Cloud Sign-In</strong>
-                        <span>prempehtech.ca</span>
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================
-             DOMAIN PREPARATION
-        ========================== -->
-        <section class="project-section">
-
-            <div class="project-container">
-
-                <div class="section-heading">
-                    <span>03</span>
-                    <h2>Preparing Active Directory for Hybrid Identity</h2>
-                </div>
-
-                <p>
-                    The internal Active Directory namespace used
-                    <strong>corp.local</strong>. Because this is not a
-                    publicly routable domain, I configured
-                    <strong>prempehtech.ca</strong> as an alternative UPN
-                    suffix in Active Directory Domains and Trusts.
-                </p>
-
-                <p>
-                    This allowed local users to retain their Active Directory
-                    accounts while receiving a cloud-compatible sign-in name
-                    such as:
-                </p>
-
-                <div class="code-display">
-                    user@prempehtech.ca
-                </div>
-
-
-                <figure class="project-image">
-                    <img
-                        src="../assets/projects/entra-hybrid-identity/entra-upn-suffix.png"
-                        alt="prempehtech.ca configured as an alternative UPN suffix in Active Directory Domains and Trusts"
-                        loading="lazy"
-                    >
-
-                    <figcaption>
-                        Configuring prempehtech.ca as an alternative UPN
-                        suffix for the corp.local Active Directory forest.
-                    </figcaption>
-                </figure>
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================
-             CUSTOM DOMAIN
-        ========================== -->
-        <section class="project-section project-section-alt">
-
-            <div class="project-container">
-
-                <div class="section-heading">
-                    <span>04</span>
-                    <h2>Microsoft Entra Custom Domain Integration</h2>
-                </div>
-
-                <p>
-                    The same public namespace used for the Active Directory
-                    UPN was added to Microsoft Entra ID as a custom domain.
-                    Domain verification established that the tenant could
-                    use <strong>prempehtech.ca</strong> for synchronized
-                    identity names.
-                </p>
-
-
-                <figure class="project-image">
-                    <img
-                        src="../assets/projects/entra-hybrid-identity/entra-verified-domain.png"
-                        alt="prempehtech.ca displayed as a verified custom domain in Microsoft Entra ID"
-                        loading="lazy"
-                    >
-
-                    <figcaption>
-                        prempehtech.ca successfully verified as a custom
-                        domain in Microsoft Entra ID.
-                    </figcaption>
-                </figure>
-
-
-                <div class="project-note">
-                    <strong>Why this matters:</strong>
-                    matching the on-premises UPN suffix with a verified
-                    Microsoft Entra domain creates a consistent identity
-                    namespace across the local and cloud environments.
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================
-             ON-PREM USER
-        ========================== -->
-        <section class="project-section">
-
-            <div class="project-container">
-
-                <div class="section-heading">
-                    <span>05</span>
-                    <h2>On-Premises Identity Configuration</h2>
-                </div>
-
-                <p>
-                    An Active Directory user was configured with the
-                    <strong>@prempehtech.ca</strong> UPN suffix. The account
-                    remained an on-premises Active Directory object while
-                    receiving an identity format suitable for synchronization
-                    into Microsoft Entra ID.
-                </p>
-
-
-                <figure class="project-image">
-                    <img
-                        src="../assets/projects/entra-hybrid-identity/entra-onprem-user.png"
-                        alt="On-premises Active Directory user configured with a prempehtech.ca user logon name"
-                        loading="lazy"
-                    >
-
-                    <figcaption>
-                        Active Directory identity configured with the
-                        prempehtech.ca UPN before cloud synchronization.
-                    </figcaption>
-                </figure>
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================
-             ENTRA CONNECT
-        ========================== -->
-        <section class="project-section project-section-alt">
-
-            <div class="project-container">
-
-                <div class="section-heading">
-                    <span>06</span>
-                    <h2>Microsoft Entra Connect Deployment</h2>
-                </div>
-
-                <p>
-                    Microsoft Entra Connect Sync was installed on the
-                    Management server. This system became the synchronization
-                    component responsible for connecting the local Active
-                    Directory environment with Microsoft Entra ID.
-                </p>
-
-
-                <div class="image-grid">
-
-                    <figure class="project-image">
-                        <img
-                            src="../assets/projects/entra-hybrid-identity/entra-connect-installed.png"
-                            alt="Microsoft Entra Connect components installed on the Windows management server"
-                            loading="lazy"
-                        >
-
-                        <figcaption>
-                            Microsoft Entra Connect Sync and supporting
-                            components installed on the Management server.
-                        </figcaption>
-                    </figure>
-
-
-                    <figure class="project-image">
-                        <img
-                            src="../assets/projects/entra-hybrid-identity/entra-connect-app-registration.png"
-                            alt="Microsoft Entra Connect application registration visible in Microsoft Entra"
-                            loading="lazy"
-                        >
-
-                        <figcaption>
-                            Entra Connect provisioning application visible
-                            in the Microsoft cloud environment.
-                        </figcaption>
-                    </figure>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================
-             SYNC CONFIGURATION
-        ========================== -->
-        <section class="project-section">
-
-            <div class="project-container">
-
-                <div class="section-heading">
-                    <span>07</span>
-                    <h2>Directory Synchronization</h2>
-                </div>
-
-                <p>
-                    After the local directory and Microsoft Entra tenant were
-                    connected, Entra Connect completed its configuration and
-                    initiated the synchronization process.
-                </p>
-
-                <p>
-                    The synchronization configuration linked the
-                    on-premises identity source with the cloud tenant while
-                    maintaining the relationship between the original Active
-                    Directory object and its corresponding Microsoft Entra
-                    identity.
-                </p>
-
-
-                <figure class="project-image">
-                    <img
-                        src="../assets/projects/entra-hybrid-identity/entra-connect-success.png"
-                        alt="Microsoft Entra Connect Sync configuration complete screen"
-                        loading="lazy"
-                    >
-
-                    <figcaption>
-                        Microsoft Entra Connect configuration completed
-                        successfully and synchronization initiated.
-                    </figcaption>
-                </figure>
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================
-             SYNCHRONIZED USER
-        ========================== -->
-        <section class="project-section project-section-alt">
-
-            <div class="project-container">
-
-                <div class="section-heading">
-                    <span>08</span>
-                    <h2>Synchronized Identity Validation</h2>
-                </div>
-
-                <p>
-                    After synchronization, the Active Directory identity
-                    appeared in Microsoft Entra ID using the
-                    <strong>prempehtech.ca</strong> namespace.
-                </p>
-
-                <p>
-                    This validated that the account had successfully moved
-                    through the hybrid identity synchronization path from
-                    the local directory into Microsoft Entra ID.
-                </p>
-
-
-                <figure class="project-image">
-                    <img
-                        src="../assets/projects/entra-hybrid-identity/entra-synchronized-user.png"
-                        alt="Synchronized Active Directory user visible in Microsoft Entra ID"
-                        loading="lazy"
-                    >
-
-                    <figcaption>
-                        The synchronized user represented in Microsoft Entra
-                        ID with the prempehtech.ca User Principal Name.
-                    </figcaption>
-                </figure>
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================
-             ATTRIBUTE VALIDATION
-        ========================== -->
-        <section class="project-section">
-
-            <div class="project-container">
-
-                <div class="section-heading">
-                    <span>09</span>
-                    <h2>On-Premises Attribute Verification</h2>
-                </div>
-
-                <p>
-                    I further validated synchronization by inspecting the
-                    Microsoft Entra properties associated with the identity.
-                    The cloud object displayed information linking it back to
-                    the original Active Directory account.
-                </p>
-
-                <p>
-                    Visible synchronized information included the
-                    on-premises distinguished name, SAM account name,
-                    security identifier, User Principal Name, domain name,
-                    immutable ID, synchronization state, and last
-                    synchronization timestamp.
-                </p>
-
-
-                <figure class="project-image">
-                    <img
-                        src="../assets/projects/entra-hybrid-identity/entra-sync-properties.png"
-                        alt="Microsoft Entra user properties showing synchronized on-premises Active Directory attributes"
-                        loading="lazy"
-                    >
-
-                    <figcaption>
-                        Microsoft Entra displaying on-premises attributes
-                        associated with the synchronized Active Directory
-                        identity.
-                    </figcaption>
-                </figure>
-
-
-                <div class="project-note">
-                    <strong>Validation result:</strong>
-                    the presence of the on-premises directory attributes
-                    demonstrates that the Microsoft Entra object is tied to
-                    the synchronized Active Directory identity rather than
-                    being an unrelated cloud-only account.
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================
-             CLOUD AUTHENTICATION
-        ========================== -->
-        <section class="project-section project-section-alt">
-
-            <div class="project-container">
-
-                <div class="section-heading">
-                    <span>10</span>
-                    <h2>Cloud Authentication Validation</h2>
-                </div>
-
-                <p>
-                    The final functional test was authentication using the
-                    synchronized hybrid identity.
-                </p>
-
-                <p>
-                    The synchronized <strong>prempehtech.ca</strong> account
-                    successfully authenticated to the Microsoft Entra
-                    environment, completing the identity path from an
-                    on-premises Active Directory account to a usable cloud
-                    identity.
-                </p>
-
-
-                <figure class="project-image">
-                    <img
-                        src="../assets/projects/entra-hybrid-identity/entra-cloud-authentication.png"
-                        alt="Successful Microsoft Entra sign-in using the synchronized prempehtech.ca hybrid identity"
-                        loading="lazy"
-                    >
-
-                    <figcaption>
-                        Successful cloud session using the synchronized
-                        prempehtech.ca hybrid identity.
-                    </figcaption>
-                </figure>
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================
-             DATA FLOW
-        ========================== -->
-        <section class="project-section">
-
-            <div class="project-container">
-
-                <div class="section-heading">
-                    <span>11</span>
-                    <h2>Identity Flow</h2>
-                </div>
-
-                <div class="identity-flow">
-
-                    <div class="identity-step">
-                        <span>01</span>
-                        <h3>Active Directory</h3>
-                        <p>
-                            User identity originates in the corp.local
-                            on-premises Active Directory environment.
-                        </p>
-                    </div>
-
-                    <div class="identity-step">
-                        <span>02</span>
-                        <h3>UPN Alignment</h3>
-                        <p>
-                            prempehtech.ca provides a cloud-routable identity
-                            namespace.
-                        </p>
-                    </div>
-
-                    <div class="identity-step">
-                        <span>03</span>
-                        <h3>Entra Connect</h3>
-                        <p>
-                            Directory synchronization links the local
-                            identity environment to Microsoft Entra ID.
-                        </p>
-                    </div>
-
-                    <div class="identity-step">
-                        <span>04</span>
-                        <h3>Microsoft Entra ID</h3>
-                        <p>
-                            The synchronized identity becomes represented in
-                            the cloud directory.
-                        </p>
-                    </div>
-
-                    <div class="identity-step">
-                        <span>05</span>
-                        <h3>Validation</h3>
-                        <p>
-                            On-premises attributes and synchronization status
-                            confirm the relationship between both identities.
-                        </p>
-                    </div>
-
-                    <div class="identity-step">
-                        <span>06</span>
-                        <h3>Cloud Access</h3>
-                        <p>
-                            The synchronized hybrid identity successfully
-                            authenticates to the Microsoft cloud environment.
-                        </p>
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================
-             SKILLS
-        ========================== -->
-        <section class="project-section project-section-alt">
-
-            <div class="project-container">
-
-                <div class="section-heading">
-                    <span>12</span>
-                    <h2>Skills Demonstrated</h2>
-                </div>
-
-                <div class="skills-grid">
-
-                    <div class="skill-card">
-                        <h3>Hybrid Identity</h3>
-                        <p>
-                            Integrated an on-premises Active Directory
-                            environment with Microsoft Entra ID.
-                        </p>
-                    </div>
-
-                    <div class="skill-card">
-                        <h3>Microsoft Entra Connect</h3>
-                        <p>
-                            Installed and configured directory synchronization
-                            infrastructure.
-                        </p>
-                    </div>
-
-                    <div class="skill-card">
-                        <h3>Active Directory</h3>
-                        <p>
-                            Managed identity objects, UPN suffixes, and
-                            directory attributes.
-                        </p>
-                    </div>
-
-                    <div class="skill-card">
-                        <h3>Identity Synchronization</h3>
-                        <p>
-                            Validated synchronization between local and cloud
-                            identity systems.
-                        </p>
-                    </div>
-
-                    <div class="skill-card">
-                        <h3>Custom Domains</h3>
-                        <p>
-                            Integrated a verified public domain with
-                            Microsoft Entra ID.
-                        </p>
-                    </div>
-
-                    <div class="skill-card">
-                        <h3>Identity Validation</h3>
-                        <p>
-                            Verified synchronized attributes and tested cloud
-                            access using the resulting identity.
-                        </p>
-                    </div>
-
-                    <div class="skill-card">
-                        <h3>Windows Server</h3>
-                        <p>
-                            Worked with Windows Server infrastructure
-                            supporting Active Directory and synchronization.
-                        </p>
-                    </div>
-
-                    <div class="skill-card">
-                        <h3>Virtualization</h3>
-                        <p>
-                            Deployed the identity infrastructure within a
-                            multi-system VMware Workstation lab.
-                        </p>
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================
-             OUTCOME
-        ========================== -->
-        <section class="project-section project-outcome">
-
-            <div class="project-container">
-
-                <div class="section-heading">
-                    <span>13</span>
-                    <h2>Project Outcome</h2>
-                </div>
-
-                <p class="outcome-lead">
-                    The project produced a working hybrid identity
-                    environment connecting an on-premises Active Directory
-                    deployment with Microsoft Entra ID.
-                </p>
-
-                <p>
-                    The implementation demonstrated the complete lifecycle of
-                    a hybrid identity: preparing the on-premises namespace,
-                    integrating a verified public domain, deploying Entra
-                    Connect, synchronizing the directory, validating the
-                    resulting cloud object, and authenticating with the
-                    synchronized identity.
-                </p>
-
-                <div class="project-result">
-                    <span>RESULT</span>
-
-                    <strong>
-                        On-Premises Active Directory
-                        → Microsoft Entra Connect
-                        → Microsoft Entra ID
-                        → Validated Cloud Identity
-                    </strong>
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================
-             PROJECT NAVIGATION
-        ========================== -->
-        <section class="project-navigation">
-
-            <div class="project-container">
-
-                <a href="../index.html#projects" class="project-nav-link">
-                    <span>←</span>
-                    <div>
-                        <small>Portfolio</small>
-                        <strong>View All Projects</strong>
-                    </div>
-                </a>
-
-            </div>
-
-        </section>
-
-    </main>
-
-
-    <!-- =========================
-         FOOTER
-    ========================== -->
-    <footer class="footer">
-
-        <div class="project-container">
+            <h3>
+                Hybrid Identity
+            </h3>
 
             <p>
-                © 2026 Prempeh Tech. Built as part of my cybersecurity,
-                cloud, networking, and systems engineering portfolio.
+                Extended an existing on-premises Active Directory
+                environment into Microsoft Entra ID.
             </p>
 
         </div>
 
-    </footer>
 
-    <script src="../script.js"></script>
+        <div>
+
+            <h3>
+                Entra Connect Sync
+            </h3>
+
+            <p>
+                Installed and configured Microsoft Entra Connect Sync
+                to synchronize selected Active Directory identities
+                into the cloud tenant.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                Custom Domain
+            </h3>
+
+            <p>
+                Integrated and verified
+                <strong>prempehtech.ca</strong> for use as a
+                cloud-compatible identity namespace.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                UPN Alignment
+            </h3>
+
+            <p>
+                Added prempehtech.ca as an alternative Active Directory
+                UPN suffix for synchronized user identities.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                Identity Validation
+            </h3>
+
+            <p>
+                Verified synchronized attributes, on-premises identity
+                references, synchronization state, and cloud representation.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                Cloud Authentication
+            </h3>
+
+            <p>
+                Successfully authenticated to Microsoft Entra using
+                a synchronized on-premises identity.
+            </p>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     ARCHITECTURE
+===================================================== -->
+
+<section class="section">
+
+    <p class="eyebrow">
+        HYBRID IDENTITY ARCHITECTURE
+    </p>
+
+    <h2>
+        Environment Architecture
+    </h2>
+
+
+    <p>
+        The project extends the existing
+        <strong>corp.local</strong> Active Directory forest into
+        Microsoft Entra ID while Active Directory remains the
+        on-premises identity source.
+    </p>
+
+    <p>
+        Microsoft Entra Connect Sync provides the synchronization
+        layer between the local Windows Server environment and
+        Microsoft Entra ID.
+    </p>
+
+
+    <div class="architecture-block">
+
+<pre>
+                    ON-PREMISES ENVIRONMENT
+                      VMware Workstation
+                              |
+                              v
+                 +-------------------------+
+                 |   Active Directory      |
+                 |      corp.local         |
+                 |                         |
+                 |  DC01 / DC02            |
+                 |  Users / Groups / OUs   |
+                 +-------------------------+
+                              |
+                              |
+                    Alternative UPN
+                    prempehtech.ca
+                              |
+                              v
+                 +-------------------------+
+                 |  MANAGEMENT SERVER      |
+                 |                         |
+                 | Microsoft Entra Connect |
+                 |        Sync             |
+                 +-------------------------+
+                              |
+                              |
+                     Directory Sync
+                              |
+                              v
+                 +-------------------------+
+                 |   MICROSOFT ENTRA ID    |
+                 |                         |
+                 | Synchronized Identities |
+                 | Hybrid Authentication   |
+                 | Cloud Identity          |
+                 +-------------------------+
+                              |
+                              v
+                     CLOUD AUTHENTICATION
+</pre>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     LAB ENVIRONMENT
+===================================================== -->
+
+<section class="section">
+
+    <p class="eyebrow">
+        LAB INFRASTRUCTURE
+    </p>
+
+    <h2>
+        VMware Enterprise Environment
+    </h2>
+
+
+    <p>
+        The hybrid identity project was implemented inside my existing
+        VMware-based enterprise lab rather than as an isolated cloud-only
+        demonstration.
+    </p>
+
+    <p>
+        The environment includes Active Directory domain controllers,
+        Windows workstations, a management server, pfSense,
+        Splunk, and additional security systems.
+    </p>
+
+
+    <figure class="case-image featured-image">
+
+        <img src="../assets/projects/entra-hybrid-identity/entra-lab-topology.png"
+             alt="VMware Workstation hybrid identity lab environment"
+             loading="lazy">
+
+        <figcaption>
+            VMware Workstation infrastructure supporting the
+            on-premises Active Directory and Microsoft Entra
+            hybrid identity deployment.
+        </figcaption>
+
+    </figure>
+
+</section>
+
+
+
+<!-- =====================================================
+     CUSTOM DOMAIN
+===================================================== -->
+
+<section class="section">
+
+    <p class="eyebrow">
+        IDENTITY NAMESPACE
+    </p>
+
+    <h2>
+        Custom Domain Integration
+    </h2>
+
+
+    <p>
+        The Active Directory forest uses the internal namespace
+        <strong>corp.local</strong>. Because this namespace is not
+        publicly routable, I integrated
+        <strong>prempehtech.ca</strong> with Microsoft Entra ID.
+    </p>
+
+    <p>
+        The custom domain was verified inside the Microsoft cloud
+        tenant so synchronized users could use a consistent,
+        externally valid User Principal Name.
+    </p>
+
+
+    <div class="tags">
+
+        <span>prempehtech.ca</span>
+        <span>Custom Domain</span>
+        <span>Microsoft Entra ID</span>
+        <span>Identity Namespace</span>
+        <span>UPN</span>
+
+    </div>
+
+
+    <figure class="case-image featured-image">
+
+        <img src="../assets/projects/entra-hybrid-identity/entra-verified-domain.png"
+             alt="Microsoft Entra ID showing prempehtech.ca as a verified custom domain"
+             loading="lazy">
+
+        <figcaption>
+            Microsoft Entra custom-domain configuration showing
+            <strong>prempehtech.ca</strong> successfully verified
+            inside the tenant.
+        </figcaption>
+
+    </figure>
+
+</section>
+
+
+
+<!-- =====================================================
+     UPN CONFIGURATION
+===================================================== -->
+
+<section class="section">
+
+    <p class="eyebrow">
+        ACTIVE DIRECTORY
+    </p>
+
+    <h2>
+        User Principal Name Alignment
+    </h2>
+
+
+    <p>
+        The on-premises domain remains
+        <strong>corp.local</strong>, but users require a routable
+        sign-in namespace for Microsoft Entra.
+    </p>
+
+    <p>
+        I therefore added
+        <strong>prempehtech.ca</strong> as an alternative UPN
+        suffix in Active Directory Domains and Trusts.
+    </p>
+
+
+    <figure class="case-image featured-image">
+
+        <img src="../assets/projects/entra-hybrid-identity/entra-upn-suffix.png"
+             alt="Active Directory Domains and Trusts showing prempehtech.ca as an alternative UPN suffix"
+             loading="lazy">
+
+        <figcaption>
+            Active Directory configured with
+            <strong>prempehtech.ca</strong> as an alternative
+            User Principal Name suffix.
+        </figcaption>
+
+    </figure>
+
+</section>
+
+
+
+<!-- =====================================================
+     ON-PREMISES USER
+===================================================== -->
+
+<section class="section">
+
+    <h2>
+        On-Premises Identity Configuration
+    </h2>
+
+
+    <p>
+        Active Directory identities were then configured to use
+        the new routable UPN suffix.
+    </p>
+
+    <p>
+        The identity remains managed within the local
+        <strong>corp.local</strong> directory while using
+        <strong>@prempehtech.ca</strong> as its cloud-compatible
+        sign-in name.
+    </p>
+
+
+    <figure class="case-image featured-image">
+
+        <img src="../assets/projects/entra-hybrid-identity/entra-onprem-user.png"
+             alt="Active Directory user configured with prempehtech.ca UPN"
+             loading="lazy">
+
+        <figcaption>
+            On-premises Active Directory user configured with the
+            <strong>prempehtech.ca</strong> User Principal Name suffix.
+        </figcaption>
+
+    </figure>
+
+</section>
+
+
+
+<!-- =====================================================
+     ENTRA CONNECT INSTALLATION
+===================================================== -->
+
+<section class="section">
+
+    <p class="eyebrow">
+        SYNCHRONIZATION PLATFORM
+    </p>
+
+    <h2>
+        Microsoft Entra Connect Deployment
+    </h2>
+
+
+    <p>
+        Microsoft Entra Connect Sync was installed on the Windows
+        Management server to provide the synchronization bridge
+        between Active Directory and Microsoft Entra ID.
+    </p>
+
+    <p>
+        The server contains the Entra Connect synchronization
+        components and supporting Microsoft services required
+        for hybrid directory synchronization.
+    </p>
+
+
+    <figure class="case-image featured-image">
+
+        <img src="../assets/projects/entra-hybrid-identity/entra-connect-installed.png"
+             alt="Microsoft Entra Connect Sync installed on Windows Server"
+             loading="lazy">
+
+        <figcaption>
+            Microsoft Entra Connect Sync and supporting components
+            installed on the Management server.
+        </figcaption>
+
+    </figure>
+
+</section>
+
+
+
+<!-- =====================================================
+     ENTRA CONNECT APP
+===================================================== -->
+
+<section class="section">
+
+    <h2>
+        Entra Connect Cloud Integration
+    </h2>
+
+
+    <p>
+        The synchronization deployment also established the
+        required cloud-side integration inside Microsoft Entra.
+    </p>
+
+
+    <figure class="case-image featured-image">
+
+        <img src="../assets/projects/entra-hybrid-identity/entra-connect-app-registration.png"
+             alt="Microsoft Entra Connect application registration"
+             loading="lazy">
+
+        <figcaption>
+            Microsoft Entra showing the Entra Connect provisioning
+            application created as part of the hybrid identity deployment.
+        </figcaption>
+
+    </figure>
+
+</section>
+
+
+
+<!-- =====================================================
+     CONNECT SUCCESS
+===================================================== -->
+
+<section class="section">
+
+    <p class="eyebrow">
+        DIRECTORY SYNCHRONIZATION
+    </p>
+
+    <h2>
+        Entra Connect Configuration
+    </h2>
+
+
+    <p>
+        After connecting the local Active Directory forest and the
+        Microsoft Entra tenant, Entra Connect completed its
+        configuration and initiated synchronization.
+    </p>
+
+
+    <figure class="case-image featured-image">
+
+        <img src="../assets/projects/entra-hybrid-identity/entra-connect-success.png"
+             alt="Microsoft Entra Connect configuration completed successfully"
+             loading="lazy">
+
+        <figcaption>
+            Microsoft Entra Connect reporting successful configuration
+            and initiation of the directory synchronization process.
+        </figcaption>
+
+    </figure>
+
+</section>
+
+
+
+<!-- =====================================================
+     SYNC VALIDATION
+===================================================== -->
+
+<section class="section">
+
+    <p class="eyebrow">
+        IDENTITY VALIDATION
+    </p>
+
+    <h2>
+        Synchronized User Validation
+    </h2>
+
+
+    <p>
+        Successful synchronization was verified from the Microsoft
+        Entra side rather than assuming that completion of the
+        synchronization wizard meant the identity deployment was working.
+    </p>
+
+    <p>
+        The synchronized account appeared in the Microsoft Entra
+        directory using the
+        <strong>prempehtech.ca</strong> namespace.
+    </p>
+
+
+    <figure class="case-image featured-image">
+
+        <img src="../assets/projects/entra-hybrid-identity/entra-synchronized-user.png"
+             alt="Synchronized Active Directory user visible in Microsoft Entra ID"
+             loading="lazy">
+
+        <figcaption>
+            Active Directory identity successfully represented in
+            Microsoft Entra ID after synchronization.
+        </figcaption>
+
+    </figure>
+
+</section>
+
+
+
+<!-- =====================================================
+     ATTRIBUTE VALIDATION
+===================================================== -->
+
+<section class="section">
+
+    <p class="eyebrow">
+        SYNCHRONIZATION EVIDENCE
+    </p>
+
+    <h2>
+        On-Premises Attribute Verification
+    </h2>
+
+
+    <p>
+        The synchronized Microsoft Entra identity retains information
+        linking the cloud object to its original on-premises
+        Active Directory account.
+    </p>
+
+    <p>
+        I validated fields including synchronization status,
+        distinguished name, SAM account name, security identifier,
+        User Principal Name, on-premises domain name,
+        immutable identity information, and last synchronization time.
+    </p>
+
+
+    <figure class="case-image featured-image">
+
+        <img src="../assets/projects/entra-hybrid-identity/entra-sync-properties.png"
+             alt="Microsoft Entra synchronized user showing on-premises attributes"
+             loading="lazy">
+
+        <figcaption>
+            Microsoft Entra user properties showing synchronized
+            on-premises Active Directory identity information.
+        </figcaption>
+
+    </figure>
+
+</section>
+
+
+
+<!-- =====================================================
+     CLOUD AUTHENTICATION
+===================================================== -->
+
+<section class="section">
+
+    <p class="eyebrow">
+        AUTHENTICATION VALIDATION
+    </p>
+
+    <h2>
+        Hybrid Cloud Sign-In
+    </h2>
+
+
+    <p>
+        Directory synchronization alone does not prove that the
+        resulting identity can actually be used.
+    </p>
+
+    <p>
+        I therefore performed a cloud authentication test using
+        the synchronized
+        <strong>prempehtech.ca</strong> account.
+    </p>
+
+
+    <figure class="case-image featured-image">
+
+        <img src="../assets/projects/entra-hybrid-identity/entra-cloud-authentication.png"
+             alt="Successful Microsoft Entra authentication using synchronized hybrid identity"
+             loading="lazy">
+
+        <figcaption>
+            Successful Microsoft Entra cloud session using the
+            synchronized hybrid identity.
+        </figcaption>
+
+    </figure>
+
+</section>
+
+
+
+<!-- =====================================================
+     IDENTITY FLOW
+===================================================== -->
+
+<section class="section">
+
+    <p class="eyebrow">
+        END-TO-END FLOW
+    </p>
+
+    <h2>
+        Hybrid Identity Lifecycle
+    </h2>
+
+
+    <div class="architecture-block">
+
+<pre>
+Active Directory
+corp.local
+     |
+     |
+     v
+On-Premises User
+     |
+     |
+     +---- UPN: user@prempehtech.ca
+     |
+     v
+Microsoft Entra Connect Sync
+     |
+     |
+     +---- Directory Synchronization
+     |
+     v
+Microsoft Entra ID
+     |
+     |
+     +---- Synchronized Attributes
+     |
+     +---- On-Premises Identity Reference
+     |
+     +---- Cloud Identity
+     |
+     v
+Microsoft Cloud Authentication
+</pre>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     VALIDATION SUMMARY
+===================================================== -->
+
+<section class="section">
+
+    <h2>
+        Validation Summary
+    </h2>
+
+
+    <div class="skills-grid">
+
+
+        <div>
+
+            <h3>
+                Custom Domain
+            </h3>
+
+            <p>
+                <strong>VALIDATED</strong><br>
+                prempehtech.ca successfully verified in Microsoft Entra.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                UPN Configuration
+            </h3>
+
+            <p>
+                <strong>VALIDATED</strong><br>
+                prempehtech.ca available as an alternative Active Directory UPN.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                Entra Connect
+            </h3>
+
+            <p>
+                <strong>VALIDATED</strong><br>
+                Microsoft Entra Connect Sync configured successfully.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                Directory Sync
+            </h3>
+
+            <p>
+                <strong>VALIDATED</strong><br>
+                On-premises Active Directory identities synchronized to Entra.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                Attribute Mapping
+            </h3>
+
+            <p>
+                <strong>VALIDATED</strong><br>
+                On-premises identity attributes visible in the cloud object.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                Cloud Authentication
+            </h3>
+
+            <p>
+                <strong>VALIDATED</strong><br>
+                Synchronized hybrid identity successfully authenticated.
+            </p>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     SKILLS DEMONSTRATED
+===================================================== -->
+
+<section class="section">
+
+    <p class="eyebrow">
+        TECHNICAL EXPERIENCE
+    </p>
+
+    <h2>
+        Skills Demonstrated
+    </h2>
+
+
+    <div class="skills-grid">
+
+
+        <div>
+
+            <h3>
+                Microsoft Entra ID
+            </h3>
+
+            <p>
+                Tenant administration, identity management,
+                synchronized identities, and cloud authentication.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                Active Directory
+            </h3>
+
+            <p>
+                User management, directory structure,
+                UPN configuration, and identity administration.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                Microsoft Entra Connect
+            </h3>
+
+            <p>
+                Installation, configuration, directory synchronization,
+                and synchronization validation.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                Hybrid Identity
+            </h3>
+
+            <p>
+                Integration of traditional Active Directory
+                identity infrastructure with Microsoft cloud identity.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                Identity Troubleshooting
+            </h3>
+
+            <p>
+                Validated synchronization state, UPN alignment,
+                object attributes, and cloud identity behavior.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                Windows Server
+            </h3>
+
+            <p>
+                Enterprise Windows infrastructure supporting
+                Active Directory and Microsoft Entra Connect.
+            </p>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     PROJECT OUTCOME
+===================================================== -->
+
+<section class="section">
+
+    <p class="eyebrow">
+        PROJECT RESULT
+    </p>
+
+    <h2>
+        Project Outcome
+    </h2>
+
+
+    <p>
+        The project produced a functional hybrid identity environment
+        connecting my on-premises Active Directory deployment to
+        Microsoft Entra ID.
+    </p>
+
+    <p>
+        Rather than stopping at installation, I validated the complete
+        identity path from the local Active Directory account through
+        Microsoft Entra Connect, synchronization into the cloud directory,
+        synchronized attribute verification, and successful cloud
+        authentication.
+    </p>
+
+
+    <div class="skills-grid">
+
+
+        <div>
+
+            <h3>
+                On-Premises Identity
+            </h3>
+
+            <p>
+                Windows Server Active Directory remains the
+                local identity source.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                Synchronization
+            </h3>
+
+            <p>
+                Microsoft Entra Connect provides the directory
+                synchronization bridge.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                Cloud Identity
+            </h3>
+
+            <p>
+                Microsoft Entra receives and represents the
+                synchronized on-premises identity.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                Authentication
+            </h3>
+
+            <p>
+                The synchronized identity successfully authenticates
+                to the Microsoft cloud environment.
+            </p>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     PROJECT LINKS
+===================================================== -->
+
+<section class="section">
+
+    <h2>
+        Project Resources
+    </h2>
+
+
+    <p>
+        Additional project documentation and implementation details
+        are available in the GitHub repository.
+    </p>
+
+
+    <div class="hero-buttons">
+
+        <a href="https://github.com/PREMPE/Hybrid-Identity-Active-Directory-to-Microsoft-Entra-ID"
+           class="btn primary"
+           target="_blank"
+           rel="noopener noreferrer">
+            View GitHub Repository
+        </a>
+
+        <a href="../index.html#projects"
+           class="btn secondary">
+            Back to Projects
+        </a>
+
+    </div>
+
+</section>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer>
+
+    <p>
+        © 2026 Agyemang Prempeh | PrempehTech
+    </p>
+
+</footer>
+
+
+<script src="../script.js"></script>
 
 </body>
+
 </html>
