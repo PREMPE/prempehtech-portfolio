@@ -11,7 +11,7 @@
 
     <meta
         name="description"
-        content="Agyemang Prempeh's hands-on cybersecurity, SOC, systems administration, networking, cloud, identity, and enterprise infrastructure portfolio featuring CrowdStrike Falcon EDR, Active Directory, Splunk, AWS, Microsoft Entra ID, pfSense, Sysmon, Snort, VPNs, and security engineering projects."
+        content="Agyemang Prempeh's hands-on cybersecurity, SOC, systems administration, networking, cloud, identity, and enterprise infrastructure portfolio featuring CrowdStrike Falcon EDR, n8n security automation, Splunk, Active Directory, AWS, Microsoft Entra ID, pfSense, Sysmon, Snort, VPNs, and security engineering projects."
     >
 
     <meta name="robots" content="index, follow, max-image-preview:large">
@@ -432,12 +432,7 @@
             <a href="/#projects" class="nav-link">
                 Projects
             </a>
-
-            <a href="/#evidence" class="nav-link">
-                Evidence
-            </a>
-
-            <a href="/#skills" class="nav-link">
+<a href="/#skills" class="nav-link">
                 Skills
             </a>
 
@@ -592,8 +587,9 @@
 
 
             <p>
-                I am expanding my hands-on work into endpoint detection
-                and response and security automation.
+                I have expanded my hands-on work into endpoint detection
+                and response and security automation, including n8n-based
+                automated incident triage and Splunk HEC integration.
             </p>
 
         </div>
@@ -673,9 +669,9 @@
                 </h3>
 
                 <p>
-                    PowerShell, Python, Bash, log processing,
-                    repeatable administrative tasks,
-                    alert enrichment, and response automation.
+                    n8n, webhooks, JSON processing, alert normalization,
+                    severity routing, incident enrichment, Splunk HEC,
+                    response validation, and failure handling.
                 </p>
 
             </article>
@@ -1004,44 +1000,34 @@
 
 
 
-            <!-- AUTOMATION -->
+            <!-- SECURITY AUTOMATION -->
 
             <article class="project-card">
 
                 <div>
-
-                    <span class="project-type">
-                        SECURITY AUTOMATION
-                    </span>
-
-
-                    <h3>
-                        Security Automation Project
-                    </h3>
-
-
+                    <span class="project-type">SECURITY AUTOMATION</span>
+                    <h3>Security Automation &amp; Automated Incident Triage</h3>
                     <p>
-                        Upcoming security automation project focused
-                        on PowerShell, Python, Bash, log processing,
-                        alert enrichment, IOC handling, scheduled checks,
-                        repeatable workflows, and response automation.
+                        Built an end-to-end SOC automation workflow using n8n and Splunk HEC
+                        to receive security alerts, normalize and validate event data, route
+                        incidents by severity, enrich alerts with MITRE ATT&amp;CK and analyst
+                        context, forward structured incidents to Splunk, validate responses,
+                        and handle delivery failures.
                     </p>
-
-
                     <div class="tags">
-
-                        <span>Automation</span>
-                        <span>PowerShell</span>
-                        <span>Python</span>
-                        <span>Bash</span>
-
+                        <span>n8n</span>
+                        <span>Splunk HEC</span>
+                        <span>Webhooks</span>
+                        <span>SOAR</span>
+                        <span>MITRE ATT&amp;CK</span>
+                        <span>Incident Triage</span>
                     </div>
-
                 </div>
 
-
-                <div class="status">
-                    Project In Progress
+                <div class="project-actions">
+                    <a href="projects/security-automation.html" class="project-link">
+                        View Case Study →
+                    </a>
                 </div>
 
             </article>
@@ -1056,11 +1042,11 @@
 
 
 <!-- =========================================================
-     EVIDENCE
+     PROJECT VIDEOS
 ========================================================= -->
 
 <section
-    id="evidence"
+    id="videos"
     class="section section-anchor"
 >
 
@@ -1069,12 +1055,11 @@
         <div class="section-header centered-header">
 
             <h2>
-                Project Evidence &amp; Lab Highlights
+                Project Videos
             </h2>
 
             <p>
-                Selected technical evidence from completed
-                infrastructure and cybersecurity projects.
+                Video walkthroughs of my completed infrastructure and cybersecurity projects are coming soon.
             </p>
 
         </div>
@@ -1091,31 +1076,16 @@
                 </span>
 
                 <h3>
-                    Active Directory &amp; Security Monitoring
+                    Enterprise Active Directory &amp; SOC Project
                 </h3>
 
                 <p>
-                    Multi-domain-controller Windows environment
-                    with Group Policy, centralized logging,
-                    Sysmon telemetry, Splunk detections,
-                    pfSense segmentation, and Snort IDS.
+                    Full project walkthrough video coming soon.
                 </p>
 
-                <div class="tags">
-
-                    <span>Active Directory</span>
-                    <span>Splunk</span>
-                    <span>Sysmon</span>
-                    <span>Snort</span>
-
+                <div class="status">
+                    Video Coming Soon
                 </div>
-
-                <a
-                    href="projects/enterprise-ad-soc.html"
-                    class="evidence-link"
-                >
-                    View Case Study →
-                </a>
 
             </article>
 
@@ -1128,32 +1098,16 @@
                 </span>
 
                 <h3>
-                    AWS &amp; On-Premises Connectivity
+                    AWS Hybrid Cloud Infrastructure
                 </h3>
 
                 <p>
-                    AWS VPC architecture, EC2 workloads,
-                    IAM controls, CloudTrail and CloudWatch,
-                    pfSense IPsec connectivity,
-                    private network testing,
-                    and redundant VPN validation.
+                    Full project walkthrough video coming soon.
                 </p>
 
-                <div class="tags">
-
-                    <span>AWS</span>
-                    <span>VPC</span>
-                    <span>IPsec</span>
-                    <span>pfSense</span>
-
+                <div class="status">
+                    Video Coming Soon
                 </div>
-
-                <a
-                    href="projects/aws-hybrid-cloud.html"
-                    class="evidence-link"
-                >
-                    View Case Study →
-                </a>
 
             </article>
 
@@ -1166,32 +1120,16 @@
                 </span>
 
                 <h3>
-                    Active Directory to Microsoft Entra ID
+                    Microsoft Entra ID Hybrid Identity
                 </h3>
 
                 <p>
-                    Public-domain integration, UPN configuration,
-                    Microsoft Entra Connect Sync,
-                    synchronized identity validation,
-                    on-premises attribute verification,
-                    and cloud authentication.
+                    Full project walkthrough video coming soon.
                 </p>
 
-                <div class="tags">
-
-                    <span>Entra ID</span>
-                    <span>Active Directory</span>
-                    <span>Entra Connect</span>
-                    <span>Identity</span>
-
+                <div class="status">
+                    Video Coming Soon
                 </div>
-
-                <a
-                    href="projects/entra-hybrid-identity.html"
-                    class="evidence-link"
-                >
-                    View Case Study →
-                </a>
 
             </article>
 
@@ -1204,33 +1142,16 @@
                 </span>
 
                 <h3>
-                    IKEv2 VPN &amp; Least-Privilege Access
+                    Secure IKEv2 Remote Access VPN
                 </h3>
 
                 <p>
-                    Encrypted remote access,
-                    dedicated VPN addressing,
-                    split tunneling,
-                    DNS and SMB access controls,
-                    blocked-service testing,
-                    and Splunk authentication monitoring.
+                    Full project walkthrough video coming soon.
                 </p>
 
-                <div class="tags">
-
-                    <span>pfSense</span>
-                    <span>IKEv2</span>
-                    <span>IPsec</span>
-                    <span>Splunk</span>
-
+                <div class="status">
+                    Video Coming Soon
                 </div>
-
-                <a
-                    href="projects/pfsense-vpn.html"
-                    class="evidence-link"
-                >
-                    View Case Study →
-                </a>
 
             </article>
 
@@ -1247,30 +1168,37 @@
                 </h3>
 
                 <p>
-                    Four protected Windows endpoints, Falcon host grouping,
-                    prevention policies, endpoint telemetry, controlled
-                    PowerShell detection and blocking, MITRE ATT&amp;CK mapping,
-                    Next-Gen SIEM visibility, Fusion SOAR workflows,
-                    on-demand scanning, network containment, and recovery.
+                    Full project walkthrough video coming soon.
                 </p>
 
-                <div class="tags">
-
-                    <span>CrowdStrike Falcon</span>
-                    <span>EDR</span>
-                    <span>MITRE ATT&amp;CK</span>
-                    <span>SOAR</span>
-
+                <div class="status">
+                    Video Coming Soon
                 </div>
 
-                <a
-                    href="projects/crowdstrike-falcon-endpoint-detection-response.html"
-                    class="evidence-link"
-                >
-                    View Case Study →
-                </a>
+            </article>
+
+
+
+            <article class="evidence-card">
+
+                <span class="project-type">
+                    SECURITY AUTOMATION
+                </span>
+
+                <h3>
+                    Security Automation &amp; Automated Incident Triage
+                </h3>
+
+                <p>
+                    Full project walkthrough video coming soon.
+                </p>
+
+                <div class="status">
+                    Video Coming Soon
+                </div>
 
             </article>
+
 
         </div>
 
@@ -1400,16 +1328,10 @@
                 </h3>
 
                 <p>
-                    PowerShell,
-                    Python fundamentals,
-                    Bash scripting,
-                    log parsing,
-                    alert enrichment,
-                    IOC handling,
-                    scheduled checks,
-                    repetitive-task automation,
-                    workflow automation,
-                    and repeatable remediation.
+                    n8n, webhook ingestion, JSON processing,
+                    alert normalization and validation, severity-based routing,
+                    incident enrichment, MITRE ATT&amp;CK context, Splunk HEC integration,
+                    response validation, failure handling, and automated incident triage.
                 </p>
 
             </article>
