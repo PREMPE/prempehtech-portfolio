@@ -486,6 +486,67 @@
             text-transform: uppercase;
         }
 
+    
+        /* =================================================
+           COLLAPSIBLE TOP MENU — ALL SCREEN SIZES
+           Show hamburger instead of permanent nav links.
+        ================================================= */
+
+        .nav-container {
+            position: relative !important;
+            flex-wrap: wrap !important;
+        }
+
+        .mobile-menu {
+            margin-left: auto !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+
+            width: 42px !important;
+            height: 42px !important;
+            padding: 0 !important;
+
+            color: #5ca9ff !important;
+            background: #0b1e31 !important;
+
+            border: 1px solid #244d73 !important;
+            border-radius: 7px !important;
+
+            font-size: 1.35rem !important;
+            line-height: 1 !important;
+            cursor: pointer !important;
+        }
+
+        .mobile-menu:hover {
+            color: #ffffff !important;
+            border-color: #5ca9ff !important;
+            background: #102a44 !important;
+        }
+
+        .main-nav {
+            display: none !important;
+        }
+
+        .main-nav.open {
+            display: flex !important;
+            width: 100% !important;
+            margin-left: 0 !important;
+            padding: 10px 0 14px !important;
+
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 0 !important;
+
+            border-top: 1px solid #172b40 !important;
+        }
+
+        .main-nav.open .nav-link {
+            width: 100% !important;
+            padding: 13px 4px !important;
+            text-align: left !important;
+        }
+
     </style>
 
 </head>
