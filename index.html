@@ -355,10 +355,41 @@
 
             .nav-container {
                 width: min(100% - 32px, 1420px) !important;
+                min-height: 64px !important;
+                flex-wrap: wrap !important;
             }
 
             .main-nav {
                 display: none !important;
+            }
+
+            .mobile-menu {
+                margin-left: auto !important;
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+
+                width: 42px !important;
+                height: 42px !important;
+
+                padding: 0 !important;
+
+                color: #5ca9ff !important;
+                background: #0b1e31 !important;
+
+                border: 1px solid #244d73 !important;
+                border-radius: 7px !important;
+
+                font-size: 1.35rem !important;
+                line-height: 1 !important;
+
+                cursor: pointer !important;
+            }
+
+            .mobile-menu:hover {
+                color: #ffffff !important;
+                border-color: #5ca9ff !important;
+                background: #102a44 !important;
             }
 
             .main-nav.open {
@@ -368,9 +399,20 @@
 
                 flex-direction: column !important;
 
-                align-items: flex-start !important;
+                align-items: stretch !important;
 
                 gap: 0 !important;
+
+                margin-left: 0 !important;
+                padding: 10px 0 14px !important;
+
+                border-top: 1px solid #172b40 !important;
+            }
+
+            .main-nav.open .nav-link {
+                width: 100% !important;
+                padding: 13px 4px !important;
+                text-align: left !important;
             }
 
             #contact .contact-actions {
@@ -388,6 +430,60 @@
                 grid-template-columns: 1fr !important;
             }
 
+        }
+
+    
+        /* =================================================
+           PROJECT VIDEO PLACEHOLDERS
+           Centered play icon for upcoming walkthroughs.
+        ================================================= */
+
+        #videos .video-placeholder {
+            position: relative;
+            min-height: 210px;
+            margin-top: 22px;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 1px solid #244d73;
+            border-radius: 10px;
+            background:
+                radial-gradient(circle at center, rgba(52, 139, 230, 0.10), transparent 45%),
+                linear-gradient(145deg, #0b1d30, #0e243b);
+        }
+
+        #videos .video-play-icon {
+            width: 68px;
+            height: 68px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #5ca9ff;
+            border-radius: 50%;
+            color: #5ca9ff;
+            background: rgba(7, 19, 33, 0.82);
+            box-shadow: 0 0 28px rgba(55, 145, 240, 0.16);
+        }
+
+        #videos .video-play-icon svg {
+            width: 27px;
+            height: 27px;
+            margin-left: 4px;
+        }
+
+        #videos .video-placeholder-label {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 18px;
+            text-align: center;
+            color: #9fb9d5;
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 0.10em;
+            text-transform: uppercase;
         }
 
     </style>
@@ -1082,6 +1178,16 @@
                 <p>
                     Full project walkthrough video coming soon.
                 </p>
+                <div class="video-placeholder" aria-label="Project video coming soon">
+                    <span class="video-play-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24">
+                            <path fill="currentColor" d="M8 5v14l11-7z"/>
+                        </svg>
+                    </span>
+                    <span class="video-placeholder-label">Coming Soon</span>
+                </div>
+
+
 
                 <div class="status">
                     Video Coming Soon
@@ -1104,6 +1210,16 @@
                 <p>
                     Full project walkthrough video coming soon.
                 </p>
+                <div class="video-placeholder" aria-label="Project video coming soon">
+                    <span class="video-play-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24">
+                            <path fill="currentColor" d="M8 5v14l11-7z"/>
+                        </svg>
+                    </span>
+                    <span class="video-placeholder-label">Coming Soon</span>
+                </div>
+
+
 
                 <div class="status">
                     Video Coming Soon
@@ -1126,6 +1242,16 @@
                 <p>
                     Full project walkthrough video coming soon.
                 </p>
+                <div class="video-placeholder" aria-label="Project video coming soon">
+                    <span class="video-play-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24">
+                            <path fill="currentColor" d="M8 5v14l11-7z"/>
+                        </svg>
+                    </span>
+                    <span class="video-placeholder-label">Coming Soon</span>
+                </div>
+
+
 
                 <div class="status">
                     Video Coming Soon
@@ -1148,6 +1274,16 @@
                 <p>
                     Full project walkthrough video coming soon.
                 </p>
+                <div class="video-placeholder" aria-label="Project video coming soon">
+                    <span class="video-play-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24">
+                            <path fill="currentColor" d="M8 5v14l11-7z"/>
+                        </svg>
+                    </span>
+                    <span class="video-placeholder-label">Coming Soon</span>
+                </div>
+
+
 
                 <div class="status">
                     Video Coming Soon
@@ -1170,6 +1306,16 @@
                 <p>
                     Full project walkthrough video coming soon.
                 </p>
+                <div class="video-placeholder" aria-label="Project video coming soon">
+                    <span class="video-play-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24">
+                            <path fill="currentColor" d="M8 5v14l11-7z"/>
+                        </svg>
+                    </span>
+                    <span class="video-placeholder-label">Coming Soon</span>
+                </div>
+
+
 
                 <div class="status">
                     Video Coming Soon
@@ -1192,6 +1338,16 @@
                 <p>
                     Full project walkthrough video coming soon.
                 </p>
+                <div class="video-placeholder" aria-label="Project video coming soon">
+                    <span class="video-play-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24">
+                            <path fill="currentColor" d="M8 5v14l11-7z"/>
+                        </svg>
+                    </span>
+                    <span class="video-placeholder-label">Coming Soon</span>
+                </div>
+
+
 
                 <div class="status">
                     Video Coming Soon
