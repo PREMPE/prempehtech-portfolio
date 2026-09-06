@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Security automation case study using n8n, Splunk HEC, webhooks, alert normalization, severity routing, incident enrichment, automated triage, response validation, and troubleshooting.">
+    <title>Security Automation & Automated Incident Triage | PrempehTech.ca</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+
+        /* =========================================================
+           BASE
+        ========================================================= */
+
+        body {
+            overflow-x: hidden;
+        }
+
+        .case-page {
+            background: #071321;
+        }
+
+        .case-container {
+            width: min(1180px, calc(100% - 64px));
+            margin: 0 auto;
+        }
+
+
+        /* =========================================================
+           HEADER
+        ========================================================= */
+
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+
+            background: rgba(5, 15, 27, 0.96);
+
+            border-bottom: 1px solid #172b40;
+
+            backdrop-filter: blur(12px);
+        }
+
+        .nav-container {
+            width: min(1420px, calc(100% - 64px));
+            min-height: 74px;
+
+            margin: 0 auto;
+
+            display: flex;
+            align-items: center;
+        }
+
+        .brand {
+            flex: 0 0 auto;
+
+            color: #5da9ff;
+
+            font-size: 1.2rem;
+            font-weight: 800;
+
+            text-decoration: none;
+
+            letter-spacing: -0.02em;
+        }
+
+        .brand span {
+            color: #87c0ff;
+        }
+
+        .main-nav {
+            margin-left: auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+
+            gap: 30px;
+        }
+
+        .main-nav a {
+            position: relative;
+
+            color: #aebdce;
+
+            font-size: 0.9rem;
+            font-weight: 700;
+
+            text-decoration: none;
+
+            padding: 26px 0 22px;
+        }
+
+        .main-nav a:hover {
+            color: #5da9ff;
+        }
+
+        .main-nav a::after {
+            content: "";
+
+            position: absolute;
+
+            left: 0;
+            right: 0;
+            bottom: 16px;
+
+            height: 2px;
+
+            background: #4f9dff;
+
+            transform: scaleX(0);
+
+            transition: transform 0.2s ease;
+        }
+
+        .main-nav a:hover::after {
+            transform: scaleX(1);
+        }
+
+        .mobile-menu {
+            display: none;
+        }
+
+
+        /* =========================================================
+           HERO
+        ========================================================= */
+
+        .project-hero {
+            position: relative;
+
+            min-height: 690px;
+
+            display: flex;
+            align-items: center;
+
+            overflow: hidden;
+
+            background:
+                radial-gradient(
+                    circle at 90% 35%,
+                    rgba(40, 105, 175, 0.20),
+                    transparent 31%
+                ),
+                linear-gradient(
+                    120deg,
+                    #061322 0%,
+                    #091a2c 48%,
+                    #102c4e 100%
+                );
+
+            border-bottom: 1px solid #17304b;
+        }
+
+        .project-hero::after {
+            content: "";
+
+            position: absolute;
+
+            width: 520px;
+            height: 520px;
+
+            right: -160px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            border: 1px solid rgba(90, 165, 245, 0.08);
+
+            border-radius: 50%;
+        }
+
+        .project-hero-content {
+            position: relative;
+            z-index: 2;
+
+            width: min(1180px, calc(100% - 64px));
+
+            margin: 0 auto;
+
+            padding: 110px 0 100px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+
+            gap: 8px;
+
+            margin-bottom: 42px;
+
+            color: #70b5ff;
+
+            font-size: 0.9rem;
+            font-weight: 700;
+
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            color: #ffffff;
+        }
+
+        .project-eyebrow {
+            margin: 0 0 22px;
+
+            color: #90b7df;
+
+            font-size: 0.85rem;
+            font-weight: 800;
+
+            letter-spacing: 0.14em;
+
+            text-transform: uppercase;
+        }
+
+        .project-hero h1 {
+            max-width: 900px;
+
+            margin: 0 0 26px;
+
+            color: #f4f7fb;
+
+            font-size: clamp(3.4rem, 7vw, 6.4rem);
+
+            line-height: 0.98;
+
+            letter-spacing: -0.055em;
+        }
+
+        .project-hero h2 {
+            max-width: 900px;
+
+            margin: 0 0 25px;
+
+            color: #cbd8e8;
+
+            font-size: clamp(1.55rem, 3vw, 2.35rem);
+
+            line-height: 1.35;
+
+            font-weight: 700;
+        }
+
+        .project-summary {
+            max-width: 920px;
+
+            margin: 0;
+
+            color: #a9bfd7;
+
+            font-size: 1.05rem;
+
+            line-height: 1.8;
+        }
+
+        .hero-buttons {
+            margin-top: 38px;
+
+            display: flex;
+            flex-wrap: wrap;
+
+            gap: 14px;
+        }
+
+        .project-btn {
+            min-height: 52px;
+
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 0 22px;
+
+            border-radius: 7px;
+
+            font-size: 0.9rem;
+            font-weight: 800;
+
+            text-decoration: none;
+
+            transition:
+                transform 0.2s ease,
+                border-color 0.2s ease,
+                background 0.2s ease;
+        }
+
+        .project-btn.primary {
+            color: #ffffff;
+
+            background: #347ee8;
+
+            border: 1px solid #347ee8;
+        }
+
+        .project-btn.secondary {
+            color: #5ca9ff;
+
+            background: transparent;
+
+            border: 1px solid #2c5c87;
+        }
+
+        .project-btn:hover {
+            transform: translateY(-2px);
+        }
+
+
+        /* =========================================================
+           SECTIONS
+        ========================================================= */
+
+        .case-section {
+            padding: 90px 0;
+
+            border-bottom: 1px solid #13283d;
+        }
+
+        .case-section.alt {
+            background: #091827;
+        }
+
+        .case-section-header {
+            max-width: 900px;
+
+            margin: 0 auto 48px;
+
+            text-align: center;
+        }
+
+        .case-section-header .section-eyebrow {
+            margin: 0 0 10px;
+
+            color: #65adff;
+
+            font-size: 0.75rem;
+            font-weight: 800;
+
+            letter-spacing: 0.14em;
+
+            text-transform: uppercase;
+        }
+
+        .case-section-header h2 {
+            margin: 0 0 18px;
+
+            color: #f3f7fc;
+
+            font-size: clamp(2rem, 4vw, 3rem);
+
+            letter-spacing: -0.035em;
+        }
+
+        .case-section-header p {
+            margin: 0 auto 12px;
+
+            color: #a6bdd5;
+
+            font-size: 1rem;
+
+            line-height: 1.8;
+        }
+
+
+        /* =========================================================
+           CARDS
+        ========================================================= */
+
+        .case-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, minmax(0, 1fr));
+
+            gap: 20px;
+        }
+
+        .case-grid.four {
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
+        }
+
+        .case-card {
+            padding: 28px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #10243a,
+                    #0c1e31
+                );
+
+            border: 1px solid #24445f;
+
+            border-radius: 12px;
+        }
+
+        .case-card h3 {
+            margin: 0 0 14px;
+
+            color: #f3f7fc;
+
+            font-size: 1.05rem;
+        }
+
+        .case-card p {
+            margin: 0;
+
+            color: #a8bfd8;
+
+            line-height: 1.7;
+        }
+
+        .case-card strong {
+            color: #67b0ff;
+        }
+
+
+        /* =========================================================
+           TAGS
+        ========================================================= */
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+
+            gap: 9px;
+
+            justify-content: center;
+
+            margin-top: 30px;
+        }
+
+        .tags span {
+            padding: 7px 11px;
+
+            color: #67b0ff;
+
+            background: #0c2137;
+
+            border: 1px solid #2e5b84;
+
+            border-radius: 6px;
+
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+
+
+        /* =========================================================
+           IMAGES
+        ========================================================= */
+
+        .case-image {
+            margin: 46px auto 0;
+
+            max-width: 1080px;
+        }
+
+        .case-image img {
+            display: block;
+
+            width: 100%;
+            height: auto;
+
+            border-radius: 12px;
+
+            border: 1px solid #284763;
+
+            box-shadow:
+                0 18px 45px rgba(0, 0, 0, 0.28);
+        }
+
+        .case-image figcaption {
+            margin-top: 14px;
+
+            padding: 0 10px;
+
+            color: #839db7;
+
+            font-size: 0.85rem;
+
+            line-height: 1.6;
+
+            text-align: center;
+        }
+
+
+        /* =========================================================
+           ARCHITECTURE
+        ========================================================= */
+
+        .architecture-block {
+            max-width: 980px;
+
+            margin: 42px auto 0;
+
+            padding: 32px;
+
+            overflow-x: auto;
+
+            background: #04101c;
+
+            border: 1px solid #25435f;
+
+            border-radius: 12px;
+        }
+
+        .architecture-block pre {
+            margin: 0;
+
+            color: #a9d1ff;
+
+            font-family:
+                "Courier New",
+                Courier,
+                monospace;
+
+            font-size: 0.9rem;
+
+            line-height: 1.5;
+        }
+
+
+        /* =========================================================
+           CTA
+        ========================================================= */
+
+        .project-cta {
+            padding: 90px 0;
+
+            text-align: center;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #0a1a2b,
+                    #102b48
+                );
+        }
+
+        .project-cta h2 {
+            margin: 0 0 16px;
+
+            color: #f4f7fb;
+
+            font-size: 2.4rem;
+        }
+
+        .project-cta p {
+            max-width: 760px;
+
+            margin: 0 auto 28px;
+
+            color: #a8bfd8;
+
+            line-height: 1.8;
+        }
+
+        .project-cta-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+
+            gap: 14px;
+        }
+
+
+        /* =========================================================
+           FOOTER
+        ========================================================= */
+
+        footer {
+            padding: 28px 20px;
+
+            text-align: center;
+
+            background: #050f1b;
+
+            border-top: 1px solid #17293b;
+        }
+
+        footer p {
+            margin: 0;
+
+            color: #7189a3;
+
+            font-size: 0.84rem;
+        }
+
+
+        /* =========================================================
+           RESPONSIVE
+        ========================================================= */
+
+        @media (max-width: 1100px) {
+
+            .main-nav {
+                gap: 20px;
+            }
+
+            .case-grid,
+            .case-grid.four {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+            }
+
+        }
+
+
+        @media (max-width: 820px) {
+
+            .nav-container {
+                width: min(100% - 32px, 1420px);
+            }
+
+            .main-nav {
+                display: none;
+            }
+
+            .mobile-menu {
+                margin-left: auto;
+
+                display: inline-flex;
+
+                align-items: center;
+                justify-content: center;
+
+                width: 42px;
+                height: 42px;
+
+                color: #5ca9ff;
+
+                background: #0b1e31;
+
+                border: 1px solid #244d73;
+
+                border-radius: 7px;
+            }
+
+            .project-hero-content,
+            .case-container {
+                width: min(100% - 36px, 1180px);
+            }
+
+            .project-hero {
+                min-height: auto;
+            }
+
+            .project-hero-content {
+                padding: 80px 0;
+            }
+
+            .project-hero h1 {
+                font-size: clamp(3rem, 14vw, 5rem);
+            }
+
+            .case-grid,
+            .case-grid.four {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+
+        @media (max-width: 520px) {
+
+            .hero-buttons,
+            .project-cta-links {
+                flex-direction: column;
+            }
+
+            .project-btn {
+                width: 100%;
+            }
+
+            .architecture-block {
+                padding: 18px;
+            }
+
+            .architecture-block pre {
+                font-size: 0.72rem;
+            }
+
+        }
+
+    </style>
+</head>
+
+<body class="case-page">
+
+<header class="site-header">
+    <div class="nav-container">
+        <a href="../index.html#home" class="brand">PrempehTech<span>.ca</span></a>
+        <nav class="main-nav" aria-label="Primary navigation">
+            <a href="../index.html#home">Home</a>
+            <a href="../index.html#about">About</a>
+            <a href="../index.html#projects">Projects</a>
+            <a href="../index.html#evidence">Evidence</a>
+            <a href="../index.html#skills">Skills</a>
+            <a href="../index.html#certifications">Certifications</a>
+            <a href="../index.html#contact">Contact</a>
+        </nav>
+        <button class="mobile-menu" type="button" aria-label="Open navigation menu">☰</button>
+    </div>
+</header>
+
+<main>
+
+<section class="project-hero">
+    <div class="project-hero-content">
+        <a href="../index.html#projects" class="back-link">← Back to Projects</a>
+        <p class="project-eyebrow">SECURITY AUTOMATION • N8N • SPLUNK • WEBHOOKS • SOAR</p>
+        <h1>Security Automation &amp; Automated Incident Triage</h1>
+        <h2>
+            Automated SOC alert ingestion, validation, severity routing,
+            incident enrichment, Splunk HEC forwarding, response validation,
+            and failure handling using n8n.
+        </h2>
+        <p class="project-summary">
+            I designed and implemented an end-to-end security automation workflow
+            that receives security alerts through a webhook, normalizes and validates
+            incoming data, routes incidents by severity, enriches alerts with analyst-ready
+            context, and forwards structured incidents to Splunk for centralized investigation.
+            The project also includes response validation, failure handling, end-to-end testing,
+            and documented network troubleshooting.
+        </p>
+        <div class="hero-buttons">
+            <a href="#workflow" class="project-btn primary">View Workflow</a>
+            <a href="../index.html#projects" class="project-btn secondary">Back to Projects</a>
+        </div>
+    </div>
+</section>
+
+<section class="case-section">
+    <div class="case-container">
+        <div class="case-section-header"><h2>Project Snapshot</h2></div>
+        <div class="case-grid">
+            <article class="case-card">
+                <h3>Webhook Ingestion</h3>
+                <p>Receives security alerts through an n8n production webhook and passes each event into the automation pipeline.</p>
+            </article>
+            <article class="case-card">
+                <h3>Normalization &amp; Validation</h3>
+                <p>Standardizes severity values and rejects malformed or unsupported alerts before response logic runs.</p>
+            </article>
+            <article class="case-card">
+                <h3>Severity-Based Routing</h3>
+                <p>Routes <strong>HIGH</strong>, <strong>MEDIUM</strong>, and <strong>LOW</strong> incidents into dedicated triage branches.</p>
+            </article>
+            <article class="case-card">
+                <h3>Incident Enrichment</h3>
+                <p>Adds incident IDs, timestamps, host and user context, MITRE ATT&amp;CK information, response actions, and analyst notes.</p>
+            </article>
+            <article class="case-card">
+                <h3>Splunk HEC Integration</h3>
+                <p>Forwards structured incidents to Splunk through the HTTP Event Collector for centralized security visibility.</p>
+            </article>
+            <article class="case-card">
+                <h3>Failure Handling</h3>
+                <p>Checks Splunk responses and directs failed deliveries into a shared automation-failure handling path.</p>
+            </article>
+        </div>
+    </div>
+</section>
+
+<section class="case-section alt" id="workflow">
+    <div class="case-container">
+        <div class="case-section-header">
+            <p class="section-eyebrow">AUTOMATION ARCHITECTURE</p>
+            <h2>End-to-End SOC Workflow</h2>
+            <p>The workflow was designed as a complete alert-processing pipeline rather than a single one-off action.</p>
+        </div>
+
+        <div class="architecture-block">
+<pre>
+Security Alert
+     |
+     v
++----------------------+
+|       Webhook        |
++----------------------+
+     |
+     v
++----------------------+
+|   Normalize Alert    |
++----------------------+
+     |
+     v
++----------------------+
+|    Validate Alert    |
++----------------------+
+     |
+     +-------------------------> Invalid Alert
+     |                                |
+     |                                v
+     |                         Failure Handling
+     |
+     v
++----------------------+
+|   Severity Router    |
++----------------------+
+     |
+     +-------------------+-------------------+
+     |                   |                   |
+     v                   v                   v
+    HIGH               MEDIUM               LOW
+     |                   |                   |
+     v                   v                   v
+ Escalate             Review              Log
+ Incident             Incident            Incident
+     |                   |                   |
+     v                   v                   v
+ Format High         Format Medium       Format Normal
+     |                   |                   |
+     +-------------------+-------------------+
+                         |
+                         v
+                 Splunk HEC Forwarding
+                         |
+                         v
+                Validate HEC Response
+                         |
+                  +------+------+
+                  |             |
+                  v             v
+               Success        Failure
+                               |
+                               v
+                    Log Automation Failure
+</pre>
+        </div>
+
+        <figure class="case-image">
+            <img src="../assets/projects/automation/n8n-security-automation-workflow.png"
+                 alt="Complete n8n SOC security automation workflow" loading="lazy">
+            <figcaption>
+                Complete n8n workflow showing webhook ingestion, normalization,
+                validation, severity routing, incident formatting, Splunk forwarding,
+                response checks, and failure handling.
+            </figcaption>
+        </figure>
+    </div>
+</section>
+
+<section class="case-section">
+    <div class="case-container">
+        <div class="case-section-header">
+            <p class="section-eyebrow">ALERT INGESTION</p>
+            <h2>SOC Alert Webhook</h2>
+            <p>The workflow begins with an n8n webhook that receives security alert data and passes it into the automation pipeline.</p>
+        </div>
+        <figure class="case-image">
+            <img src="../assets/projects/automation/n8n-soc-alert-webhook.png"
+                 alt="n8n SOC alert webhook configuration" loading="lazy">
+            <figcaption>Webhook entry point used to receive security alerts into the automation workflow.</figcaption>
+        </figure>
+    </div>
+</section>
+
+<section class="case-section alt">
+    <div class="case-container">
+        <div class="case-section-header">
+            <p class="section-eyebrow">DATA PROCESSING</p>
+            <h2>Alert Normalization</h2>
+            <p>
+                Incoming severity values are standardized before routing so differences
+                in capitalization, whitespace, or JSON structure do not break downstream logic.
+            </p>
+        </div>
+        <div class="tags">
+            <span>JSON</span><span>Field Normalization</span><span>Severity Standardization</span><span>Input Handling</span>
+        </div>
+        <figure class="case-image">
+            <img src="../assets/projects/automation/n8n-alert-normalization.png"
+                 alt="n8n alert normalization execution" loading="lazy">
+            <figcaption>Alert normalization standardizing severity for consistent routing.</figcaption>
+        </figure>
+        <figure class="case-image">
+            <img src="../assets/projects/automation/n8n-alert-normalization-config.png"
+                 alt="n8n alert normalization configuration" loading="lazy">
+            <figcaption>Normalization configuration used to derive the standardized severity field.</figcaption>
+        </figure>
+    </div>
+</section>
+
+<section class="case-section">
+    <div class="case-container">
+        <div class="case-section-header">
+            <p class="section-eyebrow">TRIAGE LOGIC</p>
+            <h2>Validation &amp; Severity Routing</h2>
+            <p>
+                Supported alerts are routed by normalized severity. Unsupported values are
+                separated into an invalid-alert path instead of silently continuing.
+            </p>
+        </div>
+
+        <div class="case-grid four">
+            <article class="case-card">
+                <h3>HIGH</h3>
+                <p>Immediate escalation with an <strong>immediate_review</strong> response action.</p>
+            </article>
+            <article class="case-card">
+                <h3>MEDIUM</h3>
+                <p>Analyst review path with <strong>analyst_review</strong> response handling.</p>
+            </article>
+            <article class="case-card">
+                <h3>LOW</h3>
+                <p>Logging and monitoring using <strong>log_and_monitor</strong>.</p>
+            </article>
+            <article class="case-card">
+                <h3>INVALID</h3>
+                <p>Malformed or unsupported severity values are rejected and handled separately.</p>
+            </article>
+        </div>
+
+        <figure class="case-image">
+            <img src="../assets/projects/automation/n8n-severity-routing.png"
+                 alt="n8n severity router rules for high medium and low alerts" loading="lazy">
+            <figcaption>Severity Router rules separating HIGH, MEDIUM, and LOW incidents into dedicated branches.</figcaption>
+        </figure>
+    </div>
+</section>
+
+<section class="case-section alt">
+    <div class="case-container">
+        <div class="case-section-header">
+            <p class="section-eyebrow">HIGH-SEVERITY RESPONSE</p>
+            <h2>Automated Escalation</h2>
+            <p>
+                High-severity alerts are automatically escalated, enriched, formatted,
+                forwarded to Splunk, and checked for a successful HEC response.
+            </p>
+        </div>
+        <figure class="case-image">
+            <img src="../assets/projects/automation/n8n-high-severity-execution.png"
+                 alt="Successful high severity n8n automation execution" loading="lazy">
+            <figcaption>Successful HIGH-severity execution through escalation, Splunk forwarding, and response validation.</figcaption>
+        </figure>
+    </div>
+</section>
+
+<section class="case-section">
+    <div class="case-container">
+        <div class="case-section-header">
+            <p class="section-eyebrow">SEVERITY-SPECIFIC ACTIONS</p>
+            <h2>Medium &amp; Low Incident Handling</h2>
+            <p>Different severity levels receive different response actions instead of being treated identically.</p>
+        </div>
+
+        <div class="case-grid">
+            <article class="case-card">
+                <h3>Medium Priority</h3>
+                <p>Medium incidents are marked for analyst review and assigned a review-oriented response action.</p>
+            </article>
+            <article class="case-card">
+                <h3>Low Priority</h3>
+                <p>Low incidents are recorded for visibility and monitoring without unnecessary escalation.</p>
+            </article>
+            <article class="case-card">
+                <h3>Consistent Formatting</h3>
+                <p>Each branch produces a structured event before sending it to Splunk.</p>
+            </article>
+        </div>
+
+        <figure class="case-image">
+            <img src="../assets/projects/automation/n8n-medium-severity-execution.png"
+                 alt="Successful medium severity n8n automation execution" loading="lazy">
+            <figcaption>MEDIUM-severity alert routed into analyst-review handling.</figcaption>
+        </figure>
+
+        <figure class="case-image">
+            <img src="../assets/projects/automation/n8n-low-severity-execution.png"
+                 alt="Successful low severity n8n automation execution" loading="lazy">
+            <figcaption>LOW-severity alert routed into logging and monitoring handling.</figcaption>
+        </figure>
+    </div>
+</section>
+
+<section class="case-section alt">
+    <div class="case-container">
+        <div class="case-section-header">
+            <p class="section-eyebrow">INCIDENT ENRICHMENT</p>
+            <h2>Analyst-Ready Incident Context</h2>
+            <p>The workflow adds structured security and response context before an incident reaches Splunk.</p>
+        </div>
+
+        <div class="case-grid">
+            <article class="case-card">
+                <h3>Incident Metadata</h3>
+                <p>Incident ID, creation time, alert name, host, username, source IP, and severity.</p>
+            </article>
+            <article class="case-card">
+                <h3>MITRE ATT&amp;CK Context</h3>
+                <p>Tactic and technique fields connect alerts to a recognized security framework.</p>
+            </article>
+            <article class="case-card">
+                <h3>Response Context</h3>
+                <p>Escalation state, response action, detection source, and analyst notes are added.</p>
+            </article>
+        </div>
+
+        <figure class="case-image">
+            <img src="../assets/projects/automation/high-incident-enrichment.png"
+                 alt="n8n high incident enrichment fields" loading="lazy">
+            <figcaption>High-severity incident enrichment with response fields and MITRE ATT&amp;CK context.</figcaption>
+        </figure>
+    </div>
+</section>
+
+<section class="case-section">
+    <div class="case-container">
+        <div class="case-section-header">
+            <p class="section-eyebrow">SIEM INTEGRATION</p>
+            <h2>Splunk HTTP Event Collector</h2>
+            <p>
+                Structured incidents are forwarded from n8n to Splunk using HEC.
+                The workflow then checks the Splunk response to confirm successful ingestion.
+            </p>
+        </div>
+        <div class="tags">
+            <span>Splunk Enterprise</span><span>HEC</span><span>HTTPS</span><span>JSON Events</span><span>SIEM Integration</span>
+        </div>
+        <figure class="case-image">
+            <img src="../assets/projects/automation/n8n-splunk-hec-success.png"
+                 alt="Successful n8n Splunk HEC response" loading="lazy">
+            <figcaption>Successful Splunk HEC delivery response returned to n8n after event ingestion.</figcaption>
+        </figure>
+    </div>
+</section>
+
+<section class="case-section alt">
+    <div class="case-container">
+        <div class="case-section-header">
+            <p class="section-eyebrow">CENTRALIZED VISIBILITY</p>
+            <h2>Automated Incidents in Splunk</h2>
+            <p>
+                End-to-end tests confirmed that incidents from all three severity branches
+                reached the dedicated Splunk index with the expected enriched fields.
+            </p>
+        </div>
+
+        <figure class="case-image">
+            <img src="../assets/projects/automation/splunk-automated-incidents-1.1.png"
+                 alt="Splunk automated incidents overview" loading="lazy">
+            <figcaption>Splunk search results showing automated security incidents received from n8n.</figcaption>
+        </figure>
+
+        <figure class="case-image">
+            <img src="../assets/projects/automation/splunk-automated-incidents-1.2.png"
+                 alt="Splunk automated incidents detailed fields" loading="lazy">
+            <figcaption>Detailed incident fields available in Splunk after automated enrichment and forwarding.</figcaption>
+        </figure>
+
+        <figure class="case-image">
+            <img src="../assets/projects/automation/splunk-incident-triage-results.png"
+                 alt="Splunk incident triage table" loading="lazy">
+            <figcaption>LOW, MEDIUM, and HIGH incidents with their triage and response fields.</figcaption>
+        </figure>
+    </div>
+</section>
+
+<section class="case-section">
+    <div class="case-container">
+        <div class="case-section-header">
+            <p class="section-eyebrow">RESILIENCY</p>
+            <h2>Response Validation &amp; Failure Handling</h2>
+            <p>
+                The workflow validates HEC responses and routes failed deliveries into
+                a shared failure path instead of assuming every HTTP request succeeded.
+            </p>
+        </div>
+
+        <div class="case-grid">
+            <article class="case-card">
+                <h3>Delivery Check</h3>
+                <p>Each severity branch validates the Splunk response after the HTTP request.</p>
+            </article>
+            <article class="case-card">
+                <h3>Shared Failure Path</h3>
+                <p>Failed ingestion attempts are routed into the common <strong>Log Automation Failure</strong> node.</p>
+            </article>
+            <article class="case-card">
+                <h3>Controlled Testing</h3>
+                <p>Connection failures were observed during troubleshooting and used to validate workflow behavior.</p>
+            </article>
+        </div>
+
+        <figure class="case-image">
+            <img src="../assets/projects/automation/splunk-hec-connection-failure.png"
+                 alt="Splunk HEC connection failure during troubleshooting" loading="lazy">
+            <figcaption>HEC connection failure captured during troubleshooting.</figcaption>
+        </figure>
+
+        <figure class="case-image">
+            <img src="../assets/projects/automation/splunk-hec-connectivity-restored.png"
+                 alt="Splunk HEC connectivity restored" loading="lazy">
+            <figcaption>Splunk HEC connectivity restored after correcting the underlying network issue.</figcaption>
+        </figure>
+    </div>
+</section>
+
+<section class="case-section alt">
+    <div class="case-container">
+        <div class="case-section-header">
+            <p class="section-eyebrow">ENGINEERING TROUBLESHOOTING</p>
+            <h2>Duplicate IP &amp; ARP Conflict</h2>
+            <p>
+                AUTOMATION01 could reach its local management gateway but could not reach
+                Splunk across the routed network. The actual cause was a duplicate IP conflict
+                on the management network rather than a pfSense routing failure.
+            </p>
+        </div>
+
+        <div class="case-grid">
+            <article class="case-card">
+                <h3>Symptom</h3>
+                <p>n8n HEC requests timed out even though the automation host had a valid default route.</p>
+            </article>
+            <article class="case-card">
+                <h3>Diagnosis</h3>
+                <p>The ARP neighbor entry for the gateway showed an unexpected VMware MAC address.</p>
+            </article>
+            <article class="case-card">
+                <h3>Root Cause</h3>
+                <p>A Windows VMware host-only adapter also used <strong>172.16.30.1</strong>, conflicting with pfSense MANAGEMENT.</p>
+            </article>
+            <article class="case-card">
+                <h3>Fix</h3>
+                <p>The conflicting host adapter address was corrected and the ARP cache was flushed.</p>
+            </article>
+            <article class="case-card">
+                <h3>Validation</h3>
+                <p>The gateway MAC changed to pfSense and cross-subnet connectivity to Splunk was restored.</p>
+            </article>
+            <article class="case-card">
+                <h3>Final Recovery</h3>
+                <p>After network recovery and HEC authorization correction, HIGH, MEDIUM, and LOW incidents completed end to end.</p>
+            </article>
+        </div>
+    </div>
+</section>
+
+<section class="case-section">
+    <div class="case-container">
+        <div class="case-section-header"><h2>Validation Summary</h2></div>
+        <div class="case-grid">
+            <article class="case-card"><h3>Webhook Reception</h3><p><strong>PASS</strong><br>Security alerts successfully entered the n8n workflow.</p></article>
+            <article class="case-card"><h3>Normalization</h3><p><strong>PASS</strong><br>Severity values were standardized for downstream logic.</p></article>
+            <article class="case-card"><h3>Validation</h3><p><strong>PASS</strong><br>Unsupported values were separated from valid incidents.</p></article>
+            <article class="case-card"><h3>Severity Routing</h3><p><strong>PASS</strong><br>HIGH, MEDIUM, and LOW alerts followed the correct branches.</p></article>
+            <article class="case-card"><h3>Splunk HEC</h3><p><strong>PASS</strong><br>Structured incidents were successfully delivered to Splunk.</p></article>
+            <article class="case-card"><h3>End-to-End Automation</h3><p><strong>OPERATIONAL</strong><br>All three severity paths completed successfully.</p></article>
+        </div>
+    </div>
+</section>
+
+<section class="case-section alt">
+    <div class="case-container">
+        <div class="case-section-header"><h2>Skills Demonstrated</h2></div>
+        <div class="tags">
+            <span>n8n</span>
+            <span>Security Automation</span>
+            <span>SOAR Concepts</span>
+            <span>Webhooks</span>
+            <span>JSON</span>
+            <span>Alert Normalization</span>
+            <span>Input Validation</span>
+            <span>Severity Routing</span>
+            <span>Incident Enrichment</span>
+            <span>MITRE ATT&amp;CK</span>
+            <span>Splunk Enterprise</span>
+            <span>Splunk HEC</span>
+            <span>SIEM Integration</span>
+            <span>HTTP / HTTPS</span>
+            <span>Response Validation</span>
+            <span>Error Handling</span>
+            <span>Linux</span>
+            <span>Docker</span>
+            <span>pfSense</span>
+            <span>TCP/IP</span>
+            <span>Routing</span>
+            <span>ARP Troubleshooting</span>
+            <span>Network Segmentation</span>
+            <span>Technical Documentation</span>
+        </div>
+    </div>
+</section>
+
+<section class="project-cta">
+    <div class="case-container">
+        <h2>Security Automation Case Study</h2>
+        <p>
+            This project demonstrates a complete alert-processing workflow from ingestion
+            through automated triage, enrichment, SIEM delivery, response validation,
+            failure handling, and network troubleshooting.
+        </p>
+        <div class="project-cta-links">
+            <a href="#workflow" class="project-btn primary">Review Workflow</a>
+            <a href="../index.html#projects" class="project-btn secondary">Back to Projects</a>
+        </div>
+    </div>
+</section>
+
+</main>
+
+<footer>
+    <p>© 2026 Agyemang Prempeh | PrempehTech.ca</p>
+</footer>
+
+<script src="../script.js"></script>
+</body>
+
+</html>
