@@ -460,12 +460,24 @@
             white-space: nowrap;
         }
 
-        .download-button[data-ready="true"] {
+        .download-button[data-ready="false"] {
             color: #62798d;
             background: #dfeaf4;
             border-color: #bdcedc;
             cursor: default;
             pointer-events: none;
+        }
+
+        .download-button[data-ready="true"] {
+            color: #ffffff;
+            background: linear-gradient(180deg, #064fd8, #043fb9);
+            border-color: #69b4ff;
+            cursor: pointer;
+            pointer-events: auto;
+        }
+
+        .download-button[data-ready="true"]:hover {
+            background: linear-gradient(180deg, #0446c4, #03369f);
         }
 
         .footer {
