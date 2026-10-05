@@ -1655,3 +1655,516 @@ button:focus-visible {
         animation-iteration-count: 1 !important;
     }
 }
+
+/* PREMPEHTECH LIGHT BLUE ELECTRIC THEME */
+:root {
+    --background: #a9d2f9;
+    --background-soft: rgba(224, 241, 255, 0.46);
+    --background-alt: rgba(236, 247, 255, 0.58);
+
+    --card: rgba(249, 252, 255, 0.84);
+    --card-hover: rgba(255, 255, 255, 0.94);
+
+    --border: #83b9e7;
+    --border-bright: #4f9fe5;
+
+    --primary: #0878e8;
+    --primary-bright: #1592ff;
+    --primary-dark: #0868ce;
+
+    --text: #0b203d;
+    --text-soft: #365673;
+    --text-muted: #5c7891;
+
+    --shadow:
+        0 16px 40px rgba(36, 91, 145, 0.12);
+}
+
+html {
+    background: #a9d2f9;
+}
+
+body {
+    position: relative;
+    isolation: isolate;
+
+    background:
+        radial-gradient(
+            circle at 18% 12%,
+            rgba(235, 247, 255, 0.72),
+            transparent 31%
+        ),
+        radial-gradient(
+            circle at 82% 72%,
+            rgba(119, 188, 245, 0.30),
+            transparent 34%
+        ),
+        linear-gradient(
+            145deg,
+            #b6dcfb 0%,
+            #a9d2f9 48%,
+            #9ecbf4 100%
+        );
+
+    color: var(--text);
+}
+
+/*
+   Sparse moving electrical currents.
+   Intentionally tiny and widely separated so the animation
+   stays subtle and does not compete with the portfolio content.
+*/
+body::before,
+body::after {
+    content: "";
+
+    position: fixed;
+    inset: -70px;
+
+    pointer-events: none;
+
+    z-index: 0;
+
+    will-change: transform;
+}
+
+body::before {
+    background:
+        linear-gradient(
+            90deg,
+            transparent 0%,
+            rgba(17, 112, 214, 0.20) 32%,
+            rgba(255, 255, 255, 0.88) 50%,
+            rgba(17, 112, 214, 0.20) 68%,
+            transparent 100%
+        ) 10% 18% / 24px 1px no-repeat,
+
+        linear-gradient(
+            90deg,
+            transparent 0%,
+            rgba(17, 112, 214, 0.18) 32%,
+            rgba(255, 255, 255, 0.82) 50%,
+            rgba(17, 112, 214, 0.18) 68%,
+            transparent 100%
+        ) 76% 31% / 20px 1px no-repeat,
+
+        linear-gradient(
+            90deg,
+            transparent 0%,
+            rgba(17, 112, 214, 0.17) 32%,
+            rgba(255, 255, 255, 0.82) 50%,
+            rgba(17, 112, 214, 0.17) 68%,
+            transparent 100%
+        ) 31% 68% / 28px 1px no-repeat,
+
+        radial-gradient(
+            circle,
+            rgba(255, 255, 255, 0.95) 0 1px,
+            rgba(18, 115, 218, 0.38) 1.2px,
+            transparent 2px
+        ) 88% 79% / 4px 4px no-repeat;
+
+    opacity: 0.72;
+
+    animation:
+        prempeh-current-drift-a
+        17s
+        linear
+        infinite;
+}
+
+body::after {
+    background:
+        linear-gradient(
+            90deg,
+            transparent 0%,
+            rgba(0, 92, 200, 0.16) 34%,
+            rgba(255, 255, 255, 0.76) 50%,
+            rgba(0, 92, 200, 0.16) 66%,
+            transparent 100%
+        ) 57% 12% / 18px 1px no-repeat,
+
+        radial-gradient(
+            circle,
+            rgba(255, 255, 255, 0.92) 0 1px,
+            rgba(15, 105, 207, 0.32) 1.2px,
+            transparent 2px
+        ) 19% 48% / 4px 4px no-repeat,
+
+        linear-gradient(
+            90deg,
+            transparent 0%,
+            rgba(0, 92, 200, 0.15) 34%,
+            rgba(255, 255, 255, 0.76) 50%,
+            rgba(0, 92, 200, 0.15) 66%,
+            transparent 100%
+        ) 84% 59% / 22px 1px no-repeat,
+
+        radial-gradient(
+            circle,
+            rgba(255, 255, 255, 0.88) 0 1px,
+            rgba(15, 105, 207, 0.28) 1.2px,
+            transparent 2px
+        ) 43% 88% / 4px 4px no-repeat;
+
+    opacity: 0.62;
+
+    animation:
+        prempeh-current-drift-b
+        23s
+        linear
+        infinite;
+}
+
+body > * {
+    position: relative;
+    z-index: 1;
+}
+
+@keyframes prempeh-current-drift-a {
+    from {
+        transform: translate3d(-18px, -8px, 0);
+    }
+
+    to {
+        transform: translate3d(68px, 42px, 0);
+    }
+}
+
+@keyframes prempeh-current-drift-b {
+    from {
+        transform: translate3d(34px, -14px, 0);
+    }
+
+    to {
+        transform: translate3d(-58px, 48px, 0);
+    }
+}
+
+
+/* Header */
+.site-header {
+    background: rgba(216, 237, 255, 0.90);
+    border-bottom: 1px solid rgba(22, 105, 187, 0.20);
+
+    box-shadow:
+        0 8px 30px rgba(45, 101, 157, 0.08);
+}
+
+.brand {
+    color: #075fbd;
+}
+
+.brand span {
+    color: #0d84ed;
+}
+
+.nav-link {
+    color: #173754;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: #006edb;
+}
+
+.back-button,
+.mobile-menu {
+    color: #086dce;
+
+    background: rgba(248, 252, 255, 0.76);
+
+    border-color: #7ab3e4;
+}
+
+.back-button:hover {
+    color: #ffffff;
+
+    background: var(--primary-dark);
+
+    border-color: var(--primary);
+}
+
+
+/* Sections */
+.section-alt {
+    background: rgba(235, 247, 255, 0.25);
+}
+
+.hero {
+    background:
+        radial-gradient(
+            circle at 82% 35%,
+            rgba(255, 255, 255, 0.44),
+            transparent 38%
+        ),
+        linear-gradient(
+            120deg,
+            rgba(198, 228, 253, 0.64) 0%,
+            rgba(169, 210, 249, 0.44) 56%,
+            rgba(148, 199, 243, 0.52) 100%
+        );
+}
+
+.hero::before {
+    border-color: rgba(9, 104, 205, 0.10);
+}
+
+.hero-eyebrow {
+    color: #135e9f;
+}
+
+.hero h1,
+.hero h2,
+.section-header h2,
+.info-card h3,
+.project-card h3,
+.evidence-card h3,
+.skill-card h3,
+.cert-card h3,
+.cert-content h3,
+.contact-copy h2 {
+    color: #0a1c36;
+}
+
+.hero-description,
+.section-header p,
+.about-intro p,
+.info-card p,
+.project-card p,
+.evidence-card p,
+.skill-card p,
+.cert-card p,
+.cert-content p,
+.contact-copy p {
+    color: #365673;
+}
+
+
+/* Buttons */
+.btn-primary {
+    color: #ffffff;
+
+    background: #0878e8;
+
+    border-color: #0878e8;
+
+    box-shadow:
+        0 9px 24px rgba(8, 120, 232, 0.20);
+}
+
+.btn-primary:hover {
+    background: #0868ce;
+    border-color: #0868ce;
+}
+
+.btn-outline {
+    color: #075fb9;
+
+    background: rgba(248, 252, 255, 0.70);
+
+    border-color: #6aa8dd;
+}
+
+.btn-outline:hover {
+    color: #075fb9;
+
+    background: rgba(255, 255, 255, 0.94);
+
+    border-color: #0878e8;
+}
+
+
+/* Light glass cards */
+.info-card,
+.project-card,
+.evidence-card,
+.skill-card,
+.cert-card,
+.contact-card,
+.contact-link {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.88),
+            rgba(237, 247, 255, 0.78)
+        );
+
+    border-color: #88b9e2;
+
+    box-shadow:
+        0 14px 38px rgba(38, 91, 143, 0.09);
+
+    backdrop-filter: blur(7px);
+    -webkit-backdrop-filter: blur(7px);
+}
+
+.info-card:hover,
+.project-card:hover,
+.evidence-card:hover,
+.skill-card:hover,
+.cert-card:hover,
+.contact-link:hover {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.96),
+            rgba(241, 249, 255, 0.91)
+        );
+
+    border-color: #4b99dd;
+
+    box-shadow:
+        0 18px 42px rgba(35, 93, 150, 0.14);
+}
+
+.card-icon,
+.cert-badge {
+    color: #0870d5;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(220, 240, 255, 0.92),
+            rgba(203, 231, 255, 0.82)
+        );
+
+    border-color: #75afe0;
+}
+
+.project-type,
+.cert-provider {
+    color: #1768ac;
+}
+
+.tags span {
+    color: #076ccf;
+
+    background: rgba(239, 248, 255, 0.82);
+
+    border-color: #79b0df;
+}
+
+.project-link,
+.evidence-link {
+    color: #0569ca;
+}
+
+.project-link {
+    background: rgba(247, 252, 255, 0.60);
+
+    border-color: #70aade;
+}
+
+.project-link:hover {
+    color: #ffffff;
+
+    background: #0878e8;
+
+    border-color: #0878e8;
+}
+
+.evidence-link:hover {
+    color: #034f9c;
+}
+
+.status {
+    color: #456985;
+}
+
+.status span {
+    background: #0878e8;
+
+    box-shadow:
+        0 0 10px rgba(8, 120, 232, 0.46);
+}
+
+
+/* Certifications */
+.cert-card::after {
+    background:
+        radial-gradient(
+            circle at top right,
+            rgba(35, 140, 234, 0.13),
+            transparent 68%
+        );
+}
+
+.cert-badge span {
+    color: #0870d5;
+}
+
+
+/* Contact */
+.contact-section {
+    background:
+        radial-gradient(
+            circle at 84% 36%,
+            rgba(255, 255, 255, 0.38),
+            transparent 34%
+        ),
+        rgba(151, 201, 244, 0.28);
+}
+
+.contact-link > span {
+    color: #0870d5;
+
+    background: rgba(225, 242, 255, 0.90);
+
+    border-color: #76afe0;
+}
+
+.contact-link strong,
+.contact-label {
+    color: #0a1c36;
+}
+
+
+/* Footer and utility controls */
+.site-footer {
+    background: rgba(135, 191, 239, 0.56);
+
+    border-top-color: rgba(40, 112, 181, 0.22);
+}
+
+.site-footer p {
+    color: #294d6c;
+}
+
+.site-footer span {
+    color: #557895;
+}
+
+.scroll-top {
+    color: #0870d5;
+
+    background: rgba(249, 253, 255, 0.88);
+
+    border-color: #6aa9de;
+
+    box-shadow:
+        0 10px 28px rgba(28, 91, 151, 0.14);
+}
+
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    body::before,
+    body::after {
+        animation: none;
+    }
+}
+
+
+/* Mobile readability */
+@media (max-width: 860px) {
+    .main-nav {
+        background: rgba(224, 241, 255, 0.97);
+        border-color: #83b9e7;
+    }
+
+    .nav-link {
+        color: #173754;
+    }
+}
+
