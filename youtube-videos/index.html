@@ -671,6 +671,7 @@
                                 <a
                                     class="download-button resource-download"
                                     data-ready="true"
+                                    title="Download PowerPoint file"
                                     data-file="/assets/youtube-videos/network-part-1.pptx"
                                     href="/assets/youtube-videos/network-part-1.pptx"
                                     download
@@ -690,6 +691,7 @@
                                 <a
                                     class="download-button resource-download"
                                     data-ready="true"
+                                    title="Download PowerPoint file"
                                     data-file="/assets/youtube-videos/network-diagram-part-1.pptx"
                                     href="/assets/youtube-videos/network-diagram-part-1.pptx"
                                     download
@@ -758,6 +760,7 @@
                                 <a
                                     class="download-button resource-download"
                                     data-ready="true"
+                                    title="Download PowerPoint file"
                                     data-file="/assets/youtube-videos/network-part-2.pptx"
                                     href="/assets/youtube-videos/network-part-2.pptx"
                                     download
@@ -777,6 +780,7 @@
                                 <a
                                     class="download-button resource-download"
                                     data-ready="true"
+                                    title="Download PowerPoint file"
                                     data-file="/assets/youtube-videos/network-diagram-part-2.pptx"
                                     href="/assets/youtube-videos/network-diagram-part-2.pptx"
                                     download
@@ -847,6 +851,7 @@
                                 <a
                                     class="download-button resource-download"
                                     data-ready="true"
+                                    title="Download PowerPoint file"
                                     data-file="/assets/youtube-videos/network-part-3.pptx"
                                     href="/assets/youtube-videos/network-part-3.pptx"
                                     download
@@ -867,6 +872,7 @@
                                 <a
                                     class="download-button resource-download"
                                     data-ready="true"
+                                    title="Download PowerPoint file"
                                     data-file="/assets/youtube-videos/network-diagram-part-3.pptx"
                                     href="/assets/youtube-videos/network-diagram-part-3.pptx"
                                     download
@@ -939,6 +945,7 @@
                                 <a
                                     class="download-button resource-download"
                                     data-ready="true"
+                                    title="Download PowerPoint file"
                                     data-file="/assets/youtube-videos/mac-addresses.pptx"
                                     href="/assets/youtube-videos/mac-addresses.pptx"
                                     download
@@ -1022,47 +1029,6 @@
         searchInput.value = "";
         filterVideos();
         searchInput.focus();
-    });
-
-    document.querySelectorAll(".resource-download").forEach(function (link) {
-        link.addEventListener("click", async function (event) {
-            event.preventDefault();
-
-            const originalText = link.textContent.trim();
-            link.textContent = "Downloading...";
-
-            try {
-                const response = await fetch(link.href, {
-                    cache: "no-store"
-                });
-
-                if (!response.ok) {
-                    throw new Error("Download failed");
-                }
-
-                const blob = await response.blob();
-                const objectUrl = URL.createObjectURL(blob);
-                const downloadLink = document.createElement("a");
-
-                downloadLink.href = objectUrl;
-                downloadLink.download =
-                    link.getAttribute("href").split("/").pop() || "lesson-file.pptx";
-
-                document.body.appendChild(downloadLink);
-                downloadLink.click();
-                downloadLink.remove();
-
-                setTimeout(function () {
-                    URL.revokeObjectURL(objectUrl);
-                }, 1000);
-            } catch (error) {
-                window.location.href = link.href;
-            } finally {
-                setTimeout(function () {
-                    link.textContent = originalText;
-                }, 500);
-            }
-        });
     });
 
     filterVideos();
