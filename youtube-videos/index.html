@@ -469,15 +469,17 @@
         }
 
         .download-button[data-ready="true"] {
-            color: #ffffff;
-            background: linear-gradient(180deg, #064fd8, #043fb9);
-            border-color: #69b4ff;
+            color: #526b80;
+            background: #dfeaf4;
+            border-color: #bdcedc;
             cursor: pointer;
             pointer-events: auto;
         }
 
         .download-button[data-ready="true"]:hover {
-            background: linear-gradient(180deg, #0446c4, #03369f);
+            color: #334e65;
+            background: #cfdeea;
+            border-color: #9fb8cb;
         }
 
         .footer {
@@ -1020,6 +1022,47 @@
         searchInput.value = "";
         filterVideos();
         searchInput.focus();
+    });
+
+    document.querySelectorAll(".resource-download").forEach(function (link) {
+        link.addEventListener("click", async function (event) {
+            event.preventDefault();
+
+            const originalText = link.textContent.trim();
+            link.textContent = "Downloading...";
+
+            try {
+                const response = await fetch(link.href, {
+                    cache: "no-store"
+                });
+
+                if (!response.ok) {
+                    throw new Error("Download failed");
+                }
+
+                const blob = await response.blob();
+                const objectUrl = URL.createObjectURL(blob);
+                const downloadLink = document.createElement("a");
+
+                downloadLink.href = objectUrl;
+                downloadLink.download =
+                    link.getAttribute("href").split("/").pop() || "lesson-file.pptx";
+
+                document.body.appendChild(downloadLink);
+                downloadLink.click();
+                downloadLink.remove();
+
+                setTimeout(function () {
+                    URL.revokeObjectURL(objectUrl);
+                }, 1000);
+            } catch (error) {
+                window.location.href = link.href;
+            } finally {
+                setTimeout(function () {
+                    link.textContent = originalText;
+                }, 500);
+            }
+        });
     });
 
     filterVideos();
