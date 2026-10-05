@@ -2168,3 +2168,86 @@ body > * {
     }
 }
 
+/* FEATURED PROJECTS DEEP BLUE CARDS */
+.project-card {
+    background:
+        linear-gradient(
+            145deg,
+            #1766ad 0%,
+            #0f5ca4 52%,
+            #0a4f93 100%
+        );
+
+    border-color: #2f7ec4;
+
+    box-shadow:
+        0 16px 36px rgba(18, 82, 145, 0.20);
+}
+
+.project-card:hover {
+    background:
+        linear-gradient(
+            145deg,
+            #1d73c2 0%,
+            #1265b3 52%,
+            #0b559e 100%
+        );
+
+    border-color: #69b5f4;
+
+    box-shadow:
+        0 20px 42px rgba(15, 78, 140, 0.28);
+}
+
+.project-card h3 {
+    color: #ffffff;
+}
+
+.project-card p {
+    color: #e4f2ff;
+}
+
+.project-card .project-type {
+    color: #c9e8ff;
+}
+
+.project-card .tags span {
+    color: #0564bd;
+
+    background: rgba(246, 251, 255, 0.94);
+
+    border-color: rgba(255, 255, 255, 0.72);
+}
+
+.project-card .project-link {
+    color: #ffffff;
+
+    background:
+        linear-gradient(
+            180deg,
+            #064fd8 0%,
+            #043fb9 100%
+        );
+
+    border-color: #56a9ff;
+
+    box-shadow:
+        0 8px 20px rgba(0, 42, 145, 0.28);
+}
+
+.project-card .project-link:hover {
+    color: #ffffff;
+
+    background:
+        linear-gradient(
+            180deg,
+            #033fc0 0%,
+            #032f96 100%
+        );
+
+    border-color: #9bd1ff;
+
+    box-shadow:
+        0 10px 24px rgba(0, 33, 120, 0.36);
+}
+
