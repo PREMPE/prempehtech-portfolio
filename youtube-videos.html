@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>YouTube Videos | PrempehTech</title>
+    <meta
+        name="description"
+        content="PrempehTech YouTube networking lessons with video links, lesson summaries, teaching slides, and network diagram downloads."
+    >
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            color: #0b203d;
+            font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background:
+                radial-gradient(circle at 18% 12%, rgba(235, 247, 255, 0.72), transparent 31%),
+                radial-gradient(circle at 82% 72%, rgba(119, 188, 245, 0.30), transparent 34%),
+                linear-gradient(145deg, #b6dcfb 0%, #a9d2f9 48%, #9ecbf4 100%);
+            line-height: 1.65;
+        }
+
+        body::before,
+        body::after {
+            content: "";
+            position: fixed;
+            inset: -70px;
+            pointer-events: none;
+            z-index: 0;
+            will-change: transform;
+        }
+
+        body::before {
+            background:
+                linear-gradient(90deg, transparent, rgba(17,112,214,.18), #fff, rgba(17,112,214,.18), transparent)
+                    10% 18% / 24px 1px no-repeat,
+                linear-gradient(90deg, transparent, rgba(17,112,214,.16), #fff, rgba(17,112,214,.16), transparent)
+                    76% 31% / 20px 1px no-repeat,
+                linear-gradient(90deg, transparent, rgba(17,112,214,.15), #fff, rgba(17,112,214,.15), transparent)
+                    31% 68% / 28px 1px no-repeat,
+                radial-gradient(circle, #fff 0 1px, rgba(18,115,218,.36) 1.2px, transparent 2px)
+                    88% 79% / 4px 4px no-repeat;
+            opacity: .62;
+            animation: current-a 17s linear infinite;
+        }
+
+        body::after {
+            background:
+                linear-gradient(90deg, transparent, rgba(0,92,200,.14), rgba(255,255,255,.8), rgba(0,92,200,.14), transparent)
+                    57% 12% / 18px 1px no-repeat,
+                radial-gradient(circle, #fff 0 1px, rgba(15,105,207,.3) 1.2px, transparent 2px)
+                    19% 48% / 4px 4px no-repeat,
+                linear-gradient(90deg, transparent, rgba(0,92,200,.13), rgba(255,255,255,.76), rgba(0,92,200,.13), transparent)
+                    84% 59% / 22px 1px no-repeat;
+            opacity: .55;
+            animation: current-b 23s linear infinite;
+        }
+
+        @keyframes current-a {
+            from { transform: translate3d(-18px, -8px, 0); }
+            to { transform: translate3d(68px, 42px, 0); }
+        }
+
+        @keyframes current-b {
+            from { transform: translate3d(34px, -14px, 0); }
+            to { transform: translate3d(-58px, 48px, 0); }
+        }
+
+        .page {
+            position: relative;
+            z-index: 1;
+        }
+
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 18px max(24px, calc((100vw - 1240px) / 2));
+            background: rgba(216, 237, 255, .91);
+            border-bottom: 1px solid rgba(22, 105, 187, .20);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+        }
+
+        .brand {
+            color: #075fbd;
+            font-size: 22px;
+            font-weight: 850;
+            letter-spacing: -.3px;
+            text-decoration: none;
+        }
+
+        .brand span {
+            color: #0d84ed;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            min-height: 42px;
+            padding: 0 16px;
+            color: #075fb9;
+            background: rgba(255,255,255,.78);
+            border: 1px solid #75afe0;
+            border-radius: 9px;
+            font-weight: 750;
+            text-decoration: none;
+        }
+
+        .wrap {
+            width: min(1240px, calc(100% - 40px));
+            margin: 0 auto;
+        }
+
+        .hero {
+            padding: 84px 0 52px;
+            text-align: center;
+        }
+
+        .eyebrow {
+            margin: 0 0 10px;
+            color: #0d68bb;
+            font-size: 13px;
+            font-weight: 850;
+            letter-spacing: 2.4px;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            margin: 0;
+            color: #081d37;
+            font-size: clamp(42px, 7vw, 76px);
+            line-height: 1.05;
+            letter-spacing: -2.5px;
+        }
+
+        .hero p {
+            max-width: 790px;
+            margin: 22px auto 0;
+            color: #355b7b;
+            font-size: 18px;
+        }
+
+        .series-note {
+            max-width: 900px;
+            margin: 0 auto 42px;
+            padding: 18px 20px;
+            color: #154b78;
+            background: rgba(255,255,255,.55);
+            border: 1px solid #83b9e7;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .video-list {
+            display: grid;
+            gap: 28px;
+            padding-bottom: 84px;
+        }
+
+        .lesson-card {
+            overflow: hidden;
+            color: #fff;
+            background:
+                linear-gradient(145deg, #1766ad 0%, #0f5ca4 52%, #0a4f93 100%);
+            border: 1px solid #2f7ec4;
+            border-radius: 18px;
+            box-shadow: 0 18px 42px rgba(15, 78, 140, .20);
+        }
+
+        .lesson-main {
+            display: grid;
+            grid-template-columns: minmax(0, 1.25fr) minmax(310px, .75fr);
+            gap: 38px;
+            padding: 38px;
+        }
+
+        .part-label {
+            display: inline-flex;
+            align-items: center;
+            min-height: 32px;
+            padding: 0 11px;
+            margin-bottom: 15px;
+            color: #075fb8;
+            background: #edf7ff;
+            border: 1px solid rgba(255,255,255,.65);
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 850;
+            letter-spacing: .7px;
+        }
+
+        .lesson-card h2 {
+            margin: 0 0 14px;
+            color: #fff;
+            font-size: clamp(25px, 3vw, 34px);
+            line-height: 1.25;
+        }
+
+        .lesson-summary {
+            margin: 0;
+            color: #e4f2ff;
+            font-size: 16px;
+        }
+
+        .topics {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 22px;
+        }
+
+        .topics span {
+            display: inline-flex;
+            align-items: center;
+            min-height: 31px;
+            padding: 4px 10px;
+            color: #075da9;
+            background: rgba(246,251,255,.95);
+            border: 1px solid rgba(255,255,255,.65);
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .watch-box {
+            align-self: stretch;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 14px;
+            padding: 26px;
+            background: rgba(4, 54, 110, .30);
+            border: 1px solid rgba(189, 225, 255, .30);
+            border-radius: 14px;
+        }
+
+        .watch-box strong {
+            font-size: 14px;
+            letter-spacing: .7px;
+            text-transform: uppercase;
+            color: #d9efff;
+        }
+
+        .watch-box p {
+            margin: 0;
+            color: #dceeff;
+            font-size: 14px;
+        }
+
+        .youtube-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 48px;
+            padding: 0 18px;
+            color: #fff;
+            background: #e62117;
+            border: 1px solid #ff8179;
+            border-radius: 8px;
+            font-weight: 850;
+            text-decoration: none;
+            transition: transform .18s ease, background .18s ease;
+        }
+
+        .youtube-link:hover {
+            transform: translateY(-2px);
+            background: #ca1d14;
+        }
+
+        .downloads {
+            padding: 28px 38px 34px;
+            background: rgba(4, 45, 91, .30);
+            border-top: 1px solid rgba(190, 226, 255, .23);
+        }
+
+        .downloads h3 {
+            margin: 0 0 7px;
+            color: #fff;
+            font-size: 20px;
+        }
+
+        .downloads > p {
+            margin: 0 0 19px;
+            color: #d9edff;
+            font-size: 14px;
+        }
+
+        .download-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 13px;
+        }
+
+        .download-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+            padding: 18px;
+            background: rgba(255,255,255,.96);
+            border: 1px solid rgba(255,255,255,.70);
+            border-radius: 11px;
+        }
+
+        .download-copy strong {
+            display: block;
+            margin-bottom: 4px;
+            color: #0a2850;
+            font-size: 15px;
+        }
+
+        .download-copy span {
+            display: block;
+            color: #4e6d88;
+            font-size: 13px;
+        }
+
+        .download-button {
+            flex: 0 0 auto;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 42px;
+            padding: 0 14px;
+            color: #fff;
+            background: linear-gradient(180deg, #064fd8, #043fb9);
+            border: 1px solid #69b4ff;
+            border-radius: 7px;
+            font-size: 13px;
+            font-weight: 850;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .download-button[data-ready="false"] {
+            color: #62798d;
+            background: #dfeaf4;
+            border-color: #bdcedc;
+            cursor: default;
+            pointer-events: none;
+        }
+
+        .footer {
+            padding: 30px 20px 38px;
+            color: #294d6c;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        @media (max-width: 820px) {
+            .lesson-main {
+                grid-template-columns: 1fr;
+                padding: 27px;
+            }
+
+            .downloads {
+                padding: 25px 27px 29px;
+            }
+
+            .download-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .topbar {
+                padding-inline: 20px;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .wrap {
+                width: min(100% - 24px, 1240px);
+            }
+
+            .topbar {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .download-item {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .download-button {
+                width: 100%;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            body::before,
+            body::after {
+                animation: none;
+            }
+
+            * {
+                scroll-behavior: auto !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div class="page">
+
+    <header class="topbar">
+        <a class="brand" href="/">Prempeh<span>Tech.ca</span></a>
+        <a class="back-link" href="/">← Back to Portfolio</a>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="wrap">
+                <p class="eyebrow">PrempehTech Learning Resources</p>
+                <h1>YouTube Videos</h1>
+                <p>
+                    Companion resources for my networking lessons. The videos remain on YouTube;
+                    this page explains what each lesson covers and provides the supporting teaching
+                    material and network diagrams for download.
+                </p>
+            </div>
+        </section>
+
+        <div class="wrap">
+            <div class="series-note">
+                <strong>Networking Fundamentals Series</strong><br>
+                Start with Part 1 and work forward. Each lesson builds on the concepts introduced
+                in the previous part.
+            </div>
+
+            <section class="video-list" aria-label="YouTube networking lessons">
+
+                <article class="lesson-card" id="network-part-1">
+                    <div class="lesson-main">
+                        <div>
+                            <span class="part-label">NETWORKING FUNDAMENTALS · PART 1</span>
+                            <h2>Network Fundamentals / Basics PART 1 | What is a NETWORK</h2>
+                            <p class="lesson-summary">
+                                This introductory lesson builds the foundation for networking. It explains
+                                what a network is, why devices communicate, the difference between local and
+                                wide-area network types, how the Internet fits into networking, common
+                                topologies, hosts and network interfaces, transmission media, protocols,
+                                endpoints, and core infrastructure devices.
+                            </p>
+
+                            <div class="topics" aria-label="Part 1 topics">
+                                <span>Network Basics</span>
+                                <span>LAN / WLAN</span>
+                                <span>PAN / MAN / WAN</span>
+                                <span>Internet</span>
+                                <span>Topologies</span>
+                                <span>Network Interfaces</span>
+                                <span>Protocols</span>
+                                <span>Infrastructure</span>
+                            </div>
+                        </div>
+
+                        <aside class="watch-box">
+                            <strong>Video lesson</strong>
+                            <p>Watch the complete Part 1 lesson on the PrempehTech YouTube channel.</p>
+                            <a
+                                class="youtube-link"
+                                href="https://www.youtube.com/watch?v=70n0j1gFJJE"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                Watch Part 1 on YouTube
+                            </a>
+                        </aside>
+                    </div>
+
+                    <div class="downloads">
+                        <h3>Lesson Files</h3>
+                        <p>Download the teaching material used with this video.</p>
+
+                        <div class="download-grid">
+                            <div class="download-item">
+                                <div class="download-copy">
+                                    <strong>Part 1 — Teaching Slides</strong>
+                                    <span>
+                                        Definitions and explanations covering network fundamentals,
+                                        network types, Internet, topologies, interfaces, media, and protocols.
+                                    </span>
+                                </div>
+                                <a
+                                    class="download-button resource-download"
+                                    data-ready="false"
+                                    data-file="assets/youtube-videos/network-part-1.pptx"
+                                    href="assets/youtube-videos/network-part-1.pptx"
+                                    download
+                                >
+                                    File Pending
+                                </a>
+                            </div>
+
+                            <div class="download-item">
+                                <div class="download-copy">
+                                    <strong>Part 1 — Network Diagrams</strong>
+                                    <span>
+                                        Visual diagrams for LAN, WLAN, PAN, MAN, WAN, network devices,
+                                        interfaces, media, topologies, and basic network paths.
+                                    </span>
+                                </div>
+                                <a
+                                    class="download-button resource-download"
+                                    data-ready="false"
+                                    data-file="assets/youtube-videos/network-diagram-part-1.pptx"
+                                    href="assets/youtube-videos/network-diagram-part-1.pptx"
+                                    download
+                                >
+                                    File Pending
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+
+                <article class="lesson-card" id="network-part-2">
+                    <div class="lesson-main">
+                        <div>
+                            <span class="part-label">NETWORKING FUNDAMENTALS · PART 2</span>
+                            <h2>Networking Fundamentals for Beginners Part 2 | Local vs Remote, Routing &amp; Client-Server</h2>
+                            <p class="lesson-summary">
+                                Part 2 explains how a host decides whether a destination is local or remote,
+                                why the IP prefix matters, and why routing is needed between separate networks.
+                                It then introduces internetworking, clients, servers, network services and
+                                resources, request-and-response communication, client-server architecture,
+                                peer-to-peer networking, and a practical troubleshooting path.
+                            </p>
+
+                            <div class="topics" aria-label="Part 2 topics">
+                                <span>Local vs Remote</span>
+                                <span>IP Prefix</span>
+                                <span>Routing</span>
+                                <span>Internetworking</span>
+                                <span>Clients</span>
+                                <span>Servers</span>
+                                <span>Services &amp; Resources</span>
+                                <span>Peer-to-Peer</span>
+                                <span>Troubleshooting</span>
+                            </div>
+                        </div>
+
+                        <aside class="watch-box">
+                            <strong>Video lesson</strong>
+                            <p>Watch the complete Part 2 lesson on the PrempehTech YouTube channel.</p>
+                            <a
+                                class="youtube-link"
+                                href="https://www.youtube.com/watch?v=ykYgMiCE0XE"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                Watch Part 2 on YouTube
+                            </a>
+                        </aside>
+                    </div>
+
+                    <div class="downloads">
+                        <h3>Lesson Files</h3>
+                        <p>Download the teaching material used with this video.</p>
+
+                        <div class="download-grid">
+                            <div class="download-item">
+                                <div class="download-copy">
+                                    <strong>Part 2 — Teaching Slides</strong>
+                                    <span>
+                                        Explanations of local and remote communication, prefixes, routing,
+                                        clients, servers, services, resources, P2P, and troubleshooting.
+                                    </span>
+                                </div>
+                                <a
+                                    class="download-button resource-download"
+                                    data-ready="false"
+                                    data-file="assets/youtube-videos/network-part-2.pptx"
+                                    href="assets/youtube-videos/network-part-2.pptx"
+                                    download
+                                >
+                                    File Pending
+                                </a>
+                            </div>
+
+                            <div class="download-item">
+                                <div class="download-copy">
+                                    <strong>Part 2 — Network Diagrams</strong>
+                                    <span>
+                                        Visual examples of same-network and different-network communication,
+                                        routing, client-server relationships, services, resources, and P2P.
+                                    </span>
+                                </div>
+                                <a
+                                    class="download-button resource-download"
+                                    data-ready="false"
+                                    data-file="assets/youtube-videos/network-diagram-part-2.pptx"
+                                    href="assets/youtube-videos/network-diagram-part-2.pptx"
+                                    download
+                                >
+                                    File Pending
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+
+                <article class="lesson-card" id="network-part-3">
+                    <div class="lesson-main">
+                        <div>
+                            <span class="part-label">NETWORKING FUNDAMENTALS · PART 3</span>
+                            <h2>Networking Fundamentals Part 3 | Packets, Frames, Encapsulation &amp; Network Performance</h2>
+                            <p class="lesson-summary">
+                                Part 3 follows data as it moves across a network. It covers bits and bytes,
+                                protocol data units, IP packets, headers and payloads, Ethernet frames,
+                                encapsulation and decapsulation, physical transmission over copper, fiber,
+                                and wireless, and the key performance concepts of bandwidth, latency,
+                                throughput, packet loss, and jitter.
+                            </p>
+
+                            <div class="topics" aria-label="Part 3 topics">
+                                <span>Data</span>
+                                <span>Bits &amp; Bytes</span>
+                                <span>Packets</span>
+                                <span>Frames</span>
+                                <span>Headers &amp; Payloads</span>
+                                <span>Encapsulation</span>
+                                <span>Signals</span>
+                                <span>Bandwidth</span>
+                                <span>Latency</span>
+                                <span>Throughput</span>
+                                <span>Loss &amp; Jitter</span>
+                            </div>
+                        </div>
+
+                        <aside class="watch-box">
+                            <strong>Video lesson</strong>
+                            <p>Watch the complete Part 3 lesson on the PrempehTech YouTube channel.</p>
+                            <a
+                                class="youtube-link"
+                                href="https://www.youtube.com/watch?v=MzyySdxRHGU"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                Watch Part 3 on YouTube
+                            </a>
+                        </aside>
+                    </div>
+
+                    <div class="downloads">
+                        <h3>Lesson Files</h3>
+                        <p>Download the teaching material used with this video.</p>
+
+                        <div class="download-grid">
+                            <div class="download-item">
+                                <div class="download-copy">
+                                    <strong>Part 3 — Teaching Slides</strong>
+                                    <span>
+                                        Detailed explanations of data, packets, frames, encapsulation,
+                                        physical signaling, and important network-performance measurements.
+                                    </span>
+                                </div>
+                                <a
+                                    class="download-button resource-download"
+                                    data-ready="false"
+                                    data-file="assets/youtube-videos/network-part-3.pptx"
+                                    href="assets/youtube-videos/network-part-3.pptx"
+                                    download
+                                >
+                                    File Pending
+                                </a>
+                            </div>
+
+                            <div class="download-item">
+                                <div class="download-copy">
+                                    <strong>Part 3 — Network Diagrams</strong>
+                                    <span>
+                                        Visual diagrams showing data representation, packets, frames,
+                                        encapsulation, transmission media, bandwidth, latency, throughput,
+                                        packet loss, and jitter.
+                                    </span>
+                                </div>
+                                <a
+                                    class="download-button resource-download"
+                                    data-ready="false"
+                                    data-file="assets/youtube-videos/network-diagram-part-3.pptx"
+                                    href="assets/youtube-videos/network-diagram-part-3.pptx"
+                                    download
+                                >
+                                    File Pending
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        © 2026 Agyemang Prempeh · PrempehTech.ca
+    </footer>
+
+</div>
+
+<script>
+    /*
+       The download buttons only activate after their corresponding
+       resource file exists on the site. This prevents broken download
+       buttons while new lesson files are being added.
+    */
+    document.querySelectorAll(".resource-download").forEach(function (link) {
+        const file = link.dataset.file;
+
+        fetch(file, { method: "HEAD", cache: "no-store" })
+            .then(function (response) {
+                if (!response.ok) {
+                    return;
+                }
+
+                link.dataset.ready = "true";
+                link.textContent = "Download PPTX";
+            })
+            .catch(function () {
+                // Leave the resource disabled if the file is unavailable.
+            });
+    });
+</script>
+
+</body>
+</html>
