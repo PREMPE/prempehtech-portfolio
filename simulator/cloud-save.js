@@ -34,6 +34,7 @@
   function normalizeProgress(value) {
     return {
       completed: value && value.completed && typeof value.completed === "object" ? value.completed : {},
+      completedLevels: value && value.completedLevels && typeof value.completedLevels === "object" ? value.completedLevels : {},
       xp: Number(value && value.xp) || 0
     };
   }
@@ -43,6 +44,7 @@
     const b = normalizeProgress(remote);
     return {
       completed: { ...a.completed, ...b.completed },
+      completedLevels: { ...a.completedLevels, ...b.completedLevels },
       xp: Math.max(a.xp, b.xp)
     };
   }
