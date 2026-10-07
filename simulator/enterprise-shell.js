@@ -152,7 +152,7 @@ function contextMenu(){
 function enhance(){
  injectStyle();
  if(!q('#desktopLabShell')||q('#desktopLabShell').classList.contains('hidden'))return;
- enhanceTicket();enhanceIcons();enhanceStart();enhanceTaskbar();contextMenu(); qa('.vm-window').forEach(w=>{if(!w.dataset.enterpriseWired){w.dataset.enterpriseWired='1';wireEnterprise(w,w.dataset.app)}});
+ enhanceTicket();installProcedureCoach();enhanceIcons();enhanceStart();enhanceTaskbar();contextMenu(); qa('.vm-window').forEach(w=>{if(!w.dataset.enterpriseWired){w.dataset.enterpriseWired='1';wireEnterprise(w,w.dataset.app)}});
 }
 const obs=new MutationObserver(()=>setTimeout(enhance,0));obs.observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['class']});
 document.addEventListener('DOMContentLoaded',enhance);setInterval(enhance,1200);
@@ -247,6 +247,71 @@ if(_ptOldValidate){
 }
 const _ptOldLaunch=typeof launch==="function"?launch:null;
 if(_ptOldLaunch)launch=function(track,level){PT_SIM.state=null;return _ptOldLaunch(track,level)};
+
+
+/* ===== Contextual Procedure Coach ===== */
+function exactProcedure(){
+ const g=guideForCurrent(),apps=(current?.data?.apps||[]),tasks=current?.data?.tasks||[];
+ const open=id=>APP_DEFS[id]?.label||id;
+ const procedures={
+ networking:{
+ 1:["Click Start, search Network Connections, and open the network adapter settings.","Open Ethernet properties, select Internet Protocol Version 4 (TCP/IPv4), and open Properties.","Enter the assigned IPv4 address, subnet mask, default gateway, and DNS server, then apply the settings.","Open Command Prompt from Start/Search and run ipconfig /all to confirm the adapter configuration.","Run ping against the default gateway, then the required internal server.","Run nslookup for the required internal hostname and confirm the returned address."],
+ 2:["Click Start, search DHCP, and open DHCP Manager.","Expand the DHCP server, expand IPv4, and open the Support scope.","Open Address Pool and inspect the configured start and end addresses.","Open Scope Options and inspect option 003 Router and option 006 DNS Servers; correct values that do not match the project network.","Click Start, search DNS, open DNS Manager, expand Forward Lookup Zones, and open corp.local.","Inspect the files host A record and correct or create it for the required server address.","Return to the client, open Command Prompt, run ipconfig /renew, then run ipconfig /all.","Run nslookup files.corp.local and ping the required destination to verify service."],
+ 3:["Open the switch console and run show vlan brief.","Create/verify VLAN 10 and VLAN 20 using the required names.","Run show interfaces trunk and identify the uplink that must carry both VLANs.","Configure the uplink as an 802.1Q trunk and allow the required VLANs.","Open the router console and run show ip interface brief.","Configure the required gateway subinterfaces for VLAN 10 and VLAN 20.","Run ping tests between the required endpoints and recheck VLAN/trunk state."],
+ 4:["Open Command Prompt and reproduce the Finance failure with ping and tracert.","Open the router console and run show ip route to confirm the destination route.","Inspect the active access-control policy and locate the rule matching Finance traffic.","Compare source, destination, protocol, and action with the project requirement.","Correct only the responsible ACL entry and apply it.","Repeat tracert and ping to verify the path is restored."],
+ 5:["From the branch workstation, run ping and tracert toward the HQ application network.","Open the router console and run show ip route and show ip interface brief.","Identify the incorrect or missing route for the HQ destination and correct its next hop.","Open the firewall/VPN policy and inspect NAT treatment for branch-to-HQ private traffic.","Create or correct the NAT exemption required for VPN traffic.","Repeat tracert and ping, then verify the route table still contains the intended path."]},
+ sysadmin:{
+ 1:["Click Start, search Active Directory Users and Computers, and open it.","Expand corp.local and open the Accounting organizational unit.","Right-click the correct OU, choose New → User, and create Jordan Lee using the required logon name.","Open Jordan Lee Properties → Member Of → Add and add the required Finance security group.","Open Server Manager/File Services and locate the Finance share permissions.","Grant access through the approved group/role and verify Jordan's effective access."],
+ 2:["Click Start, search Event Viewer, and open Windows Logs → System.","Filter/find the service failure event and identify the affected service name.","Click Start, search Services, and open Services.","Locate W3SVC, open Properties, set the required startup type, and start the service.","Open PowerShell and run Get-Service W3SVC.","Confirm Status is Running and compare it with the original event evidence."],
+ 3:["Click Start, search Group Policy Management, and open it.","Expand Forest → Domains → corp.local and identify the Accounting OU.","Right-click Group Policy Objects, create the required GPO, then edit it.","Navigate to the appropriate User Configuration preference/policy and configure the Finance F: drive mapping to \\\\FS01\\Finance.","Return to GPMC and link the GPO to the Accounting OU.","On the client, open PowerShell/Command Prompt and run gpupdate /force, then gpresult to verify application."],
+ 4:["Open Event Viewer and review System/Directory-related errors on DC02.","Open Services and inspect Netlogon and other required domain services.","Open Netlogon Properties, set the required startup state, and start the service.","Open PowerShell and run the required domain health check such as dcdiag.","Run nltest/domain-controller discovery to verify DC location.","Confirm the error condition no longer reproduces and domain authentication works."],
+ 5:["On the affected client, run nslookup dc01.corp.local and record the incorrect result.","Open DNS Manager → Forward Lookup Zones → corp.local.","Locate the dc01 Host (A) record and correct it to the required address.","Open Group Policy Management and verify the required GPO is linked/enabled at the intended OU.","On the client run ipconfig /flushdns, then nslookup again.","Run gpupdate /force and gpresult to verify policy recovery."]},
+ cyber:{
+ 1:["Open Event Viewer/Security monitoring and locate Event ID 4625 failed logons.","Filter the events by the administrator account and review the source address and timestamps.","Count/compare repeated failures and check nearby successful logons for context.","Record the suspicious source and classify the pattern from the evidence.","Use the available response control to protect the account/source while preserving logs.","Verify the response and record the event IDs, account, source, and reasoning."],
+ 2:["Open Start/Search, launch Endpoint Security, and open Devices/Alerts.","Search for CLIENT-23 and open its device page.","Open the process timeline and inspect powershell.exe, its encoded command line, and parent WINWORD.EXE.","Open Event Viewer → Security and find the corresponding process-creation Event 4688.","Compare the endpoint process chain with the Windows event evidence.","Return to CLIENT-23 in Endpoint Security, choose Isolate device, and confirm.","Verify the device Network state changes from Connected to Isolated and record the evidence."],
+ 3:["Open the firewall/security console and inspect inbound Remote Desktop rules.","Locate TCP 3389 exposure and restrict the source to the approved management subnet.","Open Active Directory Users and Computers and locate legacy-admin.","Open the account properties and disable the stale privileged account.","Open Event Viewer/Security and verify the account-disable audit event.","Test/verify that approved management access remains permitted while other sources are denied."],
+ 4:["Open the SIEM and search for CLIENT-44 authentication activity.","Refine the search around the incident time and identify failed/successful logons.","Search CLIENT-44 process telemetry for powershell.exe and inspect its command line.","Search network/Sysmon telemetry for outbound connections from CLIENT-44.","Correlate the timestamps into one incident timeline.","Open Endpoint Security, locate CLIENT-44, isolate it, and verify isolation.","Record the authentication, process, and network evidence used for containment."],
+ 5:["Open the SIEM and search WS-17, APP-02, and DB-01 across the incident window.","Identify Type 3 network logons and the account used between systems.","Search APP-02 for service-creation Event 7045 and inspect the service details.","Search network telemetry for APP-02 connections to DB-01 on SMB/445.","Build the order WS-17 → APP-02 → DB-01 and distinguish confirmed compromise from contact.","Contain the abused account and confirmed affected endpoints using the available identity/EDR controls.","Verify containment states and document origin, pivot, account, affected systems, and preserved evidence."]},
+ integrated:{
+ 1:["Open Network Connections and correct the Finance workstation's IPv4/gateway settings.","Open Command Prompt and verify gateway and Finance-server reachability.","Open Active Directory Users and Computers and grant the employee the required Finance group membership.","Verify Finance resource access using the corrected identity/network state.","Open security logs and investigate the administrator failed-logon source.","Apply the required response, then verify both business access and security state."],
+ 2:["Open DHCP Manager, create/correct the branch scope, and configure router/DNS scope options.","On the branch client run ipconfig /renew and verify the lease.","Open Active Directory Users and Computers and create the approved branch employee in the correct OU/group.","Open Endpoint Security and find the suspicious email-launched PowerShell alert.","Inspect the process chain, corroborate evidence, and isolate the endpoint if justified.","Verify branch addressing, user access, and endpoint containment."],
+ 3:["Open the switch/router tools and create/configure VLAN 30 for Engineering.","Verify VLAN/trunk/gateway state using the relevant show commands.","Open Group Policy Management, create/configure the Engineering policy, and link it to the Engineering OU.","Refresh policy on an Engineering client and verify application.","Open the firewall console and create the narrow HTTPS/443 application rule required by Engineering.","Test the permitted application flow and confirm unrelated traffic was not broadly allowed."],
+ 4:["Open Event Viewer and identify the production service failure on the affected server.","Open Services, restore the failed service, and verify it from PowerShell.","Open the SIEM and investigate the suspicious authentication source independently of the outage.","Correlate account, host, source, and time before deciding containment.","Use Endpoint Security/identity controls to contain the confirmed threat.","Verify production remains available after containment and document both workstreams."],
+ 5:["Open Command Prompt/router tools and reproduce the application-site network failure.","Inspect the route table, correct the responsible route, and verify connectivity.","Open Active Directory Users and Computers/Security logs and investigate the unauthorized Domain Admin membership.","Remove the unauthorized membership or disable the abused identity while preserving evidence.","Open the SIEM and scope APP-05 encoded PowerShell and outbound network activity.","Open Endpoint Security and contain confirmed affected systems.","Retest business connectivity and document routing root cause, privilege change, PowerShell evidence, containment, and verification."]}
+ };
+ return procedures[current?.track]?.[Number(current?.level)]||g.steps;
+}
+function procedureProgress(){
+ const p=exactProcedure(),done=Object.values(taskState||{}).filter(Boolean).length,total=Math.max(1,Object.keys(taskState||{}).length);
+ return Math.min(p.length-1,Math.floor(done/total*p.length));
+}
+function procedureHint(step){
+ const p=exactProcedure(),txt=p[step]||p[0],low=txt.toLowerCase();
+ if(low.includes("dhcp"))return "You are working on DHCP. Use Start/Search to find DHCP Manager, then work down the server → IPv4 → scope tree. Inspect before changing anything.";
+ if(low.includes("dns")||low.includes("nslookup"))return "This step is about name resolution. DNS Manager changes records; nslookup tests what DNS actually returns.";
+ if(low.includes("event"))return "Use Event Viewer filtering or Find. Event ID, host, account, source and timestamp are usually faster than reading every row.";
+ if(low.includes("endpoint")||low.includes("isolate"))return "Open the device itself before taking action. Review its process/network evidence, then use the device action to isolate it.";
+ if(low.includes("active directory")||low.includes("account")||low.includes("user"))return "Use Active Directory Users and Computers. Navigate the domain/OU tree first, then open the specific object or create it in the correct OU.";
+ if(low.includes("group policy")||low.includes("gpo")||low.includes("gpupdate"))return "Use Group Policy Management for configuration/linking and gpupdate/gpresult on the client for verification.";
+ if(low.includes("route")||low.includes("tracert")||low.includes("vlan")||low.includes("trunk"))return "Use the CLI to inspect current network state before configuring it. Show/display commands are safe investigation tools.";
+ if(low.includes("command prompt")||low.includes("powershell")||low.includes("run "))return "Open the requested terminal from Start/Search and type the command exactly. Read the output before moving on.";
+ return "Complete only this current procedure step. Use Start/Search to locate the named Windows or network tool, inspect the current state, then perform the stated action.";
+}
+function showMeText(step){
+ const p=exactProcedure(),txt=p[step]||p[0];
+ return "<b>Exact procedure</b><br>"+txt+"<br><br><b>Why it matters</b><br>This action changes or verifies the simulated system state required by the project. Read the resulting state/output before continuing.";
+}
+function installProcedureCoach(){
+ const m=q("#vmMission");if(!m||m.dataset.procedureCoach)return;m.dataset.procedureCoach="1";
+ const guide=q(".enterprise-guide",m);if(!guide)return;
+ const steps=exactProcedure(),idx=procedureProgress();
+ guide.innerHTML='<div class="enterprise-guide-tabs"><button class="active" data-pane="procedure">Procedure</button><button data-pane="hint">Hint</button><button data-pane="showme">Show Me / Explain</button><button data-pane="notes">Notes</button></div>'+
+ '<div class="enterprise-guide-pane" data-guide-pane="procedure"><div style="padding:8px;background:#eaf4fb;border-left:4px solid #0877b9;margin-bottom:8px"><b>CURRENT STEP '+(idx+1)+' OF '+steps.length+'</b><br>'+steps[idx]+'</div><ol>'+steps.map((x,i)=>'<li style="'+(i===idx?'font-weight:700;background:#eef7ff;padding:5px':'')+'">'+x+'</li>').join("")+'</ol></div>'+
+ '<div class="enterprise-guide-pane" data-guide-pane="hint" hidden><div class="enterprise-hint"><b>Hint for Step '+(idx+1)+'</b><br>'+procedureHint(idx)+'</div></div>'+
+ '<div class="enterprise-guide-pane" data-guide-pane="showme" hidden><div class="enterprise-hint">'+showMeText(idx)+'</div></div>'+
+ '<div class="enterprise-guide-pane" data-guide-pane="notes" hidden><label><b>Root cause / finding</b><textarea style="width:100%;height:55px"></textarea></label><label><b>Changes / response</b><textarea style="width:100%;height:55px"></textarea></label><label><b>Verification / evidence</b><textarea style="width:100%;height:55px"></textarea></label></div>';
+ qa("[data-pane]",guide).forEach(b=>b.onclick=()=>{qa("[data-pane]",guide).forEach(x=>x.classList.remove("active"));b.classList.add("active");qa("[data-guide-pane]",guide).forEach(x=>x.hidden=x.dataset.guidePane!==b.dataset.pane)});
+}
 
 /* ===== End Stateful Enterprise Simulation Engine ===== */
 })();
