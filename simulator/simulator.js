@@ -86,6 +86,11 @@
 
   function saveProgress() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+    if (window.PrempehCloud && window.PrempehCloud.isSignedIn()) {
+      window.PrempehCloud.saveProgress(progress).catch(() => {
+        // Local save remains authoritative if cloud sync is temporarily unavailable.
+      });
+    }
   }
 
   function updateProgressUI() {
@@ -529,6 +534,16 @@
     saveProgress();
     updateProgressUI();
     feedback("Progress reset.", "All locally saved simulator progress has been cleared.", "normal");
+  });
+
+  window.addEventListener("prempeh-cloud-progress", (event) => {
+    if (!event.detail || typeof event.detail !== "object") return;
+    progress = {
+      completed: event.detail.completed || {},
+      xp: Number(event.detail.xp) || 0
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+    updateProgressUI();
   });
 
   updateProgressUI();
