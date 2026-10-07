@@ -38,7 +38,9 @@ for delete
 to authenticated
 using (auth.uid() = user_id);
 
-grant select, insert, update, delete on public.simulator_progress to authenticated;
+revoke all privileges on table public.simulator_progress from anon;
+revoke all privileges on table public.simulator_progress from authenticated;
+grant select, insert, update, delete on table public.simulator_progress to authenticated;
 
 create or replace function public.touch_simulator_progress_updated_at()
 returns trigger
