@@ -19,6 +19,24 @@ const APP_DEFS = {
   endpoint: { label:"Endpoint Security", glyph:"EDR", kind:"siem" }
 };
 
+const COMMAND_DOCS = {
+  "ipconfig": {what:"Displays Windows IP configuration.",means:"Shows the active adapter address, subnet mask, gateway, and related TCP/IP settings.",why:"It is usually the first place to verify whether a workstation has the address you expect."},
+  "ipconfig /renew": {what:"Requests a fresh DHCP lease.",means:"The client asks the DHCP server for valid addressing information again.",why:"Use it after repairing DHCP or when a workstation has an incorrect or expired lease."},
+  "ping": {what:"Sends ICMP echo requests to test reachability.",means:"Replies prove that an IP path is working to the destination.",why:"Testing the gateway and then a remote host helps narrow down where connectivity breaks."},
+  "tracert": {what:"Shows the routed hops toward a destination.",means:"Each hop is a Layer 3 device the traffic crosses.",why:"It helps identify where a route stops or which part of the network is failing."},
+  "nslookup": {what:"Queries DNS for name-resolution information.",means:"It shows which DNS server answered and what IP a hostname resolves to.",why:"A network can be reachable by IP while applications fail because DNS is wrong."},
+  "arp -a": {what:"Displays the local ARP cache.",means:"Maps local IPv4 addresses to MAC addresses.",why:"It helps verify Layer 2 neighbor discovery and spot unexpected mappings."},
+  "gpupdate /force": {what:"Forces Windows Group Policy to refresh.",means:"The computer and user reprocess applicable GPO settings.",why:"It validates that a newly linked or corrected policy can reach the client."},
+  "gpresult /r": {what:"Displays Resultant Set of Policy summary.",means:"Shows which GPOs actually applied to the user and computer.",why:"A GPO existing in the console does not prove it applied to the endpoint."},
+  "get-service w3svc": {what:"Queries the IIS World Wide Web Publishing Service.",means:"Shows whether W3SVC is Running, Stopped, or another state.",why:"It verifies the service after recovery instead of assuming the GUI action worked."},
+  "dcdiag /test:advertising": {what:"Tests whether a domain controller is advertising required services.",means:"Checks if clients should be able to discover and use the DC.",why:"Authentication problems can occur when a DC is online but not advertising correctly."},
+  "nltest /dsgetdc:corp.local": {what:"Asks Windows to locate a domain controller for corp.local.",means:"Returns the DC a client can discover for the domain.",why:"It proves domain discovery is working from the client perspective."},
+  "vlan 10": {what:"Creates or enters VLAN 10 configuration on a switch.",means:"Defines a separate Layer 2 broadcast domain.",why:"VLANs separate groups of devices without needing separate physical switches."},
+  "vlan 20": {what:"Creates or enters VLAN 20 configuration on a switch.",means:"Defines another Layer 2 broadcast domain.",why:"Servers and users can be segmented for performance, security, and policy control."},
+  "switchport mode trunk": {what:"Configures a switch port as a VLAN trunk.",means:"The link can carry tagged traffic for multiple VLANs.",why:"A trunk is required when one physical link must transport more than one VLAN."},
+  "name engineering": {what:"Assigns the name ENGINEERING to the current VLAN.",means:"Gives administrators a readable label instead of relying only on the VLAN number.",why:"Clear naming reduces configuration mistakes in larger environments."}
+};
+
 const SCENARIOS = {
 networking:{
 1:{title:"Bring the Office PC Online",role:"Junior IT Support Technician",ticket:"PC-01 was moved to a new desk and cannot reach the internal server. Configure its adapter and prove end-to-end connectivity.",apps:["network","cmd"],tags:["IPv4","Gateway","DNS","Ping"],tasks:[
@@ -367,7 +385,18 @@ function toast(msg,type=""){const t=$("vmToast");t.textContent=msg;t.className="
 function showWhy(taskId){const t=current.data.tasks.find(x=>x.id===taskId);if(!t)return;toast("Why it matters: "+t.title+" is required to prove the project works, not just to change a setting.","")}
 function showTerminalGuide(appId){
   const req=tasksFor(appId).filter(t=>t.type==="command").flatMap(t=>t.required);
-  toast(req.length?"Project command guide: "+req.join("  ·  "):"No command task is required in this console.","");
+  document.querySelector(".vm-guide-popup")?.remove();
+  const guide=document.createElement("section");
+  guide.className="vm-guide-popup";
+  const cards=req.map((full)=>{
+    const n=norm(full);
+    let key=Object.keys(COMMAND_DOCS).find(k=>n===k||n.startsWith(k+" ")||n.startsWith(k));
+    const d=COMMAND_DOCS[key]||{what:"Runs the required administrative command for this project.",means:"The exact effect depends on the active console and project context.",why:"Command-line validation is used because real administrators often verify GUI changes from a terminal."};
+    return `<article><code>${full}</code><div><strong>What it does</strong><p>${d.what}</p><strong>What it means</strong><p>${d.means}</p><strong>Why it matters</strong><p>${d.why}</p></div></article>`;
+  }).join("");
+  guide.innerHTML=`<div class="vm-guide-head"><div><span>COMMAND HELP</span><h3>${APP_DEFS[appId].label}</h3></div><button type="button">×</button></div><div class="vm-guide-body">${cards||"<p>No command task is required for this project.</p>"}</div>`;
+  $("vmDesktop").appendChild(guide);
+  guide.querySelector("button").addEventListener("click",()=>guide.remove());
 }
 function completeProject(){
   const score=100;
