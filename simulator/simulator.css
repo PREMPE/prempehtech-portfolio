@@ -249,3 +249,55 @@ footer{border-top:1px solid #16344f;color:#7895af;text-align:center;padding:28px
   .network-stage{grid-template-columns:1fr 1fr}
   .device{min-height:96px}
 }
+
+/* CLOUD SAVE / PLAYER ACCOUNT */
+.account-btn{
+  border:1px solid var(--line);background:#0a1d30;color:var(--text);
+  border-radius:8px;padding:9px 13px;font-size:.82rem;font-weight:850
+}
+.account-btn:hover{border-color:var(--blue)}
+.account-overlay{
+  position:fixed;inset:0;z-index:80;
+  display:grid;place-items:center;padding:20px;
+  background:rgba(2,10,18,.74);backdrop-filter:blur(8px)
+}
+.account-dialog{
+  width:min(540px,100%);max-height:calc(100vh - 40px);overflow:auto;
+  background:linear-gradient(145deg,#0c2034,#091a2b);
+  border:1px solid var(--line2);border-radius:14px;padding:24px;
+  box-shadow:0 26px 80px rgba(0,0,0,.42)
+}
+.account-dialog-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px}
+.account-dialog h2{margin:6px 0 0;font-size:1.55rem}
+.account-close{
+  width:42px;height:42px;flex:0 0 42px;border-radius:8px;
+  border:1px solid var(--line);background:#0a1d30;color:var(--muted);font-size:1.45rem
+}
+.account-close:hover{border-color:var(--blue);color:#fff}
+.account-copy{color:var(--muted);font-size:.92rem;line-height:1.65;margin:18px 0}
+.auth-mode-tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:18px 0}
+.auth-mode{
+  min-height:44px;border:1px solid var(--line);border-radius:8px;background:#0a1d30;color:var(--muted);font-weight:850
+}
+.auth-mode.active{background:#173a5d;border-color:#4388cf;color:#fff}
+.account-form{display:grid;gap:12px}
+.account-form label{display:grid;gap:6px;color:var(--muted);font-size:.78rem;font-weight:800}
+.account-form .primary-btn{width:100%;margin-top:4px}
+.account-message{min-height:22px;margin:12px 0 0;color:var(--muted);font-size:.84rem}
+.account-message.error{color:#ffabb2}.account-message.success{color:#9bedc6}
+.account-note{margin:10px 0 0;color:#7895af;font-size:.76rem}
+.signed-in-card{
+  display:flex;align-items:center;gap:12px;margin-top:20px;padding:14px;
+  border:1px solid #27664d;border-radius:9px;background:#10291f
+}
+.sync-dot{width:10px;height:10px;border-radius:50%;background:var(--green);box-shadow:0 0 12px rgba(103,216,163,.55)}
+.account-mini-label{display:block;color:#87bfa4;font-size:.68rem;font-weight:900;letter-spacing:.1em}
+.signed-in-card strong{display:block;margin-top:2px;word-break:break-word}
+.cloud-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.danger-outline{color:#ffabb2!important;border-color:#753845!important}
+.danger-outline:hover{border-color:#ff7d88!important}
+@media (max-width:600px){
+  .account-btn{display:none}
+  .account-dialog{padding:19px}
+  .cloud-actions{grid-template-columns:1fr}
+}
