@@ -297,7 +297,6 @@ footer{border-top:1px solid #16344f;color:#7895af;text-align:center;padding:28px
 .danger-outline{color:#ffabb2!important;border-color:#753845!important}
 .danger-outline:hover{border-color:#ff7d88!important}
 @media (max-width:600px){
-  .account-btn{display:none}
   .account-dialog{padding:19px}
   .cloud-actions{grid-template-columns:1fr}
 }
