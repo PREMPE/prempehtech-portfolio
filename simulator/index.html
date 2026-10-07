@@ -116,13 +116,44 @@
         </article>
       </div>
 
-      <div class="roadmap">
-        <span class="panel-kicker">NEXT DIFFICULTY TIERS</span>
-        <div class="roadmap-grid">
-          <div><strong>Level 2 · Junior Technician</strong><span>Subnetting · DHCP · DNS · Windows/Linux services</span></div>
-          <div><strong>Level 3 · Administrator</strong><span>VLANs · routing · Active Directory · Group Policy · firewalls</span></div>
-          <div><strong>Level 4 · Junior Analyst</strong><span>SIEM triage · endpoint telemetry · access control · incident handling</span></div>
-          <div><strong>Level 5 · Mid-Level Professional</strong><span>Multi-system outages · identity incidents · segmented networks · root-cause analysis</span></div>
+      <div class="roadmap level-selector-panel">
+        <div class="level-selector-head">
+          <div>
+            <span class="panel-kicker">ALL LEVELS UNLOCKED</span>
+            <h3>Choose any difficulty level</h3>
+          </div>
+          <span class="unlocked-pill">No prerequisites</span>
+        </div>
+
+        <div class="level-buttons" role="tablist" aria-label="Difficulty levels">
+          <button class="level-btn active" type="button" data-level="1" aria-selected="true">
+            <span>Level 1</span><strong>Foundation</strong>
+          </button>
+          <button class="level-btn" type="button" data-level="2" aria-selected="false">
+            <span>Level 2</span><strong>Junior Technician</strong>
+          </button>
+          <button class="level-btn" type="button" data-level="3" aria-selected="false">
+            <span>Level 3</span><strong>Administrator</strong>
+          </button>
+          <button class="level-btn" type="button" data-level="4" aria-selected="false">
+            <span>Level 4</span><strong>Junior Analyst</strong>
+          </button>
+          <button class="level-btn" type="button" data-level="5" aria-selected="false">
+            <span>Level 5</span><strong>Mid-Level Professional</strong>
+          </button>
+        </div>
+
+        <div class="level-detail" id="levelDetail">
+          <div class="level-detail-top">
+            <div>
+              <span class="difficulty-level-label" id="levelLabel">LEVEL 1 · FOUNDATION</span>
+              <h3 id="levelTitle">Core IT Fundamentals</h3>
+              <p id="levelDescription">Start with networking, system administration, and cybersecurity fundamentals.</p>
+            </div>
+            <span class="level-unlocked-status">Unlocked ✓</span>
+          </div>
+          <div class="level-topic-grid" id="levelTopics"></div>
+          <button class="primary-btn compact level-jump-btn" id="levelJumpBtn" type="button">Go to Level 1 Labs</button>
         </div>
       </div>
     </section>
