@@ -8,7 +8,7 @@
   <meta name="theme-color" content="#a9d2f9">
   <link rel="canonical" href="https://prempehtech.ca/simulator/">
   <title>IT Infrastructure Simulator | PrempehTech.ca</title>
-  <link rel="stylesheet" href="simulator.css?v=20261007-4">
+  <link rel="stylesheet" href="simulator.css?v=20261007-6">
 </head>
 <body>
   <header class="site-header">
@@ -40,7 +40,7 @@
         </div>
         <div class="progress-stat">
           <span class="stat-label">Completed</span>
-          <strong><span id="completedValue">0</span>/3</strong>
+          <strong><span id="completedValue">0</span>/4</strong>
         </div>
         <div class="progress-stat">
           <span class="stat-label">Current Rank</span>
@@ -79,6 +79,7 @@
         <button class="track-tab active" data-track="networking" role="tab" aria-selected="true" type="button">Networking</button>
         <button class="track-tab" data-track="sysadmin" role="tab" aria-selected="false" type="button">System Administration</button>
         <button class="track-tab" data-track="cyber" role="tab" aria-selected="false" type="button">Cybersecurity</button>
+        <button class="track-tab integrated-tab" data-track="integrated" role="tab" aria-selected="false" type="button">All Together</button>
       </div>
 
       <div class="activity-grid">
@@ -113,6 +114,16 @@
           <p>Review authentication logs, identify the suspicious source, classify the activity, and choose a safe response.</p>
           <div class="skills"><span>Windows Logs</span><span>Event 4625</span><span>Triage</span><span>Response</span></div>
           <button class="launch-btn" data-launch="cyber" type="button">Launch Lab</button>
+        </article>
+        <article class="activity-card integrated-card" data-card-track="integrated">
+          <div class="activity-top">
+            <span class="difficulty integrated">INTEGRATED</span>
+            <span class="completion-badge" data-complete-badge="integrated">Not completed</span>
+          </div>
+          <h3>Restore the Finance Office</h3>
+          <p>Handle one incident end to end: repair network access, correct user permissions, and investigate suspicious authentication activity.</p>
+          <div class="skills"><span>Networking</span><span>System Administration</span><span>Cybersecurity</span><span>Root Cause</span></div>
+          <button class="launch-btn" data-launch="integrated" type="button">Launch All-Together Lab</button>
         </article>
       </div>
 
@@ -240,6 +251,13 @@ C:\Users\student&gt;</div>
               <button type="submit">Run</button>
             </form>
           </section>
+          <section class="tool-panel">
+            <div class="tool-heading">
+              <div><span class="step-number">3</span><h3>Verify route and name resolution</h3></div>
+              <span class="tool-status" id="dnsStatus">Incomplete</span>
+            </div>
+            <p>After proving IP connectivity, inspect the path and local neighbor table. Then resolve the internal service. Try <strong>tracert 10.0.0.10</strong>, <strong>arp -a</strong>, and <strong>nslookup intranet.corp.local</strong>.</p>
+          </section>
           <section class="knowledge-card">
             <span class="panel-kicker">WHY THIS MATTERS</span>
             <h3>Connectivity is a chain.</h3>
@@ -255,6 +273,15 @@ C:\Users\student&gt;</div>
             <p>HR has approved a new Accounting employee: <strong>Jordan Lee</strong>. Username standard is first initial + surname.</p>
             <label class="field-label">Username<input id="newUsername" autocomplete="off" placeholder="Enter username"></label>
             <label class="field-label">Display name<input id="displayName" autocomplete="off" placeholder="Enter full name"></label>
+            <label class="field-label">Department / OU
+              <select id="departmentSelect">
+                <option value="">Choose department</option>
+                <option>Accounting</option>
+                <option>IT</option>
+                <option>Human Resources</option>
+                <option>Domain Controllers</option>
+              </select>
+            </label>
             <button class="action-btn" id="createUserBtn" type="button">Create User</button>
           </section>
 
@@ -330,6 +357,24 @@ C:\Users\student&gt;</div>
         <div class="lab-column">
           <section class="tool-panel">
             <div class="tool-heading"><div><span class="step-number">2</span><h3>Triage the incident</h3></div><span class="tool-status" id="triageStatus">Incomplete</span></div>
+            <label class="field-label">Relevant Windows Event ID
+              <select id="eventIdSelect">
+                <option value="">Choose Event ID</option>
+                <option>4624</option>
+                <option>4625</option>
+                <option>4688</option>
+                <option>4720</option>
+              </select>
+            </label>
+            <label class="field-label">Targeted account
+              <select id="targetUserSelect">
+                <option value="">Choose account</option>
+                <option>administrator</option>
+                <option>jlee</option>
+                <option>mchen</option>
+                <option>guest</option>
+              </select>
+            </label>
             <label class="field-label">Suspicious source
               <select id="sourceSelect">
                 <option value="">Choose source IP</option>
@@ -366,6 +411,99 @@ C:\Users\student&gt;</div>
         </div>
       </div>
 
+      <div id="integratedLab" class="lab-content integrated-lab hidden">
+        <div class="scenario-brief">
+          <span class="panel-kicker">INCIDENT BRIEF</span>
+          <h3>Finance cannot work, a new employee has excessive access, and the administrator account is being hammered.</h3>
+          <p>You are the on-call IT technician. Restore business access without hiding the security evidence. Complete all three phases.</p>
+        </div>
+
+        <div class="integrated-grid">
+          <section class="tool-panel phase-panel">
+            <div class="tool-heading"><div><span class="step-number">1</span><h3>Networking</h3></div><span class="tool-status" id="integratedNetworkStatus">Incomplete</span></div>
+            <p>FIN-PC01 is 192.168.50.24/24. It reaches its LAN but not 10.0.0.20. Its gateway is 192.168.50.254; R1's Finance interface is 192.168.50.1.</p>
+            <label class="field-label">Root cause
+              <select id="integratedNetworkCause">
+                <option value="">Choose root cause</option>
+                <option>Wrong default gateway</option>
+                <option>Duplicate MAC address</option>
+                <option>DNS cache only</option>
+                <option>Server disk full</option>
+              </select>
+            </label>
+            <label class="field-label">Corrective action
+              <select id="integratedNetworkFix">
+                <option value="">Choose corrective action</option>
+                <option>Set PC gateway to 192.168.50.1</option>
+                <option>Set PC gateway to 10.0.0.20</option>
+                <option>Disable the switch</option>
+                <option>Delete the network adapter</option>
+              </select>
+            </label>
+            <button class="action-btn" id="integratedNetworkBtn" type="button">Apply Network Fix</button>
+          </section>
+
+          <section class="tool-panel phase-panel">
+            <div class="tool-heading"><div><span class="step-number">2</span><h3>System Administration</h3></div><span class="tool-status" id="integratedAdminStatus">Incomplete</span></div>
+            <p>Maya Cole works in Finance and must edit Finance documents without being able to change ownership or permissions.</p>
+            <label class="field-label">Security group
+              <select id="integratedGroup">
+                <option value="">Choose group</option>
+                <option>Domain Admins</option>
+                <option>Finance</option>
+                <option>Everyone</option>
+                <option>Server Operators</option>
+              </select>
+            </label>
+            <label class="field-label">Folder permission
+              <select id="integratedPermission">
+                <option value="">Choose permission</option>
+                <option>Read</option>
+                <option>Modify</option>
+                <option>Full Control</option>
+                <option>Deny</option>
+              </select>
+            </label>
+            <button class="action-btn" id="integratedAdminBtn" type="button">Apply Access</button>
+          </section>
+
+          <section class="tool-panel phase-panel">
+            <div class="tool-heading"><div><span class="step-number">3</span><h3>Cybersecurity</h3></div><span class="tool-status" id="integratedCyberStatus">Incomplete</span></div>
+            <div class="mini-log">
+              <span>10:02:11 · 4625 · administrator · 10.50.20.99</span>
+              <span>10:02:13 · 4625 · administrator · 10.50.20.99</span>
+              <span>10:02:15 · 4625 · administrator · 10.50.20.99</span>
+              <span>10:02:18 · 4625 · administrator · 10.50.20.99</span>
+            </div>
+            <label class="field-label">Activity
+              <select id="integratedActivity">
+                <option value="">Choose activity</option>
+                <option>Credential brute-force</option>
+                <option>Normal patching</option>
+                <option>DNS zone transfer</option>
+                <option>Printer discovery</option>
+              </select>
+            </label>
+            <label class="field-label">Best response
+              <select id="integratedResponse">
+                <option value="">Choose response</option>
+                <option>Disable affected account, preserve logs, and block the source</option>
+                <option>Delete all Security logs</option>
+                <option>Ignore until a login succeeds</option>
+                <option>Shut down every domain controller</option>
+              </select>
+            </label>
+            <button class="action-btn" id="integratedCyberBtn" type="button">Submit Security Response</button>
+          </section>
+        </div>
+
+        <section class="knowledge-card integrated-knowledge">
+          <span class="panel-kicker">REAL-WORLD HABIT</span>
+          <h3>Fix the outage without destroying the evidence.</h3>
+          <p>Operational troubleshooting and incident response often overlap. Restore service, preserve logs, apply least privilege, and document what changed.</p>
+        </section>
+      </div>
+
       <div class="mission-complete hidden" id="missionComplete">
         <div class="complete-icon">✓</div>
         <span class="panel-kicker">MISSION COMPLETE</span>
@@ -376,8 +514,8 @@ C:\Users\student&gt;</div>
           <div><span>XP Earned</span><strong id="xpEarned">+100</strong></div>
         </div>
         <div class="complete-actions">
-          <button class="primary-btn compact" id="nextLabBtn" type="button">Next Track</button>
-          <button class="secondary-btn compact" id="returnTracksBtn" type="button">Back to Tracks</button>
+          <button class="primary-btn compact" id="replayLabBtn" type="button">Replay This Lab</button>
+          <button class="secondary-btn compact" id="returnTracksBtn" type="button">Choose Another Lab</button>
         </div>
       </div>
     </section>
@@ -434,9 +572,9 @@ C:\Users\student&gt;</div>
     <p>© 2026 Agyemang Prempeh · PrempehTech.ca · Interactive IT Training Simulator</p>
   </footer>
 
-  <script src="cloud-config.js?v=20261007-4"></script>
+  <script src="cloud-config.js?v=20261007-6"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="cloud-save.js?v=20261007-4"></script>
-  <script src="simulator.js?v=20261007-4"></script>
+  <script src="cloud-save.js?v=20261007-6"></script>
+  <script src="simulator.js?v=20261007-6"></script>
 </body>
 </html>
