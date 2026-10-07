@@ -339,7 +339,7 @@
       btn.classList.toggle("active", active);
       btn.setAttribute("aria-selected", active ? "true" : "false");
     });
-    $(".activity-card").forEach((card) => card.classList.toggle("active-track", card.dataset.cardTrack === track));
+    $$(".activity-card").forEach((card) => card.classList.toggle("active-track", card.dataset.cardTrack === track));
     setDifficultyLevel(selectedLevel);
   }
 
@@ -880,7 +880,7 @@
     updateProgressUI();
   });
 
-  $(".explain-btn").forEach((btn) => btn.addEventListener("click", () => openExplanation(btn.dataset.explain)));
+  $$(".explain-btn").forEach((btn) => btn.addEventListener("click", () => openExplanation(btn.dataset.explain)));
   $("explainClose").addEventListener("click", closeExplanation);
   $("explainOverlay").addEventListener("click", (event) => {
     if (event.target === $("explainOverlay")) closeExplanation();
