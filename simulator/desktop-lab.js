@@ -49,7 +49,7 @@ Object.assign(COMMAND_DOCS,{
 
 const SCENARIOS = {
 networking:{
-1:{title:"Bring the Office PC Online",role:"Junior IT Support Technician",ticket:"PC-01 was moved to a new desk and cannot reach the internal server. Configure its adapter and prove end-to-end connectivity.",apps:["network","cmd"],tags:["IPv4","Gateway","DNS","Ping"],tasks:[
+1:{title:"Bring the Office PC Online",role:"Junior IT Support Technician",ticket:"PC-01 was moved to a new desk and cannot reach the internal server. Configure its adapter and prove end-to-end connectivity. Validation targets: gateway 192.168.10.1; internal server 10.0.0.10; internal hostname intranet.corp.local, which must resolve to 10.0.0.10.",apps:["network","cmd"],tags:["IPv4","Gateway","DNS","Ping"],tasks:[
 {id:"n1cfg",app:"network",title:"Configure Ethernet adapter",type:"form",help:"Use a static address on the 192.168.10.0/24 user LAN.",fields:[["ip","IPv4 address","text"],["mask","Subnet mask","text"],["gateway","Default gateway","text"],["dns","Preferred DNS","text"]],expected:{ip:"192.168.10.10",mask:"255.255.255.0",gateway:"192.168.10.1",dns:"192.168.10.53"}},
 {id:"n1ping",app:"cmd",title:"Verify the network path",type:"command",required:["ping 192.168.10.1","ping 10.0.0.10"],responses:{"ping 192.168.10.1":"Reply from 192.168.10.1: bytes=32 time<1ms TTL=64\nPackets: Sent = 4, Received = 4, Lost = 0","ping 10.0.0.10":"Reply from 10.0.0.10: bytes=32 time=2ms TTL=63\nPackets: Sent = 4, Received = 4, Lost = 0"}},
 {id:"n1dns",app:"cmd",title:"Verify name resolution",type:"command",required:["nslookup intranet.corp.local"],responses:{"nslookup intranet.corp.local":"Server: dns01.corp.local\nAddress: 192.168.10.53\n\nName: intranet.corp.local\nAddress: 10.0.0.10"}}
