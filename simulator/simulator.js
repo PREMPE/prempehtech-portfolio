@@ -105,7 +105,7 @@
     const data = difficultyLevels[value] || difficultyLevels[1];
     selectedLevel = value;
 
-    $(".level-btn").forEach((btn) => {
+    $$(".level-btn").forEach((btn) => {
       const active = Number(btn.dataset.level) === value;
       btn.classList.toggle("active", active);
       btn.setAttribute("aria-selected", active ? "true" : "false");
@@ -173,12 +173,12 @@
 
   function setTrack(track) {
     activeTrack = track;
-    $$(".track-tab").forEach((btn) => {
+    $$$(".track-tab").forEach((btn) => {
       const active = btn.dataset.track === track;
       btn.classList.toggle("active", active);
       btn.setAttribute("aria-selected", active ? "true" : "false");
     });
-    $$(".activity-card").forEach((card) => card.classList.toggle("active-track", card.dataset.cardTrack === track));
+    $$$(".activity-card").forEach((card) => card.classList.toggle("active-track", card.dataset.cardTrack === track));
   }
 
   function launchLab(key) {
@@ -196,7 +196,7 @@
     $("guidedTitle").textContent = data.title + " — complete walkthrough";
     $("guidedSteps").innerHTML = data.guided.map((step) => "<li>" + step + "</li>").join("");
     $("guidedPanel").classList.add("hidden");
-    $$(".mode-btn").forEach((b) => b.classList.toggle("active", b.dataset.mode === "challenge"));
+    $$$(".mode-btn").forEach((b) => b.classList.toggle("active", b.dataset.mode === "challenge"));
     ["networkingLab", "sysadminLab", "cyberLab"].forEach((id) => $(id).classList.add("hidden"));
     $(key === "networking" ? "networkingLab" : key === "sysadmin" ? "sysadminLab" : "cyberLab").classList.remove("hidden");
     $("missionComplete").classList.add("hidden");
@@ -208,7 +208,7 @@
   function resetState(key) {
     if (key === "networking") {
       network = { selected: null, links: [], ipGood: false, pingGood: false };
-      $$(".device").forEach((d) => d.classList.remove("selected", "connected"));
+      $$$(".device").forEach((d) => d.classList.remove("selected", "connected"));
       $("ipAddress").value = "";
       $("subnetMask").value = "";
       $("defaultGateway").value = "";
@@ -271,7 +271,7 @@
 
   function setMode(nextMode) {
     mode = nextMode;
-    $$(".mode-btn").forEach((b) => b.classList.toggle("active", b.dataset.mode === mode));
+    $$$(".mode-btn").forEach((b) => b.classList.toggle("active", b.dataset.mode === mode));
     const guided = mode === "guided";
     $("guidedPanel").classList.toggle("hidden", !guided);
     if (guided) {
@@ -303,7 +303,7 @@
         feedback("Cable removed.", "Rebuild the topology as needed.", "normal");
       }));
     }
-    $$(".device").forEach((device) => {
+    $$$(".device").forEach((device) => {
       const id = device.dataset.device;
       device.classList.toggle("connected", network.links.some((l) => l.split("-").includes(id)));
     });
@@ -322,7 +322,7 @@
     const id = device.dataset.device;
     if (!network.selected) {
       network.selected = id;
-      $$(".device").forEach((d) => d.classList.toggle("selected", d.dataset.device === id));
+      $$$(".device").forEach((d) => d.classList.toggle("selected", d.dataset.device === id));
       feedback("Cable tool armed.", "Now select the device you want to connect to " + id.toUpperCase() + ".", "normal");
       return;
     }
@@ -344,7 +344,7 @@
       feedback("Ethernet connected.", network.selected.toUpperCase() + " is now linked to " + id.toUpperCase() + ".", "success");
     }
     network.selected = null;
-    $$(".device").forEach((d) => d.classList.remove("selected"));
+    $$$(".device").forEach((d) => d.classList.remove("selected"));
     updateTopologyState();
     renderConnections();
   }
@@ -554,8 +554,8 @@
     document.querySelector('[data-card-track="' + next + '"]').scrollIntoView({ behavior: "smooth", block: "center" });
   });
 
-  $(".track-tab").forEach((btn) => btn.addEventListener("click", () => setTrack(btn.dataset.track)));
-  $(".level-btn").forEach((btn) => btn.addEventListener("click", () => setDifficultyLevel(btn.dataset.level)));
+  $$(".track-tab").forEach((btn) => btn.addEventListener("click", () => setTrack(btn.dataset.track)));
+  $$(".level-btn").forEach((btn) => btn.addEventListener("click", () => setDifficultyLevel(btn.dataset.level)));
   $("levelJumpBtn").addEventListener("click", () => {
     if (selectedLevel === 1) {
       document.querySelector(".track-tabs").scrollIntoView({ behavior: "smooth", block: "center" });
@@ -568,9 +568,9 @@
     );
     document.querySelector(".track-tabs").scrollIntoView({ behavior: "smooth", block: "center" });
   });
-  $("[data-launch]").forEach((btn) => btn.addEventListener("click", () => launchLab(btn.dataset.launch)));
-  $$(".mode-btn").forEach((btn) => btn.addEventListener("click", () => setMode(btn.dataset.mode)));
-  $$(".device").forEach((device) => device.addEventListener("click", () => handleDeviceClick(device)));
+  $$("[data-launch]").forEach((btn) => btn.addEventListener("click", () => launchLab(btn.dataset.launch)));
+  $$$(".mode-btn").forEach((btn) => btn.addEventListener("click", () => setMode(btn.dataset.mode)));
+  $$$(".device").forEach((device) => device.addEventListener("click", () => handleDeviceClick(device)));
 
   $("hintBtn").addEventListener("click", getHint);
   $("resetLabBtn").addEventListener("click", restartLab);
