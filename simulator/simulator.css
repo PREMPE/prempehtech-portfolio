@@ -430,3 +430,49 @@ footer{
   .explain-dialog{padding:18px}
   .command-help-strip{align-items:flex-start}
 }
+
+
+/* ALWAYS-VISIBLE SIMULATOR SITE NAVIGATION */
+.site-header{
+  position:fixed!important;
+  top:0;left:0;right:0;
+  width:100%;
+  z-index:1000!important;
+  background:#071321!important;
+  border-bottom:1px solid #2f6694!important;
+  box-shadow:0 8px 24px rgba(0,0,0,.18);
+}
+body{
+  padding-top:68px;
+}
+.site-header .brand{
+  color:#ffffff!important;
+  font-size:1.22rem!important;
+  font-weight:950!important;
+  letter-spacing:-.03em;
+}
+.site-header .brand span{
+  color:#5ca9ff!important;
+}
+.site-header .back-link{
+  color:#ffffff!important;
+  background:#12304d!important;
+  border-color:#3e78aa!important;
+}
+.site-header .back-link:hover{
+  background:#19446d!important;
+  border-color:#6db7f0!important;
+}
+@media(max-width:700px){
+  body{padding-top:78px}
+  .nav-shell{
+    width:min(100% - 20px,1180px);
+    min-height:78px;
+    gap:10px;
+  }
+  .site-header .brand{font-size:1.05rem!important}
+  .site-header .back-link{
+    padding:8px 10px;
+    font-size:.74rem;
+  }
+}
