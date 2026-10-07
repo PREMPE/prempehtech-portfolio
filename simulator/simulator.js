@@ -16,12 +16,14 @@
         "Connect R1 to SRV-01. In this lab the server lives on a separate 10.0.0.0/24 network.",
         "Configure PC-01 as 192.168.10.10 with mask 255.255.255.0 and gateway 192.168.10.1.",
         "Run ipconfig to inspect the workstation configuration.",
-        "Run ping 10.0.0.10. A successful reply proves the physical path and Layer 3 configuration are working."
+        "Run ping 10.0.0.10. A successful reply proves the physical path and Layer 3 routing are working.",
+        "Run tracert 10.0.0.10 and arp -a to inspect the path and Layer 2 neighbor information.",
+        "Run nslookup intranet.corp.local. DNS should resolve it to 10.0.0.10 before the lab is complete."
       ],
       hints: [
         "Start at the physical layer. A workstation normally connects to a switch before reaching a router.",
         "PC-01 belongs to 192.168.10.0/24. Its default gateway must be the router interface on that same subnet.",
-        "Use 192.168.10.10 / 255.255.255.0 / 192.168.10.1, then ping the server at 10.0.0.10."
+        "Use 192.168.10.10 / 255.255.255.0 / 192.168.10.1, ping 10.0.0.10, then resolve intranet.corp.local with nslookup."
       ]
     },
     sysadmin: {
@@ -56,6 +58,23 @@
         "Look for repeated events from the same source rather than focusing on one failed login.",
         "Event ID 4625 means a failed Windows logon. Which source repeats it against administrator?",
         "Select 10.20.30.77, classify it as a password brute-force attempt, then choose the validate/protect/contain response."
+      ]
+    },
+    integrated: {
+      track: "INTEGRATED IT CHALLENGE",
+      title: "Restore the Finance Office",
+      objective: "Repair connectivity, correct least-privilege access, and respond to a credential attack in one incident.",
+      guided: [
+        "Networking: compare FIN-PC01's gateway with R1's Finance interface and correct it to 192.168.50.1.",
+        "System administration: place Maya Cole in Finance and grant Modify permission, not Full Control.",
+        "Cybersecurity: recognize repeated Event ID 4625 failures against administrator from 10.50.20.99 as credential brute force.",
+        "Protect the account, preserve logs, and block the unauthorized source.",
+        "Complete all three phases before closing the incident."
+      ],
+      hints: [
+        "A host's default gateway should be the router interface on its own subnet.",
+        "Use the Finance group and the least permission that still allows editing.",
+        "Repeated 4625 events against administrator from one source indicate credential brute force."
       ]
     }
   };
@@ -126,9 +145,10 @@
   let mode = "challenge";
   let missionFinished = false;
 
-  let network = { selected: null, links: [], ipGood: false, pingGood: false };
+  let network = { selected: null, links: [], ipGood: false, gatewayGood: false, pingGood: false, dnsGood: false };
   let sys = { user: false, group: false, permission: false, access: false };
   let cyber = { done: false };
+  let integrated = { network: false, admin: false, cyber: false };
 
   function loadProgress() {
     try {
@@ -155,12 +175,12 @@
     const completedCount = Object.keys(progress.completed).filter((k) => progress.completed[k]).length;
     $("xpValue").textContent = progress.xp;
     $("completedValue").textContent = completedCount;
-    $("progressFill").style.width = Math.min(100, (completedCount / 3) * 100) + "%";
+    $("progressFill").style.width = Math.min(100, (completedCount / 4) * 100) + "%";
     $("rankValue").textContent =
       completedCount === 0 ? "Foundation" :
-      completedCount < 3 ? "Junior Technician" : "Junior Technician ✓";
+      completedCount < 4 ? "Junior Technician" : "Junior Technician ✓";
 
-    ["networking", "sysadmin", "cyber"].forEach((key) => {
+    ["networking", "sysadmin", "cyber", "integrated"].forEach((key) => {
       const badge = document.querySelector('[data-complete-badge="' + key + '"]');
       if (!badge) return;
       const done = Boolean(progress.completed[key]);
@@ -168,17 +188,17 @@
       badge.classList.toggle("done", done);
     });
 
-    $("continueBtn").textContent = completedCount ? "Continue Learning" : "Start Learning";
+    $("continueBtn").textContent = "Choose a Lab";
   }
 
   function setTrack(track) {
     activeTrack = track;
-    $$$(".track-tab").forEach((btn) => {
+    $(".track-tab").forEach((btn) => {
       const active = btn.dataset.track === track;
       btn.classList.toggle("active", active);
       btn.setAttribute("aria-selected", active ? "true" : "false");
     });
-    $$$(".activity-card").forEach((card) => card.classList.toggle("active-track", card.dataset.cardTrack === track));
+    $(".activity-card").forEach((card) => card.classList.toggle("active-track", card.dataset.cardTrack === track));
   }
 
   function launchLab(key) {
@@ -196,9 +216,10 @@
     $("guidedTitle").textContent = data.title + " — complete walkthrough";
     $("guidedSteps").innerHTML = data.guided.map((step) => "<li>" + step + "</li>").join("");
     $("guidedPanel").classList.add("hidden");
-    $$$(".mode-btn").forEach((b) => b.classList.toggle("active", b.dataset.mode === "challenge"));
-    ["networkingLab", "sysadminLab", "cyberLab"].forEach((id) => $(id).classList.add("hidden"));
-    $(key === "networking" ? "networkingLab" : key === "sysadmin" ? "sysadminLab" : "cyberLab").classList.remove("hidden");
+    $(".mode-btn").forEach((b) => b.classList.toggle("active", b.dataset.mode === "challenge"));
+    ["networkingLab", "sysadminLab", "cyberLab", "integratedLab"].forEach((id) => $(id).classList.add("hidden"));
+    const labIds = { networking: "networkingLab", sysadmin: "sysadminLab", cyber: "cyberLab", integrated: "integratedLab" };
+    $(labIds[key]).classList.remove("hidden");
     $("missionComplete").classList.add("hidden");
     $("labShell").classList.remove("hidden");
     feedback("Mission ready.", data.objective, "normal");
@@ -208,18 +229,19 @@
   function resetState(key) {
     if (key === "networking") {
       network = { selected: null, links: [], ipGood: false, pingGood: false };
-      $$$(".device").forEach((d) => d.classList.remove("selected", "connected"));
+      $(".device").forEach((d) => d.classList.remove("selected", "connected"));
       $("ipAddress").value = "";
       $("subnetMask").value = "";
       $("defaultGateway").value = "";
       $("terminalOutput").innerHTML = "Microsoft Windows [Version 10.0]\nType a command to test the network.\n\nC:\\Users\\student&gt;";
       $("topologyStatus").textContent = "Incomplete"; $("topologyStatus").classList.remove("good");
       $("ipStatus").textContent = "Incomplete"; $("ipStatus").classList.remove("good");
+      $("dnsStatus").textContent = "Incomplete"; $("dnsStatus").classList.remove("good");
       renderConnections();
     }
     if (key === "sysadmin") {
       sys = { user: false, group: false, permission: false, access: false };
-      $("newUsername").value = ""; $("displayName").value = "";
+      $("newUsername").value = ""; $("displayName").value = ""; $("departmentSelect").value = "";
       $("groupSelect").value = ""; $("principalSelect").value = ""; $("permissionSelect").value = "";
       ["userStatus", "groupStatus", "permissionStatus"].forEach((id) => { $(id).textContent = "Incomplete"; $(id).classList.remove("good"); });
       $("accessStatus").textContent = "Not tested"; $("accessStatus").classList.remove("good");
@@ -227,9 +249,14 @@
     }
     if (key === "cyber") {
       cyber = { done: false };
-      $("sourceSelect").value = ""; $("attackSelect").value = ""; $("responseSelect").value = "";
+      $("eventIdSelect").value = ""; $("targetUserSelect").value = ""; $("sourceSelect").value = ""; $("attackSelect").value = ""; $("responseSelect").value = "";
       $("evidenceStatus").textContent = "Awaiting analysis"; $("evidenceStatus").classList.remove("good");
       $("triageStatus").textContent = "Incomplete"; $("triageStatus").classList.remove("good");
+    }
+    if (key === "integrated") {
+      integrated = { network: false, admin: false, cyber: false };
+      ["integratedNetworkCause","integratedNetworkFix","integratedGroup","integratedPermission","integratedActivity","integratedResponse"].forEach((id) => $(id).value = "");
+      ["integratedNetworkStatus","integratedAdminStatus","integratedCyberStatus"].forEach((id) => { $(id).textContent = "Incomplete"; $(id).classList.remove("good"); });
     }
   }
 
@@ -271,7 +298,7 @@
 
   function setMode(nextMode) {
     mode = nextMode;
-    $$$(".mode-btn").forEach((b) => b.classList.toggle("active", b.dataset.mode === mode));
+    $(".mode-btn").forEach((b) => b.classList.toggle("active", b.dataset.mode === mode));
     const guided = mode === "guided";
     $("guidedPanel").classList.toggle("hidden", !guided);
     if (guided) {
@@ -303,7 +330,7 @@
         feedback("Cable removed.", "Rebuild the topology as needed.", "normal");
       }));
     }
-    $$$(".device").forEach((device) => {
+    $(".device").forEach((device) => {
       const id = device.dataset.device;
       device.classList.toggle("connected", network.links.some((l) => l.split("-").includes(id)));
     });
@@ -322,7 +349,7 @@
     const id = device.dataset.device;
     if (!network.selected) {
       network.selected = id;
-      $$$(".device").forEach((d) => d.classList.toggle("selected", d.dataset.device === id));
+      $(".device").forEach((d) => d.classList.toggle("selected", d.dataset.device === id));
       feedback("Cable tool armed.", "Now select the device you want to connect to " + id.toUpperCase() + ".", "normal");
       return;
     }
@@ -344,7 +371,7 @@
       feedback("Ethernet connected.", network.selected.toUpperCase() + " is now linked to " + id.toUpperCase() + ".", "success");
     }
     network.selected = null;
-    $$$(".device").forEach((d) => d.classList.remove("selected"));
+    $(".device").forEach((d) => d.classList.remove("selected"));
     updateTopologyState();
     renderConnections();
   }
@@ -375,10 +402,10 @@
   function runCommand(raw) {
     const command = raw.trim().toLowerCase();
     if (!command) return;
-    terminalAppend("C:\\Users\\student&gt;" + raw.trim());
+    terminalAppend("C:\\Users\\student>" + raw.trim());
 
     if (command === "help") {
-      terminalAppend("Useful commands: ipconfig, ping 192.168.10.1, ping 10.0.0.10, cls");
+      terminalAppend("Useful commands: ipconfig, ping 192.168.10.1, ping 10.0.0.10, tracert 10.0.0.10, arp -a, nslookup intranet.corp.local, cls");
       return;
     }
     if (command === "cls") {
@@ -387,19 +414,58 @@
     }
     if (command === "ipconfig") {
       if (network.ipGood) {
-        terminalAppend("Ethernet adapter Ethernet:\n   IPv4 Address. . . . . . : 192.168.10.10\n   Subnet Mask . . . . . . : 255.255.255.0\n   Default Gateway . . . . : 192.168.10.1");
+        terminalAppend("Ethernet adapter Ethernet:\n   IPv4 Address. . . . . . : 192.168.10.10\n   Subnet Mask . . . . . . : 255.255.255.0\n   Default Gateway . . . . : 192.168.10.1\n   DNS Servers . . . . . . : 192.168.10.53");
       } else {
         terminalAppend("Ethernet adapter Ethernet:\n   IPv4 Address. . . . . . : 169.254.23.18\n   Subnet Mask . . . . . . : 255.255.0.0\n   Default Gateway . . . . :");
       }
       return;
     }
+
+    const topologyGood = updateTopologyState();
+
+    if (command === "arp -a") {
+      if (topologyGood && network.ipGood) {
+        terminalAppend("Interface: 192.168.10.10\n  Internet Address      Physical Address      Type\n  192.168.10.1          00-50-56-aa-10-01     dynamic\n  192.168.10.53         00-50-56-aa-10-35     dynamic");
+        feedback("ARP table reviewed.", "Local Layer 2 neighbors are present. Continue validating routing and DNS.", "success");
+      } else {
+        terminalAppend("No useful dynamic entries. Verify the physical link and IPv4 configuration first.");
+        penalize(3, "ARP data is incomplete.", "Layer 2 neighbor discovery depends on a working local configuration.");
+      }
+      return;
+    }
+
+    if (command === "tracert 10.0.0.10") {
+      if (topologyGood && network.ipGood) {
+        terminalAppend("Tracing route to 10.0.0.10\n  1   <1 ms   192.168.10.1\n  2    2 ms   10.0.0.10\nTrace complete.");
+        feedback("Route verified.", "Traffic leaves through R1 and reaches the server network.", "success");
+      } else {
+        terminalAppend("Unable to trace the route. Check local addressing and the gateway path.");
+        penalize(4, "Trace failed.", !topologyGood ? "The physical topology is incomplete." : "The workstation addressing is invalid.");
+      }
+      return;
+    }
+
+    if (command === "nslookup intranet.corp.local") {
+      if (topologyGood && network.ipGood && network.pingGood) {
+        terminalAppend("Server:  dns01.corp.local\nAddress: 192.168.10.53\n\nName:    intranet.corp.local\nAddress: 10.0.0.10");
+        network.dnsGood = true;
+        $("dnsStatus").textContent = "Verified ✓"; $("dnsStatus").classList.add("good");
+        feedback("DNS resolution confirmed.", "Physical connectivity, addressing, routing, and name resolution are all verified.", "success");
+        completeLab();
+      } else {
+        terminalAppend("*** DNS validation cannot complete yet.");
+        penalize(4, "DNS validation failed.", "First establish the topology, correct IPv4 settings, and prove IP connectivity to 10.0.0.10.");
+      }
+      return;
+    }
+
     if (command.startsWith("ping ")) {
       const target = command.slice(5).trim();
-      const topologyGood = updateTopologyState();
       if (target === "192.168.10.1") {
         if (topologyGood && network.ipGood) {
+          network.gatewayGood = true;
           terminalAppend("Reply from 192.168.10.1: bytes=32 time<1ms TTL=64\nReply from 192.168.10.1: bytes=32 time<1ms TTL=64\n\nPackets: Sent = 2, Received = 2, Lost = 0 (0% loss)");
-          feedback("Gateway reachable.", "Layer 1/2 connectivity and local IPv4 settings look good. Now test the server.", "success");
+          feedback("Gateway reachable.", "Local switching and IPv4 settings are working. Test the server next.", "success");
         } else {
           terminalAppend("Request timed out.\nRequest timed out.\n\nPackets: Sent = 2, Received = 0, Lost = 2 (100% loss)");
           penalize(5, "Ping failed.", !topologyGood ? "Check your physical topology first." : "Check PC-01's IPv4 configuration.");
@@ -408,13 +474,12 @@
       }
       if (target === "10.0.0.10") {
         if (topologyGood && network.ipGood) {
-          terminalAppend("Reply from 10.0.0.10: bytes=32 time=2ms TTL=63\nReply from 10.0.0.10: bytes=32 time=1ms TTL=63\nReply from 10.0.0.10: bytes=32 time=2ms TTL=63\n\nPackets: Sent = 3, Received = 3, Lost = 0 (0% loss)");
           network.pingGood = true;
-          feedback("End-to-end connectivity confirmed.", "PC-01 can reach SRV-01 through the switch and router.", "success");
-          completeLab();
+          terminalAppend("Reply from 10.0.0.10: bytes=32 time=2ms TTL=63\nReply from 10.0.0.10: bytes=32 time=1ms TTL=63\nReply from 10.0.0.10: bytes=32 time=2ms TTL=63\n\nPackets: Sent = 3, Received = 3, Lost = 0 (0% loss)");
+          feedback("End-to-end IP connectivity confirmed.", "The server is reachable. Finish by inspecting the path and resolving intranet.corp.local.", "success");
         } else {
           terminalAppend("Destination host unreachable.\nDestination host unreachable.\n\nPackets: Sent = 2, Received = 0, Lost = 2 (100% loss)");
-          penalize(5, "Server unreachable.", !topologyGood ? "The physical path is incomplete." : "The workstation IP settings are not valid yet.");
+          penalize(5, "Server unreachable.", !topologyGood ? "The physical path is incomplete." : "The workstation IP settings are invalid.");
         }
         return;
       }
@@ -422,18 +487,20 @@
       penalize(3, "Unknown target.", "For this mission the server address is 10.0.0.10.");
       return;
     }
+
     terminalAppend("'" + raw.trim() + "' is not recognized by this training terminal. Type help for available commands.");
   }
 
   function createUser() {
     const username = $("newUsername").value.trim().toLowerCase();
     const display = $("displayName").value.trim().toLowerCase();
-    if (username === "jlee" && display === "jordan lee") {
+    const department = $("departmentSelect").value;
+    if (username === "jlee" && display === "jordan lee" && department === "Accounting") {
       sys.user = true;
       $("userStatus").textContent = "Created ✓"; $("userStatus").classList.add("good");
       feedback("Account created.", "jlee now exists. Next, assign the correct department group.", "success");
     } else {
-      penalize(8, "Account details do not match the standard.", "Use first initial + surname and the employee's full approved name.");
+      penalize(8, "Account details do not match the standard.", "Use jlee, Jordan Lee, and place the account in the Accounting department / OU.");
     }
   }
 
@@ -493,11 +560,21 @@
   }
 
   function submitTriage() {
+    const eventId = $("eventIdSelect").value;
+    const targetUser = $("targetUserSelect").value;
     const source = $("sourceSelect").value;
     const attack = $("attackSelect").value;
     const response = $("responseSelect").value;
     const correctResponse = "Validate the source, protect the targeted account, and contain the source if unauthorized";
 
+    if (eventId !== "4625") {
+      penalize(6, "Wrong event type.", "The repeated records are failed Windows logons: Event ID 4625.");
+      return;
+    }
+    if (targetUser !== "administrator") {
+      penalize(6, "Wrong targeted account.", "The repeated failures are targeting the privileged administrator account.");
+      return;
+    }
     if (source !== "10.20.30.77") {
       penalize(8, "Wrong source selected.", "Compare which source generates repeated failed logons against the privileged account.");
       return;
@@ -519,6 +596,54 @@
     completeLab();
   }
 
+  function checkIntegratedComplete() {
+    if (integrated.network && integrated.admin && integrated.cyber) {
+      feedback("Integrated incident resolved.", "Connectivity is restored, least privilege is enforced, and the credential attack is contained without destroying evidence.", "success");
+      completeLab();
+    }
+  }
+
+  function submitIntegratedNetwork() {
+    const cause = $("integratedNetworkCause").value;
+    const fix = $("integratedNetworkFix").value;
+    if (cause === "Wrong default gateway" && fix === "Set PC gateway to 192.168.50.1") {
+      integrated.network = true;
+      $("integratedNetworkStatus").textContent = "Resolved ✓"; $("integratedNetworkStatus").classList.add("good");
+      feedback("Network phase complete.", "FIN-PC01 now uses the router interface on its own subnet as the default gateway.", "success");
+      checkIntegratedComplete();
+    } else {
+      penalize(8, "Network diagnosis is not correct.", "Compare the workstation subnet with R1's Finance interface before choosing the fix.");
+    }
+  }
+
+  function submitIntegratedAdmin() {
+    const group = $("integratedGroup").value;
+    const permission = $("integratedPermission").value;
+    if (group === "Finance" && permission === "Modify") {
+      integrated.admin = true;
+      $("integratedAdminStatus").textContent = "Resolved ✓"; $("integratedAdminStatus").classList.add("good");
+      feedback("Access phase complete.", "Maya receives role-based Modify access without permission-control rights.", "success");
+      checkIntegratedComplete();
+    } else if (permission === "Full Control" || group === "Domain Admins") {
+      penalize(12, "Excessive privilege.", "Use the Finance group and Modify permission rather than administrative access.");
+    } else {
+      penalize(7, "Access design is incomplete.", "Use the Finance group and the least permission that still allows editing.");
+    }
+  }
+
+  function submitIntegratedCyber() {
+    const activity = $("integratedActivity").value;
+    const response = $("integratedResponse").value;
+    if (activity === "Credential brute-force" && response === "Disable affected account, preserve logs, and block the source") {
+      integrated.cyber = true;
+      $("integratedCyberStatus").textContent = "Contained ✓"; $("integratedCyberStatus").classList.add("good");
+      feedback("Security phase complete.", "The response protects the account, preserves evidence, and contains the source.", "success");
+      checkIntegratedComplete();
+    } else {
+      penalize(10, "Security response is not defensible.", "Repeated 4625 failures against administrator are a credential attack. Preserve the logs while protecting the account and containing the source.");
+    }
+  }
+
   function completeLab() {
     if (missionFinished || !activeLab) return;
     missionFinished = true;
@@ -531,7 +656,7 @@
 
     $("completeTitle").textContent = labs[activeLab].title + " completed";
     $("completeSummary").textContent = firstCompletion
-      ? "Your progress has been saved in this browser. You earned XP based on your final score."
+      ? (window.PrempehCloud && window.PrempehCloud.isSignedIn() ? "Your progress and XP have been saved to your cloud account." : "Your progress has been saved on this device. Sign in to sync it across devices.")
       : "You completed this lab again. XP is awarded only on the first completion.";
     $("finalScore").textContent = score;
     $("xpEarned").textContent = "+" + earned;
@@ -539,19 +664,10 @@
     setTimeout(() => $("missionComplete").scrollIntoView({ behavior: "smooth", block: "center" }), 100);
   }
 
-  function nextLab() {
-    const order = ["networking", "sysadmin", "cyber"];
-    const index = order.indexOf(activeLab);
-    const next = order[(index + 1) % order.length];
-    setTrack(next);
-    launchLab(next);
-  }
 
   $("showHowBtn").addEventListener("click", () => $("howPanel").classList.toggle("hidden"));
   $("continueBtn").addEventListener("click", () => {
-    const next = ["networking", "sysadmin", "cyber"].find((key) => !progress.completed[key]) || "networking";
-    setTrack(next);
-    document.querySelector('[data-card-track="' + next + '"]').scrollIntoView({ behavior: "smooth", block: "center" });
+    document.querySelector(".track-tabs").scrollIntoView({ behavior: "smooth", block: "center" });
   });
 
   $$(".track-tab").forEach((btn) => btn.addEventListener("click", () => setTrack(btn.dataset.track)));
@@ -569,8 +685,8 @@
     document.querySelector(".track-tabs").scrollIntoView({ behavior: "smooth", block: "center" });
   });
   $$("[data-launch]").forEach((btn) => btn.addEventListener("click", () => launchLab(btn.dataset.launch)));
-  $$$(".mode-btn").forEach((btn) => btn.addEventListener("click", () => setMode(btn.dataset.mode)));
-  $$$(".device").forEach((device) => device.addEventListener("click", () => handleDeviceClick(device)));
+  $(".mode-btn").forEach((btn) => btn.addEventListener("click", () => setMode(btn.dataset.mode)));
+  $(".device").forEach((device) => device.addEventListener("click", () => handleDeviceClick(device)));
 
   $("hintBtn").addEventListener("click", getHint);
   $("resetLabBtn").addEventListener("click", restartLab);
@@ -593,7 +709,12 @@
   $("testAccessBtn").addEventListener("click", testAccess);
   $("submitTriageBtn").addEventListener("click", submitTriage);
 
-  $("nextLabBtn").addEventListener("click", nextLab);
+  $("replayLabBtn").addEventListener("click", () => {
+    if (activeLab) launchLab(activeLab);
+  });
+  $("integratedNetworkBtn").addEventListener("click", submitIntegratedNetwork);
+  $("integratedAdminBtn").addEventListener("click", submitIntegratedAdmin);
+  $("integratedCyberBtn").addEventListener("click", submitIntegratedCyber);
   $("returnTracksBtn").addEventListener("click", () => {
     $("labShell").classList.add("hidden");
     $("tracks").scrollIntoView({ behavior: "smooth", block: "start" });
