@@ -239,6 +239,7 @@ function launch(track,level){
   taskState={}; terminalState={}; current.data.tasks.forEach(t=>taskState[t.id]=false);
   const old=$("labShell"); if(old)old.classList.add("hidden");
   $("desktopLabShell").classList.remove("hidden");
+  document.body.classList.add("vm-lab-active");
   $("desktopMissionTitle").textContent=current.data.title;
   $("desktopMissionMeta").textContent=trackLabel(track)+" · Level "+level+" · "+current.data.role;
   renderDesktop();
@@ -246,6 +247,7 @@ function launch(track,level){
 }
 
 function closeLab(){
+  document.body.classList.remove("vm-lab-active");
   $("desktopLabShell")?.classList.add("hidden");
   $("desktopLabShell")?.classList.remove("vm-fullscreen-active");
   document.getElementById("tracks")?.scrollIntoView({behavior:"smooth",block:"start"});

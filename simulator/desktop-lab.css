@@ -230,3 +230,10 @@
 .cloud-service-body .vm-form-panel{margin:12px 0}
 .cloud-service-body section[hidden]{display:none!important}
 @media(max-width:650px){.cloud-layout{grid-template-columns:1fr}.cloud-layout nav{display:flex;flex-wrap:wrap;gap:4px}.cloud-layout nav button{width:auto;flex:1 1 120px}}
+
+/* Keep site navigation outside the active training workspace. */
+body.vm-lab-active .site-header{display:none}
+.vm-fullscreen-active{height:100dvh!important;display:flex;flex-direction:column}
+.vm-fullscreen-active .desktop-lab-toolbar,.vm-fullscreen-active .vm-monitor-bar{flex-shrink:0}
+.vm-fullscreen-active .vm-frame{flex:1;min-height:0;height:auto;display:flex;flex-direction:column}
+.vm-fullscreen-active .vm-desktop{flex:1;min-height:0;height:auto}
