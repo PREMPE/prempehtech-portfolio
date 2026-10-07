@@ -302,8 +302,11 @@ function showMeText(step){
  return "<b>Exact procedure</b><br>"+txt+"<br><br><b>Why it matters</b><br>This action changes or verifies the simulated system state required by the project. Read the resulting state/output before continuing.";
 }
 function installProcedureCoach(){
- const m=q("#vmMission");if(!m||m.dataset.procedureCoach)return;m.dataset.procedureCoach="1";
+ const m=q("#vmMission");if(!m)return;
  const guide=q(".enterprise-guide",m);if(!guide)return;
+ const key=(current?.track||'')+':'+(current?.level||'')+':'+Object.values(taskState||{}).filter(Boolean).length;
+ if(m.dataset.procedureCoach===key && guide.querySelector('[data-pane="procedure"]'))return;
+ m.dataset.procedureCoach=key;
  const steps=exactProcedure(),idx=procedureProgress();
  guide.innerHTML='<div class="enterprise-guide-tabs"><button class="active" data-pane="procedure">Procedure</button><button data-pane="hint">Hint</button><button data-pane="showme">Show Me / Explain</button><button data-pane="notes">Notes</button></div>'+
  '<div class="enterprise-guide-pane" data-guide-pane="procedure"><div style="padding:8px;background:#eaf4fb;border-left:4px solid #0877b9;margin-bottom:8px"><b>CURRENT STEP '+(idx+1)+' OF '+steps.length+'</b><br>'+steps[idx]+'</div><ol>'+steps.map((x,i)=>'<li style="'+(i===idx?'font-weight:700;background:#eef7ff;padding:5px':'')+'">'+x+'</li>').join("")+'</ol></div>'+
