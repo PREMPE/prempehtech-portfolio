@@ -275,7 +275,24 @@
     $("levelTitle").textContent = data.title;
     $("levelDescription").textContent = data.description;
     $("levelTopics").innerHTML = data.topics.map((topic) => "<span>" + topic + "</span>").join("");
-    $("levelJumpBtn").textContent = value === 1 ? "Go to Level 1 Lab" : "Open " + data.name;
+    $("levelJumpBtn").textContent = "Open Level " + value + " Project";
+
+    if (window.PrempehDesktopLab) {
+      const scenario = window.PrempehDesktopLab.getScenario(activeTrack, value);
+      const card = document.querySelector('[data-card-track="' + activeTrack + '"]');
+      if (scenario && card) {
+        const title = card.querySelector("h3");
+        const desc = card.querySelector("p");
+        const difficulty = card.querySelector(".difficulty");
+        const skills = card.querySelector(".skills");
+        const launch = card.querySelector("[data-launch]");
+        if (title) title.textContent = scenario.title;
+        if (desc) desc.textContent = scenario.ticket;
+        if (difficulty) difficulty.textContent = "LEVEL " + value;
+        if (skills) skills.innerHTML = scenario.tags.map((tag) => "<span>" + tag + "</span>").join("");
+        if (launch) launch.textContent = "Launch Level " + value + " Project";
+      }
+    }
   }
 
   let progress = loadProgress();
@@ -296,10 +313,11 @@
       const stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
       return {
         completed: stored.completed || {},
+        completedLevels: stored.completedLevels || {},
         xp: Number(stored.xp) || 0
       };
     } catch (_) {
-      return { completed: {}, xp: 0 };
+      return { completed: {}, completedLevels: {}, xp: 0 };
     }
   }
 
@@ -313,20 +331,23 @@
   }
 
   function updateProgressUI() {
-    const completedCount = Object.keys(progress.completed).filter((k) => progress.completed[k]).length;
+    const completedLevels = progress.completedLevels || {};
+    const completedCount = Object.keys(completedLevels).filter((k) => completedLevels[k]).length;
     $("xpValue").textContent = progress.xp;
     $("completedValue").textContent = completedCount;
-    $("progressFill").style.width = Math.min(100, (completedCount / 4) * 100) + "%";
+    $("progressFill").style.width = Math.min(100, (completedCount / 20) * 100) + "%";
     $("rankValue").textContent =
       completedCount === 0 ? "Foundation" :
-      completedCount < 4 ? "Junior Technician" : "Junior Technician ✓";
+      completedCount < 5 ? "Junior Technician" :
+      completedCount < 10 ? "Administrator" :
+      completedCount < 15 ? "Junior Analyst" : "Mid-Level Professional";
 
     ["networking", "sysadmin", "cyber", "integrated"].forEach((key) => {
       const badge = document.querySelector('[data-complete-badge="' + key + '"]');
       if (!badge) return;
-      const done = Boolean(progress.completed[key]);
-      badge.textContent = done ? "Completed ✓" : "Not completed";
-      badge.classList.toggle("done", done);
+      const count = [1,2,3,4,5].filter((level) => completedLevels[key + ":" + level]).length;
+      badge.textContent = count === 5 ? "5/5 completed ✓" : count + "/5 completed";
+      badge.classList.toggle("done", count === 5);
     });
 
     $("continueBtn").textContent = "Choose a Lab";
@@ -815,18 +836,16 @@
   $$(".track-tab").forEach((btn) => btn.addEventListener("click", () => setTrack(btn.dataset.track)));
   $$(".level-btn").forEach((btn) => btn.addEventListener("click", () => setDifficultyLevel(btn.dataset.level)));
   $("levelJumpBtn").addEventListener("click", () => {
-    if (selectedLevel === 1) {
-      document.querySelector(".track-tabs").scrollIntoView({ behavior: "smooth", block: "center" });
-      return;
+    if (window.PrempehDesktopLab) {
+      window.PrempehDesktopLab.launch(activeTrack, selectedLevel);
     }
-    feedback(
-      "Level " + selectedLevel + " selected.",
-      "This level is unlocked. Its dedicated scenarios can be opened as they are added to the simulator.",
-      "success"
-    );
-    document.querySelector(".track-tabs").scrollIntoView({ behavior: "smooth", block: "center" });
   });
-  $$("[data-launch]").forEach((btn) => btn.addEventListener("click", () => launchLab(btn.dataset.launch)));
+  $("[data-launch]").forEach((btn) => btn.addEventListener("click", () => {
+    const track = btn.dataset.launch;
+    if (window.PrempehDesktopLab) {
+      window.PrempehDesktopLab.launch(track, selectedLevel);
+    }
+  }));
   $$(".mode-btn").forEach((btn) => btn.addEventListener("click", () => setMode(btn.dataset.mode)));
   $$(".device").forEach((device) => device.addEventListener("click", () => handleDeviceClick(device)));
 
@@ -864,7 +883,7 @@
 
   $("resetProgress").addEventListener("click", () => {
     if (!window.confirm("Reset all simulator completion and XP saved in this browser?")) return;
-    progress = { completed: {}, xp: 0 };
+    progress = { completed: {}, completedLevels: {}, xp: 0 };
     saveProgress();
     updateProgressUI();
     feedback("Progress reset.", "All locally saved simulator progress has been cleared.", "normal");
@@ -874,9 +893,26 @@
     if (!event.detail || typeof event.detail !== "object") return;
     progress = {
       completed: event.detail.completed || {},
+      completedLevels: event.detail.completedLevels || {},
       xp: Number(event.detail.xp) || 0
     };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+    updateProgressUI();
+  });
+
+  window.addEventListener("prempeh-desktop-complete", (event) => {
+    const detail = event.detail || {};
+    const track = detail.track;
+    const level = Number(detail.level);
+    if (!track || !level) return;
+    progress.completedLevels = progress.completedLevels || {};
+    const key = track + ":" + level;
+    const firstCompletion = !progress.completedLevels[key];
+    progress.completedLevels[key] = true;
+    const trackCount = [1,2,3,4,5].filter((n) => progress.completedLevels[track + ":" + n]).length;
+    progress.completed[track] = trackCount === 5;
+    if (firstCompletion) progress.xp += Number(detail.score) || 100;
+    saveProgress();
     updateProgressUI();
   });
 
