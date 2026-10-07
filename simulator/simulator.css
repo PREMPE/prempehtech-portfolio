@@ -333,3 +333,28 @@ footer{border-top:1px solid #16344f;color:#7895af;text-align:center;padding:28px
   .level-selector-head,.level-detail-top{align-items:flex-start;flex-direction:column}
   .level-buttons{grid-template-columns:1fr}
 }
+
+
+/* INDEPENDENT TRACKS + INTEGRATED IT CHALLENGE */
+.difficulty.integrated{color:#b8a8ff}
+.integrated-tab.active{border-color:#7e6ee8;background:#312d61}
+.integrated-card{border-color:#4c4585!important}
+.integrated-card .launch-btn{background:#4f56b8;border-color:#737ce1}
+.integrated-card .launch-btn:hover{background:#6068ca}
+.integrated-lab{display:block}
+.scenario-brief{
+  grid-column:1/-1;margin-bottom:16px;padding:22px;
+  border:1px solid #4b5f8c;border-radius:11px;
+  background:linear-gradient(145deg,#162744,#111f38)
+}
+.scenario-brief h3{margin:7px 0 8px;font-size:1.2rem}
+.scenario-brief p{margin:0;color:var(--muted)}
+.integrated-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.phase-panel{min-width:0}
+.mini-log{
+  display:grid;gap:5px;margin:12px 0 16px;padding:12px;
+  background:#050b10;border:1px solid #263f57;border-radius:8px;
+  color:#ffc4ca;font:12px/1.45 "SFMono-Regular",Consolas,monospace
+}
+.integrated-knowledge{margin-top:16px}
+@media(max-width:950px){.integrated-grid{grid-template-columns:1fr}}
