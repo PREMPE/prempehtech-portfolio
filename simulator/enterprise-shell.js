@@ -93,7 +93,8 @@ function guidanceFor(title){
  return 'Read the ticket, identify which Windows or network tool would normally expose this evidence, open it yourself, inspect first, then make the smallest justified change.';
 }
 function enhanceTicket(){
- const m=q('#vmMission');if(!m||m.dataset.enterprise==='1')return;
+ const m=q('#vmMission');if(!m)return;
+ if(m.dataset.enterprise==='1' && q('.enterprise-guide',m))return;
  m.dataset.enterprise='1';
  const head=q('.vm-mission-head',m);if(head){
    const c=document.createElement('div');c.className='enterprise-ticket-controls';c.innerHTML='<button title="Minimize ticket" data-ticket-min>—</button><button title="Close ticket" data-ticket-close>×</button>';head.appendChild(c);
@@ -103,7 +104,7 @@ function enhanceTicket(){
  qa('.vm-task-item',m).forEach(li=>{const s=li.querySelector('span:last-child');if(s){const st=s.querySelector('strong');s.innerHTML='';s.appendChild(st)}});
  const ticket=q('.vm-ticket',m);if(ticket)ticket.innerHTML='<strong>Assigned role:</strong> '+current.data.role+'<br><br><strong>INCIDENT / REQUEST</strong><br>'+current.data.ticket+'<div style="margin-top:10px;padding:10px;background:#eaf4fb;border-left:4px solid #0877b9"><strong>TARGET</strong><br>'+guide.target+'</div>';
  const g=document.createElement('div');g.className='enterprise-guide';g.innerHTML='<div class="enterprise-guide-tabs"><button class="active" data-pane="steps">Steps</button><button data-pane="hints">Hints</button><button data-pane="notes">Notes</button></div><div class="enterprise-guide-pane" data-guide-pane="steps"><ol>'+guide.steps.map((x,i)=>'<li><b>Step '+(i+1)+'</b><br>'+x+'</li>').join('')+'</ol></div><div class="enterprise-guide-pane" data-guide-pane="hints" hidden><div class="enterprise-hint"><b>Hint 1 — Orient yourself</b><br>Start from Windows Start or Search. Decide which real application owns the evidence or setting you need.</div><div class="enterprise-hint"><b>Hint 2 — Investigate before changing</b><br>Inspect current state first. Do not change a setting merely because it appears in the project.</div><div class="enterprise-hint"><b>Hint 3 — Need stronger guidance?</b><br>'+titles.map(x=>'<b>'+x+':</b> '+guidanceFor(x)).join('<br><br>')+'</div></div><div class="enterprise-guide-pane" data-guide-pane="notes" hidden><label><b>Root cause / finding</b><textarea data-lab-note="root" style="width:100%;height:58px;box-sizing:border-box;margin:4px 0 8px"></textarea></label><label><b>Changes / response</b><textarea data-lab-note="change" style="width:100%;height:58px;box-sizing:border-box;margin:4px 0 8px"></textarea></label><label><b>Verification / evidence</b><textarea data-lab-note="verify" style="width:100%;height:58px;box-sizing:border-box;margin:4px 0 8px"></textarea></label></div>';
- m.appendChild(g);
+ q('.enterprise-guide',m)?.remove();m.appendChild(g);
  g.addEventListener('click',e=>{const b=e.target.closest('[data-pane]');if(!b)return;qa('[data-pane]',g).forEach(x=>x.classList.toggle('active',x===b));qa('[data-guide-pane]',g).forEach(x=>x.hidden=x.dataset.guidePane!==b.dataset.pane)});
  ensureTicketButton();
 }
@@ -303,7 +304,9 @@ function showMeText(step){
 }
 function installProcedureCoach(){
  const m=q("#vmMission");if(!m)return;
- const guide=q(".enterprise-guide",m);if(!guide)return;
+ let guide=q(".enterprise-guide",m);
+ if(!guide){m.dataset.enterprise="";enhanceTicket();guide=q(".enterprise-guide",m)}
+ if(!guide)return;
  const key=(current?.track||'')+':'+(current?.level||'')+':'+Object.values(taskState||{}).filter(Boolean).length;
  if(m.dataset.procedureCoach===key && guide.querySelector('[data-pane="procedure"]'))return;
  m.dataset.procedureCoach=key;
