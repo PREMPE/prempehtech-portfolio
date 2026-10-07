@@ -24,6 +24,7 @@
       const value = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
       return {
         completed: value.completed || {},
+        completedLevels: value.completedLevels || {},
         xp: Number(value.xp) || 0
       };
     } catch (_) {

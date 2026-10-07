@@ -7,6 +7,8 @@ const APP_DEFS = {
   powershell: { label:"Windows PowerShell", glyph:">_", kind:"terminal" },
   switch: { label:"Switch Console", glyph:"SW", kind:"terminal" },
   router: { label:"Router Console", glyph:"R1", kind:"terminal" },
+  cloudconsole: {label:"Cloud Management Console",glyph:"AWS",kind:"cloud"},
+  cloudshell: {label:"AWS CloudShell (Simulated)",glyph:"$_",kind:"terminal"},
   firewall: { label:"Windows Defender Firewall", glyph:"FW", kind:"mmc" },
   dhcp: { label:"DHCP Manager", glyph:"DH", kind:"mmc" },
   dns: { label:"DNS Manager", glyph:"DNS", kind:"mmc" },
@@ -158,6 +160,12 @@ integrated:{
 }
 };
 
+if(window.PrempehCloudLab){
+ SCENARIOS.cloud=window.PrempehCloudLab.scenarios;
+ Object.entries(SCENARIOS.integrated).forEach(([level,data])=>{
+  const cloud=SCENARIOS.cloud[level];data.apps.push('cloudconsole','cloudshell');data.tasks.push(...cloud.tasks);data.ticket+=' Cloud workstream: '+cloud.ticket;data.tags.push('Cloud Computing');
+ });
+}
 let current=null;
 let taskState={};
 let terminalState={};
@@ -168,7 +176,7 @@ const $=id=>document.getElementById(id);
 const norm=v=>String(v??"").trim().toLowerCase().replace(/\s+/g," ");
 
 function scenario(track,level){return SCENARIOS[track]?.[Number(level)]||null}
-function trackLabel(track){return ({networking:"Networking",sysadmin:"System Administration",cyber:"Cybersecurity",integrated:"All Together"})[track]||track}
+function trackLabel(track){return ({networking:"Networking",sysadmin:"System Administration",cyber:"Cybersecurity",cloud:"Cloud Computing",integrated:"All Together"})[track]||track}
 
 function ensureShell(){
   if($("desktopLabShell")) return;
@@ -225,6 +233,7 @@ function launch(track,level){
   current={track,level:Number(level),data:scenario(track,level)};
   if(!current.data) return;
   window.PrempehEnterprise?.reset?.();
+  window.PrempehCloudLab?.reset?.();
   APP_DEFS.firewall.label=track==="networking"||track==="integrated"?"Network Firewall / VPN":"Windows Defender Firewall";
   taskState={}; terminalState={}; current.data.tasks.forEach(t=>taskState[t.id]=false);
   const old=$("labShell"); if(old)old.classList.add("hidden");
@@ -307,6 +316,7 @@ function dragMove(e){if(!dragState)return;dragState.win.style.left=Math.max(0,e.
 function tasksFor(appId){return current.data.tasks.filter(t=>t.app===appId)}
 function renderAppContent(appId){
   const app=APP_DEFS[appId],tasks=tasksFor(appId);
+  if(app.kind==='cloud')return window.PrempehCloudLab.render(tasks,taskForm);
   if(app.kind==="terminal")return renderTerminal(appId,tasks);
   if(app.kind==="settings")return renderSettings(appId,tasks);
   if(app.kind==="event")return renderEvent(appId,tasks);
@@ -350,11 +360,12 @@ function renderSiem(id,tasks){
 }
 function renderTerminal(appId,tasks){
   terminalState[appId]=terminalState[appId]||{seen:{}};
-  const prompt=appId==="powershell"?"PS C:\\Users\\Administrator>":appId==="switch"||appId==="router"?(window.PrempehEnterprise?.prompt?.(appId)||(appId==="switch"?"SW1>":"R1>")):"C:\\Users\\student>";
+  const prompt=appId==='cloudshell'?'cloudshell:~ $':appId==="powershell"?"PS C:\\Users\\Administrator>":appId==="switch"||appId==="router"?(window.PrempehEnterprise?.prompt?.(appId)||(appId==="switch"?"SW1>":"R1>")):"C:\\Users\\student>";
   return `<div class="vm-terminal-app"><div class="vm-terminal-toolbar"><button type="button" data-terminal-help="${appId}">Command Guide</button><button type="button" data-terminal-clear="${appId}">Clear</button></div><div class="vm-terminal-output" data-terminal-output="${appId}">PrempehTech Training Console\n${prompt}</div><form class="vm-terminal-input" data-terminal-form="${appId}"><span>${prompt}</span><input autocomplete="off" spellcheck="false" placeholder="Type a command"><button class="vm-native-btn" type="submit">Enter</button></form>${tasks.map(taskForm).join("")}</div>`
 }
 
 function bindApp(win,appId){
+  if(appId==='cloudconsole')window.PrempehCloudLab.bind(win);
   win.querySelectorAll("[data-submit-task]").forEach(b=>b.addEventListener("click",()=>validateFormTask(b.dataset.submitTask,win)));
   win.querySelectorAll("[data-why]").forEach(b=>b.addEventListener("click",()=>showWhy(b.dataset.why)));
   const form=win.querySelector("[data-terminal-form]");
@@ -368,11 +379,14 @@ function validateFormTask(taskId,win){
   const values={};Object.keys(t.expected).forEach(k=>{const el=win.querySelector('[data-field="'+taskId+':'+k+'"]');values[k]=el?el.value:""});
   const ok=Object.entries(t.expected).every(([k,v])=>norm(values[k])===norm(v));
   const fb=win.querySelector('[data-feedback="'+taskId+'"]');
-  if(ok){window.PrempehEnterprise?.beforeValidate?.(taskId,win);taskState[taskId]=true;fb.className="vm-task-feedback ok";fb.textContent="Configuration accepted. Validation passed.";toast("Task completed: "+t.title,"good");afterTask()}
+  if(ok){window.PrempehEnterprise?.beforeValidate?.(taskId,win);taskState[taskId]=true;window.PrempehCloudLab?.validated?.(t,values);fb.className="vm-task-feedback ok";fb.textContent="Configuration accepted. Validation passed.";toast("Task completed: "+t.title,"good");afterTask()}
   else{fb.className="vm-task-feedback bad";fb.textContent="Validation failed. One or more values do not match the required project configuration.";toast("Configuration rejected. Review the project ticket and evidence.","bad")}
 }
 
 function runTerminal(appId,raw,win){
+  if(appId==='cloudshell'){
+   const out=win.querySelector('[data-terminal-output]');out.textContent+='\ncloudshell:~ $ '+raw+'\n'+window.PrempehCloudLab.shell(raw)+'\ncloudshell:~ $';out.scrollTop=out.scrollHeight;return;
+  }
   const n=norm(raw),device=appId==="router"||appId==="switch";
   if((!device&&/^(show |configure terminal|enable$|ip route |vlan |switchport |interface |name )/.test(n))||(device&&/^(ipconfig|nslookup|gpupdate|gpresult|get-service|dcdiag|nltest|route print|whoami|netstat)/.test(n))){
     win.querySelector('[data-terminal-output]').textContent+='\n'+raw+'\nCommand belongs to a different console. Open '+(device?'Command Prompt / PowerShell.':'Router / Switch Console.');return;
@@ -380,7 +394,7 @@ function runTerminal(appId,raw,win){
   const enterpriseOut=window.PrempehEnterprise?.commandFromState?.(appId,raw);
   if(enterpriseOut!==null && enterpriseOut!==undefined){
     const out=win.querySelector("[data-terminal-output]");
-    const prompt=appId==="powershell"?"PS C:\\Users\\Administrator>":appId==="switch"||appId==="router"?(window.PrempehEnterprise?.prompt?.(appId)||(appId==="switch"?"SW1>":"R1>")):"C:\\Users\\student>";
+    const prompt=appId==='cloudshell'?'cloudshell:~ $':appId==="powershell"?"PS C:\\Users\\Administrator>":appId==="switch"||appId==="router"?(window.PrempehEnterprise?.prompt?.(appId)||(appId==="switch"?"SW1>":"R1>")):"C:\\Users\\student>";
     out.textContent+=(out.textContent?"\n":"")+prompt+" "+raw+"\n"+enterpriseOut+"\n"+prompt;
     win.querySelector(".vm-terminal-input span").textContent=prompt;
     out.scrollTop=out.scrollHeight;
@@ -419,7 +433,7 @@ function showWhy(taskId){
   const t=current.data.tasks.find(x=>x.id===taskId);if(!t)return;
   document.querySelector('.vm-guide-popup')?.remove();
   const guide=document.createElement('section');guide.className='vm-guide-popup';guide.setAttribute('role','dialog');guide.setAttribute('aria-label',t.title+' explanation');
-  const subject=t.title.toLowerCase(),why=subject.includes('nat')?'Private branch-to-HQ traffic must match the intended VPN policy without source translation. Verify the branch and HQ prefixes, choose Do not NAT, and retest the HQ path.':subject.includes('route')?'A destination route selects the next hop for remote traffic. Compare the approved network design, correct only the affected prefix, then inspect show ip route and test the destination.':subject.includes('dns')||subject.includes('record')?'An A record maps the intended service name to its IPv4 address. Verify the zone, host name and address, then test the client answer with nslookup.':subject.includes('dhcp')?'DHCP delivers the address range, default gateway and DNS server. Incorrect scope options can affect every client receiving a lease. Verify the options, then renew a client.':subject.includes('account')||subject.includes('privilege')?'Confirm the intended identity and least-privilege requirement. Change only the required account or membership and preserve audit evidence.':subject.includes('contain')?'Contain confirmed affected identities and hosts while preserving evidence. Isolation stops network communication; deleting logs removes evidence needed for scope and recovery.':subject.includes('policy')?'Apply the GPO to the intended OU, refresh client policy, and inspect gpresult to prove that the setting reached the endpoint.':subject.includes('service')?'Service state and startup configuration determine availability after repair and restart. Confirm the correct service, restore it, and query its status again.':subject.includes('scope')||subject.includes('indicator')||subject.includes('timeline')?'Correlate event time, host, account and process or service evidence. A single alert is a lead; supporting events establish the incident sequence and affected systems.':'Inspect the approved requirement, change the smallest necessary setting, and verify the outcome using the project evidence.';
+  const subject=t.title.toLowerCase(),why=t.why|| (subject.includes('nat')?'Private branch-to-HQ traffic must match the intended VPN policy without source translation. Verify the branch and HQ prefixes, choose Do not NAT, and retest the HQ path.':subject.includes('route')?'A destination route selects the next hop for remote traffic. Compare the approved network design, correct only the affected prefix, then inspect show ip route and test the destination.':subject.includes('dns')||subject.includes('record')?'An A record maps the intended service name to its IPv4 address. Verify the zone, host name and address, then test the client answer with nslookup.':subject.includes('dhcp')?'DHCP delivers the address range, default gateway and DNS server. Incorrect scope options can affect every client receiving a lease. Verify the options, then renew a client.':subject.includes('account')||subject.includes('privilege')?'Confirm the intended identity and least-privilege requirement. Change only the required account or membership and preserve audit evidence.':subject.includes('contain')?'Contain confirmed affected identities and hosts while preserving evidence. Isolation stops network communication; deleting logs removes evidence needed for scope and recovery.':subject.includes('policy')?'Apply the GPO to the intended OU, refresh client policy, and inspect gpresult to prove that the setting reached the endpoint.':subject.includes('service')?'Service state and startup configuration determine availability after repair and restart. Confirm the correct service, restore it, and query its status again.':subject.includes('scope')||subject.includes('indicator')||subject.includes('timeline')?'Correlate event time, host, account and process or service evidence. A single alert is a lead; supporting events establish the incident sequence and affected systems.':'Inspect the approved requirement, change the smallest necessary setting, and verify the outcome using the project evidence.');
   guide.innerHTML=`<div class="vm-guide-head"><h3>${t.title}</h3><button type="button" aria-label="Close explanation">×</button></div><div class="vm-guide-body"><article><strong>What it does and why it matters</strong><p>${why}</p></article></div>`;
   $('vmDesktop').appendChild(guide);guide.querySelector('button').onclick=()=>guide.remove();
 }
@@ -431,7 +445,7 @@ function showTerminalGuide(appId){
   const cards=req.map((full)=>{
     const n=norm(full);
     let key=Object.keys(COMMAND_DOCS).sort((a,b)=>b.length-a.length).find(k=>n===k||n.startsWith(k+" "));
-    const d=COMMAND_DOCS[key]||{what:"Runs the required administrative command for this project.",means:"The exact effect depends on the active console and project context.",why:"Command-line validation is used because real administrators often verify GUI changes from a terminal."};
+    const d=(appId==='cloudshell'?{what:'Queries AWS resource configuration using the named service API.',means:'The JSON response reports the current simulated resource state. Region and resource arguments select the intended project environment.',why:'Inspect the returned state after applying console changes. The project passes only when configuration tasks and required verification commands succeed.'}:COMMAND_DOCS[key])||{what:"Runs the required administrative command for this project.",means:"The exact effect depends on the active console and project context.",why:"Command-line validation is used because real administrators often verify GUI changes from a terminal."};
     return `<article><code>${full}</code><div><strong>What it does</strong><p>${d.what}</p><strong>What it means</strong><p>${d.means}</p><strong>Why it matters</strong><p>${d.why}</p></div></article>`;
   }).join("");
   guide.innerHTML=`<div class="vm-guide-head"><div><span>COMMAND HELP</span><h3>${APP_DEFS[appId].label}</h3></div><button type="button">×</button></div><div class="vm-guide-body">${cards||"<p>No command task is required for this project.</p>"}</div>`;

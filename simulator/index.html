@@ -9,7 +9,7 @@
   <link rel="canonical" href="https://prempehtech.ca/simulator/">
   <title>IT Infrastructure Simulator | PrempehTech.ca</title>
   <link rel="stylesheet" href="simulator.css?v=20261007-11">
-  <link rel="stylesheet" href="desktop-lab.css?v=14-20261007-2">
+  <link rel="stylesheet" href="desktop-lab.css?v=20261007-16">
 </head>
 <body>
   <header class="site-header">
@@ -28,7 +28,7 @@
       <div class="hero-copy">
         <p class="eyebrow">PREMPEHTECH INTERACTIVE LABS</p>
         <h1>IT Infrastructure Simulator</h1>
-        <p class="hero-text">Learn by doing. Practice networking, systems administration, and cybersecurity from entry level through mid level with real troubleshooting logic, progressive hints, and complete guided walkthroughs.</p>
+        <p class="hero-text">Learn by doing. Practice networking, systems administration, cybersecurity, and cloud computing from entry level through mid level with real troubleshooting logic, progressive hints, and complete guided walkthroughs.</p>
         <div class="hero-actions">
           <button class="primary-btn" id="continueBtn" type="button">Start Learning</button>
           <button class="secondary-btn" id="showHowBtn" type="button">How It Works</button>
@@ -41,7 +41,7 @@
         </div>
         <div class="progress-stat">
           <span class="stat-label">Completed</span>
-          <strong><span id="completedValue">0</span>/20</strong>
+          <strong><span id="completedValue">0</span>/25</strong>
         </div>
         <div class="progress-stat">
           <span class="stat-label">Current Rank</span>
@@ -73,13 +73,14 @@
           <span class="panel-kicker">LEARNING TRACKS</span>
           <h2>Pick a discipline.</h2>
         </div>
-        <p>Choose one of four independent tracks and five difficulty levels. Projects progress from workstation fundamentals to VLANs, routing, Active Directory, SOC investigations, and enterprise troubleshooting.</p>
+        <p>Choose one of five independent tracks and five difficulty levels. Projects progress from workstation fundamentals to VLANs, routing, Active Directory, SOC investigations, and enterprise troubleshooting.</p>
       </div>
 
       <div class="track-tabs" role="tablist" aria-label="Training tracks">
         <button class="track-tab active" data-track="networking" role="tab" aria-selected="true" type="button">Networking</button>
         <button class="track-tab" data-track="sysadmin" role="tab" aria-selected="false" type="button">System Administration</button>
         <button class="track-tab" data-track="cyber" role="tab" aria-selected="false" type="button">Cybersecurity</button>
+        <button class="track-tab" data-track="cloud" role="tab" aria-selected="false" type="button">Cloud Computing</button>
         <button class="track-tab integrated-tab" data-track="integrated" role="tab" aria-selected="false" type="button">All Together</button>
       </div>
 
@@ -115,6 +116,12 @@
           <p>Review authentication logs, identify the suspicious source, classify the activity, and choose a safe response.</p>
           <div class="skills"><span>Windows Logs</span><span>Event 4625</span><span>Triage</span><span>Response</span></div>
           <button class="launch-btn" data-launch="cyber" type="button">Launch Lab</button>
+        </article>
+        <article class="activity-card" data-card-track="cloud">
+          <div class="activity-top"><span class="difficulty entry">LEVEL 1</span><span class="completion-badge" data-complete-badge="cloud">0/5 completed</span></div>
+          <h3>Launch a Secure Cloud Web Server</h3><p>Build cloud infrastructure using simulated AWS-style consoles and CloudShell. No cloud account or paid resources required.</p>
+          <div class="skills"><span>EC2</span><span>VPC</span><span>IAM</span><span>Storage</span></div>
+          <button class="launch-btn" data-launch="cloud" type="button">Launch Cloud Project</button>
         </article>
         <article class="activity-card integrated-card" data-card-track="integrated">
           <div class="activity-top">
@@ -629,9 +636,10 @@ C:\Users\student&gt;</div>
 
   <script src="cloud-config.js?v=20261007-11"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="cloud-save.js?v=20261007-11"></script>
-  <script src="desktop-lab.js?v=20261007-15"></script>
-  <script src="enterprise-shell.js?v=20261007-15"></script>
-  <script src="simulator.js?v=20261007-13"></script>
+  <script src="cloud-save.js?v=20261007-16"></script>
+  <script src="cloud-lab.js?v=20261007-16"></script>
+  <script src="desktop-lab.js?v=20261007-16"></script>
+  <script src="enterprise-shell.js?v=20261007-16"></script>
+  <script src="simulator.js?v=20261007-16"></script>
 </body>
 </html>

@@ -113,7 +113,7 @@
     integrated: {
       name: "All Together",
       levels: {
-        1: { name: "IT Foundations", label: "LEVEL 1 · IT FOUNDATIONS", title: "Integrated IT Foundations", description: "Combine basic networking, systems administration, and cybersecurity in one guided workplace scenario.", topics: ["Connectivity", "User Access", "Authentication Logs", "Least Privilege", "Basic Response", "Verification"] },
+        1: { name: "IT Foundations", label: "LEVEL 1 · IT FOUNDATIONS", title: "Integrated IT Foundations", description: "Combine networking, systems administration, cybersecurity, and cloud computing in one workplace scenario.", topics: ["Connectivity", "User Access", "Authentication Logs", "Least Privilege", "Basic Response", "Verification"] },
         2: { name: "Junior IT Technician", label: "LEVEL 2 · JUNIOR IT TECHNICIAN", title: "Junior IT Technician", description: "Solve support incidents that cross workstation, network, service, and account boundaries.", topics: ["DHCP/DNS", "Windows Services", "Permissions", "Endpoint Alerts", "Troubleshooting", "Documentation"] },
         3: { name: "Infrastructure Administrator", label: "LEVEL 3 · INFRASTRUCTURE ADMINISTRATOR", title: "Integrated Infrastructure Administration", description: "Work across VLANs, identity, policy, servers, and defensive controls.", topics: ["VLANs", "AD & GPO", "Routing", "Firewalls", "Server Roles", "Access Control"] },
         4: { name: "IT & Security Analyst", label: "LEVEL 4 · IT & SECURITY ANALYST", title: "Operations & Security Analysis", description: "Restore business services while investigating suspicious activity and preserving evidence.", topics: ["SIEM Triage", "Identity", "Network Evidence", "Endpoint Evidence", "Containment", "Recovery"] },
@@ -121,6 +121,8 @@
       }
     }
   };
+
+  difficultyLevels.cloud = {"name": "Cloud Computing", "levels": {"1": {"name": "Cloud Foundations", "label": "LEVEL 1 \u00b7 CLOUD FOUNDATIONS", "title": "Cloud Computing Foundations", "description": "Launch a virtual machine, choose its network, protect storage, and verify deployment.", "topics": ["EC2", "Regions", "AMIs", "Security Groups", "EBS", "CloudShell"]}, "2": {"name": "Junior Cloud Technician", "label": "LEVEL 2 \u00b7 JUNIOR CLOUD TECHNICIAN", "title": "Cloud Networking & Troubleshooting", "description": "Repair private subnets, routes, NAT egress, and application access.", "topics": ["VPC", "CIDR", "Private Subnets", "NAT Gateway", "Security Groups", "Routing"]}, "3": {"name": "Cloud Administrator", "label": "LEVEL 3 \u00b7 CLOUD ADMINISTRATOR", "title": "Cloud Identity & Storage Administration", "description": "Apply workload roles, least privilege, private storage, encryption, and versioning.", "topics": ["IAM Roles", "Trust Policies", "S3", "Block Public Access", "Encryption", "Versioning"]}, "4": {"name": "Cloud Operations Analyst", "label": "LEVEL 4 \u00b7 CLOUD OPERATIONS ANALYST", "title": "Cloud Operations & Reliability", "description": "Configure monitoring, scaling, health checks, and multi-zone capacity.", "topics": ["CloudWatch", "Auto Scaling", "Load Balancing", "Health Checks", "Availability Zones", "Alarms"]}, "5": {"name": "Mid-Level Cloud Engineer", "label": "LEVEL 5 \u00b7 MID-LEVEL CLOUD ENGINEER", "title": "Cloud Recovery & Incident Response", "description": "Restore cloud application storage and service health while containing credential abuse.", "topics": ["Snapshots", "Recovery", "CloudTrail", "IAM Containment", "Target Health", "Evidence Preservation"]}}};
 
   const explanations = {
     ipconfig: {
@@ -335,14 +337,14 @@
     const completedCount = Object.keys(completedLevels).filter((k) => completedLevels[k]).length;
     $("xpValue").textContent = progress.xp;
     $("completedValue").textContent = completedCount;
-    $("progressFill").style.width = Math.min(100, (completedCount / 20) * 100) + "%";
+    $("progressFill").style.width = Math.min(100, (completedCount / (Object.keys(difficultyLevels).length * 5)) * 100) + "%";
     $("rankValue").textContent =
       completedCount === 0 ? "Foundation" :
       completedCount < 5 ? "Junior Technician" :
       completedCount < 10 ? "Administrator" :
       completedCount < 15 ? "Junior Analyst" : "Mid-Level Professional";
 
-    ["networking", "sysadmin", "cyber", "integrated"].forEach((key) => {
+    ["networking", "sysadmin", "cyber", "cloud", "integrated"].forEach((key) => {
       const badge = document.querySelector('[data-complete-badge="' + key + '"]');
       if (!badge) return;
       const count = [1,2,3,4,5].filter((level) => completedLevels[key + ":" + level]).length;

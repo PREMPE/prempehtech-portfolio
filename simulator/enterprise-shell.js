@@ -85,7 +85,7 @@ const GUIDE_MAP={
  5:{target:"Restore enterprise operations and scope a multi-system compromise involving routing, privilege, and PowerShell.",steps:["Establish a timeline and determine which operational and security symptoms may be connected.","Diagnose and restore the broken application-site route without masking security evidence.","Investigate the unauthorized privileged-group change and reverse unsafe access.","Scope encoded PowerShell and outbound activity on the affected application server.","Contain confirmed compromise, validate restored operations, and submit complete incident/resolution notes."]}
  }
 };
-function guideForCurrent(){return GUIDE_MAP[current?.track]?.[Number(current?.level)]||{target:current?.data?.ticket||"Complete the assigned project.",steps:(current?.data?.tasks||[]).map(t=>t.title)}}
+function guideForCurrent(){if(current.track==='cloud')return {target:current.data.ticket,steps:window.PrempehCloudLab.guide()};return GUIDE_MAP[current?.track]?.[Number(current?.level)]||{target:current?.data?.ticket||"Complete the assigned project.",steps:(current?.data?.tasks||[]).map(t=>t.title)}}
 function guidanceFor(title){
  const t=title.toLowerCase();
  if(t.includes('alert'))return 'Open the security tooling available on the workstation. Find the alert for the affected endpoint and inspect host, process, parent process, severity, and time.';
@@ -321,7 +321,7 @@ function exactProcedure(){
  4:["Open Event Viewer and identify the production service failure on the affected server.","Open Services, restore the failed service, and verify it from PowerShell.","Open the SIEM and investigate the suspicious authentication source independently of the outage.","Correlate account, host, source, and time before deciding containment.","Use Endpoint Security/identity controls to contain the confirmed threat.","Verify production remains available after containment and document both workstreams."],
  5:["Open Command Prompt/router tools and reproduce the application-site network failure.","Inspect the route table, correct the responsible route, and verify connectivity.","Open Active Directory Users and Computers/Security logs and investigate the unauthorized Domain Admin membership.","Remove the unauthorized membership or disable the abused identity while preserving evidence.","Open the SIEM and scope APP-05 encoded PowerShell and outbound network activity.","Open Endpoint Security and contain confirmed affected systems.","Retest business connectivity and document routing root cause, privilege change, PowerShell evidence, containment, and verification."]}
  };
- return procedures[current?.track]?.[Number(current?.level)]||g.steps;
+ const steps=procedures[current?.track]?.[Number(current?.level)]||g.steps;return current.track==='integrated'?[...steps,...window.PrempehCloudLab.guide()]:steps;
 }
 function procedureProgress(){
  const p=exactProcedure(),key="coach:"+current.track+":"+current.level;
@@ -349,6 +349,7 @@ function procedureHint(step){
 }
 function showMeText(step){
  const p=exactProcedure(),txt=p[step]||p[0];
+ if(current.track==='cloud'||(current.track==='integrated'&&/AWS|CloudShell/.test(txt))){const task=current.data.tasks.find(t=>txt.includes(t.title));return '<b>Exact procedure</b><br>'+txt+'<br><br><b>Why it matters</b><br>'+(task?.why||'Use the cloud service API output to independently verify the resource configuration. Configuration and validation are both required.');}
  const low=txt.toLowerCase();
  const explanations=[
   [/show ip route|next hop|static route/,"Inspect destination prefixes and next hops. A route to the wrong next hop can send HQ traffic down the wrong path. Run enable, configure terminal, then ip route NETWORK MASK NEXT-HOP. Finish with end and show ip route."],
