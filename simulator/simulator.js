@@ -840,7 +840,7 @@
       window.PrempehDesktopLab.launch(activeTrack, selectedLevel);
     }
   });
-  $("[data-launch]").forEach((btn) => btn.addEventListener("click", () => {
+  $$("[data-launch]").forEach((btn) => btn.addEventListener("click", () => {
     const track = btn.dataset.launch;
     if (window.PrempehDesktopLab) {
       window.PrempehDesktopLab.launch(track, selectedLevel);
