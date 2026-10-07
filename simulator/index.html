@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="PrempehTech interactive IT infrastructure simulator for entry-level through mid-level networking, systems administration, and cybersecurity practice.">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#071321">
+  <link rel="canonical" href="https://prempehtech.ca/simulator/">
+  <title>IT Infrastructure Simulator | PrempehTech.ca</title>
+  <link rel="stylesheet" href="simulator.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-shell">
+      <a class="brand" href="/">PrempehTech<span>.ca</span></a>
+      <div class="header-actions">
+        <a class="back-link" href="/">← Portfolio</a>
+        <button class="reset-progress" id="resetProgress" type="button">Reset Progress</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">PREMPEHTECH INTERACTIVE LABS</p>
+        <h1>IT Infrastructure Simulator</h1>
+        <p class="hero-text">Learn by doing. Practice networking, systems administration, and cybersecurity from entry level through mid level with real troubleshooting logic, progressive hints, and complete guided walkthroughs.</p>
+        <div class="hero-actions">
+          <button class="primary-btn" id="continueBtn" type="button">Start Learning</button>
+          <button class="secondary-btn" id="showHowBtn" type="button">How It Works</button>
+        </div>
+      </div>
+      <div class="progress-panel" aria-label="Learning progress">
+        <div class="progress-stat">
+          <span class="stat-label">XP</span>
+          <strong id="xpValue">0</strong>
+        </div>
+        <div class="progress-stat">
+          <span class="stat-label">Completed</span>
+          <strong><span id="completedValue">0</span>/3</strong>
+        </div>
+        <div class="progress-stat">
+          <span class="stat-label">Current Rank</span>
+          <strong id="rankValue">Foundation</strong>
+        </div>
+        <div class="progress-bar" aria-hidden="true"><span id="progressFill"></span></div>
+      </div>
+    </section>
+
+    <section class="how-panel hidden" id="howPanel" aria-live="polite">
+      <div>
+        <span class="panel-kicker">THREE WAYS TO LEARN</span>
+        <h2>Choose how much help you want.</h2>
+      </div>
+      <div class="mode-explain-grid">
+        <article><strong>Challenge</strong><p>Get the objective and solve it yourself. Mistakes reduce your score but teach you what to inspect.</p></article>
+        <article><strong>Hints</strong><p>Ask for progressively stronger clues. Early hints point you in the right direction without giving away the answer.</p></article>
+        <article><strong>Guided / Show Me</strong><p>See the entire process, why each step matters, and the exact sequence before repeating it yourself.</p></article>
+      </div>
+    </section>
+
+    <section class="track-section" id="tracks">
+      <div class="section-heading">
+        <div>
+          <span class="panel-kicker">LEARNING TRACKS</span>
+          <h2>Pick a discipline.</h2>
+        </div>
+        <p>These first labs establish the core training engine. Later levels will build toward VLANs, routing, Active Directory, SIEM investigations, incident response, and enterprise troubleshooting.</p>
+      </div>
+
+      <div class="track-tabs" role="tablist" aria-label="Training tracks">
+        <button class="track-tab active" data-track="networking" role="tab" aria-selected="true" type="button">Networking</button>
+        <button class="track-tab" data-track="sysadmin" role="tab" aria-selected="false" type="button">System Administration</button>
+        <button class="track-tab" data-track="cyber" role="tab" aria-selected="false" type="button">Cybersecurity</button>
+      </div>
+
+      <div class="activity-grid">
+        <article class="activity-card active-track" data-card-track="networking">
+          <div class="activity-top">
+            <span class="difficulty entry">ENTRY LEVEL</span>
+            <span class="completion-badge" data-complete-badge="networking">Not completed</span>
+          </div>
+          <h3>Bring the Office PC Online</h3>
+          <p>Connect the devices, configure IPv4 settings, and prove end-to-end connectivity with ping.</p>
+          <div class="skills"><span>Ethernet</span><span>IPv4</span><span>Gateway</span><span>Ping</span></div>
+          <button class="launch-btn" data-launch="networking" type="button">Launch Lab</button>
+        </article>
+
+        <article class="activity-card" data-card-track="sysadmin">
+          <div class="activity-top">
+            <span class="difficulty entry">ENTRY LEVEL</span>
+            <span class="completion-badge" data-complete-badge="sysadmin">Not completed</span>
+          </div>
+          <h3>Provision a New Employee</h3>
+          <p>Create a user, apply group membership, assign least-privilege folder access, and verify the result.</p>
+          <div class="skills"><span>Users</span><span>Groups</span><span>Permissions</span><span>Least Privilege</span></div>
+          <button class="launch-btn" data-launch="sysadmin" type="button">Launch Lab</button>
+        </article>
+
+        <article class="activity-card" data-card-track="cyber">
+          <div class="activity-top">
+            <span class="difficulty entry">ENTRY LEVEL</span>
+            <span class="completion-badge" data-complete-badge="cyber">Not completed</span>
+          </div>
+          <h3>Investigate Failed Logins</h3>
+          <p>Review authentication logs, identify the suspicious source, classify the activity, and choose a safe response.</p>
+          <div class="skills"><span>Windows Logs</span><span>Event 4625</span><span>Triage</span><span>Response</span></div>
+          <button class="launch-btn" data-launch="cyber" type="button">Launch Lab</button>
+        </article>
+      </div>
+
+      <div class="roadmap">
+        <span class="panel-kicker">NEXT DIFFICULTY TIERS</span>
+        <div class="roadmap-grid">
+          <div><strong>Level 2 · Junior Technician</strong><span>Subnetting · DHCP · DNS · Windows/Linux services</span></div>
+          <div><strong>Level 3 · Administrator</strong><span>VLANs · routing · Active Directory · Group Policy · firewalls</span></div>
+          <div><strong>Level 4 · Junior Analyst</strong><span>SIEM triage · endpoint telemetry · access control · incident handling</span></div>
+          <div><strong>Level 5 · Mid-Level Professional</strong><span>Multi-system outages · identity incidents · segmented networks · root-cause analysis</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="lab-shell hidden" id="labShell" aria-live="polite">
+      <div class="lab-header">
+        <div>
+          <span class="panel-kicker" id="labTrackLabel">NETWORKING</span>
+          <h2 id="labTitle">Bring the Office PC Online</h2>
+          <p id="labObjective">Connect the topology, configure the workstation, then ping the server.</p>
+        </div>
+        <div class="lab-score">
+          <span>Score</span>
+          <strong id="scoreValue">100</strong>
+        </div>
+      </div>
+
+      <div class="mode-bar">
+        <div class="mode-buttons" role="group" aria-label="Learning mode">
+          <button class="mode-btn active" data-mode="challenge" type="button">Challenge</button>
+          <button class="mode-btn" data-mode="guided" type="button">Guided / Show Me</button>
+        </div>
+        <div class="utility-buttons">
+          <button class="hint-btn" id="hintBtn" type="button">Get Hint</button>
+          <button class="reset-lab-btn" id="resetLabBtn" type="button">Restart Lab</button>
+          <button class="close-lab-btn" id="closeLabBtn" type="button">Exit Lab</button>
+        </div>
+      </div>
+
+      <div class="feedback" id="feedbackBox" role="status">
+        <strong id="feedbackTitle">Mission ready.</strong>
+        <span id="feedbackText">Complete the objective using the tools below.</span>
+      </div>
+
+      <aside class="guided-panel hidden" id="guidedPanel">
+        <div class="guided-head">
+          <span class="panel-kicker">FULL PROCESS</span>
+          <strong id="guidedTitle">Walkthrough</strong>
+        </div>
+        <ol id="guidedSteps"></ol>
+      </aside>
+
+      <div id="networkingLab" class="lab-content hidden">
+        <div class="lab-column">
+          <section class="tool-panel">
+            <div class="tool-heading">
+              <div><span class="step-number">1</span><h3>Build the topology</h3></div>
+              <span class="tool-status" id="topologyStatus">Incomplete</span>
+            </div>
+            <p>Click one device and then another to connect them with Ethernet. Click an existing connection below to remove it.</p>
+            <div class="network-stage" id="networkStage">
+              <button class="device pc" data-device="pc" type="button"><span class="device-icon">▣</span><strong>PC-01</strong><small>Workstation</small></button>
+              <button class="device switch" data-device="switch" type="button"><span class="device-icon">⇄</span><strong>SW1</strong><small>Access Switch</small></button>
+              <button class="device router" data-device="router" type="button"><span class="device-icon">◎</span><strong>R1</strong><small>Router</small></button>
+              <button class="device server" data-device="server" type="button"><span class="device-icon">▤</span><strong>SRV-01</strong><small>10.0.0.10</small></button>
+            </div>
+            <div class="connection-list" id="connectionList"><span>No cables connected.</span></div>
+          </section>
+
+          <section class="tool-panel">
+            <div class="tool-heading">
+              <div><span class="step-number">2</span><h3>Configure PC-01</h3></div>
+              <span class="tool-status" id="ipStatus">Incomplete</span>
+            </div>
+            <div class="ip-form">
+              <label>IPv4 address<input id="ipAddress" value="" placeholder="192.168.10.x" autocomplete="off"></label>
+              <label>Subnet mask<input id="subnetMask" value="" placeholder="255.255.255.0" autocomplete="off"></label>
+              <label>Default gateway<input id="defaultGateway" value="" placeholder="192.168.10.1" autocomplete="off"></label>
+            </div>
+            <button class="action-btn" id="applyIpBtn" type="button">Apply Configuration</button>
+          </section>
+        </div>
+
+        <div class="lab-column">
+          <section class="terminal-panel">
+            <div class="terminal-top"><span></span><span></span><span></span><strong>PC-01 · Command Prompt</strong></div>
+            <div class="terminal-output" id="terminalOutput" aria-live="polite">Microsoft Windows [Version 10.0]
+Type a command to test the network.
+
+C:\Users\student&gt;</div>
+            <form class="terminal-form" id="terminalForm">
+              <span>C:\&gt;</span>
+              <input id="terminalInput" aria-label="Command prompt input" autocomplete="off" spellcheck="false" placeholder="Try ipconfig or ping 10.0.0.10">
+              <button type="submit">Run</button>
+            </form>
+          </section>
+          <section class="knowledge-card">
+            <span class="panel-kicker">WHY THIS MATTERS</span>
+            <h3>Connectivity is a chain.</h3>
+            <p>A successful ping depends on physical links, correct addressing, and a valid path between networks. Troubleshooting works faster when you test one layer at a time.</p>
+          </section>
+        </div>
+      </div>
+
+      <div id="sysadminLab" class="lab-content hidden">
+        <div class="lab-column">
+          <section class="tool-panel">
+            <div class="tool-heading"><div><span class="step-number">1</span><h3>Create the account</h3></div><span class="tool-status" id="userStatus">Incomplete</span></div>
+            <p>HR has approved a new Accounting employee: <strong>Jordan Lee</strong>. Username standard is first initial + surname.</p>
+            <label class="field-label">Username<input id="newUsername" autocomplete="off" placeholder="Enter username"></label>
+            <label class="field-label">Display name<input id="displayName" autocomplete="off" placeholder="Enter full name"></label>
+            <button class="action-btn" id="createUserBtn" type="button">Create User</button>
+          </section>
+
+          <section class="tool-panel">
+            <div class="tool-heading"><div><span class="step-number">2</span><h3>Assign group membership</h3></div><span class="tool-status" id="groupStatus">Incomplete</span></div>
+            <label class="field-label">Security group
+              <select id="groupSelect">
+                <option value="">Choose a group</option>
+                <option>Domain Admins</option>
+                <option>Accounting</option>
+                <option>IT Support</option>
+                <option>Everyone</option>
+              </select>
+            </label>
+            <button class="action-btn" id="addGroupBtn" type="button">Add to Group</button>
+          </section>
+        </div>
+
+        <div class="lab-column">
+          <section class="tool-panel">
+            <div class="tool-heading"><div><span class="step-number">3</span><h3>Set folder access</h3></div><span class="tool-status" id="permissionStatus">Incomplete</span></div>
+            <p>Jordan needs to edit documents in the <strong>Finance</strong> shared folder but must not control permissions or ownership.</p>
+            <label class="field-label">Assign permission to
+              <select id="principalSelect">
+                <option value="">Choose a principal</option>
+                <option>jlee</option>
+                <option>Accounting</option>
+                <option>Everyone</option>
+              </select>
+            </label>
+            <label class="field-label">Permission
+              <select id="permissionSelect">
+                <option value="">Choose permission</option>
+                <option>Read</option>
+                <option>Modify</option>
+                <option>Full Control</option>
+                <option>Deny</option>
+              </select>
+            </label>
+            <button class="action-btn" id="applyPermissionBtn" type="button">Apply Permission</button>
+          </section>
+
+          <section class="tool-panel test-panel">
+            <div class="tool-heading"><div><span class="step-number">4</span><h3>Verify access</h3></div><span class="tool-status" id="accessStatus">Not tested</span></div>
+            <p>Test whether Jordan can open and edit a Finance document without receiving excessive privileges.</p>
+            <button class="primary-btn compact" id="testAccessBtn" type="button">Test User Access</button>
+            <div class="access-result" id="accessResult">No access test has been run.</div>
+          </section>
+        </div>
+      </div>
+
+      <div id="cyberLab" class="lab-content hidden">
+        <div class="lab-column wide">
+          <section class="tool-panel">
+            <div class="tool-heading"><div><span class="step-number">1</span><h3>Review authentication events</h3></div><span class="tool-status" id="evidenceStatus">Awaiting analysis</span></div>
+            <div class="log-table-wrap">
+              <table class="log-table">
+                <thead><tr><th>Time</th><th>Event ID</th><th>User</th><th>Source IP</th><th>Result</th></tr></thead>
+                <tbody>
+                  <tr><td>09:14:03</td><td>4624</td><td>jlee</td><td>10.20.30.21</td><td class="ok-text">Success</td></tr>
+                  <tr class="suspicious-row"><td>09:15:11</td><td>4625</td><td>administrator</td><td>10.20.30.77</td><td class="bad-text">Failed</td></tr>
+                  <tr class="suspicious-row"><td>09:15:13</td><td>4625</td><td>administrator</td><td>10.20.30.77</td><td class="bad-text">Failed</td></tr>
+                  <tr><td>09:15:14</td><td>4624</td><td>mchen</td><td>10.20.30.42</td><td class="ok-text">Success</td></tr>
+                  <tr class="suspicious-row"><td>09:15:16</td><td>4625</td><td>administrator</td><td>10.20.30.77</td><td class="bad-text">Failed</td></tr>
+                  <tr class="suspicious-row"><td>09:15:18</td><td>4625</td><td>administrator</td><td>10.20.30.77</td><td class="bad-text">Failed</td></tr>
+                  <tr class="suspicious-row"><td>09:15:20</td><td>4625</td><td>administrator</td><td>10.20.30.77</td><td class="bad-text">Failed</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+
+        <div class="lab-column">
+          <section class="tool-panel">
+            <div class="tool-heading"><div><span class="step-number">2</span><h3>Triage the incident</h3></div><span class="tool-status" id="triageStatus">Incomplete</span></div>
+            <label class="field-label">Suspicious source
+              <select id="sourceSelect">
+                <option value="">Choose source IP</option>
+                <option>10.20.30.21</option>
+                <option>10.20.30.42</option>
+                <option>10.20.30.77</option>
+              </select>
+            </label>
+            <label class="field-label">Most likely activity
+              <select id="attackSelect">
+                <option value="">Choose classification</option>
+                <option>Normal user login</option>
+                <option>Password brute-force attempt</option>
+                <option>DNS outage</option>
+                <option>Software update</option>
+              </select>
+            </label>
+            <label class="field-label">Best first response
+              <select id="responseSelect">
+                <option value="">Choose response</option>
+                <option>Delete the domain controller</option>
+                <option>Ignore it because no login succeeded</option>
+                <option>Validate the source, protect the targeted account, and contain the source if unauthorized</option>
+                <option>Disable logging</option>
+              </select>
+            </label>
+            <button class="primary-btn compact" id="submitTriageBtn" type="button">Submit Analysis</button>
+          </section>
+          <section class="knowledge-card">
+            <span class="panel-kicker">ANALYST HABIT</span>
+            <h3>Look for patterns, not single events.</h3>
+            <p>One failed login can be a typo. Repeated failures against a privileged account from the same source in seconds deserve investigation.</p>
+          </section>
+        </div>
+      </div>
+
+      <div class="mission-complete hidden" id="missionComplete">
+        <div class="complete-icon">✓</div>
+        <span class="panel-kicker">MISSION COMPLETE</span>
+        <h2 id="completeTitle">Lab completed</h2>
+        <p id="completeSummary">You completed the activity.</p>
+        <div class="complete-stats">
+          <div><span>Final Score</span><strong id="finalScore">100</strong></div>
+          <div><span>XP Earned</span><strong id="xpEarned">+100</strong></div>
+        </div>
+        <div class="complete-actions">
+          <button class="primary-btn compact" id="nextLabBtn" type="button">Next Track</button>
+          <button class="secondary-btn compact" id="returnTracksBtn" type="button">Back to Tracks</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2026 Agyemang Prempeh · PrempehTech.ca · Interactive IT Training Simulator</p>
+  </footer>
+
+  <script src="simulator.js"></script>
+</body>
+</html>
