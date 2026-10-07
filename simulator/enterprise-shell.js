@@ -214,5 +214,39 @@ function syncEnterpriseState(taskId,win){
  if(t.app==="aduc"){const u=val("username")||val("account");if(u){s.users[u]=s.users[u]||{name:val("display")||u,ou:val("ou")||"Users",enabled:true,groups:["Domain Users"]};if(val("ou"))s.users[u].ou=val("ou");if(val("group")&&!s.users[u].groups.includes(val("group")))s.users[u].groups.push(val("group"));if(val("state")==="Disabled"||String(val("action")).includes("disable"))s.users[u].enabled=false}}
 }
 
+
+function commandFromState(app,raw){
+ const cmd=String(raw||"").trim().toLowerCase(),s=sim();
+ if(cmd==="hostname")return "LAB-"+String(current?.track||"workstation").toUpperCase()+"01";
+ if(cmd==="whoami")return "corp\\student";
+ if(cmd==="ipconfig"||cmd==="ipconfig /all")return "Ethernet adapter Ethernet:\n   IPv4 Address . . . . . : "+s.network.ip+"\n   Subnet Mask  . . . . . : "+s.network.mask+"\n   Default Gateway . . . .: "+(s.network.gateway||"(none)")+"\n   DNS Servers . . . . . .: "+(s.network.dns||"(none)");
+ if(cmd==="route print")return "IPv4 Route Table\n"+s.routes.map(x=>x[0]+"  via  "+x[1]).join("\n");
+ if(cmd==="arp -a")return "Interface: "+s.network.ip+"\n  192.168.20.1     00-50-56-aa-10-01 dynamic\n  192.168.20.53    00-50-56-aa-10-53 dynamic";
+ if(cmd==="show ip route")return "Codes: C - connected, S - static\n"+s.routes.map(x=>"S  "+x[0]+" via "+x[1]).join("\n");
+ if(cmd==="show ip interface brief")return "Interface       IP-Address       Status Protocol\nG0/0            172.16.30.1      up     up\nG0/0.10         192.168.10.1     up     up\nG0/0.20         192.168.20.1     up     up\nTunnel0         172.16.254.1     up     up";
+ if(cmd==="show vlan brief")return "VLAN Name             Status Ports\n1    default          active Gi0/1-23\n10   USERS            active Gi0/2-10\n20   SERVERS          active Gi0/11-20";
+ if(cmd==="show interfaces trunk")return "Port    Mode   Encapsulation Status Native vlan\nGi0/24  on     802.1q        trunking 1";
+ if(cmd==="show mac address-table")return "Vlan Mac Address       Type       Ports\n10   0050.56aa.1001    DYNAMIC    Gi0/3\n20   0050.56aa.2001    DYNAMIC    Gi0/12";
+ if(cmd==="netstat -ano")return "Proto Local Address        Foreign Address       State       PID\nTCP   172.16.20.23:49712    185.20.55.14:443     ESTABLISHED 4312";
+ return null;
+}
+const _ptOldRunTerminal=typeof runTerminal==="function"?runTerminal:null;
+if(_ptOldRunTerminal){
+ runTerminal=function(appId,raw,win){
+  const out=commandFromState(appId,raw);
+  if(out!==null){
+   const box=win.querySelector("[data-terminal-output]"),prompt=appId==="powershell"?"PS C:\\Users\\Administrator>":appId==="switch"?"SW1#":appId==="router"?"R1#":"C:\\Users\\student>";
+   box.textContent+=(box.textContent?"\n":"")+prompt+" "+raw+"\n"+out+"\n"+prompt;box.scrollTop=box.scrollHeight;return;
+  }
+  return _ptOldRunTerminal(appId,raw,win);
+ }
+}
+const _ptOldValidate=typeof validateFormTask==="function"?validateFormTask:null;
+if(_ptOldValidate){
+ validateFormTask=function(taskId,win){syncEnterpriseState(taskId,win);const r=_ptOldValidate(taskId,win);setTimeout(()=>{const id=win.dataset.app;if(["dhcp","dns","services","aduc","gpmc","event","siem","endpoint","router"].includes(id)){win.dataset.enterpriseWired="";const body=win.querySelector(".vm-app-body");if(body){const rich=enterpriseContent(id);if(rich){const actions=body.querySelector(".pt-project-actions");if(actions){const saved=actions.innerHTML;body.innerHTML=rich+'<div class="pt-project-actions">'+saved+'</div>'}}}wireEnterprise(win,id)}},0);return r}
+}
+const _ptOldLaunch=typeof launch==="function"?launch:null;
+if(_ptOldLaunch)launch=function(track,level){PT_SIM.state=null;return _ptOldLaunch(track,level)};
+
 /* ===== End Stateful Enterprise Simulation Engine ===== */
 })();
