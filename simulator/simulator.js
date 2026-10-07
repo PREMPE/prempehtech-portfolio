@@ -80,61 +80,202 @@
   };
 
   const difficultyLevels = {
-    1: {
-      label: "LEVEL 1 · FOUNDATION",
-      title: "Core IT Fundamentals",
-      description: "Start with networking, system administration, and cybersecurity fundamentals.",
-      topics: ["Ethernet & IPv4", "Users & Permissions", "Windows Logs", "Basic Troubleshooting"],
-      jump: "Go to Level 1 Labs"
+    networking: {
+      name: "Networking",
+      levels: {
+        1: { name: "Network Foundations", label: "LEVEL 1 · NETWORK FOUNDATIONS", title: "Network Foundations", description: "Build the fundamentals of Ethernet, IPv4 addressing, gateways, basic routing, and structured connectivity testing.", topics: ["Ethernet & MAC", "IPv4", "Subnet Masks", "Default Gateway", "Ping", "Basic Troubleshooting"] },
+        2: { name: "Junior Network Technician", label: "LEVEL 2 · JUNIOR NETWORK TECHNICIAN", title: "Junior Network Technician", description: "Handle common LAN services and diagnose addressing or name-resolution problems.", topics: ["Subnetting", "DHCP", "DNS", "ARP", "Traceroute", "Switch Troubleshooting"] },
+        3: { name: "Network Administrator", label: "LEVEL 3 · NETWORK ADMINISTRATOR", title: "Network Administration", description: "Configure and troubleshoot segmented business networks and controlled traffic paths.", topics: ["VLANs", "Inter-VLAN Routing", "Static Routing", "NAT", "ACLs", "Firewall Rules"] },
+        4: { name: "Network Operations Analyst", label: "LEVEL 4 · NETWORK OPERATIONS ANALYST", title: "Network Operations & Troubleshooting", description: "Diagnose multi-segment failures using evidence from routes, interfaces, services, and traffic behavior.", topics: ["Packet Flow", "Routing Failures", "DNS/DHCP Outages", "ACL Diagnosis", "Network Logs", "Root Cause"] },
+        5: { name: "Mid-Level Network Engineer", label: "LEVEL 5 · MID-LEVEL NETWORK ENGINEER", title: "Enterprise Network Engineering", description: "Solve ambiguous enterprise connectivity problems without being told which layer is broken.", topics: ["Multi-VLAN Networks", "Site Connectivity", "Redundancy", "Advanced NAT", "Segmentation", "Enterprise Troubleshooting"] }
+      }
     },
-    2: {
-      label: "LEVEL 2 · JUNIOR TECHNICIAN",
-      title: "Junior Technician",
-      description: "Practice day-to-day support, addressing, core services, and operating-system troubleshooting.",
-      topics: ["Subnetting", "DHCP", "DNS", "Windows Services", "Linux Services", "Desktop Troubleshooting"],
-      jump: "Open Level 2"
+    sysadmin: {
+      name: "System Administration",
+      levels: {
+        1: { name: "Systems Foundations", label: "LEVEL 1 · SYSTEMS FOUNDATIONS", title: "Systems Administration Foundations", description: "Learn how operating systems, users, groups, permissions, services, and storage fit together.", topics: ["Users & Groups", "Permissions", "Processes", "Services", "Storage", "Basic Troubleshooting"] },
+        2: { name: "Junior Systems Technician", label: "LEVEL 2 · JUNIOR SYSTEMS TECHNICIAN", title: "Junior Systems Technician", description: "Perform common Windows and Linux support tasks while validating the result of each change.", topics: ["Windows Services", "Linux Services", "Local Accounts", "File Systems", "PowerShell", "Bash"] },
+        3: { name: "Systems Administrator", label: "LEVEL 3 · SYSTEMS ADMINISTRATOR", title: "Systems & Identity Administration", description: "Administer centralized identity, policy, naming, and access in a business environment.", topics: ["Active Directory", "DNS", "Group Policy", "OUs", "NTFS Permissions", "Server Roles"] },
+        4: { name: "Infrastructure Administrator", label: "LEVEL 4 · INFRASTRUCTURE ADMINISTRATOR", title: "Infrastructure Administration", description: "Troubleshoot identity, policy, services, authentication, and server dependencies across systems.", topics: ["AD Troubleshooting", "GPO Failures", "Service Dependencies", "Authentication", "PowerShell", "Event Logs"] },
+        5: { name: "Mid-Level Systems Engineer", label: "LEVEL 5 · MID-LEVEL SYSTEMS ENGINEER", title: "Enterprise Systems Engineering", description: "Resolve multi-server failures, privilege problems, and infrastructure outages with minimal guidance.", topics: ["Multi-Server Outages", "Identity Incidents", "Automation", "Hardening", "Recovery", "Root Cause Analysis"] }
+      }
     },
-    3: {
-      label: "LEVEL 3 · ADMINISTRATOR",
-      title: "Infrastructure Administration",
-      description: "Work with segmented networks, identity services, policy, routing, and access controls.",
-      topics: ["VLANs", "Routing", "Active Directory", "Group Policy", "Firewall Rules", "NAT"],
-      jump: "Open Level 3"
+    cyber: {
+      name: "Cybersecurity",
+      levels: {
+        1: { name: "Security Foundations", label: "LEVEL 1 · SECURITY FOUNDATIONS", title: "Cybersecurity Foundations", description: "Learn to recognize security evidence, authentication events, suspicious patterns, and safe first responses.", topics: ["CIA Triad", "Authentication Logs", "Event 4625", "Least Privilege", "Threat vs Vulnerability", "Basic Triage"] },
+        2: { name: "Junior Security Technician", label: "LEVEL 2 · JUNIOR SECURITY TECHNICIAN", title: "Junior Security Technician", description: "Investigate common endpoint, account, phishing, and malware indicators using basic telemetry.", topics: ["Phishing", "Malware Indicators", "Account Abuse", "Endpoint Logs", "Firewall Events", "Basic Containment"] },
+        3: { name: "Security Administrator", label: "LEVEL 3 · SECURITY ADMINISTRATOR", title: "Security Administration", description: "Apply defensive controls and investigate access-control, endpoint, and network-security events.", topics: ["Access Control", "Firewall Policy", "Endpoint Security", "Logging", "Account Protection", "Hardening"] },
+        4: { name: "Junior SOC Analyst", label: "LEVEL 4 · JUNIOR SOC ANALYST", title: "Security Operations", description: "Correlate SIEM and endpoint evidence, prioritize alerts, and make defensible response decisions.", topics: ["SIEM Triage", "Endpoint Telemetry", "PowerShell Abuse", "Brute Force", "Incident Handling", "Evidence Correlation"] },
+        5: { name: "Mid-Level Security Analyst", label: "LEVEL 5 · MID-LEVEL SECURITY ANALYST", title: "Enterprise Security Investigation", description: "Investigate ambiguous incidents spanning identity, endpoints, and networks while preserving evidence.", topics: ["Lateral Movement", "Identity Incidents", "Multi-Host Correlation", "Containment", "Root Cause", "Incident Response"] }
+      }
     },
-    4: {
-      label: "LEVEL 4 · JUNIOR ANALYST",
-      title: "Security Operations",
-      description: "Investigate alerts, correlate endpoint and network evidence, and make defensible response decisions.",
-      topics: ["SIEM Triage", "Endpoint Telemetry", "Access Control", "Incident Handling", "PowerShell Abuse", "Brute Force"],
-      jump: "Open Level 4"
-    },
-    5: {
-      label: "LEVEL 5 · MID-LEVEL PROFESSIONAL",
-      title: "Enterprise Troubleshooting",
-      description: "Solve ambiguous multi-system failures and security incidents without being told where the fault is.",
-      topics: ["Multi-System Outages", "Identity Incidents", "Segmented Networks", "Root-Cause Analysis", "Lateral Movement", "Advanced Troubleshooting"],
-      jump: "Open Level 5"
+    integrated: {
+      name: "All Together",
+      levels: {
+        1: { name: "IT Foundations", label: "LEVEL 1 · IT FOUNDATIONS", title: "Integrated IT Foundations", description: "Combine basic networking, systems administration, and cybersecurity in one guided workplace scenario.", topics: ["Connectivity", "User Access", "Authentication Logs", "Least Privilege", "Basic Response", "Verification"] },
+        2: { name: "Junior IT Technician", label: "LEVEL 2 · JUNIOR IT TECHNICIAN", title: "Junior IT Technician", description: "Solve support incidents that cross workstation, network, service, and account boundaries.", topics: ["DHCP/DNS", "Windows Services", "Permissions", "Endpoint Alerts", "Troubleshooting", "Documentation"] },
+        3: { name: "Infrastructure Administrator", label: "LEVEL 3 · INFRASTRUCTURE ADMINISTRATOR", title: "Integrated Infrastructure Administration", description: "Work across VLANs, identity, policy, servers, and defensive controls.", topics: ["VLANs", "AD & GPO", "Routing", "Firewalls", "Server Roles", "Access Control"] },
+        4: { name: "IT & Security Analyst", label: "LEVEL 4 · IT & SECURITY ANALYST", title: "Operations & Security Analysis", description: "Restore business services while investigating suspicious activity and preserving evidence.", topics: ["SIEM Triage", "Identity", "Network Evidence", "Endpoint Evidence", "Containment", "Recovery"] },
+        5: { name: "Mid-Level IT Professional", label: "LEVEL 5 · MID-LEVEL IT PROFESSIONAL", title: "Enterprise IT Incident Challenge", description: "Diagnose complex multi-system failures and security incidents with incomplete information.", topics: ["Enterprise Outages", "Identity Incidents", "Segmentation", "Lateral Movement", "Recovery", "Root Cause Analysis"] }
+      }
     }
   };
+
+  const explanations = {
+    ipconfig: {
+      category: "NETWORKING COMMAND",
+      title: "ipconfig",
+      summary: "Shows the TCP/IP configuration assigned to a Windows computer.",
+      does: "Displays interface details such as IPv4 address, subnet mask, default gateway, and DNS configuration.",
+      means: "It tells you how the workstation currently sees itself on the network and which router or DNS server it will try to use.",
+      why: "It is one of the first commands to run when a Windows machine cannot communicate. A wrong IP, mask, or gateway can explain the failure immediately.",
+      example: "ipconfig"
+    },
+    ping: {
+      category: "NETWORKING COMMAND",
+      title: "ping",
+      summary: "Tests whether an IP host can respond across the network using ICMP echo messages.",
+      does: "Sends echo requests to a destination and reports replies, delay, and packet loss.",
+      means: "A successful reply proves some path exists between the two hosts. A failure does not automatically tell you which layer is broken.",
+      why: "Ping helps you test the troubleshooting chain in stages: local interface, gateway, remote server, then other destinations.",
+      example: "ping 10.0.0.10"
+    },
+    tracert: {
+      category: "NETWORKING COMMAND",
+      title: "tracert",
+      summary: "Shows the Layer 3 path traffic takes toward a destination.",
+      does: "Lists the routers or hops encountered as Windows sends packets with increasing TTL values.",
+      means: "Each hop represents a routing step. If the trace stops at a particular point, that area becomes a strong troubleshooting lead.",
+      why: "It helps distinguish a local workstation problem from a routing or upstream network problem.",
+      example: "tracert 10.0.0.10"
+    },
+    arp: {
+      category: "NETWORKING COMMAND",
+      title: "arp -a",
+      summary: "Displays the computer's local IPv4-to-MAC address neighbor mappings.",
+      does: "Shows ARP cache entries learned while communicating with devices on the local network.",
+      means: "An entry connects a Layer 3 IPv4 address to the Layer 2 MAC address used to deliver the Ethernet frame locally.",
+      why: "It helps verify local Layer 2 neighbor discovery and can expose wrong, missing, or unexpected MAC mappings.",
+      example: "arp -a"
+    },
+    nslookup: {
+      category: "NETWORKING COMMAND",
+      title: "nslookup",
+      summary: "Queries DNS to translate a hostname into an IP address or inspect DNS answers.",
+      does: "Sends a DNS query and shows the DNS server used plus the returned record.",
+      means: "If pinging an IP works but a hostname fails, DNS becomes a likely cause rather than routing.",
+      why: "Users normally access services by names, not raw IP addresses. A network can be reachable while the application still appears broken because DNS is wrong.",
+      example: "nslookup intranet.corp.local"
+    },
+    ou: {
+      category: "SYSTEM ADMINISTRATION CONCEPT",
+      title: "Organizational Unit (OU)",
+      summary: "An Active Directory container used to organize users, computers, and other directory objects.",
+      does: "Groups directory objects into a manageable structure where administration and Group Policy can be scoped.",
+      means: "Putting an account in the correct OU is about management structure and policy scope, not simply giving it permissions.",
+      why: "A well-designed OU structure makes policy application, delegation, and troubleshooting more predictable.",
+      example: "corp.local / Departments / Accounting / Users"
+    },
+    securityGroup: {
+      category: "SYSTEM ADMINISTRATION CONCEPT",
+      title: "Security Group",
+      summary: "A reusable identity group used to assign permissions to multiple users or computers.",
+      does: "Lets administrators grant a resource permission once to a group instead of separately to every employee.",
+      means: "The user's access comes from role or membership. Moving a person into or out of the group changes access consistently.",
+      why: "Group-based access scales better, reduces mistakes, and makes audits much easier than individual one-off permissions.",
+      example: "Accounting group → Finance folder → Modify"
+    },
+    modifyPermission: {
+      category: "SYSTEM ADMINISTRATION CONCEPT",
+      title: "Modify vs Full Control",
+      summary: "Modify allows normal file work; Full Control also allows changing permissions and ownership.",
+      does: "Modify generally permits read, write, create, change, and delete. Full Control adds administrative control over the security of the object.",
+      means: "A user who only needs to work with documents usually does not need authority to change who else can access them.",
+      why: "Choosing the minimum required permission follows least privilege and limits damage from mistakes or compromised accounts.",
+      example: "Finance staff: Modify ✓   Full Control ✕"
+    },
+    leastPrivilege: {
+      category: "SECURITY PRINCIPLE",
+      title: "Least Privilege",
+      summary: "Give an account only the access required to perform its job.",
+      does: "Limits permissions, roles, and administrative rights to the minimum necessary scope.",
+      means: "Being able to do more is not automatically better. Extra rights create extra paths for mistakes and attackers.",
+      why: "Least privilege reduces blast radius and is central to secure identity and systems administration.",
+      example: "Accounting user → Accounting group, not Domain Admins"
+    },
+    event4625: {
+      category: "CYBERSECURITY CONCEPT",
+      title: "Windows Event ID 4625",
+      summary: "A Windows Security log event recording a failed account logon.",
+      does: "Captures details about a failed authentication attempt, often including account, logon type, source information, and failure reason.",
+      means: "One failure may be harmless. Repeated 4625 events against the same account from one source can form a suspicious pattern.",
+      why: "SOC analysts use these events to detect password guessing, brute force, misconfigured services, or account abuse.",
+      example: "4625 · administrator · 10.20.30.77 · Failed"
+    },
+    bruteForce: {
+      category: "CYBERSECURITY CONCEPT",
+      title: "Password Brute Force",
+      summary: "Repeated attempts to discover or guess valid credentials.",
+      does: "An attacker tries many passwords or credentials against an account until one works or defenses stop the activity.",
+      means: "Rapid repeated failures are more important as a pattern than any single failed login.",
+      why: "Detecting brute force early can prevent account compromise, privilege escalation, and later movement through the environment.",
+      example: "4625 → 4625 → 4625 → same account + same source"
+    },
+    preserveLogs: {
+      category: "INCIDENT RESPONSE PRINCIPLE",
+      title: "Preserve the Logs",
+      summary: "Keep the evidence needed to understand what happened before making destructive changes.",
+      does: "Protects authentication, endpoint, firewall, SIEM, and system records from deletion or unnecessary alteration.",
+      means: "Containment should stop the threat without erasing the timeline investigators need.",
+      why: "Good evidence supports root-cause analysis, scoping, recovery decisions, and defensible incident documentation.",
+      example: "Contain source ✓   Protect account ✓   Delete logs ✕"
+    }
+  };
+
+  function openExplanation(key) {
+    const data = explanations[key];
+    if (!data) return;
+    $("explainCategory").textContent = data.category;
+    $("explainTitle").textContent = data.title;
+    $("explainSummary").textContent = data.summary;
+    $("explainDoes").textContent = data.does;
+    $("explainMeans").textContent = data.means;
+    $("explainWhy").textContent = data.why;
+    $("explainExample").textContent = data.example || "";
+    $("explainExampleWrap").classList.toggle("hidden", !data.example);
+    $("explainOverlay").classList.remove("hidden");
+  }
+
+  function closeExplanation() {
+    $("explainOverlay").classList.add("hidden");
+  }
 
   let selectedLevel = 1;
 
   function setDifficultyLevel(level) {
     const value = Number(level);
-    const data = difficultyLevels[value] || difficultyLevels[1];
+    const trackConfig = difficultyLevels[activeTrack] || difficultyLevels.networking;
+    const data = trackConfig.levels[value] || trackConfig.levels[1];
     selectedLevel = value;
 
     $$(".level-btn").forEach((btn) => {
-      const active = Number(btn.dataset.level) === value;
+      const btnLevel = Number(btn.dataset.level);
+      const active = btnLevel === value;
+      const btnData = trackConfig.levels[btnLevel];
       btn.classList.toggle("active", active);
       btn.setAttribute("aria-selected", active ? "true" : "false");
+      const strong = btn.querySelector("strong");
+      if (strong && btnData) strong.textContent = btnData.name;
     });
 
+    $("levelSelectorTrackLabel").textContent = trackConfig.name.toUpperCase() + " LEVELS · ALL UNLOCKED";
+    $("levelSelectorTitle").textContent = "Choose a " + trackConfig.name + " difficulty level";
     $("levelLabel").textContent = data.label;
     $("levelTitle").textContent = data.title;
     $("levelDescription").textContent = data.description;
     $("levelTopics").innerHTML = data.topics.map((topic) => "<span>" + topic + "</span>").join("");
-    $("levelJumpBtn").textContent = data.jump;
+    $("levelJumpBtn").textContent = value === 1 ? "Go to Level 1 Lab" : "Open " + data.name;
   }
 
   let progress = loadProgress();
@@ -198,7 +339,8 @@
       btn.classList.toggle("active", active);
       btn.setAttribute("aria-selected", active ? "true" : "false");
     });
-    $$(".activity-card").forEach((card) => card.classList.toggle("active-track", card.dataset.cardTrack === track));
+    $(".activity-card").forEach((card) => card.classList.toggle("active-track", card.dataset.cardTrack === track));
+    setDifficultyLevel(selectedLevel);
   }
 
   function launchLab(key) {
@@ -228,7 +370,7 @@
 
   function resetState(key) {
     if (key === "networking") {
-      network = { selected: null, links: [], ipGood: false, pingGood: false };
+      network = { selected: null, links: [], ipGood: false, gatewayGood: false, pingGood: false, dnsGood: false };
       $$(".device").forEach((d) => d.classList.remove("selected", "connected"));
       $("ipAddress").value = "";
       $("subnetMask").value = "";
@@ -736,6 +878,15 @@
     };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
     updateProgressUI();
+  });
+
+  $(".explain-btn").forEach((btn) => btn.addEventListener("click", () => openExplanation(btn.dataset.explain)));
+  $("explainClose").addEventListener("click", closeExplanation);
+  $("explainOverlay").addEventListener("click", (event) => {
+    if (event.target === $("explainOverlay")) closeExplanation();
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !$("explainOverlay").classList.contains("hidden")) closeExplanation();
   });
 
   updateProgressUI();
