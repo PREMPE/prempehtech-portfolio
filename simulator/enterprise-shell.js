@@ -20,15 +20,15 @@ function injectStyle(){
 .vm-desktop-icon{width:82px!important;min-height:78px!important;background:transparent!important;border:1px solid transparent!important;color:#fff!important;text-shadow:0 1px 3px #000;padding:6px 3px!important}
 .vm-desktop-icon:hover,.vm-desktop-icon:focus{background:rgba(150,210,255,.18)!important;border-color:rgba(210,238,255,.45)!important}
 .vm-icon-glyph{width:38px!important;height:38px!important;border-radius:5px!important;box-shadow:0 2px 6px #0005;font-size:12px!important}
-.vm-mission{width:300px!important;right:14px!important;top:14px!important;max-height:calc(100% - 70px)!important;overflow:auto!important;box-shadow:0 8px 28px #0006!important;border:1px solid #aebdca!important}
+.vm-mission{width:330px!important;right:14px!important;top:14px!important;max-height:calc(100% - 70px)!important;overflow-y:auto!important;overflow-x:hidden!important;box-shadow:0 8px 28px #0006!important;border:1px solid #aebdca!important}
 .vm-mission.ticket-minimized{display:none!important}
 .enterprise-ticket-controls{display:flex;gap:4px;position:absolute;right:7px;top:7px}
 .enterprise-ticket-controls button{width:24px;height:22px;border:0;background:#e7edf2;border-radius:3px;cursor:pointer;font-weight:800;color:#263746}
-.vm-mission-head{padding-right:55px!important;position:relative}
+.vm-mission-head{padding-right:14px!important;padding-top:36px!important;position:relative}.vm-mission-head>div:first-child{min-width:0;flex:1}.vm-mission-head>span{flex-shrink:0;white-space:nowrap}
 .vm-task-item>span:last-child br,.vm-task-item>span:last-child br+*{display:none}
 .enterprise-guide{border-top:1px solid #ccd6df;background:#f7fafc}
-.enterprise-guide-tabs{display:flex;border-bottom:1px solid #ccd6df}
-.enterprise-guide-tabs button{flex:1;border:0;background:#e8eef3;padding:8px;font-weight:800;cursor:pointer}
+.enterprise-guide-tabs{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid #ccd6df}
+.enterprise-guide-tabs button{flex:1;border:0;background:#e8eef3;padding:8px;min-width:0;font-weight:800;cursor:pointer}
 .enterprise-guide-tabs button.active{background:#fff;color:#0c5f99}
 .enterprise-guide-pane{padding:10px 12px;font-size:12px;line-height:1.45;color:#263746}
 .enterprise-guide-pane ol{padding-left:20px;margin:4px 0}.enterprise-guide-pane li{margin:7px 0}
@@ -50,7 +50,9 @@ function injectStyle(){
 .notepad-area{width:100%;height:100%;border:0;resize:none;outline:none;padding:12px;box-sizing:border-box;font:14px Consolas,monospace}
 .calc{width:260px;margin:20px auto;background:#eef2f5;padding:8px}.calc input{width:100%;box-sizing:border-box;font-size:28px;text-align:right;padding:12px}.calc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-top:5px}.calc-grid button{height:48px;font-size:17px}
 .enterprise-context{position:absolute;z-index:3000;background:#fff;border:1px solid #aaa;box-shadow:0 5px 18px #0005;width:190px;padding:5px 0;color:#222;font:13px Segoe UI}.enterprise-context div{padding:7px 18px}.enterprise-context div:hover{background:#e8f2fa}
-@media(max-width:800px){.vm-mission{width:260px!important}.enterprise-window{left:8%!important;width:88%!important}.vm-desktop-icons{grid-template-columns:82px!important}}
+.pt-work{padding:14px;min-width:0;color:#203444;font:13px 'Segoe UI',Arial}.pt-console{display:grid;grid-template-columns:155px minmax(0,1fr);color:#203444}.pt-tree{padding:12px;background:#edf3f7;font:12px 'Segoe UI',Arial}.pt-tree span{display:block;padding:5px 0}.pt-work table{width:100%;border-collapse:collapse;font-size:12px}.pt-work th,.pt-work td{padding:8px;text-align:left;border-bottom:1px solid #d4dfe8;vertical-align:top;overflow-wrap:anywhere}.pt-work th{background:#eaf1f6}.pt-search{display:flex;gap:6px;margin:10px 0}.pt-search input{min-width:0;flex:1}.pt-search button,.pt-time-filter input{padding:6px}.pt-time-filter{display:flex;gap:12px;flex-wrap:wrap}.pt-table-scroll{overflow-x:auto}.pt-project-actions{padding:12px;border-top:1px solid #bccdd9}.pt-project-actions h4{color:#203444;margin:0 0 10px}.pt-project-actions .vm-siem-kpis,.pt-project-actions .vm-siem-top,.pt-project-actions .vm-siem-app>table{display:none}.pt-project-actions .vm-siem-app{background:#fff;color:#203444}.pt-project-actions .vm-siem-app table{color:#203444!important}.pt-link{color:#05669b}.pt-work tr[data-event-time]{cursor:pointer}.pt-work tr[data-event-time]:hover{background:#edf7ff}.pt-network-design{font-size:12px;line-height:1.5;background:#eef6fb;padding:10px;border-top:1px solid #bccdd9}.pt-network-design table{width:100%;font-size:11px;text-align:left}.pt-mode{display:block;padding:8px 12px;background:#eef6fb;font-size:12px}.pt-mode select{width:100%;margin-top:5px}.enterprise-guide-pane textarea{box-sizing:border-box}.vm-window{min-width:0!important;width:calc(100% - 580px)!important}.vm-window.maximized{width:calc(100% - 16px)!important}
+@media(max-width:1000px){.vm-window{left:12px!important;width:calc(100% - 365px)!important}.vm-desktop-icons{opacity:.85}.vm-mission{width:320px!important}}
+@media(max-width:800px){.vm-mission{width:260px!important}.vm-window{left:8px!important;width:calc(100% - 16px)!important}.pt-console{grid-template-columns:1fr}.pt-tree{display:none}.enterprise-window{left:8%!important;width:88%!important}.vm-desktop-icons{grid-template-columns:82px!important}}
 `;document.head.appendChild(s)
 }
 const GUIDE_MAP={
@@ -107,6 +109,11 @@ function enhanceTicket(){
  const titles=qa('.vm-task-item strong',m).map(x=>x.textContent.trim()),guide=guideForCurrent();
  qa('.vm-task-item',m).forEach(li=>{const s=li.querySelector('span:last-child');if(s){const st=s.querySelector('strong');s.innerHTML='';s.appendChild(st)}});
  const ticket=q('.vm-ticket',m);if(ticket)ticket.innerHTML='<strong>Assigned role:</strong> '+current.data.role+'<br><br><strong>INCIDENT / REQUEST</strong><br>'+current.data.ticket+'<div style="margin-top:10px;padding:10px;background:#eaf4fb;border-left:4px solid #0877b9"><strong>TARGET</strong><br>'+guide.target+'</div>';
+ const design=document.createElement('div');design.className='pt-network-design';
+ if(current.track==='networking'||current.track==='integrated'){
+   const refs=current.data.tasks.filter(t=>t.expected&&['network','router','dhcp','dns','firewall'].includes(t.app));
+   design.innerHTML='<strong>Approved network design</strong><p>Workstation → gateway / network policy → internal service</p>'+refs.map(t=>'<p><b>'+t.title+'</b><br>'+Object.entries(t.expected).map(([k,v])=>k+': '+v).join(' · ')+'</p>').join('');m.appendChild(design);
+ }
  const g=document.createElement('div');g.className='enterprise-guide';g.innerHTML='<div class="enterprise-guide-tabs"><button class="active" data-pane="steps">Steps</button><button data-pane="hints">Hints</button><button data-pane="notes">Notes</button></div><div class="enterprise-guide-pane" data-guide-pane="steps"><ol>'+guide.steps.map((x,i)=>'<li><b>Step '+(i+1)+'</b><br>'+x+'</li>').join('')+'</ol></div><div class="enterprise-guide-pane" data-guide-pane="hints" hidden><div class="enterprise-hint"><b>Hint 1 — Orient yourself</b><br>Start from Windows Start or Search. Decide which real application owns the evidence or setting you need.</div><div class="enterprise-hint"><b>Hint 2 — Investigate before changing</b><br>Inspect current state first. Do not change a setting merely because it appears in the project.</div><div class="enterprise-hint"><b>Hint 3 — Need stronger guidance?</b><br>'+titles.map(x=>'<b>'+x+':</b> '+guidanceFor(x)).join('<br><br>')+'</div></div><div class="enterprise-guide-pane" data-guide-pane="notes" hidden><label><b>Root cause / finding</b><textarea data-lab-note="root" style="width:100%;height:58px;box-sizing:border-box;margin:4px 0 8px"></textarea></label><label><b>Changes / response</b><textarea data-lab-note="change" style="width:100%;height:58px;box-sizing:border-box;margin:4px 0 8px"></textarea></label><label><b>Verification / evidence</b><textarea data-lab-note="verify" style="width:100%;height:58px;box-sizing:border-box;margin:4px 0 8px"></textarea></label></div>';
  q('.enterprise-guide',m)?.remove();m.appendChild(g);
  g.addEventListener('click',e=>{const b=e.target.closest('[data-pane]');if(!b)return;qa('[data-pane]',g).forEach(x=>x.classList.toggle('active',x===b));qa('[data-guide-pane]',g).forEach(x=>x.hidden=x.dataset.guidePane!==b.dataset.pane)});
@@ -193,25 +200,43 @@ function enterpriseContent(id){
  if(id==="event")return '<div class="pt-console"><div class="pt-tree"><b>Event Viewer</b><span>Custom Views</span><span>▾ Windows Logs</span><span>　Application</span><span class="sel">　Security</span><span>　Setup</span><span>　System</span><span>Applications and Services Logs</span></div><div class="pt-work"><div class="pt-search"><input data-pt-filter placeholder="Filter Event ID, host, source, details"><button data-pt-filter-btn>Filter</button></div><table data-pt-events><tr><th>ID</th><th>Source</th><th>Level</th><th>Details</th><th>Host</th></tr>'+noiseEvents().map(r=>'<tr>'+r.map(x=>'<td>'+x+'</td>').join('')+'</tr>').join('')+'</table></div></div>';
  if(id==="siem"||id==="endpoint"){
   if(id==="endpoint")return '<div class="pt-work"><h3>Endpoint Security — Devices</h3><div class="pt-search"><input data-pt-edr-filter placeholder="Search device"><button data-pt-edr-search>Search</button></div><table><tr><th>Device</th><th>Health</th><th>Risk</th><th>Network state</th></tr>'+s.endpoints.map(x=>'<tr data-device="'+x[0]+'"><td><button class="pt-link" data-pt-device="'+x[0]+'">'+x[0]+'</button></td><td>'+x[1]+'</td><td>'+x[2]+'</td><td>'+x[3]+'</td></tr>').join('')+'</table><div data-pt-device-detail></div></div>';
-  const rows=noiseEvents().concat([["09:13","EDR","High","CLIENT-44 powershell.exe -enc","CLIENT-44"],["09:14","Sysmon 3","High","185.20.55.14:443","CLIENT-44"],["10:05","4624 Type 3","Medium","WS-17 → APP-02 svc-backup","APP-02"],["10:08","4624 Type 3","High","APP-02 → DB-01 svc-backup","DB-01"]]);
-  return '<div class="pt-work"><h3>Security Operations Console</h3><div class="pt-search"><input data-pt-siem-q placeholder="Search host, event, IP, process, account..."><button data-pt-siem-search>Search</button></div><p>Open alerts: 7　 High severity: 2　 Hosts reporting: 14</p><table data-pt-siem-table><tr><th>Time/Event</th><th>Source</th><th>Severity</th><th>Details</th><th>Host</th></tr>'+rows.map(r=>'<tr>'+r.map(x=>'<td>'+x+'</td>').join('')+'</tr>').join('')+'</table></div>';
+  const rows=noiseEvents().map((r,i)=>["08:"+String(30+i).padStart(2,"0"),r[0],r[1],r[2],r[3],r[4]]).concat([
+   ["09:10","4625","Security","Warning","Failed logon from 10.20.30.88","CLIENT-44"],
+   ["09:12","4624","Security","Information","Successful logon from 10.20.30.88","CLIENT-44"],
+   ["09:13","4688","Security","High","powershell.exe -enc; parent WINWORD.EXE","CLIENT-44"],
+   ["09:14","3","Sysmon","High","185.20.55.14:443","CLIENT-44"],
+   ["10:05","4624","Security","Medium","Type 3 WS-17 → APP-02; account svc-backup","APP-02"],
+   ["10:06","7045","Service Control Manager","High","RemoteUpdate service created","APP-02"],
+   ["10:07","3","Sysmon","High","APP-02 → DB-01 TCP/445; account svc-backup","APP-02"],
+   ["10:08","4624","Security","High","Type 3 APP-02 → DB-01; account svc-backup","DB-01"]]);
+  return '<div class="pt-work"><h3>Security Operations Console</h3><div class="pt-search"><input data-pt-siem-q placeholder="Search host, event, IP, process, account..."><button data-pt-siem-search>Search</button></div><div class="pt-time-filter"><label>From <input type="time" data-siem-from value="08:00"></label><label>To <input type="time" data-siem-to value="11:00"></label></div><p data-siem-count>'+rows.length+' events · CORP training telemetry</p><div class="pt-table-scroll"><table data-pt-siem-table><tr><th>Time</th><th>Event ID</th><th>Source</th><th>Severity</th><th>Details / Account</th><th>Host</th></tr>'+rows.map(r=>'<tr data-event-time="'+r[0]+'">'+r.map(x=>'<td>'+x+'</td>').join('')+'</tr>').join('')+'</table></div><p>Select an event to inspect its fields.</p><div data-siem-detail></div></div>';
+
  }
  if(id==="router")return '<div class="pt-work"><h3>R1 Routing & Policy State</h3><table><tr><th>Destination</th><th>Next hop</th></tr>'+s.routes.map(x=>'<tr><td>'+x[0]+'</td><td>'+x[1]+'</td></tr>').join('')+'</table><p>Interfaces: G0/0 UP · G0/0.10 UP · G0/0.20 UP · Tunnel0 UP</p></div>';
  return null;
 }
 function wireEnterprise(win,id){
  const body=win.querySelector('.vm-app-body');if(!body)return;
- const rich=enterpriseContent(id);if(rich){
-  const old=body.innerHTML; body.innerHTML=rich+'<div class="pt-project-actions"><details><summary>Project change / verification controls</summary>'+old+'</details></div>';
+ const rich=enterpriseContent(id);if(rich&&id!=="router"){
+  const old=win._originalContent||(win._originalContent=body.innerHTML); body.innerHTML=rich+'<div class="pt-project-actions"><h4>Configuration & verification</h4>'+old+'</div>';
+  window.PrempehDesktopLab.bindApp(win,id);
  }
  const filt=win.querySelector('[data-pt-filter]');if(filt)win.querySelector('[data-pt-filter-btn]').onclick=()=>{const q=filt.value.toLowerCase();win.querySelectorAll('[data-pt-events] tr').forEach((r,i)=>{if(i)r.style.display=!q||r.textContent.toLowerCase().includes(q)?"":"none"})};
- const sq=win.querySelector('[data-pt-siem-q]');if(sq)win.querySelector('[data-pt-siem-search]').onclick=()=>{const q=sq.value.toLowerCase();win.querySelectorAll('[data-pt-siem-table] tr').forEach((r,i)=>{if(i)r.style.display=!q||r.textContent.toLowerCase().includes(q)?"":"none"})};
+ const sq=win.querySelector('[data-pt-siem-q]');if(sq){
+  const filter=()=>{const query=sq.value.toLowerCase(),from=q('[data-siem-from]',win).value,to=q('[data-siem-to]',win).value;let count=0;qa('[data-pt-siem-table] tr[data-event-time]',win).forEach(r=>{const visible=(!query||r.textContent.toLowerCase().includes(query))&&(!from||r.dataset.eventTime>=from)&&(!to||r.dataset.eventTime<=to);r.hidden=!visible;if(visible)count++});q('[data-siem-count]',win).textContent=count+' matching events'};
+  q('[data-pt-siem-search]',win).onclick=filter;sq.onkeydown=e=>{if(e.key==='Enter')filter()};qa('[data-siem-from],[data-siem-to]',win).forEach(e=>e.onchange=filter);
+  qa('[data-pt-siem-table] tr[data-event-time]',win).forEach(r=>{r.tabIndex=0;r.setAttribute('aria-label','Inspect event '+r.textContent);const inspect=()=>{const cells=[...r.cells].map(c=>c.textContent),d=q('[data-siem-detail]',win);d.replaceChildren();['Time','Event ID','Source','Severity','Details / Account','Host'].forEach((name,i)=>{const line=document.createElement('p');line.textContent=name+': '+cells[i];d.appendChild(line)})};r.onclick=inspect;r.onkeydown=e=>{if(e.key==='Enter')inspect()}});
+ }
+
  win.querySelectorAll('[data-pt-device]').forEach(b=>b.onclick=()=>{const h=b.dataset.ptDevice,ep=sim().endpoints.find(x=>x[0]===h),d=win.querySelector('[data-pt-device-detail]');d.innerHTML='<div class="pt-device"><h3>'+h+'</h3><p><b>Network:</b> '+ep[3]+'　 <b>Risk:</b> '+ep[2]+'</p><h4>Recent process timeline</h4><p>'+((h==="CLIENT-23"||h==="CLIENT-44"||h==="APP-05")?"WINWORD.EXE → powershell.exe -enc SQBFAFgA...":"explorer.exe → chrome.exe")+'</p><button class="vm-native-btn" data-isolate="'+h+'">Isolate device</button></div>';d.querySelector('[data-isolate]').onclick=()=>{ep[3]="Isolated";toast(h+" isolated from network","good");wireEnterprise(win,id)}});
 }
 function syncEnterpriseState(taskId,win){
  const t=current?.data?.tasks?.find(x=>x.id===taskId);if(!t)return;
  const val=k=>win.querySelector('[data-field="'+taskId+':'+k+'"]')?.value||"";
  const s=sim();
+ if(t.app==="router"&&val("network")){const prefix=val("network")+"/"+val("mask").split('.').reduce((n,x)=>n+(Number(x).toString(2).match(/1/g)||[]).length,0),r=s.routes.find(r=>r[0]===prefix);if(r)r[1]=val("next");else s.routes.push([prefix,val("next")])}
+ if(t.app==="gpmc"&&val("name")){const g=s.gpos.find(g=>g[0]===val("name"));if(g){g[1]=val("ou");g[2]="Enabled"}else s.gpos.push([val("name"),val("ou"),"Enabled"])}
+ if(t.app==="endpoint"){const action=val("action").toLowerCase();s.endpoints.forEach(e=>{if(action.includes(e[0].toLowerCase())&&action.includes("isolate"))e[3]="Isolated"})}
  if(t.app==="network"){s.network.ip=val("ip")||s.network.ip;s.network.mask=val("mask")||s.network.mask;s.network.gateway=val("gateway")||s.network.gateway;s.network.dns=val("dns")||s.network.dns}
  if(t.app==="dhcp"){s.dhcp.start=val("start")||s.dhcp.start;s.dhcp.end=val("end")||s.dhcp.end;s.dhcp.router=val("router")||val("gateway")||s.dhcp.router;s.dhcp.dns=val("dns")||s.dhcp.dns}
  if(t.app==="dns"&&val("name"))s.dns.records[val("name").toLowerCase()]=val("address");
@@ -222,6 +247,24 @@ function syncEnterpriseState(taskId,win){
 
 function commandFromState(app,raw){
  const cmd=String(raw||"").trim().toLowerCase(),s=sim();
+ if(app==="router"||app==="switch"){
+   s.cli=s.cli||{};const c=s.cli[app]||(s.cli[app]={mode:"user",iface:""});
+   if(cmd==="enable"){c.mode="exec";return "Privileged EXEC mode."}
+   if(cmd==="configure terminal"||cmd==="conf t"){if(c.mode==="user")return "% Enter enable first.";c.mode="config";return "Enter configuration commands, one per line."}
+   if(cmd==="end"){c.mode="exec";return "Returned to privileged EXEC."}
+   if(cmd==="exit"){c.mode=c.mode==="interface"||c.mode==="vlan"?"config":"exec";return "Exited current configuration mode."}
+   if(cmd.startsWith("interface ")){if(c.mode!=="config")return "% Enter configure terminal first.";c.mode="interface";c.iface=cmd.slice(10);return "Configuring "+c.iface}
+   if(/^vlan \d+$/.test(cmd)){if(app!=="switch"||!["config","vlan"].includes(c.mode))return "% VLAN commands require switch global configuration mode.";c.mode="vlan";c.vlan=Number(cmd.split(' ')[1]);s.vlans=s.vlans||{};s.vlans[c.vlan]=s.vlans[c.vlan]||"VLAN"+c.vlan;return null}
+   if(cmd.startsWith("name ")){if(c.mode!=="vlan")return "% Select a VLAN first.";s.vlans[c.vlan]=cmd.slice(5).toUpperCase();return null}
+   if(cmd.startsWith("switchport ")){if(app!=="switch"||c.mode!=="interface")return "% Select the switch uplink interface first.";if(cmd==="switchport mode trunk")s.trunk=c.iface;return null}
+   if(cmd.startsWith("ip route ")){
+     if(app!=="router"||c.mode!=="config")return "% Static routes require router global configuration mode.";
+     const args=cmd.split(/\s+/).slice(2),t=current.data.tasks.find(t=>t.app==="router"&&t.expected?.network);
+     if(!t||args.length!==3||args[0]!==t.expected.network||args[1]!==t.expected.mask||args[2]!==t.expected.next)return "% Route rejected: compare destination, mask and next hop with the project network design.";
+     const prefix=args[0]+'/'+args[1].split('.').reduce((n,x)=>n+(Number(x).toString(2).match(/1/g)||[]).length,0),r=s.routes.find(r=>r[0]===prefix);if(r)r[1]=args[2];else s.routes.push([prefix,args[2]]);
+     window.PrempehDesktopLab.acceptTask(t.id);return "Static route installed: "+prefix+" via "+args[2];
+   }
+ }
  if(cmd==="hostname")return "LAB-"+String(current?.track||"workstation").toUpperCase()+"01";
  if(cmd==="whoami")return "corp\\student";
  if(cmd==="ipconfig"||cmd==="ipconfig /all")return "Ethernet adapter Ethernet:\n   IPv4 Address . . . . . : "+s.network.ip+"\n   Subnet Mask  . . . . . : "+s.network.mask+"\n   Default Gateway . . . .: "+(s.network.gateway||"(none)")+"\n   DNS Servers . . . . . .: "+(s.network.dns||"(none)");
@@ -229,15 +272,23 @@ function commandFromState(app,raw){
  if(cmd==="arp -a")return "Interface: "+s.network.ip+"\n  192.168.20.1     00-50-56-aa-10-01 dynamic\n  192.168.20.53    00-50-56-aa-10-53 dynamic";
  if(cmd==="show ip route")return "Codes: C - connected, S - static\n"+s.routes.map(x=>"S  "+x[0]+" via "+x[1]).join("\n");
  if(cmd==="show ip interface brief")return "Interface       IP-Address       Status Protocol\nG0/0            172.16.30.1      up     up\nG0/0.10         192.168.10.1     up     up\nG0/0.20         192.168.20.1     up     up\nTunnel0         172.16.254.1     up     up";
- if(cmd==="show vlan brief")return "VLAN Name             Status Ports\n1    default          active Gi0/1-23\n10   USERS            active Gi0/2-10\n20   SERVERS          active Gi0/11-20";
- if(cmd==="show interfaces trunk")return "Port    Mode   Encapsulation Status Native vlan\nGi0/24  on     802.1q        trunking 1";
+ if(cmd==="show vlan brief")return "VLAN Name             Status\n1 default active\n"+Object.entries(s.vlans||{}).map(([v,n])=>v+' '+n+' active').join('\n');
+ if(cmd==="show interfaces trunk")return s.trunk?"Port    Mode   Encapsulation Status Native vlan\n"+s.trunk+" on 802.1q trunking 1":"No trunk interfaces configured.";
  if(cmd==="show mac address-table")return "Vlan Mac Address       Type       Ports\n10   0050.56aa.1001    DYNAMIC    Gi0/3\n20   0050.56aa.2001    DYNAMIC    Gi0/12";
  if(cmd==="netstat -ano")return "Proto Local Address        Foreign Address       State       PID\nTCP   172.16.20.23:49712    185.20.55.14:443     ESTABLISHED 4312";
  return null;
 }
 window.PrempehEnterprise={
  commandFromState,
+ reset:()=>{PT_SIM.state=null},
+ validationBlock:(id,cmd)=>{
+   const dependencies={n1ping:['n1cfg'],n1dns:['n1cfg'],n2client:['n2dhcp','n2dns'],n3test:['n3switch','n3router'],n4verify:['n4acl'],n5verify:['n5route','n5nat'],s2verify:['s2svc'],s3apply:['s3gpo'],s4health:['s4svc'],s5verify:['s5dns','s5gpo']};
+   const deps=(dependencies[id]||[]).filter(x=>x in runtime().taskState);
+   return deps.some(x=>!taskState[x])?(/nslookup/.test(cmd)?"DNS request failed: name resolution is not repaired yet.":/ping|tracert/.test(cmd)?"Request timed out. The required network repair has not passed validation.":"Verification failed: repair the configuration first, then repeat this check."):null;
+ },
+ diagnostic:(app,cmd)=>app==='cmd'&&/^(ping|tracert) /.test(cmd)?"Request timed out. Inspect the project addressing, routes and policy before repeating this diagnostic.":null,
  beforeValidate:(taskId,win)=>syncEnterpriseState(taskId,win),
+ prompt:(app)=>{const c=sim().cli?.[app],name=app==='router'?'R1':'SW1';return name+(c?.mode==='config'?'(config)':c?.mode==='interface'?'(config-if)':c?.mode==='vlan'?'(config-vlan)':'')+(c?.mode&&c.mode!=='user'?'#':'>')},
  onCommand:()=>{}
 };
 /* ===== Contextual Procedure Coach ===== */
@@ -298,7 +349,25 @@ function procedureHint(step){
 }
 function showMeText(step){
  const p=exactProcedure(),txt=p[step]||p[0];
- return "<b>Exact procedure</b><br>"+txt+"<br><br><b>Why it matters</b><br>This action changes or verifies the simulated system state required by the project. Read the resulting state/output before continuing.";
+ const low=txt.toLowerCase();
+ const explanations=[
+  [/show ip route|next hop|static route/,"Inspect destination prefixes and next hops. A route to the wrong next hop can send HQ traffic down the wrong path. Run enable, configure terminal, then ip route NETWORK MASK NEXT-HOP. Finish with end and show ip route."],
+  [/interface brief/,"Compare IP addresses and status/protocol for every required interface. A down link prevents forwarding even when the route is correct."],
+  [/nat|vpn/,"VPN traffic must retain private source and destination addresses where the approved tunnel policy requires NAT exemption. Configure this on the network firewall, then retest the HQ path."],
+  [/ping|tracert/,"Ping tests reachability; tracert locates routed hops. Test before and after repair and compare the failing hop. A timeout alone does not identify the fault."],
+  [/dns|nslookup/,"DNS maps service names to addresses. Compare the record with the network design; then use nslookup to confirm the client receives the intended answer."],
+  [/vlan|trunk/,"Create the VLAN in switch configuration mode. Select the uplink interface before switchport mode trunk. Verify VLAN and trunk state before testing between networks."],
+  [/7045|service.creation/,"Event 7045 records service installation. Correlate host, time and service details with network logons; service creation alone does not prove malicious activity."],
+  [/4624|type 3|smb|445|timeline|siem/,"Correlate timestamps, hosts and the account. Type 3 is a network logon; SMB/445 traffic and service installation help establish the movement sequence. Distinguish observed contact from confirmed compromise."],
+  [/contain|isolate|endpoint/,"Contain confirmed affected systems and abused identities while retaining logs and telemetry. Confirm isolation state and record the evidence that justified the action."],
+  [/policy|gpo|gpupdate|gpresult/,"Link the policy to the intended OU, refresh it on the client, then inspect gpresult. A policy existing in the console does not prove it applied."],
+  [/service/,"Inspect service state and startup type, repair the intended service, and query it again. Preserve related event evidence to explain the outage."],
+  [/account|directory|privileg/,"Verify the object and least-privilege requirement before changing access. Record the identity, membership change and supporting audit evidence."]
+ ];
+ const why=explanations.find(([pattern])=>pattern.test(low))?.[1]||guidanceFor(txt);
+ const task=current.data.tasks[Math.min(current.data.tasks.length-1,Math.floor(step/p.length*current.data.tasks.length))];
+ const config=task?.expected?'<br><br><b>Guided reference — '+task.title+'</b><br>'+Object.entries(task.expected).map(([k,v])=>k+': '+v).join('<br>'):'';
+ return '<b>Exact procedure</b><br>'+txt+'<br><br><b>What to inspect and why</b><br>'+why+config;
 }
 function installProcedureCoach(){
  const m=q("#vmMission");if(!m)return;
@@ -308,12 +377,15 @@ function installProcedureCoach(){
  const key=(current?.track||'')+':'+(current?.level||'')+':'+Object.values(taskState||{}).filter(Boolean).length;
  if(m.dataset.procedureCoach===key && guide.querySelector('[data-pane="procedure"]'))return;
  m.dataset.procedureCoach=key;
- const steps=exactProcedure(),idx=procedureProgress();
- guide.innerHTML='<div class="enterprise-guide-tabs"><button class="active" data-pane="procedure">Procedure</button><button data-pane="hint">Hint</button><button data-pane="showme">Show Me / Explain</button><button data-pane="notes">Notes</button></div>'+
- '<div class="enterprise-guide-pane" data-guide-pane="procedure"><div style="padding:8px;background:#eaf4fb;border-left:4px solid #0877b9;margin-bottom:8px"><b>CURRENT STEP '+(idx+1)+' OF '+steps.length+'</b><br>'+steps[idx]+'<div style="display:flex;gap:6px;margin-top:9px"><button class="vm-native-btn" data-coach-prev '+(idx===0?'disabled':'')+'>← Previous</button><button class="vm-native-btn primary" data-coach-next '+(idx===steps.length-1?'disabled':'')+'>Step complete →</button></div></div><ol>'+steps.map((x,i)=>'<li style="'+(i===idx?'font-weight:700;background:#eef7ff;padding:5px':'')+'">'+x+'</li>').join("")+'</ol></div>'+
+ const steps=exactProcedure(),idx=procedureProgress(),mode=sim().learningMode||'guided';
+ guide.innerHTML='<label class="pt-mode">Learning mode<select data-learning-mode><option value="challenge">Challenge</option><option value="hint">Hints</option><option value="guided">Guided / Show Me</option><option value="free">Free Lab</option></select></label><div class="enterprise-guide-tabs"><button class="active" data-pane="procedure">Procedure</button><button data-pane="hint">Hint</button><button data-pane="showme">Show Me / Explain</button><button data-pane="notes">Notes</button></div>'+
+ '<div class="enterprise-guide-pane" data-guide-pane="procedure"><p>Instruction navigation does not complete tasks. Project progress changes only after validation.</p><div style="padding:8px;background:#eaf4fb;border-left:4px solid #0877b9;margin-bottom:8px"><b>CURRENT STEP '+(idx+1)+' OF '+steps.length+'</b><br>'+steps[idx]+'<div style="display:flex;gap:6px;margin-top:9px"><button class="vm-native-btn" data-coach-prev '+(idx===0?'disabled':'')+'>← Previous</button><button class="vm-native-btn primary" data-coach-next '+(idx===steps.length-1?'disabled':'')+'>Next instruction →</button></div></div><ol>'+steps.map((x,i)=>'<li style="'+(i===idx?'font-weight:700;background:#eef7ff;padding:5px':'')+'">'+x+'</li>').join("")+'</ol></div>'+
  '<div class="enterprise-guide-pane" data-guide-pane="hint" hidden><div class="enterprise-hint"><b>Hint for Step '+(idx+1)+'</b><br>'+procedureHint(idx)+'</div></div>'+
  '<div class="enterprise-guide-pane" data-guide-pane="showme" hidden><div class="enterprise-hint">'+showMeText(idx)+'</div></div>'+
  '<div class="enterprise-guide-pane" data-guide-pane="notes" hidden><label><b>Root cause / finding</b><textarea style="width:100%;height:55px"></textarea></label><label><b>Changes / response</b><textarea style="width:100%;height:55px"></textarea></label><label><b>Verification / evidence</b><textarea style="width:100%;height:55px"></textarea></label></div>';
+ const picker=q('[data-learning-mode]',guide);picker.value=mode;
+ const applyMode=()=>{const chosen=picker.value;sim().learningMode=chosen;qa('[data-pane]',guide).forEach(b=>b.hidden=(chosen==='challenge'||chosen==='free')&&b.dataset.pane!=='notes'||chosen==='hint'&&b.dataset.pane==='showme');qa('[data-guide-pane]',guide).forEach(p=>p.hidden=true);const pane=chosen==='challenge'||chosen==='free'?'notes':chosen==='hint'?'hint':'procedure';q('[data-guide-pane="'+pane+'"]',guide).hidden=false;qa('[data-pane]',guide).forEach(b=>b.classList.toggle('active',b.dataset.pane===pane))};picker.onchange=applyMode;applyMode();
+ const fields=qa('textarea',guide);fields.forEach((field,i)=>{const k='note:'+current.track+':'+current.level+':'+i;field.value=sim().notes[k]||'';field.oninput=()=>sim().notes[k]=field.value});
  qa("[data-pane]",guide).forEach(b=>b.onclick=()=>{qa("[data-pane]",guide).forEach(x=>x.classList.remove("active"));b.classList.add("active");qa("[data-guide-pane]",guide).forEach(x=>x.hidden=x.dataset.guidePane!==b.dataset.pane)});
  q("[data-coach-prev]",guide)?.addEventListener("click",()=>setProcedureProgress(idx-1));
  q("[data-coach-next]",guide)?.addEventListener("click",()=>setProcedureProgress(idx+1));

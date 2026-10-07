@@ -197,3 +197,14 @@
 .vm-guide-body article:last-child{border-bottom:0}.vm-guide-body code{align-self:start;background:#111;color:#dff5e7;padding:9px;font:12px Consolas,monospace;white-space:pre-wrap}
 .vm-guide-body strong{font-size:.69rem;color:#2b526b}.vm-guide-body p{margin:3px 0 9px;font-size:.72rem;line-height:1.45;color:#454545}
 @media(max-width:700px){.vm-guide-body article{grid-template-columns:1fr}}
+
+/* Readable configuration, terminal and ticket workspaces. */
+.vm-firewall-nav{padding:12px 16px;background:#15334a;color:#fff;font-size:13px;font-weight:700}
+.vm-network-firewall .vm-detail{padding:16px}
+.vm-network-firewall .vm-form-panel{max-width:620px}
+.vm-terminal-input{flex-wrap:wrap}
+.vm-terminal-input input{min-width:80px;flex:1}
+.vm-guide-popup{overflow-wrap:anywhere}
+.vm-mission textarea{max-width:100%;box-sizing:border-box}
+.pt-project-actions .vm-siem-app{display:block!important}
+.pt-project-actions .vm-form-grid{grid-template-columns:1fr!important}

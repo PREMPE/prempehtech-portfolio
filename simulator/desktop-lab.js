@@ -36,6 +36,16 @@ const COMMAND_DOCS = {
   "switchport mode trunk": {what:"Configures a switch port as a VLAN trunk.",means:"The link can carry tagged traffic for multiple VLANs.",why:"A trunk is required when one physical link must transport more than one VLAN."},
   "name engineering": {what:"Assigns the name ENGINEERING to the current VLAN.",means:"Gives administrators a readable label instead of relying only on the VLAN number.",why:"Clear naming reduces configuration mistakes in larger environments."}
 };
+Object.assign(COMMAND_DOCS,{
+ "show ip route":{what:"Displays the router routing table.",means:"Prefixes and next hops show where the router forwards each destination.",why:"Compare the HQ prefix and next hop with the approved network design before changing a route."},
+ "show ip interface brief":{what:"Lists interface addresses and link/protocol states.",means:"Both status and protocol should be up on required links.",why:"A correct route cannot work across a down interface."},
+ "show vlan brief":{what:"Lists VLANs and access-port membership.",means:"Each VLAN is a separate Layer 2 broadcast domain.",why:"Verify the VLAN exists before testing routed connectivity."},
+ "show interfaces trunk":{what:"Lists trunk links and allowed VLANs.",means:"Only allowed VLANs can cross the uplink.",why:"Missing VLANs on a trunk break connectivity even when addressing is correct."},
+ "enable":{what:"Enters privileged EXEC mode.",means:"The prompt changes from > to #.",why:"Privileged mode is required before device configuration."},
+ "configure terminal":{what:"Enters global configuration mode.",means:"The prompt changes to (config)#.",why:"Configuration changes belong here rather than in a Windows shell."},
+ "ip route":{what:"Installs a static route for a destination network.",means:"Supply network, subnet mask, and reachable next-hop address.",why:"The correct next hop restores the intended path without changing unrelated routes."},
+ "interface":{what:"Selects an interface for configuration.",means:"Subsequent interface commands apply only to that port.",why:"Select the uplink before configuring trunking."}
+});
 
 const SCENARIOS = {
 networking:{
@@ -214,6 +224,8 @@ function launch(track,level){
   ensureShell();
   current={track,level:Number(level),data:scenario(track,level)};
   if(!current.data) return;
+  window.PrempehEnterprise?.reset?.();
+  APP_DEFS.firewall.label=track==="networking"||track==="integrated"?"Network Firewall / VPN":"Windows Defender Firewall";
   taskState={}; terminalState={}; current.data.tasks.forEach(t=>taskState[t.id]=false);
   const old=$("labShell"); if(old)old.classList.add("hidden");
   $("desktopLabShell").classList.remove("hidden");
@@ -322,6 +334,7 @@ function renderSettings(id,tasks){
 }
 function renderMMC(id,tasks){
   const a=APP_DEFS[id];
+  if(id==="firewall"&&(current.track==="networking"||current.track==="integrated"))return `<div class="vm-network-firewall"><div class="vm-firewall-nav">Network Firewall · Rules / NAT / VPN</div><div class="vm-detail"><h4>Network policy configuration</h4><p>Configure the branch edge firewall. NAT exemptions preserve private addressing for the VPN policy.</p>${tasks.map(taskForm).join("")}</div></div>`;
   return `<div class="vm-mmc"><div class="vm-tree"><div class="vm-tree-node">▾ Console Root</div><div class="vm-tree-node active">  ▸ ${a.label}</div><div class="vm-tree-node">  ▸ CORP.LOCAL</div><div class="vm-tree-node">  ▸ Properties</div></div><div class="vm-detail"><h4>${a.label}</h4><p>Administrative console · CORP lab environment</p>${tasks.map(taskForm).join("")}</div></div>`
 }
 function renderEvent(id,tasks){
@@ -337,7 +350,7 @@ function renderSiem(id,tasks){
 }
 function renderTerminal(appId,tasks){
   terminalState[appId]=terminalState[appId]||{seen:{}};
-  const prompt=appId==="powershell"?"PS C:\\Users\\Administrator>":appId==="switch"?"SW1#":appId==="router"?"R1#":"C:\\Users\\student>";
+  const prompt=appId==="powershell"?"PS C:\\Users\\Administrator>":appId==="switch"||appId==="router"?(window.PrempehEnterprise?.prompt?.(appId)||(appId==="switch"?"SW1>":"R1>")):"C:\\Users\\student>";
   return `<div class="vm-terminal-app"><div class="vm-terminal-toolbar"><button type="button" data-terminal-help="${appId}">Command Guide</button><button type="button" data-terminal-clear="${appId}">Clear</button></div><div class="vm-terminal-output" data-terminal-output="${appId}">PrempehTech Training Console\n${prompt}</div><form class="vm-terminal-input" data-terminal-form="${appId}"><span>${prompt}</span><input autocomplete="off" spellcheck="false" placeholder="Type a command"><button class="vm-native-btn" type="submit">Enter</button></form>${tasks.map(taskForm).join("")}</div>`
 }
 
@@ -351,31 +364,38 @@ function bindApp(win,appId){
 }
 
 function validateFormTask(taskId,win){
-  window.PrempehEnterprise?.beforeValidate?.(taskId,win);
   const t=current.data.tasks.find(x=>x.id===taskId);if(!t||taskState[taskId])return;
   const values={};Object.keys(t.expected).forEach(k=>{const el=win.querySelector('[data-field="'+taskId+':'+k+'"]');values[k]=el?el.value:""});
   const ok=Object.entries(t.expected).every(([k,v])=>norm(values[k])===norm(v));
   const fb=win.querySelector('[data-feedback="'+taskId+'"]');
-  if(ok){taskState[taskId]=true;fb.className="vm-task-feedback ok";fb.textContent="Configuration accepted. Validation passed.";toast("Task completed: "+t.title,"good");afterTask()}
+  if(ok){window.PrempehEnterprise?.beforeValidate?.(taskId,win);taskState[taskId]=true;fb.className="vm-task-feedback ok";fb.textContent="Configuration accepted. Validation passed.";toast("Task completed: "+t.title,"good");afterTask()}
   else{fb.className="vm-task-feedback bad";fb.textContent="Validation failed. One or more values do not match the required project configuration.";toast("Configuration rejected. Review the project ticket and evidence.","bad")}
 }
 
 function runTerminal(appId,raw,win){
+  const n=norm(raw),device=appId==="router"||appId==="switch";
+  if((!device&&/^(show |configure terminal|enable$|ip route |vlan |switchport |interface |name )/.test(n))||(device&&/^(ipconfig|nslookup|gpupdate|gpresult|get-service|dcdiag|nltest|route print|whoami|netstat)/.test(n))){
+    win.querySelector('[data-terminal-output]').textContent+='\n'+raw+'\nCommand belongs to a different console. Open '+(device?'Command Prompt / PowerShell.':'Router / Switch Console.');return;
+  }
   const enterpriseOut=window.PrempehEnterprise?.commandFromState?.(appId,raw);
   if(enterpriseOut!==null && enterpriseOut!==undefined){
     const out=win.querySelector("[data-terminal-output]");
-    const prompt=appId==="powershell"?"PS C:\\Users\\Administrator>":appId==="switch"?"SW1#":appId==="router"?"R1#":"C:\\Users\\student>";
+    const prompt=appId==="powershell"?"PS C:\\Users\\Administrator>":appId==="switch"||appId==="router"?(window.PrempehEnterprise?.prompt?.(appId)||(appId==="switch"?"SW1>":"R1>")):"C:\\Users\\student>";
     out.textContent+=(out.textContent?"\n":"")+prompt+" "+raw+"\n"+enterpriseOut+"\n"+prompt;
+    win.querySelector(".vm-terminal-input span").textContent=prompt;
     out.scrollTop=out.scrollHeight;
     window.PrempehEnterprise?.onCommand?.(appId,raw);
     return;
   }
-  const cmd=norm(raw),out=win.querySelector("[data-terminal-output]"),prompt=appId==="powershell"?"PS C:\\Users\\Administrator>":appId==="switch"?"SW1#":appId==="router"?"R1#":"C:\\Users\\student>";
+  const cmd=norm(raw),out=win.querySelector("[data-terminal-output]"),prompt=appId==="powershell"?"PS C:\\Users\\Administrator>":appId==="switch"||appId==="router"?(window.PrempehEnterprise?.prompt?.(appId)||(appId==="switch"?"SW1>":"R1>")):"C:\\Users\\student>";
   out.textContent+="\n"+prompt+raw;
   let matched=false;
   tasksFor(appId).filter(t=>t.type==="command").forEach(t=>{
     const match=t.required.find(r=>norm(r)===cmd);
-    if(match){matched=true;terminalState[appId].seen[taskIdKey(t.id,match)]=true;out.textContent+="\n"+(t.responses?.[match]||"Command completed successfully.");
+    if(match){matched=true;
+      const blocked=window.PrempehEnterprise?.validationBlock?.(t.id,cmd);
+      if(blocked){out.textContent+='\n'+blocked;return;}
+      terminalState[appId].seen[taskIdKey(t.id,match)]=true;out.textContent+="\n"+(t.responses?.[match]||"Command completed successfully.");
       const all=t.required.every(r=>terminalState[appId].seen[taskIdKey(t.id,r)]);
       const fb=win.querySelector('[data-feedback="'+t.id+'"]');
       if(all&&!taskState[t.id]){taskState[t.id]=true;if(fb){fb.className="vm-task-feedback ok";fb.textContent="Required command validation completed."}toast("Task completed: "+t.title,"good");afterTask()}
@@ -383,24 +403,34 @@ function runTerminal(appId,raw,win){
     }
   });
   if(!matched){
-    if(cmd==="help"||cmd==="?"){out.textContent+="\nAvailable commands are based on the current project. Use Command Guide for context."}
+    const diagnostic=window.PrempehEnterprise?.diagnostic?.(appId,cmd);
+    if(diagnostic)out.textContent+='\n'+diagnostic;
+    else if(cmd==="help"||cmd==="?"){out.textContent+="\nAvailable commands are based on the current project. Use Command Guide for context."}
     else if(cmd){out.textContent+="\nThe training console did not recognize that command for this project. Check spelling and the ticket."}
   }
+  win.querySelector(".vm-terminal-input span").textContent=appId==="router"||appId==="switch"?window.PrempehEnterprise.prompt(appId):prompt;
   out.scrollTop=out.scrollHeight;
 }
 
 function taskIdKey(id,cmd){return id+"|"+norm(cmd)}
 function afterTask(){renderMission();if(Object.values(taskState).every(Boolean))completeProject()}
 function toast(msg,type=""){const t=$("vmToast");t.textContent=msg;t.className="vm-toast "+type;clearTimeout(t._timer);t._timer=setTimeout(()=>t.classList.add("hidden"),3200)}
-function showWhy(taskId){const t=current.data.tasks.find(x=>x.id===taskId);if(!t)return;toast("Why it matters: "+t.title+" is required to prove the project works, not just to change a setting.","")}
+function showWhy(taskId){
+  const t=current.data.tasks.find(x=>x.id===taskId);if(!t)return;
+  document.querySelector('.vm-guide-popup')?.remove();
+  const guide=document.createElement('section');guide.className='vm-guide-popup';guide.setAttribute('role','dialog');guide.setAttribute('aria-label',t.title+' explanation');
+  const subject=t.title.toLowerCase(),why=subject.includes('nat')?'Private branch-to-HQ traffic must match the intended VPN policy without source translation. Verify the branch and HQ prefixes, choose Do not NAT, and retest the HQ path.':subject.includes('route')?'A destination route selects the next hop for remote traffic. Compare the approved network design, correct only the affected prefix, then inspect show ip route and test the destination.':subject.includes('dns')||subject.includes('record')?'An A record maps the intended service name to its IPv4 address. Verify the zone, host name and address, then test the client answer with nslookup.':subject.includes('dhcp')?'DHCP delivers the address range, default gateway and DNS server. Incorrect scope options can affect every client receiving a lease. Verify the options, then renew a client.':subject.includes('account')||subject.includes('privilege')?'Confirm the intended identity and least-privilege requirement. Change only the required account or membership and preserve audit evidence.':subject.includes('contain')?'Contain confirmed affected identities and hosts while preserving evidence. Isolation stops network communication; deleting logs removes evidence needed for scope and recovery.':subject.includes('policy')?'Apply the GPO to the intended OU, refresh client policy, and inspect gpresult to prove that the setting reached the endpoint.':subject.includes('service')?'Service state and startup configuration determine availability after repair and restart. Confirm the correct service, restore it, and query its status again.':subject.includes('scope')||subject.includes('indicator')||subject.includes('timeline')?'Correlate event time, host, account and process or service evidence. A single alert is a lead; supporting events establish the incident sequence and affected systems.':'Inspect the approved requirement, change the smallest necessary setting, and verify the outcome using the project evidence.';
+  guide.innerHTML=`<div class="vm-guide-head"><h3>${t.title}</h3><button type="button" aria-label="Close explanation">×</button></div><div class="vm-guide-body"><article><strong>What it does and why it matters</strong><p>${why}</p></article></div>`;
+  $('vmDesktop').appendChild(guide);guide.querySelector('button').onclick=()=>guide.remove();
+}
 function showTerminalGuide(appId){
-  const req=tasksFor(appId).filter(t=>t.type==="command").flatMap(t=>t.required);
+  const req=[...new Set([...tasksFor(appId).filter(t=>t.type==="command").flatMap(t=>t.required),...(appId==="router"?["show ip route","show ip interface brief","enable","configure terminal","ip route <network> <mask> <next-hop>"]:appId==="switch"?["show vlan brief","show interfaces trunk","enable","configure terminal","interface gi0/24"]:[])])];
   document.querySelector(".vm-guide-popup")?.remove();
   const guide=document.createElement("section");
   guide.className="vm-guide-popup";
   const cards=req.map((full)=>{
     const n=norm(full);
-    let key=Object.keys(COMMAND_DOCS).find(k=>n===k||n.startsWith(k+" ")||n.startsWith(k));
+    let key=Object.keys(COMMAND_DOCS).sort((a,b)=>b.length-a.length).find(k=>n===k||n.startsWith(k+" "));
     const d=COMMAND_DOCS[key]||{what:"Runs the required administrative command for this project.",means:"The exact effect depends on the active console and project context.",why:"Command-line validation is used because real administrators often verify GUI changes from a terminal."};
     return `<article><code>${full}</code><div><strong>What it does</strong><p>${d.what}</p><strong>What it means</strong><p>${d.means}</p><strong>Why it matters</strong><p>${d.why}</p></div></article>`;
   }).join("");
@@ -424,6 +454,8 @@ window.PrempehDesktopLab={
   getTrackLabel:trackLabel,
   getRuntime:()=>({current,taskState,terminalState,APP_DEFS}),
   refreshMission:renderMission,
+  bindApp,
+  acceptTask:(id)=>{if(id in taskState&&!taskState[id]){taskState[id]=true;afterTask()}},
   openApp
 };
 })();

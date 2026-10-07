@@ -270,7 +270,7 @@
     });
 
     $("levelSelectorTrackLabel").textContent = trackConfig.name.toUpperCase() + " LEVELS · ALL UNLOCKED";
-    $("levelSelectorTitle").textContent = "Choose a " + trackConfig.name + " difficulty level";
+    $("levelSelectorTitle").textContent = activeTrack === "integrated" ? "Choose a combined-track difficulty level" : "Choose a " + trackConfig.name + " difficulty level";
     $("levelLabel").textContent = data.label;
     $("levelTitle").textContent = data.title;
     $("levelDescription").textContent = data.description;
