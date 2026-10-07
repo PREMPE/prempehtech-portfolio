@@ -16,6 +16,7 @@
       <a class="brand" href="/">PrempehTech<span>.ca</span></a>
       <div class="header-actions">
         <a class="back-link" href="/">← Portfolio</a>
+        <button class="account-btn hidden" id="accountBtn" type="button">Sign In / Save</button>
         <button class="reset-progress" id="resetProgress" type="button">Reset Progress</button>
       </div>
     </div>
@@ -44,6 +45,10 @@
         <div class="progress-stat">
           <span class="stat-label">Current Rank</span>
           <strong id="rankValue">Foundation</strong>
+        </div>
+        <div class="progress-stat">
+          <span class="stat-label">Progress Save</span>
+          <strong id="saveStatus">This device</strong>
         </div>
         <div class="progress-bar" aria-hidden="true"><span id="progressFill"></span></div>
       </div>
@@ -347,10 +352,60 @@ C:\Users\student&gt;</div>
     </section>
   </main>
 
+  <div class="account-overlay hidden" id="accountOverlay" role="presentation">
+    <section class="account-dialog" id="accountDialog" role="dialog" aria-modal="true" aria-labelledby="accountTitle">
+      <div class="account-dialog-head">
+        <div>
+          <span class="panel-kicker">CLOUD PROGRESS</span>
+          <h2 id="accountTitle">Save your training progress</h2>
+        </div>
+        <button class="account-close" id="accountClose" type="button" aria-label="Close account dialog">×</button>
+      </div>
+
+      <div id="signedOutView">
+        <p class="account-copy">Create a free player account or sign in to sync XP and completed labs between devices. Your existing progress on this device will be kept.</p>
+        <div class="auth-mode-tabs" role="tablist" aria-label="Account action">
+          <button class="auth-mode active" id="signInTab" type="button" data-auth-mode="signin">Sign In</button>
+          <button class="auth-mode" id="signUpTab" type="button" data-auth-mode="signup">Create Account</button>
+        </div>
+        <form class="account-form" id="accountForm">
+          <label>Email
+            <input id="accountEmail" type="email" autocomplete="email" required placeholder="you@example.com">
+          </label>
+          <label>Password
+            <input id="accountPassword" type="password" autocomplete="current-password" required minlength="8" placeholder="At least 8 characters">
+          </label>
+          <button class="primary-btn" id="accountSubmit" type="submit">Sign In</button>
+        </form>
+        <p class="account-message" id="accountMessage" aria-live="polite"></p>
+        <p class="account-note">You can keep playing without an account. Guest progress remains stored on this device.</p>
+      </div>
+
+      <div class="hidden" id="signedInView">
+        <div class="signed-in-card">
+          <span class="sync-dot" aria-hidden="true"></span>
+          <div>
+            <span class="account-mini-label">SIGNED IN AS</span>
+            <strong id="signedInEmail"></strong>
+          </div>
+        </div>
+        <p class="account-copy">Your simulator progress will sync automatically after completed labs and XP changes.</p>
+        <div class="cloud-actions">
+          <button class="secondary-btn" id="syncNowBtn" type="button">Sync Now</button>
+          <button class="secondary-btn danger-outline" id="signOutBtn" type="button">Sign Out</button>
+        </div>
+        <p class="account-message" id="syncMessage" aria-live="polite"></p>
+      </div>
+    </section>
+  </div>
+
   <footer>
     <p>© 2026 Agyemang Prempeh · PrempehTech.ca · Interactive IT Training Simulator</p>
   </footer>
 
+  <script src="cloud-config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="cloud-save.js"></script>
   <script src="simulator.js"></script>
 </body>
 </html>
