@@ -172,7 +172,7 @@
 }
 .vm-complete-card{width:min(540px,calc(100% - 30px));background:#f7fafc;color:#1c2933;border-radius:9px;padding:26px;box-shadow:0 20px 65px rgba(0,0,0,.45)}
 .vm-complete-card h2{margin:6px 0}.vm-complete-card p{color:#50616e}.vm-complete-actions{display:flex;gap:8px;margin-top:20px;flex-wrap:wrap}
-.vm-fullscreen-active{position:fixed!important;inset:0!important;z-index:9999!important;width:100vw!important;margin:0!important;background:#000}
+.vm-fullscreen-active{position:fixed!important;inset:0!important;z-index:9999!important;width:100%!important;margin:0!important;background:#000}
 .vm-fullscreen-active .vm-frame{height:calc(100vh - 62px);border-radius:0}.vm-fullscreen-active .vm-desktop{height:calc(100vh - 98px);min-height:0}
 @media(max-width:1000px){
   .vm-mission{width:300px}.vm-window{left:130px;width:calc(100% - 460px);min-width:420px}
