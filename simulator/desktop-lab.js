@@ -351,6 +351,7 @@ function bindApp(win,appId){
 }
 
 function validateFormTask(taskId,win){
+  window.PrempehEnterprise?.beforeValidate?.(taskId,win);
   const t=current.data.tasks.find(x=>x.id===taskId);if(!t||taskState[taskId])return;
   const values={};Object.keys(t.expected).forEach(k=>{const el=win.querySelector('[data-field="'+taskId+':'+k+'"]');values[k]=el?el.value:""});
   const ok=Object.entries(t.expected).every(([k,v])=>norm(values[k])===norm(v));
@@ -360,6 +361,15 @@ function validateFormTask(taskId,win){
 }
 
 function runTerminal(appId,raw,win){
+  const enterpriseOut=window.PrempehEnterprise?.commandFromState?.(appId,raw);
+  if(enterpriseOut!==null && enterpriseOut!==undefined){
+    const out=win.querySelector("[data-terminal-output]");
+    const prompt=appId==="powershell"?"PS C:\\Users\\Administrator>":appId==="switch"?"SW1#":appId==="router"?"R1#":"C:\\Users\\student>";
+    out.textContent+=(out.textContent?"\n":"")+prompt+" "+raw+"\n"+enterpriseOut+"\n"+prompt;
+    out.scrollTop=out.scrollHeight;
+    window.PrempehEnterprise?.onCommand?.(appId,raw);
+    return;
+  }
   const cmd=norm(raw),out=win.querySelector("[data-terminal-output]"),prompt=appId==="powershell"?"PS C:\\Users\\Administrator>":appId==="switch"?"SW1#":appId==="router"?"R1#":"C:\\Users\\student>";
   out.textContent+="\n"+prompt+raw;
   let matched=false;
@@ -411,6 +421,9 @@ window.PrempehDesktopLab={
   launch,
   close:closeLab,
   getScenario:(track,level)=>scenario(track,level),
-  getTrackLabel:trackLabel
+  getTrackLabel:trackLabel,
+  getRuntime:()=>({current,taskState,terminalState,APP_DEFS}),
+  refreshMission:renderMission,
+  openApp
 };
 })();
