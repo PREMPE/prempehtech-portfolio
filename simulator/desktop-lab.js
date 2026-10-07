@@ -217,7 +217,8 @@ function ensureShell(){
   $("desktopBack").addEventListener("click",closeLab);
   $("desktopFullscreen").addEventListener("click",()=>shell.classList.toggle("vm-fullscreen-active"));
   $("vmStart").addEventListener("click",()=>$("vmStartMenu").classList.toggle("hidden"));
-  $("vmDesktop").addEventListener("mousedown",e=>{if(!e.target.closest(".vm-start-menu")&&!e.target.closest("#vmStart"))$("vmStartMenu").classList.add("hidden")});
+  document.addEventListener("mousedown",e=>{if(!e.target.closest(".vm-start-menu")&&!e.target.closest("#vmStart"))$("vmStartMenu").classList.add("hidden")});
+  document.addEventListener("keydown",e=>{if(e.key==="Escape")$("vmStartMenu").classList.add("hidden")});
   document.addEventListener("mousemove",dragMove);
   document.addEventListener("mouseup",()=>dragState=null);
   updateClock(); setInterval(updateClock,30000);

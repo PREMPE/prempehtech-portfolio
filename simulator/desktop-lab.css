@@ -1,6 +1,6 @@
 /* PrempehTech realistic desktop lab */
 .desktop-lab-shell{
-  width:min(1480px,calc(100% - 24px));margin:20px auto 70px;color:#eaf2fb
+  width:min(1480px,calc(100% - 24px));margin:20px auto 70px;color:#eaf2fb;scroll-margin-top:85px
 }
 .desktop-lab-toolbar{
   display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;
@@ -155,9 +155,15 @@
 }
 .vm-toast.good{border-left-color:#4ac27a}.vm-toast.bad{border-left-color:#ee6767}
 .vm-start-menu{
-  position:absolute;left:0;bottom:46px;width:360px;height:440px;background:rgba(26,31,38,.98);z-index:22;
-  box-shadow:6px -6px 25px rgba(0,0,0,.38);display:grid;grid-template-columns:58px 1fr;color:#fff
+  position:absolute;left:0;bottom:46px;width:min(360px,100%);height:min(440px,calc(100% - 60px));background:rgba(26,31,38,.98);z-index:22;
+  box-shadow:6px -6px 25px rgba(0,0,0,.38);display:grid;grid-template-columns:58px minmax(0,1fr);grid-template-rows:auto minmax(0,1fr);color:#fff;overflow:hidden
 }
+.vm-start-menu .enterprise-start-search{grid-column:1 / -1;grid-row:1}
+.vm-start-menu .vm-start-rail{grid-column:1;grid-row:2}
+.vm-start-menu .vm-start-main{grid-column:2;grid-row:2;min-height:0;min-width:0;overflow-x:hidden}
+.vm-start-menu .enterprise-start-item{color:#fff;padding:8px 0}
+.vm-start-menu .enterprise-start-item:hover{background:#36404a}
+.vm-start-menu .vm-start-app{cursor:pointer;overflow-wrap:anywhere}
 .vm-start-rail{background:#161b21;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;padding:10px;gap:14px}
 .vm-start-main{padding:16px;overflow:auto}.vm-start-main h4{margin:0 0 12px;font-size:.8rem}.vm-start-app{display:flex;align-items:center;gap:10px;padding:8px;border-radius:3px;font-size:.72rem}.vm-start-app:hover{background:#36404a}
 .vm-start-app .vm-icon-glyph{width:30px;height:30px;font-size:.72rem}

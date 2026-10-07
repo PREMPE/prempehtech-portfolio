@@ -27,8 +27,8 @@ function injectStyle(){
 .vm-mission-head{padding-right:14px!important;padding-top:36px!important;position:relative}.vm-mission-head>div:first-child{min-width:0;flex:1}.vm-mission-head>span{flex-shrink:0;white-space:nowrap}
 .vm-task-item>span:last-child br,.vm-task-item>span:last-child br+*{display:none}
 .enterprise-guide{border-top:1px solid #ccd6df;background:#f7fafc}
-.enterprise-guide-tabs{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid #ccd6df}
-.enterprise-guide-tabs button{flex:1;border:0;background:#e8eef3;padding:8px;min-width:0;font-weight:800;cursor:pointer}
+.enterprise-guide-tabs{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid #ccd6df;position:sticky;top:0;z-index:2;background:#e8eef3}
+.enterprise-guide-tabs button{flex:1;border:0;background:#e8eef3;padding:9px 6px;min-width:0;min-height:38px;height:auto;white-space:normal;font-size:12px;line-height:1.4;font-weight:800;cursor:pointer}
 .enterprise-guide-tabs button.active{background:#fff;color:#0c5f99}
 .enterprise-guide-pane{padding:10px 12px;font-size:12px;line-height:1.45;color:#263746}
 .enterprise-guide-pane ol{padding-left:20px;margin:4px 0}.enterprise-guide-pane li{margin:7px 0}
@@ -130,8 +130,8 @@ function enhanceIcons(){
 function enhanceStart(){
  const menu=q('#vmStartMenu');if(!menu||menu.dataset.enterprise==='1')return;menu.dataset.enterprise='1';
  const search=document.createElement('div');search.className='enterprise-start-search';search.innerHTML='<input type="search" placeholder="Type here to search">';
- menu.prepend(search);
- const list=document.createElement('div');list.className='enterprise-extra-list';list.innerHTML=EXTRA.map(a=>'<div class="enterprise-start-item" data-extra="'+a.id+'"><b>'+a.icon+'</b><span>'+a.name+'</span></div>').join('');menu.appendChild(list);
+ menu.appendChild(search);
+ const list=document.createElement('div');list.className='enterprise-extra-list';list.innerHTML=EXTRA.map(a=>'<div class="enterprise-start-item" data-extra="'+a.id+'"><b>'+a.icon+'</b><span>'+a.name+'</span></div>').join('');q('.vm-start-main',menu).appendChild(list);
  list.onclick=e=>{const x=e.target.closest('[data-extra]');if(x){openExtra(x.dataset.extra);menu.classList.add('hidden')}};
  const input=q('input',search);input.addEventListener('input',()=>{const v=input.value.toLowerCase();qa('.vm-start-app,.enterprise-start-item',menu).forEach(x=>x.style.display=x.textContent.toLowerCase().includes(v)?'':'none')});
 }
