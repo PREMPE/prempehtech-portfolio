@@ -1,5 +1,9 @@
 (function(){
 'use strict';
+const runtime=()=>window.PrempehDesktopLab?.getRuntime?.()||{};
+const current=new Proxy({}, {get:(_,p)=>runtime().current?.[p]});
+const taskState=new Proxy({}, {ownKeys:()=>Reflect.ownKeys(runtime().taskState||{}),getOwnPropertyDescriptor:()=>({enumerable:true,configurable:true}),get:(_,p)=>(runtime().taskState||{})[p]});
+const APP_DEFS=new Proxy({}, {get:(_,p)=>(runtime().APP_DEFS||{})[p]});
 const EXTRA=[
 {id:'explorer',name:'File Explorer',icon:'📁'},{id:'thispc',name:'This PC',icon:'🖥️'},{id:'edge',name:'Microsoft Edge',icon:'🌐'},
 {id:'notepad',name:'Notepad',icon:'📝'},{id:'taskmgr',name:'Task Manager',icon:'▦'},{id:'control',name:'Control Panel',icon:'⚙️'},
@@ -231,25 +235,11 @@ function commandFromState(app,raw){
  if(cmd==="netstat -ano")return "Proto Local Address        Foreign Address       State       PID\nTCP   172.16.20.23:49712    185.20.55.14:443     ESTABLISHED 4312";
  return null;
 }
-const _ptOldRunTerminal=typeof runTerminal==="function"?runTerminal:null;
-if(_ptOldRunTerminal){
- runTerminal=function(appId,raw,win){
-  const out=commandFromState(appId,raw);
-  if(out!==null){
-   const box=win.querySelector("[data-terminal-output]"),prompt=appId==="powershell"?"PS C:\\Users\\Administrator>":appId==="switch"?"SW1#":appId==="router"?"R1#":"C:\\Users\\student>";
-   box.textContent+=(box.textContent?"\n":"")+prompt+" "+raw+"\n"+out+"\n"+prompt;box.scrollTop=box.scrollHeight;return;
-  }
-  return _ptOldRunTerminal(appId,raw,win);
- }
-}
-const _ptOldValidate=typeof validateFormTask==="function"?validateFormTask:null;
-if(_ptOldValidate){
- validateFormTask=function(taskId,win){syncEnterpriseState(taskId,win);const r=_ptOldValidate(taskId,win);setTimeout(()=>{const id=win.dataset.app;if(["dhcp","dns","services","aduc","gpmc","event","siem","endpoint","router"].includes(id)){win.dataset.enterpriseWired="";const body=win.querySelector(".vm-app-body");if(body){const rich=enterpriseContent(id);if(rich){const actions=body.querySelector(".pt-project-actions");if(actions){const saved=actions.innerHTML;body.innerHTML=rich+'<div class="pt-project-actions">'+saved+'</div>'}}}wireEnterprise(win,id)}},0);return r}
-}
-const _ptOldLaunch=typeof launch==="function"?launch:null;
-if(_ptOldLaunch)launch=function(track,level){PT_SIM.state=null;return _ptOldLaunch(track,level)};
-
-
+window.PrempehEnterprise={
+ commandFromState,
+ beforeValidate:(taskId,win)=>syncEnterpriseState(taskId,win),
+ onCommand:()=>{}
+};
 /* ===== Contextual Procedure Coach ===== */
 function exactProcedure(){
  const g=guideForCurrent(),apps=(current?.data?.apps||[]),tasks=current?.data?.tasks||[];
