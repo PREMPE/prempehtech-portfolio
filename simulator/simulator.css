@@ -20,8 +20,22 @@ body{
   margin:0;
   color:var(--text);
   background:
-    radial-gradient(circle at 15% 5%,rgba(49,123,190,.12),transparent 30%),
-    linear-gradient(180deg,#071321 0%,#081827 45%,#071321 100%);
+    radial-gradient(
+      circle at 18% 12%,
+      rgba(235,247,255,.72),
+      transparent 31%
+    ),
+    radial-gradient(
+      circle at 82% 72%,
+      rgba(119,188,245,.30),
+      transparent 34%
+    ),
+    linear-gradient(
+      145deg,
+      #b6dcfb 0%,
+      #a9d2f9 48%,
+      #9ecbf4 100%
+    );
   font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   line-height:1.5
 }
