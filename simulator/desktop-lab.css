@@ -208,3 +208,4 @@
 .vm-mission textarea{max-width:100%;box-sizing:border-box}
 .pt-project-actions .vm-siem-app{display:block!important}
 .pt-project-actions .vm-form-grid{grid-template-columns:1fr!important}
+.vm-app-body .vm-form-panel h5,.vm-app-body .vm-form-panel label{color:#203444!important}
