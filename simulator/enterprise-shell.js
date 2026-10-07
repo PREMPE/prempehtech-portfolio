@@ -152,8 +152,67 @@ function contextMenu(){
 function enhance(){
  injectStyle();
  if(!q('#desktopLabShell')||q('#desktopLabShell').classList.contains('hidden'))return;
- enhanceTicket();enhanceIcons();enhanceStart();enhanceTaskbar();contextMenu();
+ enhanceTicket();enhanceIcons();enhanceStart();enhanceTaskbar();contextMenu(); qa('.vm-window').forEach(w=>{if(!w.dataset.enterpriseWired){w.dataset.enterpriseWired='1';wireEnterprise(w,w.dataset.app)}});
 }
 const obs=new MutationObserver(()=>setTimeout(enhance,0));obs.observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['class']});
 document.addEventListener('DOMContentLoaded',enhance);setInterval(enhance,1200);
+
+/* ===== Stateful Enterprise Simulation Engine ===== */
+const PT_SIM={state:null};
+function seedState(){
+ const lvl=Number(current?.level||1),track=current?.track||"networking";
+ return {
+  network:{ip:"169.254.22.41",mask:"255.255.0.0",gateway:"",dns:"",dhcp:true},
+  dhcp:{start:"192.168.20.10",end:"192.168.20.50",router:"192.168.20.254",dns:"8.8.8.8",active:true,leases:[["PC-14","192.168.20.114"],["PC-18","192.168.20.118"],["PC-22","192.168.20.122"]]},
+  dns:{records:{dc01:"172.16.10.99",intranet:"10.0.0.10",printer01:"10.0.0.31",hrportal:"10.0.0.42"}},
+  services:{W3SVC:{status:"Stopped",startup:"Manual"},Netlogon:{status:"Stopped",startup:"Manual"},Spooler:{status:"Running",startup:"Automatic"},BITS:{status:"Running",startup:"Manual"},DNS:{status:"Running",startup:"Automatic"}},
+  users:{jlee:{name:"Jordan Lee",ou:"Users",enabled:true,groups:["Domain Users"]},"legacy-admin":{name:"Legacy Admin",ou:"IT",enabled:true,groups:["Domain Admins"]},"helpdesk-temp":{name:"Helpdesk Temp",ou:"IT",enabled:true,groups:["Domain Admins"]},mcole:{name:"Maya Cole",ou:"Users",enabled:true,groups:["Domain Users"]}},
+  gpos:[["Default Domain Policy","corp.local","Enabled"],["Workstation Security Baseline","corp.local","Disabled"],["Password Policy","corp.local","Enabled"]],
+  endpoints:[["CLIENT-12","Healthy","Low","Connected"],["CLIENT-23","Alerted","High","Connected"],["CLIENT-44","Alerted","High","Connected"],["WS-17","Alerted","High","Connected"],["APP-02","Alerted","High","Connected"],["DB-01","Healthy","Low","Connected"],["APP-05","Alerted","High","Connected"]],
+  routes:[["0.0.0.0/0","172.16.30.1"],["10.40.0.0/16","172.16.254.1"],["10.50.0.0/16","172.16.254.9"],["10.80.0.0/16","172.16.254.9"]],
+  notes:{},track,lvl
+ };
+}
+function sim(){if(!PT_SIM.state)PT_SIM.state=seedState();return PT_SIM.state}
+function noiseEvents(){
+ const a=[["6005","EventLog","Information","Event log service started","SRV-WEB01"],["7036","Service Control Manager","Information","BITS entered running state","SRV-WEB01"],["4624","Microsoft-Windows-Security","Information","Successful logon: jlee from 10.20.30.21","DC01"],["4672","Microsoft-Windows-Security","Information","Special privileges assigned to SYSTEM","DC01"],["5156","Filtering Platform","Information","Connection permitted","CLIENT-12"],["4688","Microsoft-Windows-Security","Information","chrome.exe parent explorer.exe","CLIENT-12"],["4625","Microsoft-Windows-Security","Warning","Failed logon: administrator from 10.20.30.77","DC01"],["4625","Microsoft-Windows-Security","Warning","Failed logon: administrator from 10.20.30.77","DC01"],["4688","Microsoft-Windows-Security","Warning","powershell.exe -enc SQBFAFgA... parent WINWORD.EXE","CLIENT-23"],["7045","Service Control Manager","Warning","RemoteUpdate service installed","APP-02"],["5719","NETLOGON","Error","No domain controller is available","DC02"],["7031","Service Control Manager","Error","World Wide Web Publishing Service terminated unexpectedly","SRV-WEB01"]];
+ return a;
+}
+function enterpriseContent(id){
+ const s=sim();
+ if(id==="dhcp")return '<div class="pt-console"><div class="pt-tree"><b>DHCP</b><span>▾ DHCP01.corp.local</span><span>　▾ IPv4</span><span class="sel">　　▾ Support Scope [192.168.20.0]</span><span>　　　Address Pool</span><span>　　　Address Leases</span><span>　　　Reservations</span><span>　　　Scope Options</span><span>　Server Options</span></div><div class="pt-work"><h3>Support Scope</h3><div class="pt-tabs">Address Pool　Address Leases　Reservations　Scope Options</div><p><b>Status:</b> '+(s.dhcp.active?"Active":"Inactive")+'</p><table><tr><th>Setting</th><th>Current value</th></tr><tr><td>Address range</td><td>'+s.dhcp.start+' — '+s.dhcp.end+'</td></tr><tr><td>003 Router</td><td>'+s.dhcp.router+'</td></tr><tr><td>006 DNS Servers</td><td>'+s.dhcp.dns+'</td></tr></table><h4>Recent leases</h4><table>'+s.dhcp.leases.map(x=>'<tr><td>'+x[0]+'</td><td>'+x[1]+'</td><td>Active</td></tr>').join('')+'</table><p class="pt-tip">Use the project controls below to change configuration. The console above shows the environment state you are changing.</p></div></div>';
+ if(id==="dns")return '<div class="pt-console"><div class="pt-tree"><b>DNS Manager</b><span>▾ DNS01</span><span>　▾ Forward Lookup Zones</span><span class="sel">　　corp.local</span><span>　Reverse Lookup Zones</span><span>　Conditional Forwarders</span></div><div class="pt-work"><h3>corp.local</h3><table><tr><th>Name</th><th>Type</th><th>Data</th></tr>'+Object.entries(s.dns.records).map(([k,v])=>'<tr><td>'+k+'</td><td>Host (A)</td><td>'+v+'</td></tr>').join('')+'</table></div></div>';
+ if(id==="services")return '<div class="pt-work"><h3>Services (Local)</h3><table><tr><th>Name</th><th>Description</th><th>Status</th><th>Startup Type</th></tr>'+Object.entries(s.services).map(([k,v])=>'<tr><td>'+k+'</td><td>Windows service</td><td>'+v.status+'</td><td>'+v.startup+'</td></tr>').join('')+'</table></div>';
+ if(id==="aduc")return '<div class="pt-console"><div class="pt-tree"><b>Active Directory Users and Computers</b><span>▾ corp.local</span><span>　Builtin</span><span>　Computers</span><span>　Domain Controllers</span><span class="sel">　Accounting</span><span>　HR</span><span>　IT</span><span>　Users</span></div><div class="pt-work"><h3>Directory Objects</h3><table><tr><th>Name</th><th>OU</th><th>State</th><th>Membership</th></tr>'+Object.entries(s.users).map(([k,v])=>'<tr><td>'+v.name+' ('+k+')</td><td>'+v.ou+'</td><td>'+(v.enabled?"Enabled":"Disabled")+'</td><td>'+v.groups.join(", ")+'</td></tr>').join('')+'</table></div></div>';
+ if(id==="gpmc")return '<div class="pt-console"><div class="pt-tree"><b>Group Policy Management</b><span>▾ Forest: corp.local</span><span>　▾ Domains</span><span>　　▾ corp.local</span><span>　　　Accounting</span><span>　　　Engineering</span><span class="sel">　　　Group Policy Objects</span><span>　Group Policy Results</span></div><div class="pt-work"><h3>Group Policy Objects</h3><table><tr><th>GPO</th><th>Linked scope</th><th>Status</th></tr>'+s.gpos.map(x=>'<tr><td>'+x[0]+'</td><td>'+x[1]+'</td><td>'+x[2]+'</td></tr>').join('')+'</table></div></div>';
+ if(id==="event")return '<div class="pt-console"><div class="pt-tree"><b>Event Viewer</b><span>Custom Views</span><span>▾ Windows Logs</span><span>　Application</span><span class="sel">　Security</span><span>　Setup</span><span>　System</span><span>Applications and Services Logs</span></div><div class="pt-work"><div class="pt-search"><input data-pt-filter placeholder="Filter Event ID, host, source, details"><button data-pt-filter-btn>Filter</button></div><table data-pt-events><tr><th>ID</th><th>Source</th><th>Level</th><th>Details</th><th>Host</th></tr>'+noiseEvents().map(r=>'<tr>'+r.map(x=>'<td>'+x+'</td>').join('')+'</tr>').join('')+'</table></div></div>';
+ if(id==="siem"||id==="endpoint"){
+  if(id==="endpoint")return '<div class="pt-work"><h3>Endpoint Security — Devices</h3><div class="pt-search"><input data-pt-edr-filter placeholder="Search device"><button data-pt-edr-search>Search</button></div><table><tr><th>Device</th><th>Health</th><th>Risk</th><th>Network state</th></tr>'+s.endpoints.map(x=>'<tr data-device="'+x[0]+'"><td><button class="pt-link" data-pt-device="'+x[0]+'">'+x[0]+'</button></td><td>'+x[1]+'</td><td>'+x[2]+'</td><td>'+x[3]+'</td></tr>').join('')+'</table><div data-pt-device-detail></div></div>';
+  const rows=noiseEvents().concat([["09:13","EDR","High","CLIENT-44 powershell.exe -enc","CLIENT-44"],["09:14","Sysmon 3","High","185.20.55.14:443","CLIENT-44"],["10:05","4624 Type 3","Medium","WS-17 → APP-02 svc-backup","APP-02"],["10:08","4624 Type 3","High","APP-02 → DB-01 svc-backup","DB-01"]]);
+  return '<div class="pt-work"><h3>Security Operations Console</h3><div class="pt-search"><input data-pt-siem-q placeholder="Search host, event, IP, process, account..."><button data-pt-siem-search>Search</button></div><p>Open alerts: 7　 High severity: 2　 Hosts reporting: 14</p><table data-pt-siem-table><tr><th>Time/Event</th><th>Source</th><th>Severity</th><th>Details</th><th>Host</th></tr>'+rows.map(r=>'<tr>'+r.map(x=>'<td>'+x+'</td>').join('')+'</tr>').join('')+'</table></div>';
+ }
+ if(id==="router")return '<div class="pt-work"><h3>R1 Routing & Policy State</h3><table><tr><th>Destination</th><th>Next hop</th></tr>'+s.routes.map(x=>'<tr><td>'+x[0]+'</td><td>'+x[1]+'</td></tr>').join('')+'</table><p>Interfaces: G0/0 UP · G0/0.10 UP · G0/0.20 UP · Tunnel0 UP</p></div>';
+ return null;
+}
+function wireEnterprise(win,id){
+ const body=win.querySelector('.vm-app-body');if(!body)return;
+ const rich=enterpriseContent(id);if(rich){
+  const old=body.innerHTML; body.innerHTML=rich+'<div class="pt-project-actions"><details><summary>Project change / verification controls</summary>'+old+'</details></div>';
+ }
+ const filt=win.querySelector('[data-pt-filter]');if(filt)win.querySelector('[data-pt-filter-btn]').onclick=()=>{const q=filt.value.toLowerCase();win.querySelectorAll('[data-pt-events] tr').forEach((r,i)=>{if(i)r.style.display=!q||r.textContent.toLowerCase().includes(q)?"":"none"})};
+ const sq=win.querySelector('[data-pt-siem-q]');if(sq)win.querySelector('[data-pt-siem-search]').onclick=()=>{const q=sq.value.toLowerCase();win.querySelectorAll('[data-pt-siem-table] tr').forEach((r,i)=>{if(i)r.style.display=!q||r.textContent.toLowerCase().includes(q)?"":"none"})};
+ win.querySelectorAll('[data-pt-device]').forEach(b=>b.onclick=()=>{const h=b.dataset.ptDevice,ep=sim().endpoints.find(x=>x[0]===h),d=win.querySelector('[data-pt-device-detail]');d.innerHTML='<div class="pt-device"><h3>'+h+'</h3><p><b>Network:</b> '+ep[3]+'　 <b>Risk:</b> '+ep[2]+'</p><h4>Recent process timeline</h4><p>'+((h==="CLIENT-23"||h==="CLIENT-44"||h==="APP-05")?"WINWORD.EXE → powershell.exe -enc SQBFAFgA...":"explorer.exe → chrome.exe")+'</p><button class="vm-native-btn" data-isolate="'+h+'">Isolate device</button></div>';d.querySelector('[data-isolate]').onclick=()=>{ep[3]="Isolated";toast(h+" isolated from network","good");wireEnterprise(win,id)}});
+}
+function syncEnterpriseState(taskId,win){
+ const t=current?.data?.tasks?.find(x=>x.id===taskId);if(!t)return;
+ const val=k=>win.querySelector('[data-field="'+taskId+':'+k+'"]')?.value||"";
+ const s=sim();
+ if(t.app==="network"){s.network.ip=val("ip")||s.network.ip;s.network.mask=val("mask")||s.network.mask;s.network.gateway=val("gateway")||s.network.gateway;s.network.dns=val("dns")||s.network.dns}
+ if(t.app==="dhcp"){s.dhcp.start=val("start")||s.dhcp.start;s.dhcp.end=val("end")||s.dhcp.end;s.dhcp.router=val("router")||val("gateway")||s.dhcp.router;s.dhcp.dns=val("dns")||s.dhcp.dns}
+ if(t.app==="dns"&&val("name"))s.dns.records[val("name").toLowerCase()]=val("address");
+ if(t.app==="services"&&val("service")){let x=s.services[val("service")]||(s.services[val("service")]={status:"Stopped",startup:"Manual"});if(val("startup"))x.startup=val("startup");if(val("action")==="Start")x.status="Running";if(val("action")==="Stop")x.status="Stopped"}
+ if(t.app==="aduc"){const u=val("username")||val("account");if(u){s.users[u]=s.users[u]||{name:val("display")||u,ou:val("ou")||"Users",enabled:true,groups:["Domain Users"]};if(val("ou"))s.users[u].ou=val("ou");if(val("group")&&!s.users[u].groups.includes(val("group")))s.users[u].groups.push(val("group"));if(val("state")==="Disabled"||String(val("action")).includes("disable"))s.users[u].enabled=false}}
+}
+
+/* ===== End Stateful Enterprise Simulation Engine ===== */
 })();
