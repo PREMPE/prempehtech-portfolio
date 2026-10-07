@@ -300,3 +300,36 @@ footer{border-top:1px solid #16344f;color:#7895af;text-align:center;padding:28px
   .account-dialog{padding:19px}
   .cloud-actions{grid-template-columns:1fr}
 }
+
+
+/* UNLOCKED DIFFICULTY LEVEL SELECTOR */
+.level-selector-panel{padding:24px}
+.level-selector-head{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin-bottom:18px}
+.level-selector-head h3{margin:5px 0 0;font-size:1.25rem}
+.unlocked-pill,.level-unlocked-status{
+  display:inline-flex;align-items:center;justify-content:center;
+  border:1px solid #2f7b5b;background:#10291f;color:#9bedc6;
+  border-radius:999px;padding:6px 10px;font-size:.72rem;font-weight:900
+}
+.level-buttons{display:grid;grid-template-columns:repeat(5,1fr);gap:9px}
+.level-btn{
+  min-height:82px;text-align:left;border:1px solid #234c72;border-radius:9px;
+  background:#0a1b2c;color:var(--muted);padding:12px
+}
+.level-btn span{display:block;color:var(--blue);font-size:.68rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+.level-btn strong{display:block;color:var(--text);font-size:.86rem;margin-top:4px;line-height:1.25}
+.level-btn:hover{border-color:var(--blue)}
+.level-btn.active{background:#173a5d;border-color:#4388cf;box-shadow:inset 0 0 0 1px rgba(92,169,255,.16)}
+.level-detail{margin-top:16px;padding:19px;border:1px solid #214c72;border-radius:10px;background:#0a2034}
+.level-detail-top{display:flex;justify-content:space-between;align-items:flex-start;gap:18px}
+.difficulty-level-label{color:var(--blue);font-size:.7rem;font-weight:900;letter-spacing:.11em}
+.level-detail h3{margin:5px 0 5px;font-size:1.15rem}
+.level-detail p{margin:0;color:var(--muted);font-size:.88rem}
+.level-topic-grid{display:flex;flex-wrap:wrap;gap:7px;margin:16px 0}
+.level-topic-grid span{font-size:.74rem;color:#c9e4fb;border:1px solid #285b83;background:#0b1e31;border-radius:999px;padding:6px 9px}
+.level-jump-btn{margin-top:2px}
+@media(max-width:900px){.level-buttons{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){
+  .level-selector-head,.level-detail-top{align-items:flex-start;flex-direction:column}
+  .level-buttons{grid-template-columns:1fr}
+}
