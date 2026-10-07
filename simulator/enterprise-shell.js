@@ -273,8 +273,16 @@ function exactProcedure(){
  return procedures[current?.track]?.[Number(current?.level)]||g.steps;
 }
 function procedureProgress(){
- const p=exactProcedure(),done=Object.values(taskState||{}).filter(Boolean).length,total=Math.max(1,Object.keys(taskState||{}).length);
+ const p=exactProcedure(),key="coach:"+current.track+":"+current.level;
+ const manual=Number(sim().notes[key]);
+ if(Number.isFinite(manual)&&manual>=0)return Math.min(p.length-1,manual);
+ const done=Object.values(taskState||{}).filter(Boolean).length,total=Math.max(1,Object.keys(taskState||{}).length);
  return Math.min(p.length-1,Math.floor(done/total*p.length));
+}
+function setProcedureProgress(n){
+ const p=exactProcedure(),key="coach:"+current.track+":"+current.level;
+ sim().notes[key]=Math.max(0,Math.min(p.length-1,n));
+ const m=q("#vmMission");if(m){m.dataset.procedureCoach="";installProcedureCoach()}
 }
 function procedureHint(step){
  const p=exactProcedure(),txt=p[step]||p[0],low=txt.toLowerCase();
@@ -302,11 +310,13 @@ function installProcedureCoach(){
  m.dataset.procedureCoach=key;
  const steps=exactProcedure(),idx=procedureProgress();
  guide.innerHTML='<div class="enterprise-guide-tabs"><button class="active" data-pane="procedure">Procedure</button><button data-pane="hint">Hint</button><button data-pane="showme">Show Me / Explain</button><button data-pane="notes">Notes</button></div>'+
- '<div class="enterprise-guide-pane" data-guide-pane="procedure"><div style="padding:8px;background:#eaf4fb;border-left:4px solid #0877b9;margin-bottom:8px"><b>CURRENT STEP '+(idx+1)+' OF '+steps.length+'</b><br>'+steps[idx]+'</div><ol>'+steps.map((x,i)=>'<li style="'+(i===idx?'font-weight:700;background:#eef7ff;padding:5px':'')+'">'+x+'</li>').join("")+'</ol></div>'+
+ '<div class="enterprise-guide-pane" data-guide-pane="procedure"><div style="padding:8px;background:#eaf4fb;border-left:4px solid #0877b9;margin-bottom:8px"><b>CURRENT STEP '+(idx+1)+' OF '+steps.length+'</b><br>'+steps[idx]+'<div style="display:flex;gap:6px;margin-top:9px"><button class="vm-native-btn" data-coach-prev '+(idx===0?'disabled':'')+'>← Previous</button><button class="vm-native-btn primary" data-coach-next '+(idx===steps.length-1?'disabled':'')+'>Step complete →</button></div></div><ol>'+steps.map((x,i)=>'<li style="'+(i===idx?'font-weight:700;background:#eef7ff;padding:5px':'')+'">'+x+'</li>').join("")+'</ol></div>'+
  '<div class="enterprise-guide-pane" data-guide-pane="hint" hidden><div class="enterprise-hint"><b>Hint for Step '+(idx+1)+'</b><br>'+procedureHint(idx)+'</div></div>'+
  '<div class="enterprise-guide-pane" data-guide-pane="showme" hidden><div class="enterprise-hint">'+showMeText(idx)+'</div></div>'+
  '<div class="enterprise-guide-pane" data-guide-pane="notes" hidden><label><b>Root cause / finding</b><textarea style="width:100%;height:55px"></textarea></label><label><b>Changes / response</b><textarea style="width:100%;height:55px"></textarea></label><label><b>Verification / evidence</b><textarea style="width:100%;height:55px"></textarea></label></div>';
  qa("[data-pane]",guide).forEach(b=>b.onclick=()=>{qa("[data-pane]",guide).forEach(x=>x.classList.remove("active"));b.classList.add("active");qa("[data-guide-pane]",guide).forEach(x=>x.hidden=x.dataset.guidePane!==b.dataset.pane)});
+ q("[data-coach-prev]",guide)?.addEventListener("click",()=>setProcedureProgress(idx-1));
+ q("[data-coach-next]",guide)?.addEventListener("click",()=>setProcedureProgress(idx+1));
 }
 
 /* ===== End Stateful Enterprise Simulation Engine ===== */
