@@ -60,6 +60,64 @@
     }
   };
 
+  const difficultyLevels = {
+    1: {
+      label: "LEVEL 1 · FOUNDATION",
+      title: "Core IT Fundamentals",
+      description: "Start with networking, system administration, and cybersecurity fundamentals.",
+      topics: ["Ethernet & IPv4", "Users & Permissions", "Windows Logs", "Basic Troubleshooting"],
+      jump: "Go to Level 1 Labs"
+    },
+    2: {
+      label: "LEVEL 2 · JUNIOR TECHNICIAN",
+      title: "Junior Technician",
+      description: "Practice day-to-day support, addressing, core services, and operating-system troubleshooting.",
+      topics: ["Subnetting", "DHCP", "DNS", "Windows Services", "Linux Services", "Desktop Troubleshooting"],
+      jump: "Open Level 2"
+    },
+    3: {
+      label: "LEVEL 3 · ADMINISTRATOR",
+      title: "Infrastructure Administration",
+      description: "Work with segmented networks, identity services, policy, routing, and access controls.",
+      topics: ["VLANs", "Routing", "Active Directory", "Group Policy", "Firewall Rules", "NAT"],
+      jump: "Open Level 3"
+    },
+    4: {
+      label: "LEVEL 4 · JUNIOR ANALYST",
+      title: "Security Operations",
+      description: "Investigate alerts, correlate endpoint and network evidence, and make defensible response decisions.",
+      topics: ["SIEM Triage", "Endpoint Telemetry", "Access Control", "Incident Handling", "PowerShell Abuse", "Brute Force"],
+      jump: "Open Level 4"
+    },
+    5: {
+      label: "LEVEL 5 · MID-LEVEL PROFESSIONAL",
+      title: "Enterprise Troubleshooting",
+      description: "Solve ambiguous multi-system failures and security incidents without being told where the fault is.",
+      topics: ["Multi-System Outages", "Identity Incidents", "Segmented Networks", "Root-Cause Analysis", "Lateral Movement", "Advanced Troubleshooting"],
+      jump: "Open Level 5"
+    }
+  };
+
+  let selectedLevel = 1;
+
+  function setDifficultyLevel(level) {
+    const value = Number(level);
+    const data = difficultyLevels[value] || difficultyLevels[1];
+    selectedLevel = value;
+
+    $(".level-btn").forEach((btn) => {
+      const active = Number(btn.dataset.level) === value;
+      btn.classList.toggle("active", active);
+      btn.setAttribute("aria-selected", active ? "true" : "false");
+    });
+
+    $("levelLabel").textContent = data.label;
+    $("levelTitle").textContent = data.title;
+    $("levelDescription").textContent = data.description;
+    $("levelTopics").innerHTML = data.topics.map((topic) => "<span>" + topic + "</span>").join("");
+    $("levelJumpBtn").textContent = data.jump;
+  }
+
   let progress = loadProgress();
   let activeTrack = "networking";
   let activeLab = null;
@@ -496,8 +554,21 @@
     document.querySelector('[data-card-track="' + next + '"]').scrollIntoView({ behavior: "smooth", block: "center" });
   });
 
-  $$(".track-tab").forEach((btn) => btn.addEventListener("click", () => setTrack(btn.dataset.track)));
-  $$("[data-launch]").forEach((btn) => btn.addEventListener("click", () => launchLab(btn.dataset.launch)));
+  $(".track-tab").forEach((btn) => btn.addEventListener("click", () => setTrack(btn.dataset.track)));
+  $(".level-btn").forEach((btn) => btn.addEventListener("click", () => setDifficultyLevel(btn.dataset.level)));
+  $("levelJumpBtn").addEventListener("click", () => {
+    if (selectedLevel === 1) {
+      document.querySelector(".track-tabs").scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+    feedback(
+      "Level " + selectedLevel + " selected.",
+      "This level is unlocked. Its dedicated scenarios can be opened as they are added to the simulator.",
+      "success"
+    );
+    document.querySelector(".track-tabs").scrollIntoView({ behavior: "smooth", block: "center" });
+  });
+  $("[data-launch]").forEach((btn) => btn.addEventListener("click", () => launchLab(btn.dataset.launch)));
   $$(".mode-btn").forEach((btn) => btn.addEventListener("click", () => setMode(btn.dataset.mode)));
   $$(".device").forEach((device) => device.addEventListener("click", () => handleDeviceClick(device)));
 
@@ -548,4 +619,5 @@
 
   updateProgressUI();
   setTrack("networking");
+  setDifficultyLevel(1);
 })();
