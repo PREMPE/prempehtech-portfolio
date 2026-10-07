@@ -8,7 +8,7 @@
   <meta name="theme-color" content="#a9d2f9">
   <link rel="canonical" href="https://prempehtech.ca/simulator/">
   <title>IT Infrastructure Simulator | PrempehTech.ca</title>
-  <link rel="stylesheet" href="simulator.css?v=20261007-7">
+  <link rel="stylesheet" href="simulator.css?v=20261007-8">
 </head>
 <body>
   <header class="site-header">
@@ -130,8 +130,8 @@
       <div class="roadmap level-selector-panel">
         <div class="level-selector-head">
           <div>
-            <span class="panel-kicker">ALL LEVELS UNLOCKED</span>
-            <h3>Choose any difficulty level</h3>
+            <span class="panel-kicker" id="levelSelectorTrackLabel">NETWORKING LEVELS · ALL UNLOCKED</span>
+            <h3 id="levelSelectorTitle">Choose a Networking difficulty level</h3>
           </div>
           <span class="unlocked-pill">No prerequisites</span>
         </div>
@@ -241,6 +241,14 @@
         <div class="lab-column">
           <section class="terminal-panel">
             <div class="terminal-top"><span></span><span></span><span></span><strong>PC-01 · Command Prompt</strong></div>
+            <div class="command-help-strip" aria-label="Command explanations">
+              <span>Command guide</span>
+              <button class="explain-btn" type="button" data-explain="ipconfig">ipconfig ?</button>
+              <button class="explain-btn" type="button" data-explain="ping">ping ?</button>
+              <button class="explain-btn" type="button" data-explain="tracert">tracert ?</button>
+              <button class="explain-btn" type="button" data-explain="arp">arp -a ?</button>
+              <button class="explain-btn" type="button" data-explain="nslookup">nslookup ?</button>
+            </div>
             <div class="terminal-output" id="terminalOutput" aria-live="polite">Microsoft Windows [Version 10.0]
 Type a command to test the network.
 
@@ -271,6 +279,10 @@ C:\Users\student&gt;</div>
           <section class="tool-panel">
             <div class="tool-heading"><div><span class="step-number">1</span><h3>Create the account</h3></div><span class="tool-status" id="userStatus">Incomplete</span></div>
             <p>HR has approved a new Accounting employee: <strong>Jordan Lee</strong>. Username standard is first initial + surname.</p>
+            <div class="concept-help-row">
+              <button class="explain-btn" type="button" data-explain="ou">What is an OU?</button>
+              <button class="explain-btn" type="button" data-explain="leastPrivilege">Why least privilege?</button>
+            </div>
             <label class="field-label">Username<input id="newUsername" autocomplete="off" placeholder="Enter username"></label>
             <label class="field-label">Display name<input id="displayName" autocomplete="off" placeholder="Enter full name"></label>
             <label class="field-label">Department / OU
@@ -287,6 +299,9 @@ C:\Users\student&gt;</div>
 
           <section class="tool-panel">
             <div class="tool-heading"><div><span class="step-number">2</span><h3>Assign group membership</h3></div><span class="tool-status" id="groupStatus">Incomplete</span></div>
+            <div class="concept-help-row">
+              <button class="explain-btn" type="button" data-explain="securityGroup">Why use security groups?</button>
+            </div>
             <label class="field-label">Security group
               <select id="groupSelect">
                 <option value="">Choose a group</option>
@@ -304,6 +319,9 @@ C:\Users\student&gt;</div>
           <section class="tool-panel">
             <div class="tool-heading"><div><span class="step-number">3</span><h3>Set folder access</h3></div><span class="tool-status" id="permissionStatus">Incomplete</span></div>
             <p>Jordan needs to edit documents in the <strong>Finance</strong> shared folder but must not control permissions or ownership.</p>
+            <div class="concept-help-row">
+              <button class="explain-btn" type="button" data-explain="modifyPermission">Modify vs Full Control?</button>
+            </div>
             <label class="field-label">Assign permission to
               <select id="principalSelect">
                 <option value="">Choose a principal</option>
@@ -337,6 +355,11 @@ C:\Users\student&gt;</div>
         <div class="lab-column wide">
           <section class="tool-panel">
             <div class="tool-heading"><div><span class="step-number">1</span><h3>Review authentication events</h3></div><span class="tool-status" id="evidenceStatus">Awaiting analysis</span></div>
+            <div class="concept-help-row">
+              <button class="explain-btn" type="button" data-explain="event4625">What is Event 4625?</button>
+              <button class="explain-btn" type="button" data-explain="bruteForce">What is brute force?</button>
+              <button class="explain-btn" type="button" data-explain="preserveLogs">Why preserve logs?</button>
+            </div>
             <div class="log-table-wrap">
               <table class="log-table">
                 <thead><tr><th>Time</th><th>Event ID</th><th>User</th><th>Source IP</th><th>Result</th></tr></thead>
@@ -521,6 +544,37 @@ C:\Users\student&gt;</div>
     </section>
   </main>
 
+  <div class="explain-overlay hidden" id="explainOverlay" role="presentation">
+    <section class="explain-dialog" role="dialog" aria-modal="true" aria-labelledby="explainTitle">
+      <div class="explain-dialog-head">
+        <div>
+          <span class="panel-kicker" id="explainCategory">LEARNING GUIDE</span>
+          <h2 id="explainTitle">Explanation</h2>
+        </div>
+        <button class="explain-close" id="explainClose" type="button" aria-label="Close explanation">×</button>
+      </div>
+      <p class="explain-summary" id="explainSummary"></p>
+      <div class="explain-grid">
+        <article>
+          <span>WHAT IT DOES</span>
+          <p id="explainDoes"></p>
+        </article>
+        <article>
+          <span>WHAT IT MEANS</span>
+          <p id="explainMeans"></p>
+        </article>
+        <article>
+          <span>WHY IT MATTERS</span>
+          <p id="explainWhy"></p>
+        </article>
+      </div>
+      <div class="explain-example" id="explainExampleWrap">
+        <span>EXAMPLE</span>
+        <code id="explainExample"></code>
+      </div>
+    </section>
+  </div>
+
   <div class="account-overlay hidden" id="accountOverlay" role="presentation">
     <section class="account-dialog" id="accountDialog" role="dialog" aria-modal="true" aria-labelledby="accountTitle">
       <div class="account-dialog-head">
@@ -572,9 +626,9 @@ C:\Users\student&gt;</div>
     <p>© 2026 Agyemang Prempeh · PrempehTech.ca · Interactive IT Training Simulator</p>
   </footer>
 
-  <script src="cloud-config.js?v=20261007-7"></script>
+  <script src="cloud-config.js?v=20261007-8"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="cloud-save.js?v=20261007-7"></script>
-  <script src="simulator.js?v=20261007-7"></script>
+  <script src="cloud-save.js?v=20261007-8"></script>
+  <script src="simulator.js?v=20261007-8"></script>
 </body>
 </html>
