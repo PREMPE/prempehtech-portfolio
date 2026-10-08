@@ -121,7 +121,7 @@ function enhanceTicket(){
 }
 function ensureTicketButton(){
  const bar=q('#vmTaskbarApps');if(!bar||q('.ticket-reopen',bar))return;
- const b=document.createElement('button');b.className='ticket-reopen';b.textContent='▤ Project Ticket';b.onclick=()=>q('#vmMission')?.classList.remove('ticket-minimized');bar.prepend(b);
+ const b=document.createElement('button');b.className='ticket-reopen';b.textContent='▤ Project Ticket';b.onclick=()=>{q('#vmMission')?.classList.remove('ticket-minimized');window.PrempehWorkspace?.showTicket();};bar.prepend(b);
 }
 function enhanceIcons(){
  const box=q('#vmDesktopIcons');if(!box)return;
@@ -152,6 +152,7 @@ function appBody(id){
  return '<div class="explorer-main"><h2>Recycle Bin</h2><p>This folder is empty.</p></div>';
 }
 function openExtra(id){
+ if(window.PrempehWorkspace)return window.PrempehWorkspace.openUtility(id);
  const a=EXTRA.find(x=>x.id===id);if(!a)return;
  let w=q('.enterprise-window[data-extra-window="'+id+'"]');if(w){w.style.display='flex';w.style.zIndex=++ez;return}
  w=document.createElement('section');w.className='enterprise-window';w.dataset.extraWindow=id;w.style.zIndex=++ez;w.innerHTML='<div class="enterprise-title"><strong>'+a.icon+' &nbsp;'+a.name+'</strong><div class="enterprise-win-controls"><button data-min>—</button><button data-max>□</button><button class="x" data-close>×</button></div></div><div class="enterprise-body">'+appBody(id)+'</div>';
@@ -160,11 +161,12 @@ function openExtra(id){
  const title=q('.enterprise-title',w);let drag=null;title.onmousedown=e=>{if(e.target.closest('button')||w.classList.contains('max'))return;drag={x:e.clientX-w.offsetLeft,y:e.clientY-w.offsetTop};w.style.zIndex=++ez};document.addEventListener('mousemove',e=>{if(drag){w.style.left=Math.max(0,e.clientX-drag.x)+'px';w.style.top=Math.max(0,e.clientY-drag.y)+'px'}});document.addEventListener('mouseup',()=>drag=null,{once:true});
 }
 function contextMenu(){
+ if(window.PrempehWorkspace)return;
  const d=q('#vmDesktop');if(!d||d.dataset.ctx)return;d.dataset.ctx='1';d.addEventListener('contextmenu',e=>{if(e.target.closest('.vm-window,.enterprise-window,.vm-mission,.vm-taskbar'))return;e.preventDefault();q('.enterprise-context')?.remove();const m=document.createElement('div');m.className='enterprise-context';m.style.left=e.offsetX+'px';m.style.top=e.offsetY+'px';m.innerHTML='<div>View</div><div>Sort by</div><div>Refresh</div><hr><div>New</div><div>Display settings</div><div>Personalize</div>';d.appendChild(m);setTimeout(()=>document.addEventListener('click',()=>m.remove(),{once:true}),0)})}
 function enhance(){
  injectStyle();
  if(!q('#desktopLabShell')||q('#desktopLabShell').classList.contains('hidden'))return;
- enhanceTicket();installProcedureCoach();enhanceIcons();enhanceStart();enhanceTaskbar();contextMenu(); qa('.vm-window').forEach(w=>{if(!w.dataset.enterpriseWired){w.dataset.enterpriseWired='1';wireEnterprise(w,w.dataset.app)}});
+ if(current.level){enhanceTicket();installProcedureCoach();} if(!window.PrempehWorkspace){enhanceIcons();enhanceStart();enhanceTaskbar();contextMenu();} qa('.vm-window').forEach(w=>{if(!w.dataset.enterpriseWired){w.dataset.enterpriseWired='1';wireEnterprise(w,w.dataset.app)}});
 }
 const obs=new MutationObserver(()=>setTimeout(enhance,0));obs.observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['class']});
 document.addEventListener('DOMContentLoaded',enhance);setInterval(enhance,1200);

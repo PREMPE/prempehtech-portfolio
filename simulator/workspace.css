@@ -1,0 +1,57 @@
+/* One window layer keeps application controls above the project ticket. */
+.enterprise-workspace .vm-windows{z-index:10!important}
+.enterprise-workspace .vm-mission{z-index:8!important}
+.enterprise-workspace .vm-taskbar{z-index:10000!important;background:#132231ed;backdrop-filter:blur(16px);height:48px}
+.enterprise-workspace .vm-start-menu{z-index:10001!important;width:min(420px,calc(100% - 24px));max-height:calc(100% - 70px);overflow:auto;bottom:54px;background:#f3f6fa;color:#203444;border:1px solid #afc0cf;border-radius:10px;padding:0}
+.enterprise-workspace .vm-desktop-icons{overflow-y:auto;scrollbar-width:thin;left:0!important;top:0!important;bottom:58px!important;width:200px!important}
+.enterprise-workspace .vm-desktop-icons[hidden]{display:none!important}
+.enterprise-workspace[data-wallpaper="slate"]{background:radial-gradient(ellipse at 70% 40%,#536678,transparent 60%),#15212f!important}
+.enterprise-workspace[data-wallpaper="green"]{background:radial-gradient(ellipse at 70% 40%,#278b7b,transparent 60%),#092c32!important}
+.workspace-window{position:absolute;width:min(820px,calc(100% - 190px));height:540px;max-height:calc(100% - 20px);display:flex;flex-direction:column;background:#f5f7fb;color:#203444;border:1px solid #b7c7d7;border-radius:8px;box-shadow:0 20px 60px #0006;pointer-events:auto;overflow:hidden;resize:both;min-width:280px;min-height:210px;font:14px/1.5 'Segoe UI',Arial,sans-serif}
+.workspace-window button,.workspace-window input,.workspace-window select,.workspace-window textarea{font:inherit}
+.workspace-window button,.workspace-start-apps button,.workspace-start-foot button{cursor:pointer;border:1px solid #b8c9d8;border-radius:5px;padding:7px 12px;background:#fff;color:#173b5b}
+.workspace-window button:hover{background:#e3edf8}
+.workspace-window button:focus-visible,.enterprise-workspace button:focus-visible,.workspace-window input:focus-visible,.workspace-window select:focus-visible,.workspace-window textarea:focus-visible{outline:3px solid #0077cc;outline-offset:2px}
+.workspace-window .vm-titlebar{flex-shrink:0;height:36px;touch-action:none;background:#dfe7ef;color:#203444}
+.enterprise-workspace .vm-titlebar{touch-action:none}
+.workspace-focused>.vm-titlebar{background:#e7f2ff;border-bottom:2px solid #1684cb}
+.workspace-window .vm-window-controls button{border:0;background:transparent;border-radius:0;padding:0;min-width:36px}
+.workspace-window .vm-close:hover{background:#bd2525;color:#fff}
+.workspace-window.maximized{left:8px!important;top:8px!important;width:calc(100% - 16px)!important;height:calc(100% - 16px)!important;resize:none}
+.enterprise-workspace .workspace-snap-left,.enterprise-workspace .workspace-snap-right{top:8px!important;width:calc(50% - 12px)!important;height:calc(100% - 16px)!important;resize:none}
+.enterprise-workspace .workspace-snap-left{left:8px!important}.enterprise-workspace .workspace-snap-right{left:calc(50% + 4px)!important}
+.workspace-body{padding:18px;overflow:auto;flex:1;user-select:text;min-height:0}
+.workspace-body h2{font-size:24px;color:#142f48;margin:0 0 8px}.workspace-body h3{color:#203444;font-size:16px;margin:8px 0}
+.workspace-body p{color:#4b6276;font-size:14px}.workspace-body label{display:block;color:#28445c;font-size:13px}
+.workspace-body input,.workspace-body select{padding:8px;border:1px solid #a8bed0;border-radius:5px;background:#fff;color:#173b5b;max-width:100%;box-sizing:border-box}
+.workspace-toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1px solid #d5e0eb;padding-bottom:12px;margin-bottom:16px;flex-wrap:wrap}
+.workspace-filters{display:grid;grid-template-columns:2fr 1fr;gap:12px}.workspace-filters input,.workspace-filters select{width:100%;margin-top:5px}
+.workspace-project-header>p:first-child{font-size:10px;letter-spacing:.14em;font-weight:700;color:#2472a4}
+.workspace-projects{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.workspace-projects article{display:flex;flex-direction:column;align-items:flex-start;padding:16px;border:1px solid #d3dfeb;border-radius:8px;background:#fff}
+.workspace-projects article>span{font-size:11px;color:#286596}.workspace-projects article>p{flex:1;margin:0 0 12px}.workspace-projects article small{color:#536679;margin-bottom:12px}
+.workspace-projects article button{background:#0965b3;color:white;border-color:#0965b3}.workspace-projects article button:hover{background:#074b85}
+.workspace-tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}.workspace-tiles>*{padding:20px!important;text-align:left;background:white;border:1px solid #c3d3e2;border-radius:8px;color:#144e7b;text-decoration:none}
+.workspace-note-label{display:flex!important;flex-direction:column;height:calc(100% - 108px);min-height:180px}.workspace-notes{flex:1;width:100%;box-sizing:border-box;margin-top:8px;resize:none;background:#fff;border:1px solid #b8c9d8;padding:12px;color:#172a3a;font:14px/1.6 Consolas,monospace!important}
+.workspace-process{display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center;border-bottom:1px solid #d6e0e9;padding:10px 0}
+.workspace-check{margin:18px 0}.workspace-tools{display:flex;flex-wrap:wrap;gap:8px}
+.workspace-calculator{display:block;background:white;text-align:right;padding:15px;font:30px Consolas,monospace;overflow-wrap:anywhere}.workspace-keypad{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px;max-width:420px}
+.workspace-start-head{padding:20px;background:#e1eaf4}.workspace-start-head label{display:block;margin-top:12px;font-size:12px}.workspace-start-head input{display:block;box-sizing:border-box;width:100%;margin-top:5px;padding:10px;border:1px solid #b7c7d7;border-radius:6px;color:#173b5b}
+.workspace-start-apps{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:14px}.workspace-start-apps button{text-align:left;font-size:13px}
+.workspace-start-foot{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-top:1px solid #c9d5e2;font-size:12px}
+#workspaceContext{position:absolute;z-index:20000;min-width:205px;max-width:calc(100% - 16px);padding:6px;background:#f8fbff;color:#203444;border:1px solid #b2c3d4;border-radius:8px;box-shadow:0 10px 35px #0005}
+#workspaceContext button{display:block;text-align:left;width:100%;padding:9px 14px;background:transparent;color:#203444;border:0;border-radius:4px;font:13px 'Segoe UI',Arial;cursor:pointer}#workspaceContext button:hover,#workspaceContext button:focus{background:#dcebf8}
+#workspaceStatus{position:absolute;right:12px;bottom:54px;max-width:320px;padding:5px 10px;border-radius:5px;background:#142939;color:#d8eafa;font:11px 'Segoe UI',Arial;pointer-events:none;z-index:10001}#workspaceStatus:empty{display:none}
+.workspace-refreshing .vm-desktop-icons{animation:workspace-refresh .25s ease-out}@keyframes workspace-refresh{from{opacity:.25}to{opacity:1}}
+@media(max-width:800px){.workspace-window{left:8px!important;top:20px!important;width:calc(100% - 16px)!important;height:520px;min-width:0;resize:none}.workspace-filters{grid-template-columns:1fr}.workspace-body{padding:12px}.enterprise-workspace .vm-desktop-icons{width:110px!important}.workspace-projects{grid-template-columns:1fr}.workspace-process{grid-template-columns:1fr auto}.workspace-process>span:nth-child(2){display:none}.enterprise-workspace .workspace-snap-left,.enterprise-workspace .workspace-snap-right{left:8px!important;width:calc(100% - 16px)!important}}
+@media(prefers-reduced-motion:reduce){.workspace-refreshing .vm-desktop-icons{animation:none}}
+.workspace-file-actions{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.workspace-file-row{display:grid;grid-template-columns:minmax(120px,1fr) auto auto;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #d7e0e9}.workspace-file-row>button{text-align:left}.workspace-file-row>span{font-size:12px;color:#5c7184}.workspace-file-row>div{display:flex;gap:5px}.workspace-file-selected{background:#e0edf9}
+.workspace-dialog{border:1px solid #a9bed1;border-radius:10px;padding:24px;background:#f8fbff;color:#183b58;font:14px 'Segoe UI',Arial;max-width:calc(100% - 60px)}.workspace-dialog::backdrop{background:#07172788}.workspace-dialog h2{color:#183b58;font-size:20px}.workspace-dialog input{display:block;padding:10px;margin:8px 0 16px;border:1px solid #9eb5c9;color:#173b5b;background:white}.workspace-dialog button{padding:8px 18px;background:#e4eff9;border:1px solid #a9bed1;border-radius:4px;color:#173b5b;cursor:pointer}.workspace-dialog form>div{display:flex;justify-content:flex-end;gap:8px}
+#workspaceTray{display:flex;flex-shrink:0}#workspaceTray button{background:transparent;border:0;color:#d8eafa;padding:8px;cursor:pointer}#workspaceTray button:hover{background:#386383}#vmClock[role=button]{cursor:pointer;padding:4px 9px}
+#workspaceTrayPanel{position:absolute;bottom:56px;right:10px;z-index:11000;width:min(350px,calc(100% - 40px));max-height:calc(100% - 90px);overflow:auto;padding:18px;background:#f5f9ff;color:#244761;border:1px solid #c3d3e2;border-radius:10px;box-shadow:0 15px 40px #0005;font:13px/1.5 'Segoe UI',Arial}#workspaceTrayPanel button{border:1px solid #b7c9d8;border-radius:5px;padding:8px;background:white;color:#244761;cursor:pointer}#workspaceTrayPanel p{color:#244761}.workspace-task-tile{display:block;width:100%;margin:6px 0;text-align:left}
+.workspace-calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;text-align:center}.workspace-calendar>*{padding:5px}.workspace-calendar .today{background:#0965b3;color:white;border-radius:5px}
+#workspaceLock{position:absolute;inset:0;z-index:30000;display:grid;place-items:center;background:radial-gradient(ellipse at top,#175989,#0a1b30);color:white;text-align:center;padding:30px}#workspaceLock>div{max-width:450px}#workspaceLock h2{color:white;font-size:36px}#workspaceLock p{color:#c4deef}#workspaceLock button{padding:12px 24px;border:1px solid #b9d5ed;border-radius:6px;background:#edf6ff;color:#154164;font-weight:bold;cursor:pointer}
+.workspace-window dl{display:grid;grid-template-columns:150px 1fr;gap:14px}.workspace-window dt{font-weight:700}.workspace-window dd{margin:0}
+@media(max-width:600px){.workspace-file-row{grid-template-columns:1fr}.workspace-file-row>span{display:none}#workspaceTray button{padding:6px}.workspace-start-foot{flex-wrap:wrap;gap:6px}.workspace-window dl{grid-template-columns:1fr}.vm-taskbar-apps{min-width:0;overflow:auto}}
+.enterprise-workspace .vm-window.maximized{max-width:none!important}.workspace-admin-tasks{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}.workspace-admin-tasks article{padding:16px;background:white;border:1px solid #c8d7e5;border-radius:7px}.workspace-health{display:inline-block;font-size:11px;padding:3px 8px;border-radius:12px;background:#fff0d7;color:#8a4c00}.workspace-health.good{background:#dff5e9;color:#17603b}
+.enterprise-workspace .vm-mission.workspace-ticket-front{z-index:11000!important}

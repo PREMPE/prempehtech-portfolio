@@ -215,7 +215,7 @@ function ensureShell(){
   const main=document.querySelector("main");
   main.appendChild(shell);
   $("desktopBack").addEventListener("click",closeLab);
-  $("desktopFullscreen").addEventListener("click",()=>shell.classList.toggle("vm-fullscreen-active"));
+  $("desktopFullscreen").addEventListener("click",()=>{const full=shell.classList.toggle("vm-fullscreen-active");$("desktopFullscreen").textContent=full?"Windowed Workspace":"Full Screen Workspace";});
   $("vmStart").addEventListener("click",()=>$("vmStartMenu").classList.toggle("hidden"));
   document.addEventListener("mousedown",e=>{if(!e.target.closest(".vm-start-menu")&&!e.target.closest("#vmStart"))$("vmStartMenu").classList.add("hidden")});
   document.addEventListener("keydown",e=>{if(e.key==="Escape")$("vmStartMenu").classList.add("hidden")});
@@ -246,6 +246,22 @@ function launch(track,level){
   $("desktopLabShell").scrollIntoView({behavior:"smooth",block:"start"});
 }
 
+function openWorkspace(){
+  ensureShell();
+  current={track:"workspace",level:0,data:{title:"Enterprise Workspace",role:"IT Operations",ticket:"Open Project Center to choose a lab.",apps:[],tasks:[]}};
+  taskState={}; terminalState={};
+  $("desktopLabShell").classList.remove("hidden");
+  document.body.classList.add("vm-lab-active");
+  $("desktopLabShell").classList.add("vm-fullscreen-active");
+  $("desktopFullscreen").textContent="Windowed Workspace";
+  $("desktopMissionTitle").textContent="Enterprise Workspace";
+  $("desktopMissionMeta").textContent="CORP training environment · 25 projects";
+  renderDesktop();
+  $("vmMission").classList.add("ticket-minimized");
+  $("desktopLabShell").scrollIntoView({block:"start"});
+  window.PrempehWorkspace?.openUtility("projects");
+}
+
 function closeLab(){
   document.body.classList.remove("vm-lab-active");
   $("desktopLabShell")?.classList.add("hidden");
@@ -258,6 +274,7 @@ function renderDesktop(){
   $("vmTaskbarApps").innerHTML="";
   $("vmComplete").classList.add("hidden");
   renderIcons(); renderMission(); renderStart();
+  window.PrempehWorkspace?.mount();
 }
 
 function renderIcons(){
@@ -277,6 +294,7 @@ function renderStart(){
 }
 
 function renderMission(){
+  if(!current.level){$("vmMission").innerHTML="";return;}
   const done=Object.values(taskState).filter(Boolean).length,total=current.data.tasks.length;
   $("vmMission").innerHTML=`<div class="vm-mission-head"><div><span>PROJECT TICKET · LEVEL ${current.level}</span><h3>${current.data.title}</h3></div><span>${done}/${total}</span></div>
     <div class="vm-ticket"><strong>Assigned role:</strong> ${current.data.role}<br><br>${current.data.ticket}</div>
@@ -301,15 +319,16 @@ function openApp(appId){
   win.querySelector(".vm-close").addEventListener("click",()=>closeWindow(win));
   win.querySelector(".vm-min").addEventListener("click",()=>{win.classList.add("hidden");taskButton(appId)?.classList.remove("active")});
   win.querySelector(".vm-max").addEventListener("click",()=>win.classList.toggle("maximized"));
-  win.querySelector(".vm-titlebar").addEventListener("mousedown",e=>startDrag(e,win));
+  if(window.PrempehWorkspace) window.PrempehWorkspace.manage(win);
+  else win.querySelector(".vm-titlebar").addEventListener("mousedown",e=>startDrag(e,win));
   bindApp(win,appId);
 }
 
 function closeWindow(win){const id=win.dataset.app;win.remove();taskButton(id)?.remove()}
-function focusWindow(win){win.classList.remove("hidden");win.style.zIndex=++z;document.querySelectorAll(".vm-task-app").forEach(b=>b.classList.toggle("active",b.dataset.taskApp===win.dataset.app))}
+function focusWindow(win){win.classList.remove("hidden");win.style.zIndex=++z;window.PrempehWorkspace?.focus(win);document.querySelectorAll(".vm-task-app").forEach(b=>b.classList.toggle("active",b.dataset.taskApp===win.dataset.app))}
 function addTaskbarButton(id){
   const a=APP_DEFS[id],b=document.createElement("button");b.className="vm-task-app active";b.dataset.taskApp=id;b.textContent=a.glyph+" "+a.label;
-  b.addEventListener("click",()=>{const w=document.querySelector('.vm-window[data-app="'+id+'"]');if(!w)return;if(w.classList.contains("hidden"))focusWindow(w);else if(Number(w.style.zIndex)===z){w.classList.add("hidden");b.classList.remove("active")}else focusWindow(w)});
+  b.addEventListener("click",()=>{const w=document.querySelector('.vm-window[data-app="'+id+'"]');if(!w)return;if(w.classList.contains("hidden"))focusWindow(w);else if(window.PrempehWorkspace?w.classList.contains("workspace-focused"):Number(w.style.zIndex)===z){w.classList.add("hidden");b.classList.remove("active")}else focusWindow(w)});
   $("vmTaskbarApps").appendChild(b);
 }
 function taskButton(id){return document.querySelector('.vm-task-app[data-task-app="'+id+'"]')}
@@ -466,6 +485,7 @@ function completeProject(){
 
 window.PrempehDesktopLab={
   launch,
+  openWorkspace,
   close:closeLab,
   getScenario:(track,level)=>scenario(track,level),
   getTrackLabel:trackLabel,
