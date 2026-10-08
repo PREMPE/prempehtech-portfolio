@@ -10,6 +10,10 @@
     control: ['⚙', 'Settings'], edge: ['◎', 'Company Portal'],
     calc: ['▩', 'Calculator'], recycle: ['♲', 'Recycle Bin'], system: ['▣', 'System Information'], admin: ['◈', 'Admin Center']
   };
+  const wallpapers = [
+    ['mountain-peaks','Mountain Peaks'], ['forest-canopy','Forest Reflections'],
+    ['tropical-beach','Tropical Sunset'], ['alpine-lake','Alpine Lake'], ['sunlit-valley','Golden Valley']
+  ];
   const tracks = ['networking', 'sysadmin', 'cyber', 'cloud', 'integrated'];
   const escape = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const read = (key, fallback) => { try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch { return fallback; } };
@@ -100,7 +104,15 @@
       $('[data-refresh]',body).onclick=update;update();
     }
     if (id === 'control') {
-      body.innerHTML = '<h2>Workspace settings</h2><label>Desktop background<select data-wallpaper><option value="blue">Enterprise blue</option><option value="slate">Graphite</option><option value="green">Forest</option></select></label><label class="workspace-check"><input type="checkbox" data-icons> Show desktop icons</label><h3>Administrative tools</h3><div class="workspace-tools"></div><p>Tools are available for the active project. Settings apply to this browser.</p>';
+      body.innerHTML = '<h2>Workspace settings</h2><label>Desktop background<select data-wallpaper><option value="blue">Enterprise blue</option><option value="slate">Graphite</option><option value="green">Forest</option></select></label><div class="workspace-wallpapers" role="group" aria-label="Nature backgrounds"></div><p class="workspace-wallpaper-credit">Photography from <a href="https://unsplash.com" target="_blank" rel="noopener">Unsplash</a></p><label class="workspace-check"><input type="checkbox" data-icons> Show desktop icons</label><h3>Administrative tools</h3><div class="workspace-tools"></div><p>Tools are available for the active project. Settings apply to this browser.</p>';
+      const photoOptions=document.createElement('optgroup');photoOptions.label='Nature photography';
+      wallpapers.forEach(([file,label])=>{
+        const id='nature-'+file,option=document.createElement('option');option.value=id;option.textContent=label;photoOptions.append(option);
+        const button=document.createElement('button');button.type='button';button.className='workspace-wallpaper-choice';button.dataset.wallpaperChoice=id;button.setAttribute('aria-label',label);button.setAttribute('aria-pressed',String(prefs.wallpaper===id));
+        button.innerHTML=`<img src="/assets/wallpapers/${file}-thumb.webp" alt="" width="400" height="240" loading="lazy"><span>${label}</span>`;
+        button.onclick=()=>{prefs.wallpaper=id;applyPrefs();};$('.workspace-wallpapers',body).append(button);
+      });
+      $('select[data-wallpaper]',body).append(photoOptions);
       $('[data-wallpaper]',body).value=prefs.wallpaper; $('[data-icons]',body).checked=prefs.icons;
       $('[data-wallpaper]',body).onchange=e=>{prefs.wallpaper=e.target.value;applyPrefs();};
       $('[data-icons]',body).onchange=e=>{prefs.icons=e.target.checked;applyPrefs();};
@@ -164,6 +176,8 @@
   }
   function applyPrefs() {
     const desktop=$('#vmDesktop');desktop.dataset.wallpaper=prefs.wallpaper;
+    $$('[data-wallpaper-choice]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.wallpaperChoice===prefs.wallpaper)));
+    const picker=$('select[data-wallpaper]');if(picker)picker.value=prefs.wallpaper;
     $('#vmDesktopIcons').hidden=!prefs.icons;save('prempeh-workspace-preferences',prefs);
   }
   function refresh() {

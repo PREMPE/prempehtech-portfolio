@@ -55,3 +55,19 @@
 @media(max-width:600px){.workspace-file-row{grid-template-columns:1fr}.workspace-file-row>span{display:none}#workspaceTray button{padding:6px}.workspace-start-foot{flex-wrap:wrap;gap:6px}.workspace-window dl{grid-template-columns:1fr}.vm-taskbar-apps{min-width:0;overflow:auto}}
 .enterprise-workspace .vm-window.maximized{max-width:none!important}.workspace-admin-tasks{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}.workspace-admin-tasks article{padding:16px;background:white;border:1px solid #c8d7e5;border-radius:7px}.workspace-health{display:inline-block;font-size:11px;padding:3px 8px;border-radius:12px;background:#fff0d7;color:#8a4c00}.workspace-health.good{background:#dff5e9;color:#17603b}
 .enterprise-workspace .vm-mission.workspace-ticket-front{z-index:11000!important}
+
+/* Locally hosted nature photography; only the selected full-size image loads. */
+.enterprise-workspace[data-wallpaper="nature-mountain-peaks"]{background:linear-gradient(90deg,rgba(4,18,30,.24),rgba(4,18,30,.04)),url("../assets/wallpapers/mountain-peaks.webp") center / cover no-repeat!important}
+.enterprise-workspace[data-wallpaper="nature-forest-canopy"]{background:linear-gradient(90deg,rgba(4,18,30,.24),rgba(4,18,30,.04)),url("../assets/wallpapers/forest-canopy.webp") center / cover no-repeat!important}
+.enterprise-workspace[data-wallpaper="nature-tropical-beach"]{background:linear-gradient(90deg,rgba(4,18,30,.24),rgba(4,18,30,.04)),url("../assets/wallpapers/tropical-beach.webp") center / cover no-repeat!important}
+.enterprise-workspace[data-wallpaper="nature-alpine-lake"]{background:linear-gradient(90deg,rgba(4,18,30,.24),rgba(4,18,30,.04)),url("../assets/wallpapers/alpine-lake.webp") center / cover no-repeat!important}
+.enterprise-workspace[data-wallpaper="nature-sunlit-valley"]{background:linear-gradient(90deg,rgba(4,18,30,.24),rgba(4,18,30,.04)),url("../assets/wallpapers/sunlit-valley.webp") center / cover no-repeat!important}
+.enterprise-workspace[data-wallpaper^="nature-"]::before{opacity:0}
+.enterprise-workspace[data-wallpaper^="nature-"] .vm-desktop-icon span:last-child{background:rgba(6,24,39,.65);border-radius:4px;padding:3px 5px;color:#fff;text-shadow:0 1px 2px #000}
+.workspace-wallpapers{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:12px;margin-top:16px}
+.workspace-window .workspace-wallpaper-choice{padding:0;overflow:hidden;text-align:left;border:2px solid transparent;background:#fff;box-shadow:0 0 0 1px #becfdd;border-radius:8px}
+.workspace-wallpaper-choice img{display:block;width:100%;height:100px;object-fit:cover}
+.workspace-wallpaper-choice span{display:block;padding:9px 10px;font-size:12px;font-weight:600}
+.workspace-window .workspace-wallpaper-choice[aria-pressed="true"]{border-color:#0965b3;box-shadow:0 0 0 2px #b1d9ff;background:#e8f3ff}
+.workspace-window .workspace-wallpaper-choice[aria-pressed="true"] span::after{content:" ✓"}
+.workspace-wallpaper-credit{font-size:11px!important}.workspace-wallpaper-credit a{color:#145989;text-decoration:underline}
