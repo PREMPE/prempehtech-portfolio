@@ -88,7 +88,7 @@
   background:#f2f2f2;border-bottom:1px solid #c5c5c5;padding-left:9px;font-size:.75rem
 }
 .vm-title-left{display:flex;align-items:center;gap:7px;font-weight:700}
-.vm-title-icon{width:18px;height:18px;border-radius:3px;background:#178bd3;color:#fff;display:grid;place-items:center;font-size:.62rem}
+.vm-title-icon{width:18px;height:18px;border-radius:3px;background:#0868a8;color:#fff;display:grid;place-items:center;font-size:.62rem}
 .vm-window-controls{height:100%;display:flex}.vm-window-controls button{
   width:44px;height:100%;border:0;background:transparent;color:#333;font-size:.78rem
 }
@@ -103,7 +103,7 @@
 .vm-grid-table{width:100%;border-collapse:collapse;font-size:.7rem;margin:8px 0 14px}
 .vm-grid-table th,.vm-grid-table td{padding:7px 8px;border:1px solid #d6d6d6;text-align:left}
 .vm-grid-table th{background:#ededed;font-weight:700}
-.vm-form-panel{border:1px solid #c8c8c8;background:#fafafa;padding:12px;margin-top:10px}
+.vm-form-panel{border:1px solid #c8c8c8;background:#fafafa;color:#203444;padding:12px;margin-top:10px}
 .vm-form-panel h5{margin:0 0 10px;font-size:.8rem}
 .vm-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
 .vm-form-grid label{font-size:.68rem;color:#333;display:grid;gap:4px}
@@ -215,6 +215,24 @@
 .pt-project-actions .vm-siem-app{display:block!important}
 .pt-project-actions .vm-form-grid{grid-template-columns:1fr!important}
 .vm-app-body .vm-form-panel h5,.vm-app-body .vm-form-panel label{color:#203444!important}
+/* Security tools use light configuration panels inside the enterprise console.
+   Keep the foreground paired with its panel instead of mixing dark/light themes. */
+.vm-siem-app .vm-form-panel h5,.vm-siem-app .vm-form-panel label{color:inherit!important}
+.pt-project-actions .vm-siem-app .vm-form-panel{background:#f4f7fb;color:#203444;border-color:#b9cbdc}
+.pt-project-actions .vm-siem-app .vm-form-grid input,
+.pt-project-actions .vm-siem-app .vm-form-grid select{background:#fff;color:#203444;border-color:#71899e;color-scheme:light}
+.vm-app-body .vm-form-panel h5{font-size:.875rem}
+.vm-app-body .vm-form-panel label,
+.vm-app-body .vm-grid-table,
+.vm-app-body .vm-event-table,
+.vm-app-body .vm-form-grid input,
+.vm-app-body .vm-form-grid select,
+.vm-app-body .vm-native-btn,
+.vm-app-body .vm-task-feedback{font-size:.75rem}
+.pt-project-actions .vm-siem-app .vm-grid-table th{background:#e4edf5}
+.pt-project-actions .vm-siem-app .vm-grid-table td,
+.pt-project-actions .vm-siem-app .vm-grid-table th{border-color:#b9cbdc}
+
 .cloud-console{background:#f5f7fa;color:#203444;min-height:100%;font-size:12px}
 .cloud-top{display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;background:#172b3a;color:#fff;padding:14px}
 .cloud-banner{padding:9px 14px;background:#e8f3ff;border-bottom:1px solid #c6d9eb}

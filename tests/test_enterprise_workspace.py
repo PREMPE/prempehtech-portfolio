@@ -187,6 +187,33 @@ class EnterpriseWorkspaceTests(unittest.TestCase):
         p.reload();p.locator('#openWorkspaceBtn').click()
         self.assertEqual(p.locator('#vmDesktop').get_attribute('data-wallpaper'),'slate')
 
+    def test_all_lab_tools_have_readable_text_contrast(self):
+        p = self.page
+        p.on('dialog', lambda dialog: dialog.accept())
+        # Check rendered text, including evidence tables, controls and terminal panels.
+        # These tool surfaces have opaque backgrounds; hidden and disabled controls
+        # are excluded. Every cloud service is opened so its forms are included.
+        contrast_script = r"""root=>Array.from(root.querySelectorAll('*')).filter(e=>e.getBoundingClientRect().width&&getComputedStyle(e).visibility==='visible'&&!e.disabled&&(Array.from(e.childNodes).some(n=>n.nodeType===3&&n.textContent.trim())||e.matches('input,select,textarea'))).flatMap(e=>{
+const rgb=s=>(s.match(/[\d.]+/g)||[]).map(Number),lum=c=>c.slice(0,3).map(v=>{v/=255;return v<=.04045?v/12.92:((v+.055)/1.055)**2.4}).reduce((s,v,i)=>s+v*[.2126,.7152,.0722][i],0);
+const fg=rgb(getComputedStyle(e).color);let n=e,bg;while(n){bg=rgb(getComputedStyle(n).backgroundColor);if(bg.length===3||bg[3]===1)break;n=n.parentElement;}bg=n?bg:[255,255,255];const a=lum(fg),b=lum(bg),ratio=(Math.max(a,b)+.05)/(Math.min(a,b)+.05);return ratio<4.5?[{tag:e.tagName,cls:e.className,text:(e.innerText||e.placeholder||e.value||'').slice(0,70),fg,bg,ratio}]:[]})"""
+        for track in ('networking', 'sysadmin', 'cyber', 'cloud', 'integrated'):
+            for level in range(1, 6):
+                self.app('Project Center')
+                p.locator(f'[data-project="{track}"][data-project-level="{level}"]').click()
+                apps = p.evaluate('PrempehDesktopLab.getRuntime().current.data.apps')
+                for app in apps:
+                    with self.subTest(track=track, level=level, app=app):
+                        name = p.evaluate('(id)=>PrempehDesktopLab.getRuntime().APP_DEFS[id].label', app)
+                        self.app(name)
+                        win = p.locator(f'.vm-window[data-app="{app}"]')
+                        win.locator('.vm-app-body').wait_for()
+                        tabs = win.locator('[data-cloud-service]')
+                        for tab in range(max(1, tabs.count())):
+                            if tabs.count():
+                                tabs.nth(tab).click()
+                            self.assertEqual(win.evaluate(contrast_script), [], f'{track} {level} {app} tab {tab}')
+                        win.locator('.vm-close').click()
+
     def test_mobile_workspace_fits_and_launches(self):
         p = self.page
         p.set_viewport_size({'width':390,'height':844})
