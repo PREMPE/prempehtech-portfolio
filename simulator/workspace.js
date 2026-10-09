@@ -19,7 +19,9 @@
   const tracks = ['networking', 'sysadmin', 'cyber', 'cloud', 'integrated'];
   const escape = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const read = (key, fallback) => { try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch { return fallback; } };
-  const prefs = read('prempeh-workspace-preferences', { wallpaper: 'blue', icons: true });
+  const storedPrefs = read('prempeh-workspace-preferences', {});
+  const allowedWallpapers = ['blue','slate','green',...wallpapers.map(([file])=>'nature-'+file)];
+  const prefs = {wallpaper:allowedWallpapers.includes(storedPrefs?.wallpaper)?storedPrefs.wallpaper:'blue',icons:storedPrefs?.icons!==false};
   let top = 20, contextReturn = null;
   const windows = () => $$('.vm-window,.workspace-window', $('#vmDesktop'));
   function announce(message) {

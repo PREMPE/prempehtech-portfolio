@@ -6,7 +6,26 @@
   const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   let files;
   try{files=JSON.parse(localStorage.getItem(KEY));}catch{}
-  if(!Array.isArray(files))files=[
+  function validFiles(value){
+    if(!Array.isArray(value)||value.length>1000)return false;
+    const ids=new Map();let total=0;
+    for(const f of value){
+      if(!f||typeof f.id!=='string'||!/^[a-zA-Z0-9-]{1,64}$/.test(f.id)||ids.has(f.id)||f.id==='root'||
+        typeof f.parent!=='string'||typeof f.name!=='string'||f.name.length>80||!f.name.trim()||
+        !['folder','text'].includes(f.type)||(f.deleted!==undefined&&typeof f.deleted!=='boolean')||
+        (f.content!==undefined&&(typeof f.content!=='string'||f.content.length>262144)))return false;
+      total+=(f.content||'').length;if(total>3000000)return false;ids.set(f.id,f);
+    }
+    for(const f of value){
+      const seen=new Set([f.id]);let parent=f.parent;
+      while(parent!=='root'){
+        const folder=ids.get(parent);if(!folder||folder.type!=='folder'||seen.has(parent))return false;
+        seen.add(parent);parent=folder.parent;
+      }
+    }
+    return true;
+  }
+  if(!validFiles(files))files=[
     {id:'documents',parent:'root',name:'Documents',type:'folder'},
     {id:'desktop',parent:'root',name:'Desktop',type:'folder'},
     {id:'readme',parent:'documents',name:'Welcome.txt',type:'text',content:'Welcome to CORP IT Operations.\n\nOpen Project Center for 25 practical assignments. Use Operations notes to record your work.\n\nFiles in this workspace are simulated and stored in this browser. Export important notes before clearing browser data.'}

@@ -313,11 +313,7 @@
   function loadProgress() {
     try {
       const stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
-      return {
-        completed: stored.completed || {},
-        completedLevels: stored.completedLevels || {},
-        xp: Number(stored.xp) || 0
-      };
+      return window.PrempehSecurity.progress(stored);
     } catch (_) {
       return { completed: {}, completedLevels: {}, xp: 0 };
     }
@@ -560,7 +556,7 @@
 
   function terminalAppend(text) {
     const out = $("terminalOutput");
-    out.innerHTML += "\n\n" + text;
+    out.appendChild(document.createTextNode("\n\n" + text));
     out.scrollTop = out.scrollHeight;
   }
 
@@ -893,11 +889,7 @@
 
   window.addEventListener("prempeh-cloud-progress", (event) => {
     if (!event.detail || typeof event.detail !== "object") return;
-    progress = {
-      completed: event.detail.completed || {},
-      completedLevels: event.detail.completedLevels || {},
-      xp: Number(event.detail.xp) || 0
-    };
+    progress = window.PrempehSecurity.progress(event.detail);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
     updateProgressUI();
   });

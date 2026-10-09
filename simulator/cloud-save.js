@@ -20,25 +20,11 @@
   }
 
   function localProgress() {
-    try {
-      const value = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
-      return {
-        completed: value.completed || {},
-        completedLevels: value.completedLevels || {},
-        xp: Number(value.xp) || 0
-      };
-    } catch (_) {
-      return { completed: {}, xp: 0 };
-    }
+    try { return normalizeProgress(JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}")); }
+    catch (_) { return normalizeProgress(null); }
   }
 
-  function normalizeProgress(value) {
-    return {
-      completed: value && value.completed && typeof value.completed === "object" ? value.completed : {},
-      completedLevels: value && value.completedLevels && typeof value.completedLevels === "object" ? value.completedLevels : {},
-      xp: Number(value && value.xp) || 0
-    };
-  }
+  const normalizeProgress = value => window.PrempehSecurity.progress(value);
 
   function mergeProgress(local, remote) {
     const a = normalizeProgress(local);
@@ -106,10 +92,11 @@
   async function syncFromCloud() {
     if (!client || !user) return;
     setSaveStatus("Syncing…");
+    const requestedUserId = user.id;
     const { data, error } = await client
       .from("simulator_progress")
       .select("progress")
-      .eq("user_id", user.id)
+      .eq("user_id", requestedUserId)
       .maybeSingle();
 
     if (error) {
@@ -117,6 +104,7 @@
       throw error;
     }
 
+    if (!user || user.id !== requestedUserId) return;
     const merged = mergeProgress(localProgress(), data ? data.progress : {});
     localStorage.setItem(STORAGE_KEY, JSON.stringify(merged));
     emitProgress(merged);
@@ -140,7 +128,7 @@
       options: { emailRedirectTo: "https://prempehtech.ca/simulator/" }
     });
     if (error) throw error;
-    user = data.user;
+    user = data.session ? data.user : null;
     if (data.session && user) await syncFromCloud();
     renderAuth();
     return { user: data.user, session: data.session };
@@ -148,7 +136,8 @@
 
   async function signOut() {
     if (!client) return;
-    await client.auth.signOut();
+    const { error } = await client.auth.signOut();
+    if (error) throw error;
     user = null;
     renderAuth();
   }
@@ -194,12 +183,11 @@
       try { await syncFromCloud(); } catch (_) {}
     }
 
-    client.auth.onAuthStateChange(async (_event, session) => {
+    client.auth.onAuthStateChange((_event, session) => {
       user = session ? session.user : null;
       renderAuth();
-      if (user) {
-        try { await syncFromCloud(); } catch (_) {}
-      }
+      // Supabase holds an auth lock during this callback; defer API calls.
+      if (user) setTimeout(() => syncFromCloud().catch(() => {}), 0);
     });
 
     $("accountBtn")?.addEventListener("click", openDialog);
@@ -241,6 +229,7 @@
       } catch (error) {
         setMessage("accountMessage", error && error.message ? error.message : "Account action failed. Try again.", "error");
       } finally {
+        $("accountPassword").value = "";
         submit.disabled = false;
       }
     });
@@ -256,8 +245,10 @@
     });
 
     $("signOutBtn")?.addEventListener("click", async () => {
-      await signOut();
-      setMessage("accountMessage", "Signed out. Guest progress will continue saving on this device.", "success");
+      try {
+        await signOut();
+        setMessage("accountMessage", "Signed out. Guest progress will continue saving on this device.", "success");
+      } catch (_) { setMessage("syncMessage", "Sign-out failed. Please retry before leaving a shared device.", "error"); }
     });
   }
 

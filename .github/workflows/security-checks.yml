@@ -1,0 +1,27 @@
+name: Website security checks
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  browser-security:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Check generated browser policies and JavaScript syntax
+        run: |
+          python3 scripts/security_policy.py --check
+          for file in simulator/*.js script.js; do node --check "$file"; done
+      - name: Install browser test tools
+        run: |
+          python3 -m venv /tmp/security-tests
+          /tmp/security-tests/bin/pip install playwright==1.62.0
+          /tmp/security-tests/bin/python -m playwright install --with-deps chromium
+      - name: Run security and desktop regression tests
+        run: /tmp/security-tests/bin/python -m unittest discover -s tests -v

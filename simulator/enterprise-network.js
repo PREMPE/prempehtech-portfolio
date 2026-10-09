@@ -17,8 +17,8 @@
   const valid = s => s?.version===1 && Array.isArray(s.devices) && s.devices.length>=5 && s.devices.length<=40 &&
     ['gateway','switch','client','directory','web'].every(id=>s.devices.some(d=>d.id===id)) &&
     new Set(s.devices.map(d=>d.id)).size===s.devices.length &&
-    s.devices.every(d=>typeof d.id==='string' && typeof d.name==='string' && d.name.length<=32 && Object.hasOwn(icons,d.kind) && ipv4(d.ip) && typeof d.on==='boolean' && Number.isFinite(d.x) && Number.isFinite(d.y)) &&
-    Array.isArray(s.links) && s.links.every(l=>Array.isArray(l)&&l.length===2&&l.every(id=>s.devices.some(d=>d.id===id))) && Array.isArray(s.events);
+    s.devices.every(d=>typeof d.id==='string' && /^[a-zA-Z0-9-]{1,64}$/.test(d.id) && typeof d.name==='string' && d.name.length<=32 && Object.hasOwn(icons,d.kind) && ipv4(d.ip) && typeof d.on==='boolean' && Number.isFinite(d.x) && d.x>=0 && d.x<=100 && Number.isFinite(d.y) && d.y>=0 && d.y<=100) &&
+    Array.isArray(s.links) && s.links.length<=780 && s.links.every(l=>Array.isArray(l)&&l.length===2&&l.every(id=>s.devices.some(d=>d.id===id))) && Array.isArray(s.events) && s.events.length<=60 && s.events.every(e=>e&&typeof e.time==='string'&&typeof e.message==='string'&&e.message.length<=500) && s.devices.filter(d=>d.id==='client').every(d=>ipv4(d.gateway)&&ipv4(d.dns));
   let state;
   try { const stored=JSON.parse(localStorage.getItem(KEY)); if(valid(stored))state=stored; } catch {}
   state ||= defaults();
