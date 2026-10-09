@@ -74,9 +74,9 @@
     const win = document.createElement('section'); win.className = 'workspace-window'; win.dataset.utility = id; win.setAttribute('aria-label',label);
     const offset = windows().length * 20;
     win.style.left = (160 + offset) + 'px'; win.style.top = (40 + offset) + 'px';
-    win.innerHTML = `<div class="vm-titlebar"><div class="vm-title-left">${glyph} &nbsp; ${label}</div><div class="vm-window-controls"><button class="vm-min">—</button><button class="vm-max">□</button><button class="vm-close">×</button></div></div><div class="workspace-body"></div>`;
+    win.innerHTML = `<div class="vm-titlebar"><div class="vm-title-left">${window.PrempehIcons.html(id)} ${label}</div><div class="vm-window-controls"><button class="vm-min">—</button><button class="vm-max">□</button><button class="vm-close">×</button></div></div><div class="workspace-body"></div>`;
     $('#vmWindows').append(win);
-    const task = document.createElement('button'); task.dataset.workspaceTask = id; task.textContent = `${glyph} ${label}`; task.className = 'vm-task-app';
+    const task = document.createElement('button'); task.dataset.workspaceTask = id; task.innerHTML = `${window.PrempehIcons.html(id)}<span>${label}</span>`; task.className = 'vm-task-app';
     task.onclick = () => { if (win.classList.contains('hidden') || !win.classList.contains('workspace-focused')) show(win); else win.classList.add('hidden'); };
     $('#vmTaskbarApps').append(task);
     $('.vm-min',win).onclick = () => win.classList.add('hidden');
@@ -212,12 +212,12 @@
     const desktop=$('#vmDesktop');desktop.classList.add('enterprise-workspace');desktop.tabIndex=0;
     $('#vmMission').classList.remove('ticket-minimized','workspace-ticket-front');
     const icons=$('#vmDesktopIcons');
-    Object.entries(apps).forEach(([id,[glyph,name]])=>{const b=document.createElement('button');b.className='vm-desktop-icon';b.dataset.workspaceApp=id;b.innerHTML=`<span class="vm-icon-glyph">${glyph}</span><span>${name}</span>`;b.onclick=()=>{openUtility(id);};icons.append(b);});
+    Object.entries(apps).forEach(([id,[glyph,name]])=>{const b=document.createElement('button');b.className='vm-desktop-icon';b.dataset.workspaceApp=id;b.innerHTML=`<span class="vm-icon-glyph">${window.PrempehIcons.html(id)}</span><span>${name}</span>`;b.onclick=()=>{openUtility(id);};icons.append(b);});
     const start=$('#vmStartMenu');start.dataset.enterprise='1';
     start.innerHTML='<div class="workspace-start-head"><strong>PrempehTech · Enterprise Desktop</strong><label>Search applications<input type="search" placeholder="Find an app…"></label></div><div class="workspace-start-apps"></div><div class="workspace-start-foot"><span>Training workspace</span><button data-exit>Exit desktop</button></div>';
     const items=$('.workspace-start-apps',start);
-    const options=[...Object.entries(apps).map(([id,[icon,label]])=>({label,icon,run:()=>openUtility(id)})),...runtime().current.data.apps.map(id=>({label:runtime().APP_DEFS[id].label,icon:runtime().APP_DEFS[id].glyph,run:()=>window.PrempehDesktopLab.openApp(id)}))];
-    const search=()=>{items.replaceChildren();const filtered=options.filter(a=>a.label.toLowerCase().includes($('input',start).value.toLowerCase()));filtered.forEach(a=>{const b=document.createElement('button');b.textContent=`${a.icon}  ${a.label}`;b.onclick=()=>{start.classList.add('hidden');a.run();};items.append(b);});if(!filtered.length)items.textContent='No applications found.';};$('input',start).oninput=search;search();
+    const options=[...Object.entries(apps).map(([id,[icon,label]])=>({id,label,icon,run:()=>openUtility(id)})),...runtime().current.data.apps.map(id=>({id,label:runtime().APP_DEFS[id].label,icon:runtime().APP_DEFS[id].glyph,run:()=>window.PrempehDesktopLab.openApp(id)}))];
+    const search=()=>{items.replaceChildren();const filtered=options.filter(a=>a.label.toLowerCase().includes($('input',start).value.toLowerCase()));filtered.forEach(a=>{const b=document.createElement('button');b.innerHTML=`${window.PrempehIcons.html(a.id)}<span>${escape(a.label)}</span>`;b.onclick=()=>{start.classList.add('hidden');a.run();};items.append(b);});if(!filtered.length)items.textContent='No applications found.';};$('input',start).oninput=search;search();
     $('[data-exit]',start).onclick=()=>window.PrempehDesktopLab.close();
     if(!$('#workspaceStatus')){const status=document.createElement('div');status.id='workspaceStatus';status.setAttribute('role','status');desktop.append(status);}
     if(!desktop.dataset.workspaceBound){

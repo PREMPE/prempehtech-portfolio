@@ -35,3 +35,19 @@
 @media(max-width:800px){.workspace-window[data-utility="netstudio"],.workspace-window[data-utility="serverops"],.workspace-window[data-utility="opsterm"],.workspace-window[data-utility="operations"]{width:calc(100% - 16px);height:calc(100% - 30px)}.pt-os-head{padding:16px;flex-wrap:wrap}.pt-os-layout{grid-template-columns:1fr}.pt-os-layout>nav{display:flex;flex-wrap:wrap;gap:4px;padding:8px;border-right:0;border-bottom:1px solid #c6d8d0}.workspace-window .pt-os-layout>nav button{width:auto;margin:0;padding:8px}.pt-os-nav-note{display:none}.pt-os-content{padding:12px}.pt-os-metrics{grid-template-columns:1fr}.pt-os-metrics article{display:flex;justify-content:space-between;gap:8px}.pt-os-metrics strong{margin:0}.workspace-window .pt-os-device{min-width:62px;max-width:84px;padding:5px!important}.pt-os-device strong{font-size:10px}.pt-os-device small{font-size:9px}.pt-os-topology{height:340px}.pt-os-events li{flex-direction:column;gap:4px}}
 
 .workspace-practice-launch{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:16px;margin-top:16px;background:#e3f0e9;border:1px solid #a9c7b8;border-radius:8px;color:#234c3d}.workspace-practice-launch>div{flex:1;min-width:180px}.workspace-practice-launch span{display:block;font-size:12px;color:#456555;margin-top:4px}
+
+/* Recognizable object icons replace text badges. Artwork stays crisp at any zoom. */
+.pt-app-icon{display:inline-block;object-fit:contain;vertical-align:middle;flex-shrink:0;pointer-events:none;user-select:none}
+.enterprise-workspace .vm-desktop-icon .vm-icon-glyph{width:48px!important;height:48px!important;background:none!important;border:0!important;border-radius:0!important;box-shadow:none!important;overflow:visible}
+.enterprise-workspace .vm-desktop-icon .pt-app-icon{width:48px;height:48px;filter:drop-shadow(0 2px 2px #06182570)}
+.enterprise-workspace .vm-desktop-icons{overflow-x:hidden;box-sizing:border-box}
+.enterprise-workspace .vm-desktop-icon{min-height:90px!important}
+.enterprise-workspace .vm-title-left>.pt-app-icon,.enterprise-workspace .vm-title-icon .pt-app-icon{width:22px;height:22px}
+.enterprise-workspace .vm-title-icon{width:22px;height:22px;background:transparent;border:0;box-shadow:none}
+.enterprise-workspace .vm-task-app{display:flex;align-items:center;justify-content:center;gap:7px;white-space:nowrap}
+.enterprise-workspace .vm-task-app .pt-app-icon{width:24px;height:24px}
+.workspace-start-apps button{display:flex;align-items:center;gap:10px}
+.workspace-start-apps .pt-app-icon{width:32px;height:32px}
+.pt-os-device .pt-app-icon{width:38px;height:38px}
+.pt-os-server-icon .pt-app-icon{width:48px;height:48px}
+@media(max-width:800px){.pt-os-device .pt-app-icon{width:32px;height:32px}}

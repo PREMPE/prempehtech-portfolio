@@ -280,7 +280,7 @@ function renderDesktop(){
 function renderIcons(){
   $("vmDesktopIcons").innerHTML=current.data.apps.map(id=>{
     const a=APP_DEFS[id];return `<button class="vm-desktop-icon" type="button" data-app="${id}">
-      <span class="vm-icon-glyph">${a.glyph}</span><span>${a.label}</span></button>`
+      <span class="vm-icon-glyph">${window.PrempehIcons.html(id)}</span><span>${a.label}</span></button>`
   }).join("");
   document.querySelectorAll("#vmDesktopIcons [data-app]").forEach(b=>b.addEventListener("dblclick",()=>openApp(b.dataset.app)));
   document.querySelectorAll("#vmDesktopIcons [data-app]").forEach(b=>b.addEventListener("click",()=>{clearTimeout(b._t);b._t=setTimeout(()=>openApp(b.dataset.app),220)}));
@@ -288,7 +288,7 @@ function renderIcons(){
 
 function renderStart(){
   $("vmStartMenu").innerHTML=`<div class="vm-start-rail"><span>⚙</span><span>⏻</span></div><div class="vm-start-main"><h4>Applications</h4>${
-    current.data.apps.map(id=>{const a=APP_DEFS[id];return `<div class="vm-start-app" data-start-app="${id}"><span class="vm-icon-glyph">${a.glyph}</span><span>${a.label}</span></div>`}).join("")
+    current.data.apps.map(id=>{const a=APP_DEFS[id];return `<div class="vm-start-app" data-start-app="${id}"><span class="vm-icon-glyph">${window.PrempehIcons.html(id)}</span><span>${a.label}</span></div>`}).join("")
   }</div>`;
   document.querySelectorAll("[data-start-app]").forEach(x=>x.addEventListener("click",()=>{openApp(x.dataset.startApp);$("vmStartMenu").classList.add("hidden")}));
 }
@@ -310,7 +310,7 @@ function openApp(appId){
   win.className="vm-window";win.dataset.app=appId;win.style.zIndex=++z;
   const offset=document.querySelectorAll(".vm-window").length*24;
   win.style.left=(230+offset)+"px";win.style.top=(55+offset)+"px";
-  win.innerHTML=`<div class="vm-titlebar"><div class="vm-title-left"><span class="vm-title-icon">${app.glyph}</span><span>${app.label}</span></div>
+  win.innerHTML=`<div class="vm-titlebar"><div class="vm-title-left"><span class="vm-title-icon">${window.PrempehIcons.html(appId)}</span><span>${app.label}</span></div>
     <div class="vm-window-controls"><button class="vm-min" type="button">—</button><button class="vm-max" type="button">□</button><button class="vm-close" type="button">×</button></div></div>
     <div class="vm-menubar">File Action View Help</div><div class="vm-app-body">${renderAppContent(appId)}</div>`;
   $("vmWindows").appendChild(win);
@@ -327,7 +327,7 @@ function openApp(appId){
 function closeWindow(win){const id=win.dataset.app;win.remove();taskButton(id)?.remove()}
 function focusWindow(win){win.classList.remove("hidden");win.style.zIndex=++z;window.PrempehWorkspace?.focus(win);document.querySelectorAll(".vm-task-app").forEach(b=>b.classList.toggle("active",b.dataset.taskApp===win.dataset.app))}
 function addTaskbarButton(id){
-  const a=APP_DEFS[id],b=document.createElement("button");b.className="vm-task-app active";b.dataset.taskApp=id;b.textContent=a.glyph+" "+a.label;
+  const a=APP_DEFS[id],b=document.createElement("button");b.className="vm-task-app active";b.dataset.taskApp=id;b.innerHTML=window.PrempehIcons.html(id)+"<span>"+a.label+"</span>";
   b.addEventListener("click",()=>{const w=document.querySelector('.vm-window[data-app="'+id+'"]');if(!w)return;if(w.classList.contains("hidden"))focusWindow(w);else if(window.PrempehWorkspace?w.classList.contains("workspace-focused"):Number(w.style.zIndex)===z){w.classList.add("hidden");b.classList.remove("active")}else focusWindow(w)});
   $("vmTaskbarApps").appendChild(b);
 }
