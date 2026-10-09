@@ -322,6 +322,7 @@ function openApp(appId){
   if(window.PrempehWorkspace) window.PrempehWorkspace.manage(win);
   else win.querySelector(".vm-titlebar").addEventListener("mousedown",e=>startDrag(e,win));
   bindApp(win,appId);
+  window.PrempehEnterprise?.prepareWindow?.(win);
 }
 
 function closeWindow(win){const id=win.dataset.app;win.remove();taskButton(id)?.remove()}
@@ -399,6 +400,8 @@ function bindApp(win,appId){
 function validateFormTask(taskId,win){
   const t=current.data.tasks.find(x=>x.id===taskId);if(!t||taskState[taskId])return;
   const values={};Object.keys(t.expected).forEach(k=>{const el=win.querySelector('[data-field="'+taskId+':'+k+'"]');values[k]=el?el.value:""});
+  const blocked=window.PrempehLevelTwo?.block(taskId);
+  if(blocked){const fb=win.querySelector('[data-feedback="'+taskId+'"]');fb.className="vm-task-feedback bad";fb.textContent=blocked;return;}
   const ok=Object.entries(t.expected).every(([k,v])=>norm(values[k])===norm(v));
   const fb=win.querySelector('[data-feedback="'+taskId+'"]');
   if(ok){window.PrempehEnterprise?.beforeValidate?.(taskId,win);taskState[taskId]=true;window.PrempehCloudLab?.validated?.(t,values);fb.className="vm-task-feedback ok";fb.textContent="Configuration accepted. Validation passed.";toast("Task completed: "+t.title,"good");afterTask()}
@@ -429,7 +432,7 @@ function runTerminal(appId,raw,win){
   tasksFor(appId).filter(t=>t.type==="command").forEach(t=>{
     const match=t.required.find(r=>norm(r)===cmd);
     if(match){matched=true;
-      const blocked=window.PrempehEnterprise?.validationBlock?.(t.id,cmd);
+      const blocked=window.PrempehLevelTwo?.block(t.id,cmd)||window.PrempehEnterprise?.validationBlock?.(t.id,cmd);
       if(blocked){out.textContent+='\n'+blocked;return;}
       terminalState[appId].seen[taskIdKey(t.id,match)]=true;out.textContent+="\n"+(t.responses?.[match]||"Command completed successfully.");
       const all=t.required.every(r=>terminalState[appId].seen[taskIdKey(t.id,r)]);

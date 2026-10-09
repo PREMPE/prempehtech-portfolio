@@ -182,7 +182,7 @@ function seedState(){
   services:{W3SVC:{status:"Stopped",startup:"Manual"},Netlogon:{status:"Stopped",startup:"Manual"},Spooler:{status:"Running",startup:"Automatic"},BITS:{status:"Running",startup:"Manual"},DNS:{status:"Running",startup:"Automatic"}},
   users:{jlee:{name:"Jordan Lee",ou:"Users",enabled:true,groups:["Domain Users"]},"legacy-admin":{name:"Legacy Admin",ou:"IT",enabled:true,groups:["Domain Admins"]},"helpdesk-temp":{name:"Helpdesk Temp",ou:"IT",enabled:true,groups:["Domain Admins"]},mcole:{name:"Maya Cole",ou:"Users",enabled:true,groups:["Domain Users"]}},
   gpos:[["Default Domain Policy","corp.local","Enabled"],["Workstation Security Baseline","corp.local","Disabled"],["Password Policy","corp.local","Enabled"]],
-  endpoints:[["CLIENT-12","Healthy","Low","Connected"],["CLIENT-23","Alerted","High","Connected"],["CLIENT-44","Alerted","High","Connected"],["WS-17","Alerted","High","Connected"],["APP-02","Alerted","High","Connected"],["DB-01","Healthy","Low","Connected"],["APP-05","Alerted","High","Connected"]],
+  endpoints:[["CLIENT-12","Healthy","Low","Connected"],["CLIENT-23","Alerted","High","Connected"],["CLIENT-44","Alerted","High","Connected"],["WS-17","Alerted","High","Connected"],["APP-02","Alerted","High","Connected"],["DB-01","Healthy","Low","Connected"],["APP-05","Alerted","High","Connected"],["BR-PC07","Alerted","High","Connected"]],
   routes:[["0.0.0.0/0","172.16.30.1"],["10.40.0.0/16","172.16.254.1"],["10.50.0.0/16","172.16.254.9"],["10.80.0.0/16","172.16.254.9"]],
   notes:{},track,lvl
  };
@@ -199,10 +199,10 @@ function escapeView(value){
  return value;
 }
 function enterpriseContent(id){
- const s=escapeView(sim());
- if(id==="dhcp")return '<div class="pt-console"><div class="pt-tree"><b>DHCP</b><span>▾ DHCP01.corp.local</span><span>　▾ IPv4</span><span class="sel">　　▾ Support Scope [192.168.20.0]</span><span>　　　Address Pool</span><span>　　　Address Leases</span><span>　　　Reservations</span><span>　　　Scope Options</span><span>　Server Options</span></div><div class="pt-work"><h3>Support Scope</h3><div class="pt-tabs">Address Pool　Address Leases　Reservations　Scope Options</div><p><b>Status:</b> '+(s.dhcp.active?"Active":"Inactive")+'</p><table><tr><th>Setting</th><th>Current value</th></tr><tr><td>Address range</td><td>'+s.dhcp.start+' — '+s.dhcp.end+'</td></tr><tr><td>003 Router</td><td>'+s.dhcp.router+'</td></tr><tr><td>006 DNS Servers</td><td>'+s.dhcp.dns+'</td></tr></table><h4>Recent leases</h4><table>'+s.dhcp.leases.map(x=>'<tr><td>'+x[0]+'</td><td>'+x[1]+'</td><td>Active</td></tr>').join('')+'</table><p class="pt-tip">Use the project controls below to change configuration. The console above shows the environment state you are changing.</p></div></div>';
+ const s=escapeView(sim()),branch=current.track==='integrated'&&current.level===2;
+ if(id==="dhcp")return '<div class="pt-console"><div class="pt-tree"><b>DHCP</b><span>▾ DHCP01.corp.local</span><span>　▾ IPv4</span><span class="sel">　　▾ '+(branch?'Branch Scope [10.20.10.0]':'Support Scope [192.168.20.0]')+'</span><span>　　　Address Pool</span><span>　　　Address Leases</span><span>　　　Reservations</span><span>　　　Scope Options</span><span>　Server Options</span></div><div class="pt-work"><h3>'+(branch?'Branch Scope':'Support Scope')+'</h3><div class="pt-tabs">Address Pool　Address Leases　Reservations　Scope Options</div><p><b>Status:</b> '+(s.dhcp.active?"Active":"Inactive")+'</p><table><tr><th>Setting</th><th>Current value</th></tr><tr><td>Address range</td><td>'+s.dhcp.start+' — '+s.dhcp.end+'</td></tr><tr><td>003 Router</td><td>'+s.dhcp.router+'</td></tr><tr><td>006 DNS Servers</td><td>'+s.dhcp.dns+'</td></tr></table><h4>Recent leases</h4><table>'+s.dhcp.leases.map(x=>'<tr><td>'+x[0]+'</td><td>'+x[1]+'</td><td>Active</td></tr>').join('')+'</table><p class="pt-tip">Use the project controls below to change configuration. The console above shows the environment state you are changing.</p></div></div>';
  if(id==="dns")return '<div class="pt-console"><div class="pt-tree"><b>DNS Manager</b><span>▾ DNS01</span><span>　▾ Forward Lookup Zones</span><span class="sel">　　corp.local</span><span>　Reverse Lookup Zones</span><span>　Conditional Forwarders</span></div><div class="pt-work"><h3>corp.local</h3><table><tr><th>Name</th><th>Type</th><th>Data</th></tr>'+Object.entries(s.dns.records).map(([k,v])=>'<tr><td>'+k+'</td><td>Host (A)</td><td>'+v+'</td></tr>').join('')+'</table></div></div>';
- if(id==="services")return '<div class="pt-work"><h3>Services (Local)</h3><table><tr><th>Name</th><th>Description</th><th>Status</th><th>Startup Type</th></tr>'+Object.entries(s.services).map(([k,v])=>'<tr><td>'+k+'</td><td>Windows service</td><td>'+v.status+'</td><td>'+v.startup+'</td></tr>').join('')+'</table></div>';
+ if(id==="services")return '<div class="pt-work"><h3>Services (Local)</h3><table><tr><th>Name</th><th>Description</th><th>Status</th><th>Startup Type</th><th>Recovery</th></tr>'+Object.entries(s.services).map(([k,v])=>'<tr><td>'+k+'</td><td>Windows service</td><td>'+v.status+'</td><td>'+v.startup+'</td><td>'+(v.recovery||'Not configured')+'</td></tr>').join('')+'</table></div>';
  if(id==="aduc")return '<div class="pt-console"><div class="pt-tree"><b>Active Directory Users and Computers</b><span>▾ corp.local</span><span>　Builtin</span><span>　Computers</span><span>　Domain Controllers</span><span class="sel">　Accounting</span><span>　HR</span><span>　IT</span><span>　Users</span></div><div class="pt-work"><h3>Directory Objects</h3><table><tr><th>Name</th><th>OU</th><th>State</th><th>Membership</th></tr>'+Object.entries(s.users).map(([k,v])=>'<tr><td>'+v.name+' ('+k+')</td><td>'+v.ou+'</td><td>'+(v.enabled?"Enabled":"Disabled")+'</td><td>'+v.groups.join(", ")+'</td></tr>').join('')+'</table></div></div>';
  if(id==="gpmc")return '<div class="pt-console"><div class="pt-tree"><b>Group Policy Management</b><span>▾ Forest: corp.local</span><span>　▾ Domains</span><span>　　▾ corp.local</span><span>　　　Accounting</span><span>　　　Engineering</span><span class="sel">　　　Group Policy Objects</span><span>　Group Policy Results</span></div><div class="pt-work"><h3>Group Policy Objects</h3><table><tr><th>GPO</th><th>Linked scope</th><th>Status</th></tr>'+s.gpos.map(x=>'<tr><td>'+x[0]+'</td><td>'+x[1]+'</td><td>'+x[2]+'</td></tr>').join('')+'</table></div></div>';
  if(id==="event")return '<div class="pt-console"><div class="pt-tree"><b>Event Viewer</b><span>Custom Views</span><span>▾ Windows Logs</span><span>　Application</span><span class="sel">　Security</span><span>　Setup</span><span>　System</span><span>Applications and Services Logs</span></div><div class="pt-work"><div class="pt-search"><input data-pt-filter placeholder="Filter Event ID, host, source, details"><button data-pt-filter-btn>Filter</button></div><table data-pt-events><tr><th>ID</th><th>Source</th><th>Level</th><th>Details</th><th>Host</th></tr>'+noiseEvents().map(r=>'<tr>'+r.map(x=>'<td>'+x+'</td>').join('')+'</tr>').join('')+'</table></div></div>';
@@ -226,7 +226,11 @@ function enterpriseContent(id){
 function wireEnterprise(win,id){
  const body=win.querySelector('.vm-app-body');if(!body)return;
  const rich=enterpriseContent(id);if(rich&&id!=="router"){
+  const values=new Map(qa('[data-field]',body).map(e=>[e.dataset.field,e.value]));
+  const feedback=new Map(qa('[data-feedback]',body).map(e=>[e.dataset.feedback,{text:e.textContent,classes:e.className}]));
   const old=win._originalContent||(win._originalContent=body.innerHTML); body.innerHTML=rich+'<div class="pt-project-actions"><h4>Configuration & verification</h4>'+old+'</div>';
+  qa('[data-field]',body).forEach(e=>{if(values.has(e.dataset.field))e.value=values.get(e.dataset.field)});
+  qa('[data-feedback]',body).forEach(e=>{const saved=feedback.get(e.dataset.feedback);if(saved){e.textContent=saved.text;e.className=saved.classes}});
   window.PrempehDesktopLab.bindApp(win,id);
  }
  const filt=win.querySelector('[data-pt-filter]');if(filt)win.querySelector('[data-pt-filter-btn]').onclick=()=>{const q=filt.value.toLowerCase();win.querySelectorAll('[data-pt-events] tr').forEach((r,i)=>{if(i)r.style.display=!q||r.textContent.toLowerCase().includes(q)?"":"none"})};
@@ -242,6 +246,7 @@ function syncEnterpriseState(taskId,win){
  const t=current?.data?.tasks?.find(x=>x.id===taskId);if(!t)return;
  const val=k=>win.querySelector('[data-field="'+taskId+':'+k+'"]')?.value||"";
  const s=sim();
+ if(taskId==="s2recovery")s.services.W3SVC.recovery=val("first")+" after "+val("delay")+" seconds";
  if(t.app==="router"&&val("network")){const prefix=val("network")+"/"+val("mask").split('.').reduce((n,x)=>n+(Number(x).toString(2).match(/1/g)||[]).length,0),r=s.routes.find(r=>r[0]===prefix);if(r)r[1]=val("next");else s.routes.push([prefix,val("next")])}
  if(t.app==="gpmc"&&val("name")){const g=s.gpos.find(g=>g[0]===val("name"));if(g){g[1]=val("ou");g[2]="Enabled"}else s.gpos.push([val("name"),val("ou"),"Enabled"])}
  if(t.app==="endpoint"){const action=val("action").toLowerCase();s.endpoints.forEach(e=>{if(action.includes(e[0].toLowerCase())&&action.includes("isolate"))e[3]="Isolated"})}
@@ -287,6 +292,7 @@ function commandFromState(app,raw){
  return null;
 }
 window.PrempehEnterprise={
+ prepareWindow:win=>{win.dataset.enterpriseWired="1";wireEnterprise(win,win.dataset.app)},
  commandFromState,
  reset:()=>{PT_SIM.state=null},
  validationBlock:(id,cmd)=>{
@@ -295,12 +301,13 @@ window.PrempehEnterprise={
    return deps.some(x=>!taskState[x])?(/nslookup/.test(cmd)?"DNS request failed: name resolution is not repaired yet.":/ping|tracert/.test(cmd)?"Request timed out. The required network repair has not passed validation.":"Verification failed: repair the configuration first, then repeat this check."):null;
  },
  diagnostic:(app,cmd)=>app==='cmd'&&/^(ping|tracert) /.test(cmd)?"Request timed out. Inspect the project addressing, routes and policy before repeating this diagnostic.":null,
- beforeValidate:(taskId,win)=>syncEnterpriseState(taskId,win),
+ beforeValidate:(taskId,win)=>{syncEnterpriseState(taskId,win);if(current.level===2)setTimeout(()=>{if(win.isConnected)wireEnterprise(win,win.dataset.app)},0)},
  prompt:(app)=>{const c=sim().cli?.[app],name=app==='router'?'R1':'SW1';return name+(c?.mode==='config'?'(config)':c?.mode==='interface'?'(config-if)':c?.mode==='vlan'?'(config-vlan)':'')+(c?.mode&&c.mode!=='user'?'#':'>')},
  onCommand:()=>{}
 };
 /* ===== Contextual Procedure Coach ===== */
 function exactProcedure(){
+ if(current.level===2&&window.PrempehLevelTwo)return window.PrempehLevelTwo.procedure();
  const g=guideForCurrent(),apps=(current?.data?.apps||[]),tasks=current?.data?.tasks||[];
  const open=id=>APP_DEFS[id]?.label||id;
  const procedures={
