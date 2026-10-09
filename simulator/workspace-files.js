@@ -67,5 +67,11 @@
     if(!recycle){$('[data-new-folder]',body).onclick=()=>create(body,'folder');$('[data-new-text]',body).onclick=()=>create(body,'text');$('[data-projects]',body).onclick=()=>workspace().openUtility('projects');}
   }
   function render(body,folder='root'){views.set(body,{folder});activeBody=body;draw(body);}
-  window.PrempehFiles={render,newFolder:()=>{const body=$('[data-utility="explorer"] .workspace-body');if(body)create(body,'folder');}};
+  function storeDocument(name,content){
+    let folder=files.find(f=>f.id==='documents'&&!f.deleted)||files.find(f=>f.parent==='root'&&f.name==='Network reports'&&f.type==='folder'&&!f.deleted);
+    if(!folder){folder={id:crypto.randomUUID(),parent:'root',name:'Network reports',type:'folder'};files.push(folder);}
+    let unique=name,index=2;while(duplicate(folder.id,unique))unique=name.replace(/(?:\.txt)?$/,` (${index++}).txt`);
+    files.push({id:crypto.randomUUID(),parent:folder.id,name:unique,type:'text',content});save();refreshViews();
+  }
+  window.PrempehFiles={render,storeDocument,newFolder:()=>{const body=$('[data-utility="explorer"] .workspace-body');if(body)create(body,'folder');}};
 })();

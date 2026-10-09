@@ -185,7 +185,7 @@ function ensureShell(){
   shell.innerHTML=`
     <div class="desktop-lab-toolbar">
       <div class="desktop-lab-toolbar-left">
-        <button class="desktop-back" id="desktopBack" type="button">← Exit Training VM</button>
+        <button class="desktop-back" id="desktopBack" type="button">← Exit desktop</button>
         <div><strong id="desktopMissionTitle">Lab</strong><small id="desktopMissionMeta"></small></div>
       </div>
       <div class="desktop-lab-toolbar-actions">
@@ -195,7 +195,7 @@ function ensureShell(){
     <div class="vm-frame">
       <div class="vm-monitor-bar">
         <div class="vm-monitor-dots"><i></i><i></i><i></i></div>
-        <strong>PrempehTech Training VM</strong>
+        <strong>PrempehTech Enterprise Desktop</strong>
         <div class="vm-monitor-status"><span>LAB-NET</span><span id="vmConnectionStatus">Connected</span></div>
       </div>
       <div class="vm-desktop" id="vmDesktop">
@@ -254,8 +254,8 @@ function openWorkspace(){
   document.body.classList.add("vm-lab-active");
   $("desktopLabShell").classList.add("vm-fullscreen-active");
   $("desktopFullscreen").textContent="Windowed Workspace";
-  $("desktopMissionTitle").textContent="Enterprise Workspace";
-  $("desktopMissionMeta").textContent="CORP training environment · 25 projects";
+  $("desktopMissionTitle").textContent="PrempehTech Enterprise Desktop";
+  $("desktopMissionMeta").textContent="Practice network · 25 projects";
   renderDesktop();
   $("vmMission").classList.add("ticket-minimized");
   $("desktopLabShell").scrollIntoView({block:"start"});

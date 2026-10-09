@@ -5,6 +5,8 @@
   const $$ = (s, root = document) => [...root.querySelectorAll(s)];
   const runtime = () => window.PrempehDesktopLab.getRuntime();
   const apps = {
+    operations: ['◈', 'Operations Center'], netstudio: ['⋈', 'Network Studio'],
+    serverops: ['▥', 'Server Console'], opsterm: ['›_', 'Operations Terminal'],
     projects: ['▦', 'Project Center'], explorer: ['▤', 'File Explorer'],
     notepad: ['▧', 'Notepad'], taskmgr: ['▥', 'Task Manager'],
     control: ['⚙', 'Settings'], edge: ['◎', 'Company Portal'],
@@ -87,6 +89,8 @@
     const win = makeWindow(id); if (!win) return;
     const body = $('.workspace-body',win);
     if (id === 'projects') renderProjects(body);
+    const enterpriseTabs = {operations:'overview', netstudio:'topology', serverops:'servers', opsterm:'terminal'};
+    if (enterpriseTabs[id]) window.PrempehPracticeNetwork.render(body, enterpriseTabs[id]);
     if (id === 'notepad') {
       body.innerHTML = '<div class="workspace-toolbar"><span>Documents / Operations notes.txt</span><button data-export>Download .txt</button></div><label class="workspace-note-label">Operations notes<textarea class="workspace-notes" spellcheck="false" placeholder="Record your diagnosis, changes, and validation results…"></textarea></label><p class="workspace-save-status" role="status">Saved on this browser</p>';
       const note = $('textarea',body); note.value = read('prempeh-workspace-notes','');
@@ -141,7 +145,7 @@
     $$('[data-open]',body).forEach(b=>{if(b.dataset.open)b.onclick=()=>openUtility(b.dataset.open);});
   }
   function renderProjects(body) {
-    body.innerHTML = '<div class="workspace-project-header"><p>IT OPERATIONS / SERVICE DESK</p><h2>Project Center</h2><p>Pick an assignment. Every project opens its own enterprise tools and validation tasks.</p><div class="workspace-filters"><label>Search projects<input type="search" placeholder="Search DNS, cloud, incident…" data-project-search></label><label>Track<select data-project-track><option value="all">All tracks</option>'+tracks.map(t=>`<option value="${t}">${window.PrempehDesktopLab.getTrackLabel(t)}</option>`).join('')+'</select></label></div></div><p data-project-count role="status"></p><div class="workspace-projects"></div>';
+    body.innerHTML = '<div class="workspace-project-header"><p>IT OPERATIONS / SERVICE DESK</p><h2>Project Center</h2><p>Pick an assignment. Every project opens its own enterprise tools and validation tasks.</p><div class="workspace-filters"><label>Search projects<input type="search" placeholder="Search DNS, cloud, incident…" data-project-search></label><label>Track<select data-project-track><option value="all">All tracks</option>'+tracks.map(t=>`<option value="${t}">${window.PrempehDesktopLab.getTrackLabel(t)}</option>`).join('')+'</select></label></div></div><div class="workspace-practice-launch"><div><strong>PrempehTech practice network</strong><span>Build connections, manage services, and troubleshoot a live simulation.</span></div><button data-practice="operations">Operations Center</button><button data-practice="netstudio">Network Studio</button></div><p data-project-count role="status"></p><div class="workspace-projects"></div>';
     const update = () => {
       const query=$('[data-project-search]',body).value.toLowerCase(),track=$('[data-project-track]',body).value;
       const completed=read('prempehtech-simulator-progress-v1',{}).completedLevels || {};let count=0;
@@ -156,6 +160,7 @@
         window.PrempehDesktopLab.launch(b.dataset.project,Number(b.dataset.projectLevel));
       });
     };
+    $$('[data-practice]',body).forEach(b=>b.onclick=()=>openUtility(b.dataset.practice));
     $('[data-project-search]',body).oninput=update;$('[data-project-track]',body).onchange=update;update();
   }
   function calculator(body) {
@@ -209,7 +214,7 @@
     const icons=$('#vmDesktopIcons');
     Object.entries(apps).forEach(([id,[glyph,name]])=>{const b=document.createElement('button');b.className='vm-desktop-icon';b.dataset.workspaceApp=id;b.innerHTML=`<span class="vm-icon-glyph">${glyph}</span><span>${name}</span>`;b.onclick=()=>{openUtility(id);};icons.append(b);});
     const start=$('#vmStartMenu');start.dataset.enterprise='1';
-    start.innerHTML='<div class="workspace-start-head"><strong>CORP · IT Operations</strong><label>Search applications<input type="search" placeholder="Find an app…"></label></div><div class="workspace-start-apps"></div><div class="workspace-start-foot"><span>Training workspace</span><button data-exit>Exit desktop</button></div>';
+    start.innerHTML='<div class="workspace-start-head"><strong>PrempehTech · Enterprise Desktop</strong><label>Search applications<input type="search" placeholder="Find an app…"></label></div><div class="workspace-start-apps"></div><div class="workspace-start-foot"><span>Training workspace</span><button data-exit>Exit desktop</button></div>';
     const items=$('.workspace-start-apps',start);
     const options=[...Object.entries(apps).map(([id,[icon,label]])=>({label,icon,run:()=>openUtility(id)})),...runtime().current.data.apps.map(id=>({label:runtime().APP_DEFS[id].label,icon:runtime().APP_DEFS[id].glyph,run:()=>window.PrempehDesktopLab.openApp(id)}))];
     const search=()=>{items.replaceChildren();const filtered=options.filter(a=>a.label.toLowerCase().includes($('input',start).value.toLowerCase()));filtered.forEach(a=>{const b=document.createElement('button');b.textContent=`${a.icon}  ${a.label}`;b.onclick=()=>{start.classList.add('hidden');a.run();};items.append(b);});if(!filtered.length)items.textContent='No applications found.';};$('input',start).oninput=search;search();
@@ -220,7 +225,7 @@
       desktop.addEventListener('keydown',e=>{if(e.key==='F5'){e.preventDefault();refresh();}if(e.key==='Escape')dismissMenu();if(e.key==='ContextMenu'||e.shiftKey&&e.key==='F10'){const r=e.target.getBoundingClientRect();menu({target:e.target,clientX:r.left+20,clientY:r.top+20,preventDefault:()=>e.preventDefault()});}});
       document.addEventListener('pointerdown',e=>{if(!e.target.closest('#workspaceContext'))dismissMenu();});
     }
-    $('#vmStart').setAttribute('aria-label','Open Start menu');$('#vmStart').onclick=()=>setTimeout(()=>{if(!start.classList.contains('hidden'))$('input',start).focus();},0);
+    $('#vmStart').textContent='PT';$('#vmStart').setAttribute('aria-label','Open Start menu');$('#vmStart').onclick=()=>setTimeout(()=>{if(!start.classList.contains('hidden'))$('input',start).focus();},0);
     applyPrefs();window.PrempehSession?.mount();
   }
   window.PrempehWorkspace={mount,manage,focus,openUtility,refresh,announce,windows,show,showTicket:()=>{windows().forEach(w=>w.classList.remove("workspace-focused"));$("#vmMission").classList.add("workspace-ticket-front");}};

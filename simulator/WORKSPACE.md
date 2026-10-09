@@ -50,3 +50,18 @@ python -m unittest discover -s tests -v
 Set `PLAYWRIGHT_CHROMIUM_EXECUTABLE` to use an existing Chromium executable. Tests start an ephemeral localhost server and isolate browser storage per test. External account calls are blocked; account authentication and cloud sync are outside this suite.
 
 The suite checks all 25 project launches, end-to-end networking lab validation, file persistence/restore, calculator, lock, task manager, window controls, context menus, calendar, preferences, and mobile layout.
+
+
+## PrempehTech enterprise tools
+
+The original PrempehTech desktop uses a teal, graphite, and copper visual design with generic devices. Open **Operations Center**, **Network Studio**, **Server Console**, or **Operations Terminal** from Start or the desktop. Project Center also links to the practice network.
+
+- Operations Center shows actual practice-device health and inventory. Start the office-outage exercise, restore CORE-01 power and the DNS/web services, and validate recovery. Save inventory reports into File Explorer's Documents folder.
+- Network Studio supports adding routers, switches, servers and workstations, dragging devices (or moving them with arrow keys), connecting/disconnecting links, and right-click properties/power/diagnostics. Double-click a device to edit its name and address. The properties dialog rejects duplicate names/IPs and invalid host addresses.
+- Server Console starts and stops DNS and web services. A server must be powered on for a service to operate. DESK-01's DNS setting selects the resolver; the DNS zone automatically tracks device names and the portal's address.
+- Operations Terminal supports `help`, `clear`, `status`, `ipconfig`, `ping`, `lookup`, `trace`, and `fetch`. Example: `fetch portal.prempeh.lab`. Diagnostics use current device power, physical paths, addresses, DNS settings, and service state.
+- Activity records the most recent 60 configuration changes. All open enterprise-tool windows share state and update after changes. Practice configuration persists under `prempeh-enterprise-network-v1`; resetting it requires confirmation and leaves scored projects and documents intact.
+
+This is a local-network simulation with /24 interfaces and DESK-01 as its diagnostic source. Routers and switches forward simulated paths; general routing protocols, packet emulation, real operating systems, and external network access are not implemented. The practice network is independent of the 25 scored projects so experiments cannot corrupt assignment validation. It does not use Cisco assets or Packet Tracer integration.
+
+Browser tests additionally cover DNS/service failures, power and disconnected links, repair validation, configuration errors, topology movement, persistence, report files, and mobile diagnostics.
