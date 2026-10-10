@@ -269,8 +269,8 @@ function commandFromState(app,raw){
    if(cmd==="exit"){c.mode=c.mode==="interface"||c.mode==="vlan"?"config":"exec";return "Exited current configuration mode."}
    if(cmd.startsWith("interface ")){if(c.mode!=="config")return "% Enter configure terminal first.";c.mode="interface";c.iface=cmd.slice(10);return "Configuring "+c.iface}
    if(/^vlan \d+$/.test(cmd)){if(app!=="switch"||!["config","vlan"].includes(c.mode))return "% VLAN commands require switch global configuration mode.";c.mode="vlan";c.vlan=Number(cmd.split(' ')[1]);s.vlans=s.vlans||{};s.vlans[c.vlan]=s.vlans[c.vlan]||"VLAN"+c.vlan;return null}
-   if(cmd.startsWith("name ")){if(c.mode!=="vlan")return "% Select a VLAN first.";s.vlans[c.vlan]=cmd.slice(5).toUpperCase();return null}
-   if(cmd.startsWith("switchport ")){if(app!=="switch"||c.mode!=="interface")return "% Select the switch uplink interface first.";if(cmd==="switchport mode trunk")s.trunk=c.iface;return null}
+   if(cmd.startsWith("name ")){if(c.mode!=="vlan")return "% Select a VLAN first.";s.vlans[c.vlan]=cmd.slice(5).toUpperCase();return current.data.tasks.some(t=>t.required?.includes(cmd))?null:"VLAN "+c.vlan+" named "+s.vlans[c.vlan]}
+   if(cmd.startsWith("switchport ")){if(app!=="switch"||c.mode!=="interface")return "% Select the switch uplink interface first.";if(cmd==="switchport mode trunk")s.trunk=c.iface;if(cmd==="switchport trunk allowed vlan 10,20")s.trunkAllowed="10,20";return null}
    if(cmd.startsWith("ip route ")){
      if(app!=="router"||c.mode!=="config")return "% Static routes require router global configuration mode.";
      const args=cmd.split(/\s+/).slice(2),t=current.data.tasks.find(t=>t.app==="router"&&t.expected?.network);
@@ -287,7 +287,7 @@ function commandFromState(app,raw){
  if(cmd==="show ip route")return "Codes: C - connected, S - static\n"+s.routes.map(x=>"S  "+x[0]+" via "+x[1]).join("\n");
  if(cmd==="show ip interface brief")return "Interface       IP-Address       Status Protocol\nG0/0            172.16.30.1      up     up\nG0/0.10         192.168.10.1     up     up\nG0/0.20         192.168.20.1     up     up\nTunnel0         172.16.254.1     up     up";
  if(cmd==="show vlan brief")return "VLAN Name             Status\n1 default active\n"+Object.entries(s.vlans||{}).map(([v,n])=>v+' '+n+' active').join('\n');
- if(cmd==="show interfaces trunk")return s.trunk?"Port    Mode   Encapsulation Status Native vlan\n"+s.trunk+" on 802.1q trunking 1":"No trunk interfaces configured.";
+ if(cmd==="show interfaces trunk")return s.trunk?"Port    Mode   Encapsulation Status Native vlan\n"+s.trunk+" on 802.1q trunking 1\nAllowed VLANs: "+(s.trunkAllowed||"all"):"No trunk interfaces configured.";
  if(cmd==="show mac address-table")return "Vlan Mac Address       Type       Ports\n10   0050.56aa.1001    DYNAMIC    Gi0/3\n20   0050.56aa.2001    DYNAMIC    Gi0/12";
  if(cmd==="netstat -ano")return "Proto Local Address        Foreign Address       State       PID\nTCP   172.16.20.23:49712    185.20.55.14:443     ESTABLISHED 4312";
  return null;
@@ -307,45 +307,13 @@ window.PrempehEnterprise={
  onCommand:()=>{}
 };
 /* ===== Contextual Procedure Coach ===== */
-function exactProcedure(){
- if(current.data?.curriculumLevel===2)return window.PrempehIntermediate.procedure();
- if(current.level===2&&window.PrempehLevelTwo)return window.PrempehLevelTwo.procedure();
- const g=guideForCurrent(),apps=(current?.data?.apps||[]),tasks=current?.data?.tasks||[];
- const open=id=>APP_DEFS[id]?.label||id;
- const procedures={
- networking:{
- 1:["Click Start, search Network Connections, and open the network adapter settings.","Open Ethernet properties, select Internet Protocol Version 4 (TCP/IPv4), and open Properties.","Enter the assigned IPv4 address, subnet mask, default gateway, and DNS server, then apply the settings.","Open Command Prompt from Start/Search and run ipconfig /all to confirm the adapter configuration.","Run ping 192.168.10.1 to test the default gateway, then ping 10.0.0.10 to test the internal server.","Run nslookup intranet.corp.local and confirm it resolves to 10.0.0.10."],
- 2:["Click Start, search DHCP, and open DHCP Manager.","Expand the DHCP server, expand IPv4, and open the Support scope.","Open Address Pool and inspect the configured start and end addresses.","Open Scope Options and inspect option 003 Router and option 006 DNS Servers; correct values that do not match the project network.","Click Start, search DNS, open DNS Manager, expand Forward Lookup Zones, and open corp.local.","Inspect the files host A record and correct or create it for the required server address.","Return to the client, open Command Prompt, run ipconfig /renew, then run ipconfig /all.","Run nslookup files.corp.local and ping the required destination to verify service."],
- 3:["Open the switch console and run show vlan brief.","Create/verify VLAN 10 and VLAN 20 using the required names.","Run show interfaces trunk and identify the uplink that must carry both VLANs.","Configure the uplink as an 802.1Q trunk and allow the required VLANs.","Open the router console and run show ip interface brief.","Configure the required gateway subinterfaces for VLAN 10 and VLAN 20.","Run ping tests between the required endpoints and recheck VLAN/trunk state."],
- 4:["Open Command Prompt and reproduce the Finance failure with ping and tracert.","Open the router console and run show ip route to confirm the destination route.","Inspect the active access-control policy and locate the rule matching Finance traffic.","Compare source, destination, protocol, and action with the project requirement.","Correct only the responsible ACL entry and apply it.","Repeat tracert and ping to verify the path is restored."],
- 5:["From the branch workstation, run ping and tracert toward the HQ application network.","Open the router console and run show ip route and show ip interface brief.","Identify the incorrect or missing route for the HQ destination and correct its next hop.","Open the firewall/VPN policy and inspect NAT treatment for branch-to-HQ private traffic.","Create or correct the NAT exemption required for VPN traffic.","Repeat tracert and ping, then verify the route table still contains the intended path."]},
- sysadmin:{
- 1:["Click Start, search Active Directory Users and Computers, and open it.","Expand corp.local and open the Accounting organizational unit.","Right-click the correct OU, choose New → User, and create Jordan Lee using the required logon name.","Open Jordan Lee Properties → Member Of → Add and add the required Finance security group.","Open Server Manager/File Services and locate the Finance share permissions.","Grant access through the approved group/role and verify Jordan's effective access."],
- 2:["Click Start, search Event Viewer, and open Windows Logs → System.","Filter/find the service failure event and identify the affected service name.","Click Start, search Services, and open Services.","Locate W3SVC, open Properties, set the required startup type, and start the service.","Open PowerShell and run Get-Service W3SVC.","Confirm Status is Running and compare it with the original event evidence."],
- 3:["Click Start, search Group Policy Management, and open it.","Expand Forest → Domains → corp.local and identify the Accounting OU.","Right-click Group Policy Objects, create the required GPO, then edit it.","Navigate to the appropriate User Configuration preference/policy and configure the Finance F: drive mapping to \\\\FS01\\Finance.","Return to GPMC and link the GPO to the Accounting OU.","On the client, open PowerShell/Command Prompt and run gpupdate /force, then gpresult to verify application."],
- 4:["Open Event Viewer and review System/Directory-related errors on DC02.","Open Services and inspect Netlogon and other required domain services.","Open Netlogon Properties, set the required startup state, and start the service.","Open PowerShell and run the required domain health check such as dcdiag.","Run nltest/domain-controller discovery to verify DC location.","Confirm the error condition no longer reproduces and domain authentication works."],
- 5:["On the affected client, run nslookup dc01.corp.local and record the incorrect result.","Open DNS Manager → Forward Lookup Zones → corp.local.","Locate the dc01 Host (A) record and correct it to the required address.","Open Group Policy Management and verify the required GPO is linked/enabled at the intended OU.","On the client run ipconfig /flushdns, then nslookup again.","Run gpupdate /force and gpresult to verify policy recovery."]},
- cyber:{
- 1:["Open Event Viewer/Security monitoring and locate Event ID 4625 failed logons.","Filter the events by the administrator account and review the source address and timestamps.","Count/compare repeated failures and check nearby successful logons for context.","Record the suspicious source and classify the pattern from the evidence.","Use the available response control to protect the account/source while preserving logs.","Verify the response and record the event IDs, account, source, and reasoning."],
- 2:["Open Start/Search, launch Endpoint Security, and open Devices/Alerts.","Search for CLIENT-23 and open its device page.","Open the process timeline and inspect powershell.exe, its encoded command line, and parent WINWORD.EXE.","Open Event Viewer → Security and find the corresponding process-creation Event 4688.","Compare the endpoint process chain with the Windows event evidence.","Return to CLIENT-23 in Endpoint Security, choose Isolate device, and confirm.","Verify the device Network state changes from Connected to Isolated and record the evidence."],
- 3:["Open the firewall/security console and inspect inbound Remote Desktop rules.","Locate TCP 3389 exposure and restrict the source to the approved management subnet.","Open Active Directory Users and Computers and locate legacy-admin.","Open the account properties and disable the stale privileged account.","Open Event Viewer/Security and verify the account-disable audit event.","Test/verify that approved management access remains permitted while other sources are denied."],
- 4:["Open the SIEM and search for CLIENT-44 authentication activity.","Refine the search around the incident time and identify failed/successful logons.","Search CLIENT-44 process telemetry for powershell.exe and inspect its command line.","Search network/Sysmon telemetry for outbound connections from CLIENT-44.","Correlate the timestamps into one incident timeline.","Open Endpoint Security, locate CLIENT-44, isolate it, and verify isolation.","Record the authentication, process, and network evidence used for containment."],
- 5:["Open the SIEM and search WS-17, APP-02, and DB-01 across the incident window.","Identify Type 3 network logons and the account used between systems.","Search APP-02 for service-creation Event 7045 and inspect the service details.","Search network telemetry for APP-02 connections to DB-01 on SMB/445.","Build the order WS-17 → APP-02 → DB-01 and distinguish confirmed compromise from contact.","Contain the abused account and confirmed affected endpoints using the available identity/EDR controls.","Verify containment states and document origin, pivot, account, affected systems, and preserved evidence."]},
- integrated:{
- 1:["Open Network Connections and correct the Finance workstation's IPv4/gateway settings.","Open Command Prompt and verify gateway and Finance-server reachability.","Open Active Directory Users and Computers and grant the employee the required Finance group membership.","Verify Finance resource access using the corrected identity/network state.","Open security logs and investigate the administrator failed-logon source.","Apply the required response, then verify both business access and security state."],
- 2:["Open DHCP Manager, create/correct the branch scope, and configure router/DNS scope options.","On the branch client run ipconfig /renew and verify the lease.","Open Active Directory Users and Computers and create the approved branch employee in the correct OU/group.","Open Endpoint Security and find the suspicious email-launched PowerShell alert.","Inspect the process chain, corroborate evidence, and isolate the endpoint if justified.","Verify branch addressing, user access, and endpoint containment."],
- 3:["Open the switch/router tools and create/configure VLAN 30 for Engineering.","Verify VLAN/trunk/gateway state using the relevant show commands.","Open Group Policy Management, create/configure the Engineering policy, and link it to the Engineering OU.","Refresh policy on an Engineering client and verify application.","Open the firewall console and create the narrow HTTPS/443 application rule required by Engineering.","Test the permitted application flow and confirm unrelated traffic was not broadly allowed."],
- 4:["Open Event Viewer and identify the production service failure on the affected server.","Open Services, restore the failed service, and verify it from PowerShell.","Open the SIEM and investigate the suspicious authentication source independently of the outage.","Correlate account, host, source, and time before deciding containment.","Use Endpoint Security/identity controls to contain the confirmed threat.","Verify production remains available after containment and document both workstreams."],
- 5:["Open Command Prompt/router tools and reproduce the application-site network failure.","Inspect the route table, correct the responsible route, and verify connectivity.","Open Active Directory Users and Computers/Security logs and investigate the unauthorized Domain Admin membership.","Remove the unauthorized membership or disable the abused identity while preserving evidence.","Open the SIEM and scope APP-05 encoded PowerShell and outbound network activity.","Open Endpoint Security and contain confirmed affected systems.","Retest business connectivity and document routing root cause, privilege change, PowerShell evidence, containment, and verification."]}
- };
- const steps=procedures[current?.track]?.[Number(current?.level)]||g.steps;return current.track==='integrated'?[...steps,...window.PrempehCloudLab.guide()]:steps;
-}
+function exactProcedure(){return window.PrempehWalkthrough.steps().map(step=>step.text)}
 function procedureProgress(){
  const p=exactProcedure(),key="coach:"+current.track+":"+current.level;
  const manual=Number(sim().notes[key]);
  if(Number.isFinite(manual)&&manual>=0)return Math.min(p.length-1,manual);
- const done=Object.values(taskState||{}).filter(Boolean).length,total=Math.max(1,Object.keys(taskState||{}).length);
- return Math.min(p.length-1,Math.floor(done/total*p.length));
+ const next=window.PrempehWalkthrough.steps().findIndex(step=>step.taskId&&!taskState[step.taskId]);
+ return next<0?p.length-1:next;
 }
 function setProcedureProgress(n){
  const p=exactProcedure(),key="coach:"+current.track+":"+current.level;
@@ -353,44 +321,13 @@ function setProcedureProgress(n){
  const m=q("#vmMission");if(m){m.dataset.procedureCoach="";installProcedureCoach()}
 }
 function procedureHint(step){
- const p=exactProcedure(),txt=p[step]||p[0],low=txt.toLowerCase();
- if(low.includes("dhcp"))return "You are working on DHCP. Use Start/Search to find DHCP Manager, then work down the server → IPv4 → scope tree. Inspect before changing anything.";
- if(low.includes("dns")||low.includes("nslookup"))return "This step is about name resolution. DNS Manager changes records; nslookup tests what DNS actually returns.";
- if(low.includes("event"))return "Use Event Viewer filtering or Find. Event ID, host, account, source and timestamp are usually faster than reading every row.";
- if(low.includes("endpoint")||low.includes("isolate"))return "Open the device itself before taking action. Review its process/network evidence, then use the device action to isolate it.";
- if(low.includes("active directory")||low.includes("account")||low.includes("user"))return "Use Active Directory Users and Computers. Navigate the domain/OU tree first, then open the specific object or create it in the correct OU.";
- if(low.includes("group policy")||low.includes("gpo")||low.includes("gpupdate"))return "Use Group Policy Management for configuration/linking and gpupdate/gpresult on the client for verification.";
- if(low.includes("route")||low.includes("tracert")||low.includes("vlan")||low.includes("trunk"))return "Use the CLI to inspect current network state before configuring it. Show/display commands are safe investigation tools.";
- if(low.includes("command prompt")||low.includes("powershell")||low.includes("run "))return "Open the requested terminal from Start/Search and type the command exactly. Read the output before moving on.";
- return "Complete only this current procedure step. Use Start/Search to locate the named Windows or network tool, inspect the current state, then perform the stated action.";
+ const instruction=window.PrempehWalkthrough.steps()[step];
+ return instruction?.text||'Return to the project ticket and select the current instruction.';
 }
 function showMeText(step){
- if(current.data?.curriculumLevel===2){
-   const task=current.data.tasks[step]||current.data.tasks[0];
-   const reference=task.type==='command'?task.required.join('<br>'):Object.entries(task.expected).map(([k,v])=>k+': '+v).join('<br>');
-   return '<b>Guided reference — '+task.title+'</b><br>'+reference+'<br><br>'+(task.why||'Run this check after its prerequisite changes; confirm recovery and protected boundaries before handover.');
- }
- const p=exactProcedure(),txt=p[step]||p[0];
- if(current.track==='cloud'||(current.track==='integrated'&&/AWS|CloudShell/.test(txt))){const task=current.data.tasks.find(t=>txt.includes(t.title));return '<b>Exact procedure</b><br>'+txt+'<br><br><b>Why it matters</b><br>'+(task?.why||'Use the cloud service API output to independently verify the resource configuration. Configuration and validation are both required.');}
- const low=txt.toLowerCase();
- const explanations=[
-  [/show ip route|next hop|static route/,"Inspect destination prefixes and next hops. A route to the wrong next hop can send HQ traffic down the wrong path. Run enable, configure terminal, then ip route NETWORK MASK NEXT-HOP. Finish with end and show ip route."],
-  [/interface brief/,"Compare IP addresses and status/protocol for every required interface. A down link prevents forwarding even when the route is correct."],
-  [/nat|vpn/,"VPN traffic must retain private source and destination addresses where the approved tunnel policy requires NAT exemption. Configure this on the network firewall, then retest the HQ path."],
-  [/ping|tracert/,"Ping tests reachability; tracert locates routed hops. Test before and after repair and compare the failing hop. A timeout alone does not identify the fault."],
-  [/dns|nslookup/,"DNS maps service names to addresses. Compare the record with the network design; then use nslookup to confirm the client receives the intended answer."],
-  [/vlan|trunk/,"Create the VLAN in switch configuration mode. Select the uplink interface before switchport mode trunk. Verify VLAN and trunk state before testing between networks."],
-  [/7045|service.creation/,"Event 7045 records service installation. Correlate host, time and service details with network logons; service creation alone does not prove malicious activity."],
-  [/4624|type 3|smb|445|timeline|siem/,"Correlate timestamps, hosts and the account. Type 3 is a network logon; SMB/445 traffic and service installation help establish the movement sequence. Distinguish observed contact from confirmed compromise."],
-  [/contain|isolate|endpoint/,"Contain confirmed affected systems and abused identities while retaining logs and telemetry. Confirm isolation state and record the evidence that justified the action."],
-  [/policy|gpo|gpupdate|gpresult/,"Link the policy to the intended OU, refresh it on the client, then inspect gpresult. A policy existing in the console does not prove it applied."],
-  [/service/,"Inspect service state and startup type, repair the intended service, and query it again. Preserve related event evidence to explain the outage."],
-  [/account|directory|privileg/,"Verify the object and least-privilege requirement before changing access. Record the identity, membership change and supporting audit evidence."]
- ];
- const why=explanations.find(([pattern])=>pattern.test(low))?.[1]||guidanceFor(txt);
- const task=current.data.tasks[Math.min(current.data.tasks.length-1,Math.floor(step/p.length*current.data.tasks.length))];
- const config=task?.expected?'<br><br><b>Guided reference — '+task.title+'</b><br>'+Object.entries(task.expected).map(([k,v])=>k+': '+v).join('<br>'):'';
- return '<b>Exact procedure</b><br>'+txt+'<br><br><b>What to inspect and why</b><br>'+why+config;
+ const instruction=window.PrempehWalkthrough.steps()[step];
+ const task=current.data.tasks.find(t=>t.id===instruction?.taskId);
+ return '<b>Exact action</b><br>'+(instruction?.text||'Project complete.')+'<br><br><b>Why this task matters</b><br>'+(task?.why||'Complete the displayed action, then verify the task feedback before continuing.');
 }
 function installProcedureCoach(){
  const m=q("#vmMission");if(!m)return;
@@ -402,10 +339,11 @@ function installProcedureCoach(){
  m.dataset.procedureCoach=key;
  const steps=exactProcedure(),idx=procedureProgress(),mode=sim().learningMode||'guided';
  guide.innerHTML='<label class="pt-mode">Learning mode<select data-learning-mode><option value="challenge">Challenge</option><option value="hint">Hints</option><option value="guided">Guided / Show Me</option><option value="free">Free Lab</option></select></label><div class="enterprise-guide-tabs"><button class="active" data-pane="procedure">Procedure</button><button data-pane="hint">Hint</button><button data-pane="showme">Show Me / Explain</button><button data-pane="notes">Notes</button></div>'+
- '<div class="enterprise-guide-pane" data-guide-pane="procedure"><p>Instruction navigation does not complete tasks. Project progress changes only after validation.</p><div style="padding:8px;background:#eaf4fb;border-left:4px solid #0877b9;margin-bottom:8px"><b>CURRENT STEP '+(idx+1)+' OF '+steps.length+'</b><br>'+steps[idx]+'<div style="display:flex;gap:6px;margin-top:9px"><button class="vm-native-btn" data-coach-prev '+(idx===0?'disabled':'')+'>← Previous</button><button class="vm-native-btn primary" data-coach-next '+(idx===steps.length-1?'disabled':'')+'>Next instruction →</button></div></div><ol>'+steps.map((x,i)=>'<li style="'+(i===idx?'font-weight:700;background:#eef7ff;padding:5px':'')+'">'+x+'</li>').join("")+'</ol></div>'+
+ '<div class="enterprise-guide-pane" data-guide-pane="procedure"><p>Instruction navigation does not complete tasks. Project progress changes only after validation.</p><div style="padding:8px;background:#eaf4fb;border-left:4px solid #0877b9;margin-bottom:8px"><b>CURRENT STEP '+(idx+1)+' OF '+steps.length+'</b><br>'+steps[idx]+'<p><button class="vm-native-btn" data-coach-show>Show this control</button></p><div style="display:flex;gap:6px;margin-top:9px"><button class="vm-native-btn" data-coach-prev '+(idx===0?'disabled':'')+'>← Previous</button><button class="vm-native-btn primary" data-coach-next '+(idx===steps.length-1?'disabled':'')+'>Next instruction →</button></div></div><ol>'+steps.map((x,i)=>'<li style="'+(i===idx?'font-weight:700;background:#eef7ff;padding:5px':'')+'">'+x+'</li>').join("")+'</ol></div>'+
  '<div class="enterprise-guide-pane" data-guide-pane="hint" hidden><div class="enterprise-hint"><b>Hint for Step '+(idx+1)+'</b><br>'+procedureHint(idx)+'</div></div>'+
  '<div class="enterprise-guide-pane" data-guide-pane="showme" hidden><div class="enterprise-hint">'+showMeText(idx)+'</div></div>'+
  '<div class="enterprise-guide-pane" data-guide-pane="notes" hidden><label><b>Root cause / finding</b><textarea style="width:100%;height:55px"></textarea></label><label><b>Changes / response</b><textarea style="width:100%;height:55px"></textarea></label><label><b>Verification / evidence</b><textarea style="width:100%;height:55px"></textarea></label></div>';
+ q('[data-coach-show]',guide).onclick=()=>window.PrempehWalkthrough.show(idx);
  const picker=q('[data-learning-mode]',guide);picker.value=mode;
  const applyMode=()=>{const chosen=picker.value;sim().learningMode=chosen;qa('[data-pane]',guide).forEach(b=>b.hidden=(chosen==='challenge'||chosen==='free')&&b.dataset.pane!=='notes'||chosen==='hint'&&b.dataset.pane==='showme');qa('[data-guide-pane]',guide).forEach(p=>p.hidden=true);const pane=chosen==='challenge'||chosen==='free'?'notes':chosen==='hint'?'hint':'procedure';q('[data-guide-pane="'+pane+'"]',guide).hidden=false;qa('[data-pane]',guide).forEach(b=>b.classList.toggle('active',b.dataset.pane===pane))};picker.onchange=applyMode;applyMode();
  const fields=qa('textarea',guide);fields.forEach((field,i)=>{const k='note:'+current.track+':'+current.level+':'+i;field.value=sim().notes[k]||'';field.oninput=()=>sim().notes[k]=field.value});

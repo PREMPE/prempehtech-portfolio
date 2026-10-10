@@ -65,3 +65,13 @@ The original PrempehTech desktop uses a teal, graphite, and copper visual design
 This is a local-network simulation with /24 interfaces and DESK-01 as its diagnostic source. Routers and switches forward simulated paths; general routing protocols, packet emulation, real operating systems, and external network access are not implemented. The practice network is independent of the 50 scored projects so experiments cannot corrupt assignment validation. It does not use Cisco assets or Packet Tracer integration.
 
 Browser tests additionally cover DNS/service failures, power and disconnected links, repair validation, configuration errors, topology movement, persistence, report files, and mobile diagnostics.
+
+## Action-by-action project walkthroughs
+
+The Procedure tab now derives instructions from each assignment's real field labels, dropdown choices, console commands and validation controls. Each walkthrough starts with PT Start → search → the named application, opens the assigned cloud service tab where relevant, spells out each field value or command, and finishes with validation and completion. Instructions describe controls available in this simulator; they do not invent operating-system property dialogs or context menus.
+
+`Show this control` opens the relevant application and locates/focuses the field, dropdown, Apply button or terminal input. It never fills answers or validates tasks. Instruction navigation likewise does not earn completion. Show Me / Explain presents the current exact action with its task explanation.
+
+The Level 1 Networking Lab 3 walkthrough includes privileged/configuration modes, VLAN 10 USERS and VLAN 20 SERVERS, interface gi0/24, trunk mode and allowed VLANs 10,20, exit/end transitions, show commands, all four router form values, and the client ping. VLAN names and the allowed list are now required by that task's validation.
+
+`tests/test_walkthrough.py` follows the generated actionable instructions through real UI controls for all 50 labs. It also checks the VLAN command sequence, control-location behavior, no automatic answers/completion, and replay navigation reset.
