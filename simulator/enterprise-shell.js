@@ -365,6 +365,11 @@ function procedureHint(step){
  return "Complete only this current procedure step. Use Start/Search to locate the named Windows or network tool, inspect the current state, then perform the stated action.";
 }
 function showMeText(step){
+ if(current.data?.curriculumLevel===2){
+   const task=current.data.tasks[step]||current.data.tasks[0];
+   const reference=task.type==='command'?task.required.join('<br>'):Object.entries(task.expected).map(([k,v])=>k+': '+v).join('<br>');
+   return '<b>Guided reference — '+task.title+'</b><br>'+reference+'<br><br>'+(task.why||'Run this check after its prerequisite changes; confirm recovery and protected boundaries before handover.');
+ }
  const p=exactProcedure(),txt=p[step]||p[0];
  if(current.track==='cloud'||(current.track==='integrated'&&/AWS|CloudShell/.test(txt))){const task=current.data.tasks.find(t=>txt.includes(t.title));return '<b>Exact procedure</b><br>'+txt+'<br><br><b>Why it matters</b><br>'+(task?.why||'Use the cloud service API output to independently verify the resource configuration. Configuration and validation are both required.');}
  const low=txt.toLowerCase();

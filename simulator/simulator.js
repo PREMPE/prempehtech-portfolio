@@ -213,18 +213,19 @@
   }
 
   let selectedLevel = 1;
-  const selectedProject=()=>selectedLevel===2?6:Number($("foundationAssignment").value||1);
-  $("foundationAssignment").addEventListener("change",()=>setDifficultyLevel(1));
+  const selectedProject=()=>Number($("foundationAssignment").value||(selectedLevel===2?6:1));
+  $("foundationAssignment").addEventListener("change",()=>setDifficultyLevel(selectedLevel));
 
   function setDifficultyLevel(level) {
     const value = Number(level);
     const trackConfig = difficultyLevels[activeTrack] || difficultyLevels.networking;
-    const projectId=value===2?6:Number($("foundationAssignment").value||1);
-    const entries=window.PrempehDesktopLab.getCatalog().filter(x=>x.track===activeTrack&&x.level===1);
-    $("foundationAssignment").innerHTML=entries.map(x=>`<option value="${x.id}">Lab ${x.id} · ${x.data.title}</option>`).join('');
-    $("foundationAssignment").value=String(projectId===6?1:projectId);
-    $("foundationPicker").hidden=value===2;
-    const data={label:"LEVEL "+value+(value===1?" · FOUNDATIONS":" · INTERMEDIATE"),title:value===1?"Level 1 — all current labs":"Level 2 — intermediate operations",description:value===1?"All five original assignments in this track are preserved. Choose an assignment below or browse Project Center.":"Investigate evidence, make controlled changes, verify recovery, and document the handover.",topics:value===1?["Five preserved assignments","Saved progress retained"]:["Evidence correlation","Change control","Recovery checks","Handover"]};
+    let projectId=Number($("foundationAssignment").value||1);
+    const entries=window.PrempehDesktopLab.getCatalog().filter(x=>x.track===activeTrack&&x.level===value);
+    if(!entries.some(x=>x.id===projectId))projectId=entries[0].id;
+    $("foundationAssignment").innerHTML=entries.map((x,i)=>`<option value="${x.id}">Lab ${i+1} · ${x.data.title}</option>`).join('');
+    $("foundationAssignment").value=String(projectId);
+    $("assignmentLabel").textContent="Level "+value+" assignment";
+    const data={label:"LEVEL "+value+(value===1?" · FOUNDATIONS":" · INTERMEDIATE"),title:value===1?"Level 1 — all current labs":"Level 2 — intermediate operations",description:value===1?"All five original assignments in this track are preserved. Choose an assignment below or browse Project Center.":"Choose one of five intermediate assignments. Investigate evidence, make controlled changes, verify recovery, and document the handover.",topics:value===1?["Five preserved assignments","Saved progress retained"]:["Evidence correlation","Change control","Recovery checks","Handover"]};
     selectedLevel = value;
 
     $$(".level-btn").forEach((btn) => {
@@ -298,7 +299,7 @@
     const completedCount = Object.keys(completedLevels).filter((k) => completedLevels[k]).length;
     $("xpValue").textContent = progress.xp;
     $("completedValue").textContent = completedCount;
-    $("progressFill").style.width = Math.min(100, (completedCount / (Object.keys(difficultyLevels).length * 6)) * 100) + "%";
+    $("progressFill").style.width = Math.min(100, (completedCount / (Object.keys(difficultyLevels).length * 10)) * 100) + "%";
     $("rankValue").textContent =
       completedCount === 0 ? "Foundation" :
       completedCount < 5 ? "Junior Technician" :
@@ -308,9 +309,9 @@
     ["networking", "sysadmin", "cyber", "cloud", "integrated"].forEach((key) => {
       const badge = document.querySelector('[data-complete-badge="' + key + '"]');
       if (!badge) return;
-      const count = [1,2,3,4,5,6].filter((level) => completedLevels[key + ":" + level]).length;
-      badge.textContent = count === 6 ? "6/6 completed ✓" : count + "/6 completed";
-      badge.classList.toggle("done", count === 6);
+      const count = [1,2,3,4,5,6,7,8,9,10].filter((level) => completedLevels[key + ":" + level]).length;
+      badge.textContent = count === 10 ? "10/10 completed ✓" : count + "/10 completed";
+      badge.classList.toggle("done", count === 10);
     });
 
     $("continueBtn").textContent = "Choose a Lab";
@@ -868,8 +869,8 @@
     const key = track + ":" + level;
     const firstCompletion = !progress.completedLevels[key];
     progress.completedLevels[key] = true;
-    const trackCount = [1,2,3,4,5,6].filter((n) => progress.completedLevels[track + ":" + n]).length;
-    progress.completed[track] = trackCount === 6;
+    const trackCount = [1,2,3,4,5,6,7,8,9,10].filter((n) => progress.completedLevels[track + ":" + n]).length;
+    progress.completed[track] = trackCount === 10;
     if (firstCompletion) progress.xp += Number(detail.score) || 100;
     saveProgress();
     updateProgressUI();

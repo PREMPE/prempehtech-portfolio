@@ -105,7 +105,7 @@
       $('[data-refresh]',body).onclick = () => announce('File Explorer refreshed. Your notes and lab state are unchanged.');
     }
     if (id === 'edge') {
-      body.innerHTML = '<div class="workspace-toolbar"><span>◎ intranet.corp.local / IT Operations</span><button data-refresh>↻ Refresh</button></div><h2>CORP IT Operations</h2><p class="workspace-subtitle">Enterprise training portal</p><div class="workspace-tiles"><button data-open="projects">Service desk<br>30 project tickets</button><button data-open="notepad">Knowledge base<br>Operations notes</button><a href="/" target="_blank" rel="noopener">PrempehTech portfolio ↗</a><a href="/youtube-videos/" target="_blank" rel="noopener">Training videos ↗</a></div><p data-context></p>';
+      body.innerHTML = '<div class="workspace-toolbar"><span>◎ intranet.corp.local / IT Operations</span><button data-refresh>↻ Refresh</button></div><h2>CORP IT Operations</h2><p class="workspace-subtitle">Enterprise training portal</p><div class="workspace-tiles"><button data-open="projects">Service desk<br>50 project tickets</button><button data-open="notepad">Knowledge base<br>Operations notes</button><a href="/" target="_blank" rel="noopener">PrempehTech portfolio ↗</a><a href="/youtube-videos/" target="_blank" rel="noopener">Training videos ↗</a></div><p data-context></p>';
       const update = () => { $('[data-context]',body).textContent = runtime().current.level ? `Current assignment: ${runtime().current.data.title}` : 'No project selected. Open Project Center to begin.'; };
       $('[data-refresh]',body).onclick=update;update();
     }
@@ -141,7 +141,7 @@
       };$('[data-refresh]',body).onclick=update;update();
     }
     if (id === 'calc') calculator(body);
-    if (id === 'system') body.innerHTML=`<h2>CORP Training Workstation</h2><p>Browser-based enterprise simulation</p><dl><dt>Workspace</dt><dd>PrempehTech Enterprise Desktop</dd><dt>Project catalogue</dt><dd>30 assignments across 5 tracks: 25 Level 1 and 5 Level 2</dd><dt>Current assignment</dt><dd>${escape(runtime().current.data.title)}</dd><dt>Storage</dt><dd>Local browser storage for files, notes and completed progress</dd><dt>Window shortcuts</dt><dd>Alt + arrow keys on a title bar: snap, maximize or restore</dd><dt>Desktop shortcuts</dt><dd>F5: refresh · Ctrl + Alt + P: projects · Ctrl + Alt + L: lock</dd></dl>`;
+    if (id === 'system') body.innerHTML=`<h2>CORP Training Workstation</h2><p>Browser-based enterprise simulation</p><dl><dt>Workspace</dt><dd>PrempehTech Enterprise Desktop</dd><dt>Project catalogue</dt><dd>50 assignments across 5 tracks: 25 Level 1 and 25 Level 2</dd><dt>Current assignment</dt><dd>${escape(runtime().current.data.title)}</dd><dt>Storage</dt><dd>Local browser storage for files, notes and completed progress</dd><dt>Window shortcuts</dt><dd>Alt + arrow keys on a title bar: snap, maximize or restore</dd><dt>Desktop shortcuts</dt><dd>F5: refresh · Ctrl + Alt + P: projects · Ctrl + Alt + L: lock</dd></dl>`;
     if (id === 'recycle' && window.PrempehFiles) window.PrempehFiles.render(body, 'recycle');
     else if (id === 'recycle') body.innerHTML='<h2>Recycle Bin</h2><p>The Recycle Bin is empty. Project records cannot be deleted from this workspace.</p>';
     $$('[data-open]',body).forEach(b=>{if(b.dataset.open)b.onclick=()=>openUtility(b.dataset.open);});
@@ -154,7 +154,7 @@
       $('.workspace-projects',body).innerHTML=window.PrempehDesktopLab.getCatalog().map(({track:t,id:level,level:tier,data:s})=>{
         if($('[data-project-tier]',body).value!=='all'&&Number($('[data-project-tier]',body).value)!==tier)return '';
         if(track!=='all'&&track!==t || !`${s.title} ${s.tags.join(' ')} ${s.ticket}`.toLowerCase().includes(query))return '';
-        count++;return `<article><span>${window.PrempehDesktopLab.getTrackLabel(t)} · Level ${tier} · ${tier===1?"Lab "+level:"Intermediate"}</span><h3>${escape(s.title)}</h3><p>${escape(s.role)}</p><small>${s.tasks.length} validation tasks · ${completed[`${t}:${level}`]?'Completed ✓':'Available'}</small><button data-project="${t}" data-project-level="${level}">Open project →</button></article>`;
+        count++;return `<article><span>${window.PrempehDesktopLab.getTrackLabel(t)} · Level ${tier} · ${tier===1?"Lab "+level:"Intermediate · Lab "+(level-5)}</span><h3>${escape(s.title)}</h3><p>${escape(s.role)}</p><small>${s.tasks.length} validation tasks · ${completed[`${t}:${level}`]?'Completed ✓':'Available'}</small><button data-project="${t}" data-project-level="${level}">Open project →</button></article>`;
       }).join('');
       $('[data-project-count]',body).textContent=`${count} project${count===1?'':'s'}${count?'':' — try another search'}`;
       $$('[data-project]',body).forEach(b=>b.onclick=()=>{

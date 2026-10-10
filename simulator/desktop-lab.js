@@ -255,7 +255,7 @@ function openWorkspace(){
   $("desktopLabShell").classList.add("vm-fullscreen-active");
   $("desktopFullscreen").textContent="Windowed Workspace";
   $("desktopMissionTitle").textContent="PrempehTech Enterprise Desktop";
-  $("desktopMissionMeta").textContent="Practice network · 30 projects";
+  $("desktopMissionMeta").textContent="Practice network · 50 projects";
   renderDesktop();
   $("vmMission").classList.add("ticket-minimized");
   $("desktopLabShell").scrollIntoView({block:"start"});

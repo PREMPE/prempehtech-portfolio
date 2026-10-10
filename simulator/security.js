@@ -8,7 +8,7 @@
     const completed={},completedLevels={};
     for(const track of tracks){
       if(object(v.completed)&&v.completed[track]===true)completed[track]=true;
-      for(let level=1;level<=6;level++){const key=`${track}:${level}`;if(object(v.completedLevels)&&v.completedLevels[key]===true)completedLevels[key]=true;}
+      for(let level=1;level<=10;level++){const key=`${track}:${level}`;if(object(v.completedLevels)&&v.completedLevels[key]===true)completedLevels[key]=true;}
     }
     const xp=typeof v.xp==='number'&&Number.isFinite(v.xp)?Math.min(1000000,Math.max(0,Math.floor(v.xp))):0;
     return {completed,completedLevels,xp};

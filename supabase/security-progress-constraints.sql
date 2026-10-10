@@ -6,10 +6,10 @@ do $$
 begin
   if not exists (
     select 1 from pg_constraint
-    where conname = 'simulator_progress_shape_v2'
+    where conname = 'simulator_progress_shape_v3'
       and conrelid = 'public.simulator_progress'::regclass
   ) then
-    alter table public.simulator_progress add constraint simulator_progress_shape_v2 check (
+    alter table public.simulator_progress add constraint simulator_progress_shape_v3 check (
       jsonb_typeof(progress) = 'object'
       and octet_length(progress::text) <= 16384
       and progress - array['completed','completedLevels','xp'] = '{}'::jsonb
@@ -25,11 +25,11 @@ begin
       and (not (progress ? 'completedLevels') or (
         jsonb_typeof(progress->'completedLevels') = 'object'
         and (progress->'completedLevels') - array[
-          'networking:1','networking:2','networking:3','networking:4','networking:5','networking:6',
-          'sysadmin:1','sysadmin:2','sysadmin:3','sysadmin:4','sysadmin:5','sysadmin:6',
-          'cyber:1','cyber:2','cyber:3','cyber:4','cyber:5','cyber:6',
-          'cloud:1','cloud:2','cloud:3','cloud:4','cloud:5','cloud:6',
-          'integrated:1','integrated:2','integrated:3','integrated:4','integrated:5','integrated:6'
+          'networking:1','networking:2','networking:3','networking:4','networking:5','networking:6','networking:7','networking:8','networking:9','networking:10',
+          'sysadmin:1','sysadmin:2','sysadmin:3','sysadmin:4','sysadmin:5','sysadmin:6','sysadmin:7','sysadmin:8','sysadmin:9','sysadmin:10',
+          'cyber:1','cyber:2','cyber:3','cyber:4','cyber:5','cyber:6','cyber:7','cyber:8','cyber:9','cyber:10',
+          'cloud:1','cloud:2','cloud:3','cloud:4','cloud:5','cloud:6','cloud:7','cloud:8','cloud:9','cloud:10',
+          'integrated:1','integrated:2','integrated:3','integrated:4','integrated:5','integrated:6','integrated:7','integrated:8','integrated:9','integrated:10'
         ] = '{}'::jsonb
         and not jsonb_path_exists(progress, '$.completedLevels.* ? (@.type() != "boolean")')
       ))
@@ -37,8 +37,9 @@ begin
   end if;
   -- Replace the earlier optional allowlist only after the expanded constraint exists.
   alter table public.simulator_progress drop constraint if exists simulator_progress_shape;
+  alter table public.simulator_progress drop constraint if exists simulator_progress_shape_v2;
 end;
 $$;
 commit;
 -- After reviewing/remediating any incompatible old rows:
--- alter table public.simulator_progress validate constraint simulator_progress_shape_v2;
+-- alter table public.simulator_progress validate constraint simulator_progress_shape_v3;

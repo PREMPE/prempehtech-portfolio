@@ -4,7 +4,7 @@ Open **Enterprise Desktop** on the simulator page. The desktop opens in a viewpo
 
 ## Applications
 
-- **Project Center:** searches and filters all 30 labs by track and level (25 preserved Level 1 labs and five new Level 2 intermediate labs), shows completion, and launches the appropriate tools. Switching from an unfinished lab asks before resetting its configuration.
+- **Project Center:** searches and filters all 50 labs by track and level (25 preserved Level 1 labs and 25 Level 2 intermediate labs), shows completion, and launches the appropriate tools. Switching from an unfinished lab asks before resetting its configuration.
 - **Admin Center:** lists the current lab's validation tasks, their status, and links to the tools that own them. Refresh status after making changes.
 - **File Explorer:** folders, text documents, rename, delete, parent navigation, and file context menus. Files are virtual, stored in this browser.
 - **Notepad:** automatically saves Operations notes or an opened virtual text document; Download exports a real text file.
@@ -49,7 +49,7 @@ python -m unittest discover -s tests -v
 
 Set `PLAYWRIGHT_CHROMIUM_EXECUTABLE` to use an existing Chromium executable. Tests start an ephemeral localhost server and isolate browser storage per test. External account calls are blocked; account authentication and cloud sync are outside this suite.
 
-The suite checks all 25 original project launches plus five new intermediate workflows, end-to-end networking lab validation, file persistence/restore, calculator, lock, task manager, window controls, context menus, calendar, preferences, and mobile layout.
+The suite checks all 25 original project launches plus 25 intermediate workflows, end-to-end networking lab validation, file persistence/restore, calculator, lock, task manager, window controls, context menus, calendar, preferences, and mobile layout.
 
 
 ## PrempehTech enterprise tools
@@ -62,6 +62,6 @@ The original PrempehTech desktop uses a teal, graphite, and copper visual design
 - Operations Terminal supports `help`, `clear`, `status`, `ipconfig`, `ping`, `lookup`, `trace`, and `fetch`. Example: `fetch portal.prempeh.lab`. Diagnostics use current device power, physical paths, addresses, DNS settings, and service state.
 - Activity records the most recent 60 configuration changes. All open enterprise-tool windows share state and update after changes. Practice configuration persists under `prempeh-enterprise-network-v1`; resetting it requires confirmation and leaves scored projects and documents intact.
 
-This is a local-network simulation with /24 interfaces and DESK-01 as its diagnostic source. Routers and switches forward simulated paths; general routing protocols, packet emulation, real operating systems, and external network access are not implemented. The practice network is independent of the 30 scored projects so experiments cannot corrupt assignment validation. It does not use Cisco assets or Packet Tracer integration.
+This is a local-network simulation with /24 interfaces and DESK-01 as its diagnostic source. Routers and switches forward simulated paths; general routing protocols, packet emulation, real operating systems, and external network access are not implemented. The practice network is independent of the 50 scored projects so experiments cannot corrupt assignment validation. It does not use Cisco assets or Packet Tracer integration.
 
 Browser tests additionally cover DNS/service failures, power and disconnected links, repair validation, configuration errors, topology movement, persistence, report files, and mobile diagnostics.
