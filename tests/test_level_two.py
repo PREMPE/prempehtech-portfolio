@@ -1,4 +1,4 @@
-"""Level 2 acceptance tests: fail before repair, complete through the actual UI."""
+"""Preserved foundation slot 2 acceptance tests: fail before repair, complete through the actual UI."""
 import unittest
 import test_enterprise_workspace as fixtures
 

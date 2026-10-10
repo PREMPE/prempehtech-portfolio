@@ -28,7 +28,7 @@
   if(!validFiles(files))files=[
     {id:'documents',parent:'root',name:'Documents',type:'folder'},
     {id:'desktop',parent:'root',name:'Desktop',type:'folder'},
-    {id:'readme',parent:'documents',name:'Welcome.txt',type:'text',content:'Welcome to CORP IT Operations.\n\nOpen Project Center for 25 practical assignments. Use Operations notes to record your work.\n\nFiles in this workspace are simulated and stored in this browser. Export important notes before clearing browser data.'}
+    {id:'readme',parent:'documents',name:'Welcome.txt',type:'text',content:'Welcome to CORP IT Operations.\n\nOpen Project Center for 30 practical assignments. Use Operations notes to record your work.\n\nFiles in this workspace are simulated and stored in this browser. Export important notes before clearing browser data.'}
   ];
   const views=new Map();let activeBody=null;
   const workspace=()=>window.PrempehWorkspace;

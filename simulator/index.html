@@ -14,9 +14,9 @@
   <meta name="theme-color" content="#a9d2f9">
   <link rel="canonical" href="https://prempehtech.ca/simulator/">
   <title>IT Infrastructure Simulator | PrempehTech.ca</title>
-  <link rel="stylesheet" href="simulator.css?v=20261007-13">
-  <link rel="stylesheet" href="desktop-lab.css?v=20261008-contrast-1">
-  <link rel="stylesheet" href="workspace.css?v=20261008-2">
+  <link rel="stylesheet" href="simulator.css?v=20261010-curriculum-1">
+  <link rel="stylesheet" href="desktop-lab.css?v=20261010-curriculum-1">
+  <link rel="stylesheet" href="workspace.css?v=20261010-curriculum-1">
   <link rel="stylesheet" href="enterprise-desktop.css?v=20261009-icons-1">
 </head>
 <body>
@@ -50,7 +50,7 @@
         </div>
         <div class="progress-stat">
           <span class="stat-label">Completed</span>
-          <strong><span id="completedValue">0</span>/25</strong>
+          <strong><span id="completedValue">0</span>/30</strong>
         </div>
         <div class="progress-stat">
           <span class="stat-label">Current Rank</span>
@@ -82,7 +82,7 @@
           <span class="panel-kicker">LEARNING TRACKS</span>
           <h2>Pick a discipline.</h2>
         </div>
-        <p>Choose one of five independent tracks and five difficulty levels. Projects progress from workstation fundamentals to VLANs, routing, Active Directory, SOC investigations, and enterprise troubleshooting.</p>
+        <p>Choose from 25 existing labs in Level 1 and five new intermediate assignments in Level 2 across networking, systems, cybersecurity, cloud, and integrated operations.</p>
       </div>
 
       <div class="track-tabs" role="tablist" aria-label="Training tracks">
@@ -158,16 +158,7 @@
             <span>Level 1</span><strong>Foundation</strong>
           </button>
           <button class="level-btn" type="button" data-level="2" aria-selected="false">
-            <span>Level 2</span><strong>Junior Technician</strong>
-          </button>
-          <button class="level-btn" type="button" data-level="3" aria-selected="false">
-            <span>Level 3</span><strong>Administrator</strong>
-          </button>
-          <button class="level-btn" type="button" data-level="4" aria-selected="false">
-            <span>Level 4</span><strong>Junior Analyst</strong>
-          </button>
-          <button class="level-btn" type="button" data-level="5" aria-selected="false">
-            <span>Level 5</span><strong>Mid-Level Professional</strong>
+            <span>Level 2</span><strong>Intermediate</strong>
           </button>
         </div>
 
@@ -181,6 +172,7 @@
             <span class="level-unlocked-status">Unlocked ✓</span>
           </div>
           <div class="level-topic-grid" id="levelTopics"></div>
+          <label id="foundationPicker">Level 1 assignment <select id="foundationAssignment"></select></label>
           <button class="primary-btn compact level-jump-btn" id="levelJumpBtn" type="button">Go to Level 1 Labs</button>
         </div>
       </div>
@@ -643,19 +635,20 @@ C:\Users\student&gt;</div>
     <p>© 2026 Agyemang Prempeh · PrempehTech.ca · Interactive IT Training Simulator</p>
   </footer>
 
-  <script src="security.js?v=20261009-security-1"></script>
+  <script src="security.js?v=20261010-curriculum-1"></script>
   <script src="cloud-config.js?v=20261007-11"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js" integrity="sha384-BWcjm9OdFth9TbhCxZPdm+gAOUMAzQy9nmTs12ioXdCcbVnJaPMn+fMUoQCLt60R" crossorigin="anonymous"></script>
   <script src="cloud-save.js?v=20261009-security-1"></script>
   <script src="cloud-lab.js?v=20261009-level2-1"></script>
   <script src="workspace-icons.js?v=20261009-icons-1"></script>
-  <script src="workspace-files.js?v=20261009-security-1"></script>
+  <script src="workspace-files.js?v=20261010-curriculum-1"></script>
   <script src="workspace-session.js?v=20261008-1"></script>
-  <script src="enterprise-network.js?v=20261009-security-1"></script>
-  <script src="workspace.js?v=20261009-security-1"></script>
-  <script src="desktop-lab.js?v=20261009-level2-1"></script>
-  <script src="enterprise-shell.js?v=20261009-level2-1"></script>
-  <script src="level-two.js?v=20261009-1"></script>
-  <script src="simulator.js?v=20261009-security-1"></script>
+  <script src="enterprise-network.js?v=20261010-curriculum-1"></script>
+  <script src="workspace.js?v=20261010-curriculum-1"></script>
+  <script src="desktop-lab.js?v=20261010-curriculum-1"></script>
+  <script src="enterprise-shell.js?v=20261010-curriculum-1"></script>
+  <script src="level-two.js?v=20261010-curriculum-1"></script>
+  <script src="intermediate-labs.js?v=20261010-curriculum-1"></script>
+  <script src="simulator.js?v=20261010-curriculum-1"></script>
 </body>
 </html>

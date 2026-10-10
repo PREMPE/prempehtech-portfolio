@@ -311,7 +311,7 @@ footer{border-top:1px solid #16344f;color:#7895af;text-align:center;padding:28px
   border:1px solid #2f7b5b;background:#10291f;color:#9bedc6;
   border-radius:999px;padding:6px 10px;font-size:.72rem;font-weight:900
 }
-.level-buttons{display:grid;grid-template-columns:repeat(5,1fr);gap:9px}
+.level-buttons{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
 .level-btn{
   min-height:82px;text-align:left;border:1px solid #234c72;border-radius:9px;
   background:#0a1b2c;color:var(--muted);padding:12px
@@ -476,3 +476,7 @@ body{
     font-size:.74rem;
   }
 }
+
+#foundationPicker{display:block;margin:16px 0;color:var(--text)}
+#foundationPicker[hidden]{display:none}
+#foundationAssignment{display:block;max-width:100%;width:100%;margin-top:8px;padding:12px;border:1px solid #587087;border-radius:8px;background:#132334;color:#f1f5f9;font:inherit}

@@ -56,7 +56,7 @@ Enable MFA/passkeys, review collaborators and API tokens, use least privilege, p
 
 ## Validation and limits
 
-The security tests exercise malicious terminal markup even with CSP disabled, script/base/connection blocking with CSP enabled, corrupted browser state, unauthenticated signup handling, dependency pinning, and normal page loading. The existing desktop suite exercises all 25 project launches and the connected practice network.
+The security tests exercise malicious terminal markup even with CSP disabled, script/base/connection blocking with CSP enabled, corrupted browser state, unauthenticated signup handling, dependency pinning, and normal page loading. The existing desktop suite exercises all 25 original project launches; the intermediate suite exercises five new assignments and the connected practice network.
 
 Run `python -m unittest discover -s tests -v` with Python Playwright and Chromium installed. Set `PLAYWRIGHT_CHROMIUM_EXECUTABLE` if needed. Account behavior tests use local mocks and cannot certify production RLS or sign-in delivery.
 

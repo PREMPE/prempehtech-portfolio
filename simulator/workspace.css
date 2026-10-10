@@ -25,7 +25,7 @@
 .workspace-body p{color:#4b6276;font-size:14px}.workspace-body label{display:block;color:#28445c;font-size:13px}
 .workspace-body input,.workspace-body select{padding:8px;border:1px solid #a8bed0;border-radius:5px;background:#fff;color:#173b5b;max-width:100%;box-sizing:border-box}
 .workspace-toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1px solid #d5e0eb;padding-bottom:12px;margin-bottom:16px;flex-wrap:wrap}
-.workspace-filters{display:grid;grid-template-columns:2fr 1fr;gap:12px}.workspace-filters input,.workspace-filters select{width:100%;margin-top:5px}
+.workspace-filters{display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px}.workspace-filters input,.workspace-filters select{width:100%;margin-top:5px}
 .workspace-project-header>p:first-child{font-size:10px;letter-spacing:.14em;font-weight:700;color:#2472a4}
 .workspace-projects{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
 .workspace-projects article{display:flex;flex-direction:column;align-items:flex-start;padding:16px;border:1px solid #d3dfeb;border-radius:8px;background:#fff}

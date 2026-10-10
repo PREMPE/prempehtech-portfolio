@@ -1,4 +1,4 @@
-/* Level 2: evidence-led repairs with prerequisite-gated acceptance checks. */
+/* Preserved foundation assignment slot 2 (formerly Level 2). Do not renumber saved keys. */
 (() => {
   'use strict';
   const lab=window.PrempehDesktopLab;

@@ -241,7 +241,7 @@ function launch(track,level){
   $("desktopLabShell").classList.remove("hidden");
   document.body.classList.add("vm-lab-active");
   $("desktopMissionTitle").textContent=current.data.title;
-  $("desktopMissionMeta").textContent=trackLabel(track)+" · Level "+level+" · "+current.data.role;
+  $("desktopMissionMeta").textContent=trackLabel(track)+" · Level "+(current.data.curriculumLevel||1)+" · "+current.data.role;
   renderDesktop();
   $("desktopLabShell").scrollIntoView({behavior:"smooth",block:"start"});
 }
@@ -255,7 +255,7 @@ function openWorkspace(){
   $("desktopLabShell").classList.add("vm-fullscreen-active");
   $("desktopFullscreen").textContent="Windowed Workspace";
   $("desktopMissionTitle").textContent="PrempehTech Enterprise Desktop";
-  $("desktopMissionMeta").textContent="Practice network · 25 projects";
+  $("desktopMissionMeta").textContent="Practice network · 30 projects";
   renderDesktop();
   $("vmMission").classList.add("ticket-minimized");
   $("desktopLabShell").scrollIntoView({block:"start"});
@@ -296,7 +296,7 @@ function renderStart(){
 function renderMission(){
   if(!current.level){$("vmMission").innerHTML="";return;}
   const done=Object.values(taskState).filter(Boolean).length,total=current.data.tasks.length;
-  $("vmMission").innerHTML=`<div class="vm-mission-head"><div><span>PROJECT TICKET · LEVEL ${current.level}</span><h3>${current.data.title}</h3></div><span>${done}/${total}</span></div>
+  $("vmMission").innerHTML=`<div class="vm-mission-head"><div><span>PROJECT TICKET · LEVEL ${current.data.curriculumLevel||1}</span><h3>${current.data.title}</h3></div><span>${done}/${total}</span></div>
     <div class="vm-ticket"><strong>Assigned role:</strong> ${current.data.role}<br><br>${current.data.ticket}</div>
     <ul class="vm-task-list">${current.data.tasks.map((t,i)=>`<li class="vm-task-item ${taskState[t.id]?"done":""}"><span class="vm-task-check">${taskState[t.id]?"✓":i+1}</span><span><strong>${t.title}</strong><br>Open ${APP_DEFS[t.app].label}</span></li>`).join("")}</ul>
     <div class="vm-progress-wrap"><div class="vm-progress-line"><span style="width:${total?done/total*100:0}%"></span></div><div class="vm-progress-copy"><span>Project progress</span><strong>${Math.round(done/total*100)}%</strong></div></div>`;
@@ -339,6 +339,7 @@ function dragMove(e){if(!dragState)return;dragState.win.style.left=Math.max(0,e.
 function tasksFor(appId){return current.data.tasks.filter(t=>t.app===appId)}
 function renderAppContent(appId){
   const app=APP_DEFS[appId],tasks=tasksFor(appId);
+  if(current.data.curriculumLevel===2&&app.kind!=='terminal')return renderMMC(appId,tasks);
   if(app.kind==='cloud')return window.PrempehCloudLab.render(tasks,taskForm);
   if(app.kind==="terminal")return renderTerminal(appId,tasks);
   if(app.kind==="settings")return renderSettings(appId,tasks);
@@ -400,7 +401,7 @@ function bindApp(win,appId){
 function validateFormTask(taskId,win){
   const t=current.data.tasks.find(x=>x.id===taskId);if(!t||taskState[taskId])return;
   const values={};Object.keys(t.expected).forEach(k=>{const el=win.querySelector('[data-field="'+taskId+':'+k+'"]');values[k]=el?el.value:""});
-  const blocked=window.PrempehLevelTwo?.block(taskId);
+  const blocked=window.PrempehIntermediate?.block(taskId)||window.PrempehLevelTwo?.block(taskId);
   if(blocked){const fb=win.querySelector('[data-feedback="'+taskId+'"]');fb.className="vm-task-feedback bad";fb.textContent=blocked;return;}
   const ok=Object.entries(t.expected).every(([k,v])=>norm(values[k])===norm(v));
   const fb=win.querySelector('[data-feedback="'+taskId+'"]');
@@ -432,7 +433,7 @@ function runTerminal(appId,raw,win){
   tasksFor(appId).filter(t=>t.type==="command").forEach(t=>{
     const match=t.required.find(r=>norm(r)===cmd);
     if(match){matched=true;
-      const blocked=window.PrempehLevelTwo?.block(t.id,cmd)||window.PrempehEnterprise?.validationBlock?.(t.id,cmd);
+      const blocked=window.PrempehIntermediate?.block(t.id)||window.PrempehLevelTwo?.block(t.id,cmd)||window.PrempehEnterprise?.validationBlock?.(t.id,cmd);
       if(blocked){out.textContent+='\n'+blocked;return;}
       terminalState[appId].seen[taskIdKey(t.id,match)]=true;out.textContent+="\n"+(t.responses?.[match]||"Command completed successfully.");
       const all=t.required.every(r=>terminalState[appId].seen[taskIdKey(t.id,r)]);
@@ -479,7 +480,7 @@ function showTerminalGuide(appId){
 }
 function completeProject(){
   const score=100;
-  $("vmComplete").innerHTML=`<div class="vm-complete-card"><span style="color:#1687d2;font-weight:900;font-size:.72rem">PROJECT VALIDATED</span><h2>${current.data.title}</h2><p>You completed the Level ${current.level} ${trackLabel(current.track)} project in the training VM. The configuration and validation steps passed.</p><div class="vm-complete-actions"><button class="vm-native-btn primary" id="vmReplay" type="button">Replay Project</button><button class="vm-native-btn" id="vmChoose" type="button">Choose Another Level</button></div></div>`;
+  $("vmComplete").innerHTML=`<div class="vm-complete-card"><span style="color:#1687d2;font-weight:900;font-size:.72rem">PROJECT VALIDATED</span><h2>${current.data.title}</h2><p>You completed the Level ${current.data.curriculumLevel||1} ${trackLabel(current.track)} project in the training VM. The configuration and validation steps passed.</p><div class="vm-complete-actions"><button class="vm-native-btn primary" id="vmReplay" type="button">Replay Project</button><button class="vm-native-btn" id="vmChoose" type="button">Choose Another Project</button></div></div>`;
   $("vmComplete").classList.remove("hidden");
   window.dispatchEvent(new CustomEvent("prempeh-desktop-complete",{detail:{track:current.track,level:current.level,score}}));
   $("vmReplay").addEventListener("click",()=>launch(current.track,current.level));
@@ -490,6 +491,8 @@ window.PrempehDesktopLab={
   launch,
   openWorkspace,
   close:closeLab,
+  registerScenario:(track,id,data)=>{if(SCENARIOS[track]&&!SCENARIOS[track][id])SCENARIOS[track][id]=data},
+  getCatalog:()=>Object.entries(SCENARIOS).flatMap(([track,items])=>Object.entries(items).map(([id,data])=>({track,id:Number(id),level:data.curriculumLevel||1,data}))),
   getScenario:(track,level)=>scenario(track,level),
   getTrackLabel:trackLabel,
   getRuntime:()=>({current,taskState,terminalState,APP_DEFS}),

@@ -79,50 +79,9 @@
     }
   };
 
-  const difficultyLevels = {
-    networking: {
-      name: "Networking",
-      levels: {
-        1: { name: "Network Foundations", label: "LEVEL 1 · NETWORK FOUNDATIONS", title: "Network Foundations", description: "Build the fundamentals of Ethernet, IPv4 addressing, gateways, basic routing, and structured connectivity testing.", topics: ["Ethernet & MAC", "IPv4", "Subnet Masks", "Default Gateway", "Ping", "Basic Troubleshooting"] },
-        2: { name: "Junior Network Technician", label: "LEVEL 2 · JUNIOR NETWORK TECHNICIAN", title: "Junior Network Technician", description: "Handle common LAN services and diagnose addressing or name-resolution problems.", topics: ["Subnetting", "DHCP", "DNS", "ARP", "Traceroute", "Switch Troubleshooting"] },
-        3: { name: "Network Administrator", label: "LEVEL 3 · NETWORK ADMINISTRATOR", title: "Network Administration", description: "Configure and troubleshoot segmented business networks and controlled traffic paths.", topics: ["VLANs", "Inter-VLAN Routing", "Static Routing", "NAT", "ACLs", "Firewall Rules"] },
-        4: { name: "Network Operations Analyst", label: "LEVEL 4 · NETWORK OPERATIONS ANALYST", title: "Network Operations & Troubleshooting", description: "Diagnose multi-segment failures using evidence from routes, interfaces, services, and traffic behavior.", topics: ["Packet Flow", "Routing Failures", "DNS/DHCP Outages", "ACL Diagnosis", "Network Logs", "Root Cause"] },
-        5: { name: "Mid-Level Network Engineer", label: "LEVEL 5 · MID-LEVEL NETWORK ENGINEER", title: "Enterprise Network Engineering", description: "Solve ambiguous enterprise connectivity problems without being told which layer is broken.", topics: ["Multi-VLAN Networks", "Site Connectivity", "Redundancy", "Advanced NAT", "Segmentation", "Enterprise Troubleshooting"] }
-      }
-    },
-    sysadmin: {
-      name: "System Administration",
-      levels: {
-        1: { name: "Systems Foundations", label: "LEVEL 1 · SYSTEMS FOUNDATIONS", title: "Systems Administration Foundations", description: "Learn how operating systems, users, groups, permissions, services, and storage fit together.", topics: ["Users & Groups", "Permissions", "Processes", "Services", "Storage", "Basic Troubleshooting"] },
-        2: { name: "Junior Systems Technician", label: "LEVEL 2 · JUNIOR SYSTEMS TECHNICIAN", title: "Junior Systems Technician", description: "Perform common Windows and Linux support tasks while validating the result of each change.", topics: ["Windows Services", "Linux Services", "Local Accounts", "File Systems", "PowerShell", "Bash"] },
-        3: { name: "Systems Administrator", label: "LEVEL 3 · SYSTEMS ADMINISTRATOR", title: "Systems & Identity Administration", description: "Administer centralized identity, policy, naming, and access in a business environment.", topics: ["Active Directory", "DNS", "Group Policy", "OUs", "NTFS Permissions", "Server Roles"] },
-        4: { name: "Infrastructure Administrator", label: "LEVEL 4 · INFRASTRUCTURE ADMINISTRATOR", title: "Infrastructure Administration", description: "Troubleshoot identity, policy, services, authentication, and server dependencies across systems.", topics: ["AD Troubleshooting", "GPO Failures", "Service Dependencies", "Authentication", "PowerShell", "Event Logs"] },
-        5: { name: "Mid-Level Systems Engineer", label: "LEVEL 5 · MID-LEVEL SYSTEMS ENGINEER", title: "Enterprise Systems Engineering", description: "Resolve multi-server failures, privilege problems, and infrastructure outages with minimal guidance.", topics: ["Multi-Server Outages", "Identity Incidents", "Automation", "Hardening", "Recovery", "Root Cause Analysis"] }
-      }
-    },
-    cyber: {
-      name: "Cybersecurity",
-      levels: {
-        1: { name: "Security Foundations", label: "LEVEL 1 · SECURITY FOUNDATIONS", title: "Cybersecurity Foundations", description: "Learn to recognize security evidence, authentication events, suspicious patterns, and safe first responses.", topics: ["CIA Triad", "Authentication Logs", "Event 4625", "Least Privilege", "Threat vs Vulnerability", "Basic Triage"] },
-        2: { name: "Junior Security Technician", label: "LEVEL 2 · JUNIOR SECURITY TECHNICIAN", title: "Junior Security Technician", description: "Investigate common endpoint, account, phishing, and malware indicators using basic telemetry.", topics: ["Phishing", "Malware Indicators", "Account Abuse", "Endpoint Logs", "Firewall Events", "Basic Containment"] },
-        3: { name: "Security Administrator", label: "LEVEL 3 · SECURITY ADMINISTRATOR", title: "Security Administration", description: "Apply defensive controls and investigate access-control, endpoint, and network-security events.", topics: ["Access Control", "Firewall Policy", "Endpoint Security", "Logging", "Account Protection", "Hardening"] },
-        4: { name: "Junior SOC Analyst", label: "LEVEL 4 · JUNIOR SOC ANALYST", title: "Security Operations", description: "Correlate SIEM and endpoint evidence, prioritize alerts, and make defensible response decisions.", topics: ["SIEM Triage", "Endpoint Telemetry", "PowerShell Abuse", "Brute Force", "Incident Handling", "Evidence Correlation"] },
-        5: { name: "Mid-Level Security Analyst", label: "LEVEL 5 · MID-LEVEL SECURITY ANALYST", title: "Enterprise Security Investigation", description: "Investigate ambiguous incidents spanning identity, endpoints, and networks while preserving evidence.", topics: ["Lateral Movement", "Identity Incidents", "Multi-Host Correlation", "Containment", "Root Cause", "Incident Response"] }
-      }
-    },
-    integrated: {
-      name: "All Together",
-      levels: {
-        1: { name: "IT Foundations", label: "LEVEL 1 · IT FOUNDATIONS", title: "Integrated IT Foundations", description: "Combine networking, systems administration, cybersecurity, and cloud computing in one workplace scenario.", topics: ["Connectivity", "User Access", "Authentication Logs", "Least Privilege", "Basic Response", "Verification"] },
-        2: { name: "Junior IT Technician", label: "LEVEL 2 · JUNIOR IT TECHNICIAN", title: "Junior IT Technician", description: "Solve support incidents that cross workstation, network, service, and account boundaries.", topics: ["DHCP/DNS", "Windows Services", "Permissions", "Endpoint Alerts", "Troubleshooting", "Documentation"] },
-        3: { name: "Infrastructure Administrator", label: "LEVEL 3 · INFRASTRUCTURE ADMINISTRATOR", title: "Integrated Infrastructure Administration", description: "Work across VLANs, identity, policy, servers, and defensive controls.", topics: ["VLANs", "AD & GPO", "Routing", "Firewalls", "Server Roles", "Access Control"] },
-        4: { name: "IT & Security Analyst", label: "LEVEL 4 · IT & SECURITY ANALYST", title: "Operations & Security Analysis", description: "Restore business services while investigating suspicious activity and preserving evidence.", topics: ["SIEM Triage", "Identity", "Network Evidence", "Endpoint Evidence", "Containment", "Recovery"] },
-        5: { name: "Mid-Level IT Professional", label: "LEVEL 5 · MID-LEVEL IT PROFESSIONAL", title: "Enterprise IT Incident Challenge", description: "Diagnose complex multi-system failures and security incidents with incomplete information.", topics: ["Enterprise Outages", "Identity Incidents", "Segmentation", "Lateral Movement", "Recovery", "Root Cause Analysis"] }
-      }
-    }
-  };
-
-  difficultyLevels.cloud = {"name": "Cloud Computing", "levels": {"1": {"name": "Cloud Foundations", "label": "LEVEL 1 \u00b7 CLOUD FOUNDATIONS", "title": "Cloud Computing Foundations", "description": "Launch a virtual machine, choose its network, protect storage, and verify deployment.", "topics": ["EC2", "Regions", "AMIs", "Security Groups", "EBS", "CloudShell"]}, "2": {"name": "Junior Cloud Technician", "label": "LEVEL 2 \u00b7 JUNIOR CLOUD TECHNICIAN", "title": "Cloud Networking & Troubleshooting", "description": "Repair private subnets, routes, NAT egress, and application access.", "topics": ["VPC", "CIDR", "Private Subnets", "NAT Gateway", "Security Groups", "Routing"]}, "3": {"name": "Cloud Administrator", "label": "LEVEL 3 \u00b7 CLOUD ADMINISTRATOR", "title": "Cloud Identity & Storage Administration", "description": "Apply workload roles, least privilege, private storage, encryption, and versioning.", "topics": ["IAM Roles", "Trust Policies", "S3", "Block Public Access", "Encryption", "Versioning"]}, "4": {"name": "Cloud Operations Analyst", "label": "LEVEL 4 \u00b7 CLOUD OPERATIONS ANALYST", "title": "Cloud Operations & Reliability", "description": "Configure monitoring, scaling, health checks, and multi-zone capacity.", "topics": ["CloudWatch", "Auto Scaling", "Load Balancing", "Health Checks", "Availability Zones", "Alarms"]}, "5": {"name": "Mid-Level Cloud Engineer", "label": "LEVEL 5 \u00b7 MID-LEVEL CLOUD ENGINEER", "title": "Cloud Recovery & Incident Response", "description": "Restore cloud application storage and service health while containing credential abuse.", "topics": ["Snapshots", "Recovery", "CloudTrail", "IAM Containment", "Target Health", "Evidence Preservation"]}}};
+  const difficultyLevels = Object.fromEntries(
+    ['networking','sysadmin','cyber','cloud','integrated'].map(track=>
+      [track,{name:window.PrempehDesktopLab.getTrackLabel(track)}]));
 
   const explanations = {
     ipconfig: {
@@ -254,21 +213,27 @@
   }
 
   let selectedLevel = 1;
+  const selectedProject=()=>selectedLevel===2?6:Number($("foundationAssignment").value||1);
+  $("foundationAssignment").addEventListener("change",()=>setDifficultyLevel(1));
 
   function setDifficultyLevel(level) {
     const value = Number(level);
     const trackConfig = difficultyLevels[activeTrack] || difficultyLevels.networking;
-    const data = trackConfig.levels[value] || trackConfig.levels[1];
+    const projectId=value===2?6:Number($("foundationAssignment").value||1);
+    const entries=window.PrempehDesktopLab.getCatalog().filter(x=>x.track===activeTrack&&x.level===1);
+    $("foundationAssignment").innerHTML=entries.map(x=>`<option value="${x.id}">Lab ${x.id} · ${x.data.title}</option>`).join('');
+    $("foundationAssignment").value=String(projectId===6?1:projectId);
+    $("foundationPicker").hidden=value===2;
+    const data={label:"LEVEL "+value+(value===1?" · FOUNDATIONS":" · INTERMEDIATE"),title:value===1?"Level 1 — all current labs":"Level 2 — intermediate operations",description:value===1?"All five original assignments in this track are preserved. Choose an assignment below or browse Project Center.":"Investigate evidence, make controlled changes, verify recovery, and document the handover.",topics:value===1?["Five preserved assignments","Saved progress retained"]:["Evidence correlation","Change control","Recovery checks","Handover"]};
     selectedLevel = value;
 
     $$(".level-btn").forEach((btn) => {
       const btnLevel = Number(btn.dataset.level);
       const active = btnLevel === value;
-      const btnData = trackConfig.levels[btnLevel];
       btn.classList.toggle("active", active);
       btn.setAttribute("aria-selected", active ? "true" : "false");
       const strong = btn.querySelector("strong");
-      if (strong && btnData) strong.textContent = btnData.name;
+      if (strong) strong.textContent = btnLevel===1?"Foundations":"Intermediate";
     });
 
     $("levelSelectorTrackLabel").textContent = trackConfig.name.toUpperCase() + " LEVELS · ALL UNLOCKED";
@@ -280,7 +245,7 @@
     $("levelJumpBtn").textContent = "Open Level " + value + " Project";
 
     if (window.PrempehDesktopLab) {
-      const scenario = window.PrempehDesktopLab.getScenario(activeTrack, value);
+      const scenario = window.PrempehDesktopLab.getScenario(activeTrack, projectId);
       const card = document.querySelector('[data-card-track="' + activeTrack + '"]');
       if (scenario && card) {
         const title = card.querySelector("h3");
@@ -333,7 +298,7 @@
     const completedCount = Object.keys(completedLevels).filter((k) => completedLevels[k]).length;
     $("xpValue").textContent = progress.xp;
     $("completedValue").textContent = completedCount;
-    $("progressFill").style.width = Math.min(100, (completedCount / (Object.keys(difficultyLevels).length * 5)) * 100) + "%";
+    $("progressFill").style.width = Math.min(100, (completedCount / (Object.keys(difficultyLevels).length * 6)) * 100) + "%";
     $("rankValue").textContent =
       completedCount === 0 ? "Foundation" :
       completedCount < 5 ? "Junior Technician" :
@@ -343,9 +308,9 @@
     ["networking", "sysadmin", "cyber", "cloud", "integrated"].forEach((key) => {
       const badge = document.querySelector('[data-complete-badge="' + key + '"]');
       if (!badge) return;
-      const count = [1,2,3,4,5].filter((level) => completedLevels[key + ":" + level]).length;
-      badge.textContent = count === 5 ? "5/5 completed ✓" : count + "/5 completed";
-      badge.classList.toggle("done", count === 5);
+      const count = [1,2,3,4,5,6].filter((level) => completedLevels[key + ":" + level]).length;
+      badge.textContent = count === 6 ? "6/6 completed ✓" : count + "/6 completed";
+      badge.classList.toggle("done", count === 6);
     });
 
     $("continueBtn").textContent = "Choose a Lab";
@@ -835,13 +800,13 @@
   $$(".level-btn").forEach((btn) => btn.addEventListener("click", () => setDifficultyLevel(btn.dataset.level)));
   $("levelJumpBtn").addEventListener("click", () => {
     if (window.PrempehDesktopLab) {
-      window.PrempehDesktopLab.launch(activeTrack, selectedLevel);
+      window.PrempehDesktopLab.launch(activeTrack, selectedProject());
     }
   });
   $$("[data-launch]").forEach((btn) => btn.addEventListener("click", () => {
     const track = btn.dataset.launch;
     if (window.PrempehDesktopLab) {
-      window.PrempehDesktopLab.launch(track, selectedLevel);
+      window.PrempehDesktopLab.launch(track, selectedProject());
     }
   }));
   $$(".mode-btn").forEach((btn) => btn.addEventListener("click", () => setMode(btn.dataset.mode)));
@@ -903,8 +868,8 @@
     const key = track + ":" + level;
     const firstCompletion = !progress.completedLevels[key];
     progress.completedLevels[key] = true;
-    const trackCount = [1,2,3,4,5].filter((n) => progress.completedLevels[track + ":" + n]).length;
-    progress.completed[track] = trackCount === 5;
+    const trackCount = [1,2,3,4,5,6].filter((n) => progress.completedLevels[track + ":" + n]).length;
+    progress.completed[track] = trackCount === 6;
     if (firstCompletion) progress.xp += Number(detail.score) || 100;
     saveProgress();
     updateProgressUI();

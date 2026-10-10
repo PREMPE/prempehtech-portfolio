@@ -85,7 +85,7 @@ const GUIDE_MAP={
  5:{target:"Restore enterprise operations and scope a multi-system compromise involving routing, privilege, and PowerShell.",steps:["Establish a timeline and determine which operational and security symptoms may be connected.","Diagnose and restore the broken application-site route without masking security evidence.","Investigate the unauthorized privileged-group change and reverse unsafe access.","Scope encoded PowerShell and outbound activity on the affected application server.","Contain confirmed compromise, validate restored operations, and submit complete incident/resolution notes."]}
  }
 };
-function guideForCurrent(){if(current.track==='cloud')return {target:current.data.ticket,steps:window.PrempehCloudLab.guide()};return GUIDE_MAP[current?.track]?.[Number(current?.level)]||{target:current?.data?.ticket||"Complete the assigned project.",steps:(current?.data?.tasks||[]).map(t=>t.title)}}
+function guideForCurrent(){if(current.data?.curriculumLevel===2)return {target:'Restore the approved service, verify permitted and denied access, and record an evidence-based handover.',steps:window.PrempehIntermediate.procedure()};if(current.track==='cloud')return {target:current.data.ticket,steps:window.PrempehCloudLab.guide()};return GUIDE_MAP[current?.track]?.[Number(current?.level)]||{target:current?.data?.ticket||"Complete the assigned project.",steps:(current?.data?.tasks||[]).map(t=>t.title)}}
 function guidanceFor(title){
  const t=title.toLowerCase();
  if(t.includes('alert'))return 'Open the security tooling available on the workstation. Find the alert for the affected endpoint and inspect host, process, parent process, severity, and time.';
@@ -224,6 +224,7 @@ function enterpriseContent(id){
  return null;
 }
 function wireEnterprise(win,id){
+ if(current.data?.curriculumLevel===2)return;
  const body=win.querySelector('.vm-app-body');if(!body)return;
  const rich=enterpriseContent(id);if(rich&&id!=="router"){
   const values=new Map(qa('[data-field]',body).map(e=>[e.dataset.field,e.value]));
@@ -307,6 +308,7 @@ window.PrempehEnterprise={
 };
 /* ===== Contextual Procedure Coach ===== */
 function exactProcedure(){
+ if(current.data?.curriculumLevel===2)return window.PrempehIntermediate.procedure();
  if(current.level===2&&window.PrempehLevelTwo)return window.PrempehLevelTwo.procedure();
  const g=guideForCurrent(),apps=(current?.data?.apps||[]),tasks=current?.data?.tasks||[];
  const open=id=>APP_DEFS[id]?.label||id;
