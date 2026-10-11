@@ -230,6 +230,7 @@ function updateClock(){
 }
 
 function launch(track,level){
+  if(window.PrempehLeaderboard&&!window.PrempehLeaderboard.ensureName(()=>launch(track,level)))return;
   ensureShell();
   current={track,level:Number(level),data:scenario(track,level)};
   if(!current.data) return;
@@ -255,7 +256,7 @@ function openWorkspace(){
   $("desktopLabShell").classList.add("vm-fullscreen-active");
   $("desktopFullscreen").textContent="Windowed Workspace";
   $("desktopMissionTitle").textContent="PrempehTech Enterprise Desktop";
-  $("desktopMissionMeta").textContent="Practice network · 50 projects";
+  $("desktopMissionMeta").textContent="Practice network · 75 projects";
   renderDesktop();
   $("vmMission").classList.add("ticket-minimized");
   $("desktopLabShell").scrollIntoView({block:"start"});
@@ -339,7 +340,7 @@ function dragMove(e){if(!dragState)return;dragState.win.style.left=Math.max(0,e.
 function tasksFor(appId){return current.data.tasks.filter(t=>t.app===appId)}
 function renderAppContent(appId){
   const app=APP_DEFS[appId],tasks=tasksFor(appId);
-  if(current.data.curriculumLevel===2&&app.kind!=='terminal')return renderMMC(appId,tasks);
+  if(current.data.curriculumLevel>=2&&app.kind!=='terminal')return renderMMC(appId,tasks);
   if(app.kind==='cloud')return window.PrempehCloudLab.render(tasks,taskForm);
   if(app.kind==="terminal")return renderTerminal(appId,tasks);
   if(app.kind==="settings")return renderSettings(appId,tasks);

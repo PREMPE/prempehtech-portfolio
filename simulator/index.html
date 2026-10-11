@@ -18,6 +18,7 @@
   <link rel="stylesheet" href="desktop-lab.css?v=20261010-curriculum-1">
   <link rel="stylesheet" href="workspace.css?v=20261010-curriculum-1">
   <link rel="stylesheet" href="enterprise-desktop.css?v=20261009-icons-1">
+  <link rel="stylesheet" href="leaderboard.css?v=20261010-level3-1">
 </head>
 <body>
   <header class="site-header">
@@ -25,6 +26,7 @@
       <a class="brand" href="/" title="Go to PrempehTech.ca home page">PrempehTech<span>.ca</span></a>
       <div class="header-actions">
         <a class="back-link" href="/">← Back to Main Website</a>
+        <button class="account-btn" id="leaderboardBtn" type="button">Leaderboard</button>
         <button class="account-btn hidden" id="accountBtn" type="button">Sign In / Save</button>
         <button class="reset-progress" id="resetProgress" type="button">Reset Progress</button>
       </div>
@@ -50,7 +52,7 @@
         </div>
         <div class="progress-stat">
           <span class="stat-label">Completed</span>
-          <strong><span id="completedValue">0</span>/50</strong>
+          <strong><span id="completedValue">0</span>/75</strong>
         </div>
         <div class="progress-stat">
           <span class="stat-label">Current Rank</span>
@@ -82,7 +84,7 @@
           <span class="panel-kicker">LEARNING TRACKS</span>
           <h2>Pick a discipline.</h2>
         </div>
-        <p>Choose from 25 existing labs in Level 1 and 25 intermediate assignments in Level 2 across networking, systems, cybersecurity, cloud, and integrated operations.</p>
+        <p>Choose from 25 existing labs in Level 1 and 25 intermediate assignments in Level 2, and 25 advanced incidents in Level 3 across networking, systems, cybersecurity, cloud, and integrated operations.</p>
       </div>
 
       <div class="track-tabs" role="tablist" aria-label="Training tracks">
@@ -160,6 +162,7 @@
           <button class="level-btn" type="button" data-level="2" aria-selected="false">
             <span>Level 2</span><strong>Intermediate</strong>
           </button>
+          <button class="level-btn" type="button" data-level="3" aria-selected="false"><span>Level 3</span><strong>Advanced</strong></button>
         </div>
 
         <div class="level-detail" id="levelDetail">
@@ -635,22 +638,24 @@ C:\Users\student&gt;</div>
     <p>© 2026 Agyemang Prempeh · PrempehTech.ca · Interactive IT Training Simulator</p>
   </footer>
 
-  <script src="security.js?v=20261010-catalog-2"></script>
+  <script src="security.js?v=20261010-level3-1"></script>
   <script src="cloud-config.js?v=20261007-11"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js" integrity="sha384-BWcjm9OdFth9TbhCxZPdm+gAOUMAzQy9nmTs12ioXdCcbVnJaPMn+fMUoQCLt60R" crossorigin="anonymous"></script>
-  <script src="cloud-save.js?v=20261009-security-1"></script>
+  <script src="cloud-save.js?v=20261010-level3-1"></script>
   <script src="cloud-lab.js?v=20261009-level2-1"></script>
   <script src="workspace-icons.js?v=20261009-icons-1"></script>
-  <script src="workspace-files.js?v=20261010-catalog-2"></script>
+  <script src="workspace-files.js?v=20261010-level3-1"></script>
   <script src="workspace-session.js?v=20261008-1"></script>
-  <script src="enterprise-network.js?v=20261010-catalog-2"></script>
-  <script src="workspace.js?v=20261010-catalog-2"></script>
-  <script src="desktop-lab.js?v=20261010-procedures-1"></script>
+  <script src="enterprise-network.js?v=20261010-level3-1"></script>
+  <script src="workspace.js?v=20261010-level3-1"></script>
+  <script src="desktop-lab.js?v=20261010-level3-1"></script>
   <script src="walkthrough.js?v=20261010-procedures-1"></script>
-  <script src="enterprise-shell.js?v=20261010-procedures-1"></script>
+  <script src="enterprise-shell.js?v=20261010-level3-1"></script>
   <script src="level-two.js?v=20261010-curriculum-1"></script>
-  <script src="intermediate-labs.js?v=20261010-curriculum-1"></script>
+  <script src="intermediate-labs.js?v=20261010-level3-1"></script>
   <script src="intermediate-catalog.js?v=20261010-catalog-2"></script>
-  <script src="simulator.js?v=20261010-catalog-2"></script>
+  <script src="advanced-labs.js?v=20261010-level3-1"></script>
+  <script src="leaderboard.js?v=20261010-level3-1"></script>
+  <script src="simulator.js?v=20261010-level3-1"></script>
 </body>
 </html>

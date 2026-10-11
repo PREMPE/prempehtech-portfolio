@@ -75,7 +75,7 @@ class IntermediateLabsTests(unittest.TestCase):
 
     def test_landing_selects_both_levels_and_all_foundation_assignments(self):
         p=self.page;p.evaluate('PrempehDesktopLab.close()')
-        self.assertEqual(p.locator('.level-btn').count(),2)
+        self.assertEqual(p.locator('.level-btn').count(),3)
         p.locator('#foundationAssignment').select_option('5')
         p.locator('#levelJumpBtn').click()
         self.assertEqual(p.evaluate('PrempehDesktopLab.getRuntime().current.level'),5)

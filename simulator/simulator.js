@@ -213,7 +213,7 @@
   }
 
   let selectedLevel = 1;
-  const selectedProject=()=>Number($("foundationAssignment").value||(selectedLevel===2?6:1));
+  const selectedProject=()=>Number($("foundationAssignment").value||((selectedLevel-1)*5+1));
   $("foundationAssignment").addEventListener("change",()=>setDifficultyLevel(selectedLevel));
 
   function setDifficultyLevel(level) {
@@ -225,7 +225,7 @@
     $("foundationAssignment").innerHTML=entries.map((x,i)=>`<option value="${x.id}">Lab ${i+1} · ${x.data.title}</option>`).join('');
     $("foundationAssignment").value=String(projectId);
     $("assignmentLabel").textContent="Level "+value+" assignment";
-    const data={label:"LEVEL "+value+(value===1?" · FOUNDATIONS":" · INTERMEDIATE"),title:value===1?"Level 1 — all current labs":"Level 2 — intermediate operations",description:value===1?"All five original assignments in this track are preserved. Choose an assignment below or browse Project Center.":"Choose one of five intermediate assignments. Investigate evidence, make controlled changes, verify recovery, and document the handover.",topics:value===1?["Five preserved assignments","Saved progress retained"]:["Evidence correlation","Change control","Recovery checks","Handover"]};
+    const data={label:"LEVEL "+value+([""," · FOUNDATIONS"," · INTERMEDIATE"," · ADVANCED"][value]),title:["","Level 1 — all current labs","Level 2 — intermediate operations","Level 3 — advanced enterprise incidents"][value],description:value===1?"All five original assignments in this track are preserved. Choose an assignment below or browse Project Center.":value===2?"Choose one of five intermediate assignments. Investigate evidence, make controlled changes, verify recovery, and document the handover.":"Choose one of five advanced incidents. Repair multiple faults, exercise a failure, recover safely, and prove the service and security boundaries.",topics:value===1?["Five preserved assignments","Saved progress retained"]:["Evidence correlation","Change control","Recovery checks","Handover"]};
     selectedLevel = value;
 
     $$(".level-btn").forEach((btn) => {
@@ -234,7 +234,7 @@
       btn.classList.toggle("active", active);
       btn.setAttribute("aria-selected", active ? "true" : "false");
       const strong = btn.querySelector("strong");
-      if (strong) strong.textContent = btnLevel===1?"Foundations":"Intermediate";
+      if (strong) strong.textContent = ["","Foundations","Intermediate","Advanced"][btnLevel];
     });
 
     $("levelSelectorTrackLabel").textContent = trackConfig.name.toUpperCase() + " LEVELS · ALL UNLOCKED";
@@ -299,7 +299,7 @@
     const completedCount = Object.keys(completedLevels).filter((k) => completedLevels[k]).length;
     $("xpValue").textContent = progress.xp;
     $("completedValue").textContent = completedCount;
-    $("progressFill").style.width = Math.min(100, (completedCount / (Object.keys(difficultyLevels).length * 10)) * 100) + "%";
+    $("progressFill").style.width = Math.min(100, (completedCount / (window.PrempehDesktopLab.getCatalog().length)) * 100) + "%";
     $("rankValue").textContent =
       completedCount === 0 ? "Foundation" :
       completedCount < 5 ? "Junior Technician" :
@@ -309,9 +309,9 @@
     ["networking", "sysadmin", "cyber", "cloud", "integrated"].forEach((key) => {
       const badge = document.querySelector('[data-complete-badge="' + key + '"]');
       if (!badge) return;
-      const count = [1,2,3,4,5,6,7,8,9,10].filter((level) => completedLevels[key + ":" + level]).length;
-      badge.textContent = count === 10 ? "10/10 completed ✓" : count + "/10 completed";
-      badge.classList.toggle("done", count === 10);
+      const count = window.PrempehDesktopLab.getCatalog().filter(x=>x.track===key&&completedLevels[key+":"+x.id]).length;
+      badge.textContent = count === 15 ? "15/15 completed ✓" : count + "/15 completed";
+      badge.classList.toggle("done", count === 15);
     });
 
     $("continueBtn").textContent = "Choose a Lab";
@@ -869,8 +869,8 @@
     const key = track + ":" + level;
     const firstCompletion = !progress.completedLevels[key];
     progress.completedLevels[key] = true;
-    const trackCount = [1,2,3,4,5,6,7,8,9,10].filter((n) => progress.completedLevels[track + ":" + n]).length;
-    progress.completed[track] = trackCount === 10;
+    const trackCount = window.PrempehDesktopLab.getCatalog().filter(x=>x.track===track&&progress.completedLevels[track+":"+x.id]).length;
+    progress.completed[track] = trackCount === 15;
     if (firstCompletion) progress.xp += Number(detail.score) || 100;
     saveProgress();
     updateProgressUI();

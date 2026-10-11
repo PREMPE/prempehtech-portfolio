@@ -253,6 +253,24 @@
   }
 
   window.PrempehCloud = {
+    leaderboard: async (track='all') => {
+      if(!client)throw new Error('Account service unavailable. Please retry after the page finishes loading.');
+      const {data,error}=await client.rpc('simulator_leaderboard',{p_track:track});
+      if(error)throw error;return data||[];
+    },
+    setLeaderboardProfile: async (name,optIn) => {
+      if(!client||!user)throw new Error('Sign in to join the leaderboard.');
+      if(optIn)await saveProgress(localProgress());
+      const {error}=await client.rpc('simulator_leaderboard_profile',{p_name:name,p_opt_in:optIn});
+      if(error)throw error;
+    },
+    ownLeaderboardProfile: async () => {
+      if(!client||!user)return null;
+      const {data,error}=await client.rpc('simulator_my_leaderboard_profile');
+      if(error)throw error;return data?.[0]||null;
+    },
+    playerKey: () => user?.id||"guest",
+    openAccount: openDialog,
     isConfigured: configured,
     isSignedIn: () => Boolean(user),
     saveProgress,

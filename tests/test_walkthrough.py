@@ -32,10 +32,10 @@ class WalkthroughTests(unittest.TestCase):
             elif action=='verify':self.assertTrue(p.evaluate('(id)=>PrempehDesktopLab.getRuntime().taskState[id]',s['taskId']),s)
         self.assertTrue(p.locator('#vmComplete').is_visible())
 
-    def test_all_50_projects_complete_by_following_the_walkthrough(self):
+    def test_all_75_projects_complete_by_following_the_walkthrough(self):
         p=self.page
         for track in ['networking','sysadmin','cyber','cloud','integrated']:
-            for slot in range(1,11):
+            for slot in range(1,16):
                 with self.subTest(track=track,slot=slot):
                     p.locator(f'[data-project="{track}"][data-project-level="{slot}"]').click()
                     self.follow()

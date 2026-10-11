@@ -91,7 +91,7 @@
       handover('ops',['opsbusiness','opssecurity'],'Dispatch recovered; retired identity contained; guests blocked')
     ]);
   const runtime=()=>lab.getRuntime();
-  const active=()=>runtime().current.data?.curriculumLevel===2;
+  const active=()=>runtime().current.data?.curriculumLevel>=2;
   const block=id=>{
     if(!active())return null;
     const {current,taskState}=runtime(),task=current.data.tasks.find(t=>t.id===id);
