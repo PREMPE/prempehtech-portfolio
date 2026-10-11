@@ -229,8 +229,9 @@ function updateClock(){
   const d=new Date(); el.innerHTML=d.toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"})+"<br>"+d.toLocaleDateString();
 }
 
-function launch(track,level){
-  if(window.PrempehLeaderboard&&!window.PrempehLeaderboard.ensureName(()=>launch(track,level)))return;
+function launch(track,level,enrolled=false){
+  if(!scenario(track,level))return;
+  if(!enrolled&&window.PrempehLeaderboard){window.PrempehLeaderboard.startLab(track,Number(level),()=>launch(track,level,true));return;}
   ensureShell();
   current={track,level:Number(level),data:scenario(track,level)};
   if(!current.data) return;
@@ -481,7 +482,7 @@ function showTerminalGuide(appId){
 }
 function completeProject(){
   const score=100;
-  $("vmComplete").innerHTML=`<div class="vm-complete-card"><span style="color:#1687d2;font-weight:900;font-size:.72rem">PROJECT VALIDATED</span><h2>${current.data.title}</h2><p>You completed the Level ${current.data.curriculumLevel||1} ${trackLabel(current.track)} project in the training VM. The configuration and validation steps passed.</p><div class="vm-complete-actions"><button class="vm-native-btn primary" id="vmReplay" type="button">Replay Project</button><button class="vm-native-btn" id="vmChoose" type="button">Choose Another Project</button></div></div>`;
+  $("vmComplete").innerHTML=`<div class="vm-complete-card"><span style="color:#1687d2;font-weight:900;font-size:.72rem">PROJECT VALIDATED</span><h2>${current.data.title}</h2><p>You completed the Level ${current.data.curriculumLevel||1} ${trackLabel(current.track)} project in the training VM. The configuration and validation steps passed.</p><p id="vmCompetitionStatus" role="status"></p><div class="vm-complete-actions"><button class="vm-native-btn primary" id="vmReplay" type="button">Replay Project</button><button class="vm-native-btn" id="vmChoose" type="button">Choose Another Project</button></div></div>`;
   $("vmComplete").classList.remove("hidden");
   window.dispatchEvent(new CustomEvent("prempeh-desktop-complete",{detail:{track:current.track,level:current.level,score}}));
   $("vmReplay").addEventListener("click",()=>launch(current.track,current.level));

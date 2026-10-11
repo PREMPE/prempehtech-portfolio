@@ -253,9 +253,9 @@
   }
 
   window.PrempehCloud = {
-    leaderboard: async (track='all') => {
+    leaderboard: async (track='all',month=null) => {
       if(!client)throw new Error('Account service unavailable. Please retry after the page finishes loading.');
-      const {data,error}=await client.rpc('simulator_leaderboard',{p_track:track});
+      const {data,error}=await client.rpc('simulator_monthly_leaderboard',{p_track:track,p_month:month});
       if(error)throw error;return data||[];
     },
     setLeaderboardProfile: async (name,optIn) => {
@@ -268,6 +268,21 @@
       if(!client||!user)return null;
       const {data,error}=await client.rpc('simulator_my_leaderboard_profile');
       if(error)throw error;return data?.[0]||null;
+    },
+    competitionStatus: async () => {
+      if(!client)throw new Error('Account service unavailable');
+      const {data,error}=await client.rpc('simulator_competition_status');
+      if(error)throw error;return data[0];
+    },
+    startCompetition: async (name,track,slot) => {
+      if(!client||!user)throw new Error('Sign in before entering');
+      const {data,error}=await client.rpc('simulator_competition_start',{p_name:name,p_track:track,p_slot:slot});
+      if(error)throw error;return data;
+    },
+    finishCompetition: async run => {
+      if(!client||!user)throw new Error('Sign in to record points');
+      const {data,error}=await client.rpc('simulator_competition_finish',{p_run:run});
+      if(error)throw error;return data;
     },
     playerKey: () => user?.id||"guest",
     openAccount: openDialog,

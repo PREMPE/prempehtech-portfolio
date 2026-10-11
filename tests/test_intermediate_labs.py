@@ -27,6 +27,7 @@ class IntermediateLabsTests(unittest.TestCase):
         for track in ['networking','sysadmin','cyber','cloud','integrated']:
             for slot in range(1,6):
                 p.evaluate('([t,n])=>PrempehDesktopLab.launch(t,n)',[track,slot])
+                p.wait_for_function('([t,n])=>PrempehDesktopLab.getRuntime().current.track===t&&PrempehDesktopLab.getRuntime().current.level===n',arg=[track,slot])
                 self.assertIn('Level 1',p.locator('#desktopMissionMeta').inner_text())
                 self.assertGreater(len(p.evaluate('PrempehDesktopLab.getRuntime().current.data.tasks')),0)
         saved=p.evaluate('JSON.parse(localStorage.getItem("prempehtech-simulator-progress-v1"))')

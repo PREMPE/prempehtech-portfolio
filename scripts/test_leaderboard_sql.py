@@ -43,6 +43,56 @@ try:
  constraints=(ROOT/'supabase/security-progress-constraints.sql').read_text();sql(constraints);sql(constraints)
  sql("update public.simulator_progress set progress='{\"completedLevels\":{\"networking:15\":true},\"xp\":300}'::jsonb where user_id='00000000-0000-0000-0000-000000000001';")
  sql("update public.simulator_progress set progress='{\"completedLevels\":{\"networking:16\":true},\"xp\":300}'::jsonb where user_id='00000000-0000-0000-0000-000000000001';",False)
+ monthly=(ROOT/'supabase/monthly-competition.sql').read_text();sql(monthly);sql(monthly)
+ month=sql('select month from public.simulator_competition_status();')
+ assert sql("set role anon; select time_zone from public.simulator_competition_status();").splitlines()[-1]=='America/Toronto'
+ assert sql("set role anon; select count(*) from public.simulator_monthly_leaderboard();").splitlines()[-1]=='0'
+ sql("set role anon; select public.simulator_competition_start('Guest','networking',1);",False)
+ sql(auth+"select public.simulator_competition_start('Chosen Name','networking',16);",False)
+ run=sql(auth+"select public.simulator_competition_start('Chosen Name','networking',11);").splitlines()[-1]
+ assert sql(auth+"select public.simulator_competition_start('Chosen Name','networking',11);").splitlines()[-1]==run
+ assert sql("select points from public.simulator_monthly_leaderboard();")=='0'
+ otherauth=auth.replace('000000000001','000000000002')
+ sql(otherauth+f"select public.simulator_competition_finish('{run}');",False)
+ sql(auth+"select public.simulator_competition_finish(gen_random_uuid());",False)
+ assert sql(auth+f"select public.simulator_competition_finish('{run}');").splitlines()[-1]=='300'
+ assert sql(auth+f"select public.simulator_competition_finish('{run}');").splitlines()[-1]=='0'
+ assert sql("select points from public.simulator_monthly_leaderboard();")=='300'
+ sql('set role anon; select * from public.simulator_competition_runs;',False)
+ sql(auth+"update public.simulator_competition_runs set completed_at=now();",False)
+ # No backdated completion or imported lifetime progress; a new month gets a new run.
+ sql("update public.simulator_competition_runs set month=(month-interval '1 month')::date;")
+ sql(auth+f"select public.simulator_competition_finish('{run}');",False)
+ assert sql('select count(*) from public.simulator_monthly_leaderboard();')=='0'
+ newrun=sql(auth+"select public.simulator_competition_start('Chosen Name','networking',11);").splitlines()[-1]
+ assert newrun!=run
+ assert sql("select points from public.simulator_monthly_leaderboard('all',(date '"+month+"'-interval '1 month')::date);")=='300'
+ sql(auth+"select public.simulator_leaderboard_profile('',false);")
+ sql(auth+f"select public.simulator_competition_finish('{newrun}');",False)
+ assert sql('select count(*) from public.simulator_monthly_leaderboard();')=='0'
+ sql(auth+"select public.simulator_competition_start('Chosen Name','networking',11);")
+ # Equal points: most labs wins, then earliest reached result. Owner fixtures provide deterministic times.
+ sql('delete from public.simulator_competition_runs;')
+ sql(f"""insert into public.simulator_competition_runs(user_id,month,track,slot,started_at,completed_at)
+ select lpad('1',32,'0')::uuid,date '{month}','networking',n,now()-interval '2 hours',now() from generate_series(1,3)n;
+ insert into public.simulator_competition_runs(user_id,month,track,slot,started_at,completed_at) values
+ (lpad('2',32,'0')::uuid,date '{month}','networking',11,now()-interval '2 hours',now()-interval '1 hour');""")
+ assert sql("select display_name||':'||points from public.simulator_monthly_leaderboard() order by place limit 1;")=='Chosen Name:300'
+ sql(f"""insert into public.simulator_competition_runs(user_id,month,track,slot,started_at,completed_at)
+ select lpad('3',32,'0')::uuid,date '{month}','networking',n,now()-interval '2 hours',now()-interval '30 minutes' from generate_series(1,3)n;""")
+ assert sql('select display_name from public.simulator_monthly_leaderboard() order by place limit 1;')=='Player 03'
+ sql(f"""insert into public.simulator_competition_runs(user_id,month,track,slot)
+ select id,date '{month}','cloud',1 from auth.users on conflict do nothing;""")
+ assert sql('set role anon; select count(*) from public.simulator_monthly_leaderboard();').splitlines()[-1]=='20'
+ assert sql("select count(*) from public.simulator_monthly_leaderboard('cloud') where points=0;")=='20'
+ assert sql("select count(*) from public.simulator_monthly_leaderboard() where display_name='Player 26';")=='0'
+ sql("select * from public.simulator_monthly_leaderboard('all','2099-01-01');",False)
+ assert sql("select ('2026-11-01 00:00'::timestamp at time zone 'America/Toronto') at time zone 'UTC';")=='2026-11-01 04:00:00'
+ assert sql("select ('2026-12-01 00:00'::timestamp at time zone 'America/Toronto') at time zone 'UTC';")=='2026-12-01 05:00:00'
+ sql('alter table auth.users add column email text;')
+ sql((ROOT/'supabase/monthly-winner-review.sql').read_text())
+ sql('set role anon;'+(ROOT/'supabase/monthly-winner-review.sql').read_text(),False)
+ print('Monthly SQL passed: automatic enrollment, owner-only runs, server timestamps, replay protection, monthly reset, no lifetime import, points/lab-count/time tie breaks, Toronto DST, withdrawal and top 20.')
  print('Leaderboard SQL passed: migration idempotency, top 20, ties, scoring, opt-in privacy, access isolation, unique names and opt-out without progress loss.')
 finally:
  subprocess.run(['docker','rm','-f',name],capture_output=True)

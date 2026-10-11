@@ -78,4 +78,6 @@ The Level 1 Networking Lab 3 walkthrough includes privileged/configuration modes
 
 ## Player names and rankings
 
-Players choose a preferred username before their first scored lab. Names are remembered per account or guest device. Public ranking is optional and requires sign-in and explicit consent. Open Leaderboard from the site header or Project Center to see the top 20 qualifying learners, filter by discipline, update a public name, or opt out. See [database activation instructions](../supabase/LEADERBOARD.md) for the required administrative migration.
+Players choose a preferred username before their first scored lab. Starting a lab while signed in automatically enrolls them in the monthly top 20, with public visibility explained before Start. Monthly ranking uses points (100/200/300 by level), then completed-lab count, then earliest result. Each lab scores once per Toronto calendar month; lifetime progress is preserved. PrempehTech's reviewed monthly winner receives a CAD $50 Amazon voucher. If the competition service is unavailable, explicit unranked practice remains available.
+
+Open Leaderboard from the site header or Project Center to view monthly results, filter by discipline, update a public username, withdraw, or retry pending scores. See [database activation and prize-review instructions](../supabase/LEADERBOARD.md). Lab execution is still client-reported; the organizer must review results before awarding a voucher.
