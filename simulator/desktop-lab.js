@@ -455,7 +455,11 @@ function runTerminal(appId,raw,win){
 }
 
 function taskIdKey(id,cmd){return id+"|"+norm(cmd)}
-function afterTask(){renderMission();if(Object.values(taskState).every(Boolean))completeProject()}
+function afterTask(){
+  renderMission();
+  window.dispatchEvent(new CustomEvent("prempeh-desktop-activity",{detail:{track:current.track,level:current.level,tasks:current.data.tasks.filter(t=>taskState[t.id]).map(t=>t.id)}}));
+  if(Object.values(taskState).every(Boolean))completeProject();
+}
 function toast(msg,type=""){const t=$("vmToast");t.textContent=msg;t.className="vm-toast "+type;clearTimeout(t._timer);t._timer=setTimeout(()=>t.classList.add("hidden"),3200)}
 function showWhy(taskId){
   const t=current.data.tasks.find(x=>x.id===taskId);if(!t)return;

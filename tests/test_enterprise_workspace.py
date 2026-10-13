@@ -38,14 +38,17 @@ class EnterpriseWorkspaceTests(unittest.TestCase):
     def setUp(self):
         self.context = self.browser.new_context(viewport={'width': 1440, 'height': 1000})
         self.context.add_init_script("if(!localStorage.getItem('prempeh-player-name:guest'))localStorage.setItem('prempeh-player-name:guest','Test Learner')")
-        self.context.add_init_script("""window.addEventListener('DOMContentLoaded', () => {
-          if(!window.PrempehCloud)return;
-          localStorage.setItem('prempeh-monthly-notice-v1:guest','true');
-          PrempehCloud.isSignedIn=()=>true;
-          PrempehCloud.competitionStatus=async()=>({month:'2026-10-01',closes_at:'2026-11-01T04:00:00Z'});
-          PrempehCloud.startCompetition=async(name,track,slot)=>'test-'+track+'-'+slot;
-          PrempehCloud.finishCompetition=async()=>1;
-        });""")
+        if getattr(self,'mock_competition',True):
+            self.context.add_init_script("""window.addEventListener('DOMContentLoaded', () => {
+              if(!window.PrempehCloud)return;
+              localStorage.setItem('prempeh-monthly-notice-v2:guest','true');
+              PrempehCloud.isSignedIn=()=>true;
+              PrempehCloud.competitionStatus=async()=>({month:'2026-10-01',closes_at:'2026-11-01T04:00:00Z'});
+              PrempehCloud.startCompetition=async(name,track,slot)=>'test-'+track+'-'+slot;
+              PrempehCloud.finishCompetition=async()=>1;
+              PrempehCloud.recordLabActivity=async(run,tasks)=>tasks.length;
+              PrempehCloud.labActivity=async()=>[];
+            });""")
         self.page = self.context.new_page()
         self.page.set_default_timeout(6000)
         self.errors = []

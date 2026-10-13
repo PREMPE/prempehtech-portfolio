@@ -279,6 +279,16 @@
       const {data,error}=await client.rpc('simulator_competition_start',{p_name:name,p_track:track,p_slot:slot});
       if(error)throw error;return data;
     },
+    recordLabActivity: async (run,tasks) => {
+      if(!client||!user)throw new Error('Sign in to record lab activity');
+      const {data,error}=await client.rpc('simulator_competition_activity',{p_run:run,p_tasks:tasks});
+      if(error)throw error;return data;
+    },
+    labActivity: async (name,month=null) => {
+      if(!client)throw new Error('Account service unavailable');
+      const {data,error}=await client.rpc('simulator_monthly_activity',{p_name:name,p_month:month});
+      if(error)throw error;return data||[];
+    },
     finishCompetition: async run => {
       if(!client||!user)throw new Error('Sign in to record points');
       const {data,error}=await client.rpc('simulator_competition_finish',{p_run:run});

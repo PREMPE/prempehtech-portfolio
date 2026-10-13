@@ -34,11 +34,18 @@ class WalkthroughTests(unittest.TestCase):
 
     def test_all_75_projects_complete_by_following_the_walkthrough(self):
         p=self.page
+        p.evaluate("() => {window.labActivityEvents=[];window.addEventListener('prempeh-desktop-activity',e=>labActivityEvents.push(e.detail))}")
         for track in ['networking','sysadmin','cyber','cloud','integrated']:
             for slot in range(1,16):
                 with self.subTest(track=track,slot=slot):
                     p.locator(f'[data-project="{track}"][data-project-level="{slot}"]').click()
+                    p.evaluate('labActivityEvents=[]')
                     self.follow()
+                    activity=p.evaluate('labActivityEvents')
+                    task_ids=p.evaluate('PrempehDesktopLab.getRuntime().current.data.tasks.map(t=>t.id)')
+                    self.assertEqual(len(activity),len(task_ids))
+                    self.assertEqual(set(activity[-1]['tasks']),set(task_ids))
+                    self.assertTrue(all(x['track']==track and x['level']==slot for x in activity))
                     p.locator('#vmChoose').click();p.locator('#openWorkspaceBtn').click()
 
     def test_vlan_walkthrough_and_show_control_do_not_skip_learning(self):

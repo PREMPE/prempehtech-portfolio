@@ -5,10 +5,11 @@ with period as (
  select (date_trunc('month',now() at time zone 'America/Toronto')-interval '1 month')::date as month
 ), totals as (
  select r.user_id,p.display_name,
- sum(((r.slot-1)/5+1)*100) filter(where r.completed_at is not null) as points,
+ sum(public.simulator_activity_points(r.slot,cardinality(r.validated_tasks),cardinality(c.task_ids),r.completed_at is not null)) as points,
  count(*) filter(where r.completed_at is not null) as labs,
- max(r.completed_at) as reached_at,min(r.started_at) as joined_at
+ max(greatest(r.completed_at,r.last_activity_at)) as reached_at,min(r.started_at) as joined_at
  from public.simulator_competition_runs r
+ join public.simulator_lab_task_catalog c on c.track=r.track and c.slot=r.slot
  join public.simulator_leaderboard_profiles p on p.user_id=r.user_id and p.opted_in
  join period on r.month=period.month
  group by r.user_id,p.display_name

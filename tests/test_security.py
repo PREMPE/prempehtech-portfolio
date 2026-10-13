@@ -4,6 +4,7 @@ from pathlib import Path
 import test_enterprise_workspace as fixtures
 
 class SecurityTests(unittest.TestCase):
+    mock_competition = False
     setUpClass = classmethod(fixtures.EnterpriseWorkspaceTests.setUpClass.__func__)
     tearDownClass = classmethod(fixtures.EnterpriseWorkspaceTests.tearDownClass.__func__)
     setUp = fixtures.EnterpriseWorkspaceTests.setUp

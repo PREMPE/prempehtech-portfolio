@@ -90,8 +90,40 @@ try:
  assert sql("select ('2026-11-01 00:00'::timestamp at time zone 'America/Toronto') at time zone 'UTC';")=='2026-11-01 04:00:00'
  assert sql("select ('2026-12-01 00:00'::timestamp at time zone 'America/Toronto') at time zone 'UTC';")=='2026-12-01 05:00:00'
  sql('alter table auth.users add column email text;')
+ activity=(ROOT/'supabase/monthly-activity.sql').read_text();sql(activity);sql(activity)
+ assert sql('select count(*) from public.simulator_lab_task_catalog;')=='75'
+ assert sql("set role anon; select count(*) from public.simulator_monthly_activity('Chosen Name');").splitlines()[-1]=='75'
+ assert sql("select count(*) from public.simulator_monthly_activity('Player 26');")=='0'
+ activity_run=sql("select id from public.simulator_competition_runs where user_id=lpad('1',32,'0')::uuid and month=date '"+month+"' and track='cloud' and slot=1;")
+ task_ids=json.loads(sql("select to_json(task_ids) from public.simulator_lab_task_catalog where track='cloud' and slot=1;"))
+ task=lambda t:"'"+t.replace("'","''")+"'"
+ first=task(task_ids[0]);second=task(task_ids[1])
+ assert sql(auth+f"select public.simulator_competition_activity('{activity_run}',array[{first}]);").splitlines()[-1]=='1'
+ assert sql(auth+f"select public.simulator_competition_activity('{activity_run}',array[{first}]);").splitlines()[-1]=='1'
+ assert sql(auth+f"select public.simulator_competition_activity('{activity_run}',array[{second}]);").splitlines()[-1]=='2'
+ sql(auth+f"select public.simulator_competition_activity('{activity_run}',array['invented-task']);",False)
+ sql(auth+f"select public.simulator_competition_activity('{activity_run}',array[null]::text[]);",False)
+ sql(otherauth+f"select public.simulator_competition_activity('{activity_run}',array[{first}]);",False)
+ sql('set role anon;'+f"select public.simulator_competition_activity('{activity_run}',array[{first}]);",False)
+ sql('set role authenticated;select * from public.simulator_lab_task_catalog;',False)
+ assert sql("select validated||':'||points from public.simulator_monthly_activity('Chosen Name') where track='cloud' and slot=1;")=='2:'+str(200//len(task_ids))
+ assert sql("select points from public.simulator_monthly_leaderboard() where display_name='Chosen Name';")==str(300+200//len(task_ids))
+ assert sql("select count(*) from public.simulator_monthly_activity('Chosen Name') where completed and validated=total;")=='3'
+ assert sql("select count(*) from public.simulator_monthly_activity('Chosen Name') where started_at is null and validated=0;")=='71'
+ all_tasks='array['+','.join(task(x) for x in task_ids)+']'
+ assert sql(auth+f"select public.simulator_competition_activity('{activity_run}',{all_tasks});").splitlines()[-1]==str(len(task_ids))
+ assert sql("select points||':'||completed from public.simulator_monthly_activity('Chosen Name') where track='cloud' and slot=1;")=='100:false'
+ assert sql(auth+f"select public.simulator_competition_finish('{activity_run}');").splitlines()[-1]=='100'
+ assert sql("select points from public.simulator_monthly_leaderboard() where display_name='Chosen Name';")=='400'
+ assert sql(auth+f"select public.simulator_competition_finish('{activity_run}');").splitlines()[-1]=='0'
+ assert sql("select public.simulator_activity_points(11,10,11,false);")=='272'
+ assert sql("select public.simulator_activity_points(11,11,11,false);")=='300'
+ sql(f"update public.simulator_competition_runs set month=(month-interval '1 month')::date where id='{activity_run}';")
+ sql(auth+f"select public.simulator_competition_activity('{activity_run}',array[{first}]);",False)
+ assert sql("select validated from public.simulator_monthly_activity('Chosen Name') where track='cloud' and slot=1;")=='0'
  sql((ROOT/'supabase/monthly-winner-review.sql').read_text())
  sql('set role anon;'+(ROOT/'supabase/monthly-winner-review.sql').read_text(),False)
+ print('Lab activity SQL passed: all 75 labs, unique validated tasks, proportional task points, account isolation, hidden profiles, task allowlist and month boundaries.')
  print('Monthly SQL passed: automatic enrollment, owner-only runs, server timestamps, replay protection, monthly reset, no lifetime import, points/lab-count/time tie breaks, Toronto DST, withdrawal and top 20.')
  print('Leaderboard SQL passed: migration idempotency, top 20, ties, scoring, opt-in privacy, access isolation, unique names and opt-out without progress loss.')
 finally:
