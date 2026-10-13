@@ -18,10 +18,11 @@ class WalkthroughTests(unittest.TestCase):
             action=s.get('action')
             if action=='open':win=self.open_tool(s['app'])
             elif action=='service':win.locator(f'[data-cloud-service="{s["service"]}"]').click()
-            elif action=='field':
-                field=win.locator(f'[data-field="{s["taskId"]}:{s["key"]}"]')
-                if s['fieldType']=='select':field.select_option(s['value'])
-                else:field.fill(s['value'])
+            elif action=='fields':
+                for f in s['fields']:
+                    field=win.locator(f'[data-field="{s["taskId"]}:{f["key"]}"]')
+                    if f['fieldType']=='select':field.select_option(f['value'])
+                    else:field.fill(f['value'])
             elif action=='apply':
                 win.locator(f'[data-submit-task="{s["taskId"]}"]').click()
                 self.assertTrue(p.evaluate('(id)=>PrempehDesktopLab.getRuntime().taskState[id]',s['taskId']),s)
@@ -64,7 +65,7 @@ class WalkthroughTests(unittest.TestCase):
         self.assertTrue(p.locator('.vm-window[data-app=switch]').is_visible())
         self.assertFalse(any(p.evaluate('Object.values(PrempehDesktopLab.getRuntime().taskState)')))
         # Demonstration locates a field; it does not fill in the answer.
-        index=next(i for i,s in enumerate(steps) if s.get('key')=='users')
+        index=next(i for i,s in enumerate(steps) if any(f['key']=='users' for f in s.get('fields',[])))
         p.evaluate('(i)=>PrempehWalkthrough.show(i)',index)
         field=p.locator('[data-field="n3router:users"]')
         self.assertTrue(field.evaluate('(e)=>document.activeElement===e'))

@@ -31,6 +31,7 @@ function injectStyle(){
 .enterprise-guide-tabs button{flex:1;border:0;background:#e8eef3;padding:9px 6px;min-width:0;min-height:38px;height:auto;white-space:normal;font-size:12px;line-height:1.4;font-weight:800;cursor:pointer}
 .enterprise-guide-tabs button.active{background:#fff;color:#0c5f99}
 .enterprise-guide-pane{padding:10px 12px;font-size:12px;line-height:1.45;color:#263746}
+.enterprise-guide-pane pre{white-space:pre-wrap;overflow-wrap:anywhere;padding:8px;background:#edf3f7;color:#172d40;border:1px solid #c8d6e2;border-radius:4px}.enterprise-guide-pane ul{padding-left:18px}.enterprise-guide-pane code{overflow-wrap:anywhere}
 .enterprise-guide-pane ol{padding-left:20px;margin:4px 0}.enterprise-guide-pane li{margin:7px 0}
 .enterprise-hint{padding:8px;border-left:3px solid #1687d2;background:#eef7fd;margin:7px 0}
 .ticket-reopen{height:32px!important;margin:4px!important;padding:0 10px!important;background:#e7eef5!important;border:1px solid #9fb2c3!important;border-radius:4px!important;font-weight:800!important;cursor:pointer!important}
