@@ -49,3 +49,20 @@ New starts disclose that usernames, scores and lab progress are public. Withdraw
 Run **verified-competition.sql last**, after monthly-activity.sql. The migration is repeatable, keeps historical scores, flags legacy unverified results for review, closes the task-ID-only scoring endpoint, and requires configuration/command evidence for new credit and completion. The updated client queues evidence while activation is pending. Older saved submissions without evidence must be replayed. Do not rerun older competition migrations after this upgrade without rerunning this one.
 
 Use **competition-review.sql** as an administrator to review flags before deciding prize eligibility. A rapid-completion or rejected-evidence flag is not proof of cheating. A public browser can submit scripted correct solutions, so this verification is not human attestation or a substitute for prize review. See `simulator/CONNECTED-LABS.md` for learner workflows and the model's limits.
+
+
+### Username-only guest enrollment
+
+In Supabase Authentication → Sign In / Providers, enable **Anonymous Sign-Ins**.
+The simulator automatically creates a private anonymous Auth identity after the player
+submits a username. No email, password or manual sign-in is required. Existing signed-in
+players keep their identity. Anonymous users use the authenticated database role, so
+ownership, evidence verification, and score restrictions remain enforced. Do not grant
+anonymous database requests access to competition writes.
+
+Guest identity persists in this browser's stored session. Clearing site data or changing
+devices does not recover an identity by typing its public username. Names are not passwords.
+The monthly prize still requires manual winner review; one identity per person is a
+competition rule, not a guarantee that anonymous enrollment prevents multiple identities.
+For guest winners, arrange voucher contact after verifying control of the winning session;
+email-based winner queries may return no email. Do not publish private contact information.

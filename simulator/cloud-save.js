@@ -59,12 +59,12 @@
     const accountBtn = $("accountBtn");
     if (accountBtn) {
       accountBtn.classList.remove("hidden");
-      accountBtn.textContent = user ? "Account / Synced" : "Sign In / Save";
+      accountBtn.textContent = user?.is_anonymous ? "Guest player" : user ? "Account / Synced" : "Sign In / Save";
     }
     $("signedOutView")?.classList.toggle("hidden", Boolean(user));
     $("signedInView")?.classList.toggle("hidden", !user);
     if (user) {
-      $("signedInEmail").textContent = user.email || "Player";
+      $("signedInEmail").textContent = user.email || "Guest player — keep this browser data to retain your identity";
       setSaveStatus("Cloud synced");
     } else {
       setSaveStatus("This device");
@@ -110,6 +110,24 @@
     emitProgress(merged);
     await saveProgress(merged);
     return merged;
+  }
+
+  let guestSession = null;
+  async function ensurePlayer() {
+    await window.PrempehCloud.ready;
+    if (user) return user;
+    if (!client) throw new Error('Player service unavailable');
+    if (!guestSession) {
+      guestSession = (async () => {
+        const {data,error} = await client.auth.signInAnonymously();
+        if (error) throw error;
+        if (!data?.user || !data?.session) throw new Error('Guest session unavailable');
+        user = data.user;
+        renderAuth();
+        return user;
+      })().finally(() => { guestSession = null; });
+    }
+    return guestSession;
   }
 
   async function signIn(email, password) {
@@ -299,6 +317,7 @@
       const {data,error}=await client.rpc('simulator_competition_finish',{p_run:run});
       if(error)throw error;return data;
     },
+    ensurePlayer,
     playerKey: () => user?.id||"guest",
     openAccount: openDialog,
     isConfigured: configured,

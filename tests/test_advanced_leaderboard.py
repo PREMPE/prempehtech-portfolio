@@ -46,16 +46,33 @@ class AdvancedLeaderboardTests(unittest.TestCase):
         self.assertEqual(p.evaluate("localStorage.getItem('prempeh-player-name:test-account')"),'Network Expert')
         self.assertEqual(p.evaluate('PrempehDesktopLab.getRuntime().current.level'),11)
 
-    def test_sign_in_resumes_selected_lab_and_username(self):
+    def test_username_only_creates_guest_and_starts_without_account_screen(self):
         p=self.page
-        p.evaluate("PrempehCloud.isSignedIn=()=>false")
+        p.evaluate("""() => {
+          PrempehCloud.isSignedIn=()=>false;
+          window.guestCalls=0;
+          PrempehCloud.ensurePlayer=async()=>{
+            guestCalls++;PrempehCloud.isSignedIn=()=>true;
+            PrempehCloud.playerKey=()=> 'anonymous-player';
+          };
+        }""")
         p.locator('[data-project=networking][data-project-level="11"]').click()
-        p.wait_for_function("!document.getElementById('accountOverlay').classList.contains('hidden')")
-        self.assertEqual(p.evaluate('PrempehDesktopLab.getRuntime().current.level'),0)
-        p.evaluate("PrempehCloud.isSignedIn=()=>true; PrempehCloud.playerKey=()=> 'signed-in-player'")
-        p.locator('#accountClose').click()
         p.wait_for_function('PrempehDesktopLab.getRuntime().current.level===11')
-        self.assertEqual(p.evaluate("localStorage.getItem('prempeh-player-name:signed-in-player')"),'Test Learner')
+        self.assertEqual(p.evaluate('guestCalls'),1)
+        self.assertTrue(p.locator('#accountOverlay').is_hidden())
+        self.assertEqual(p.evaluate("localStorage.getItem('prempeh-player-name:anonymous-player')"),'Test Learner')
+
+    def test_disabled_guest_enrollment_is_not_reported_as_enrolled(self):
+        p=self.page
+        p.evaluate("""() => {
+          PrempehCloud.isSignedIn=()=>false;
+          PrempehCloud.ensurePlayer=async()=>{throw {code:'anonymous_provider_disabled'}};
+        }""")
+        p.locator('[data-project=networking][data-project-level="11"]').click()
+        expect(p.locator('[data-player-status]')).to_contain_text('awaiting activation')
+        self.assertEqual(p.evaluate('PrempehDesktopLab.getRuntime().current.level'),0)
+        self.assertTrue(p.locator('[data-practice-only]').is_visible())
+        self.assertTrue(p.locator('#accountOverlay').is_hidden())
 
     def test_enrollment_waits_for_restored_session(self):
         p=self.page
