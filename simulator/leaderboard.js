@@ -138,7 +138,7 @@
   if(!cloud().isSignedIn()){status.textContent='Sign in before updating your public username.';return}
   const account=cloud().playerKey(),button=e.submitter;button.disabled=true;
   try{await cloud().setLeaderboardProfile(name,true);if(cloud().playerKey()!==account)return;saveName(name);status.textContent='Your public username has been updated.';await refresh()}
-  catch(error){status.textContent=errorMessage(error)}finally{button.disabled=false}
+  catch(error){status.textContent=errorMessage(error)}finally{if(busy===token){busy=null;button.disabled=false}}
  };
  q('[data-remove]').onclick=async()=>{
   const status=q('[data-profile-status]');if(!cloud().isSignedIn()){status.textContent='Sign in to withdraw.';return}
@@ -148,27 +148,40 @@
  };
  const gate=document.createElement('dialog');gate.className='leaderboard';gate.setAttribute('aria-labelledby','playerNameTitle');
  gate.innerHTML='<header><h2 id="playerNameTitle">Choose your player name</h2><button data-cancel aria-label="Cancel lab start">×</button></header><p><strong>Start a lab. Enter the monthly competition.</strong></p><p>Starting automatically enrolls your signed-in account in the public top 20 leaderboard under this username. The highest monthly score wins a CAD $50 Amazon voucher. Your lab progress is public; your email stays private.</p><form data-player-form><label>Preferred username<input data-player-name minlength="3" maxlength="24" pattern="[A-Za-z0-9][A-Za-z0-9 _-]{2,23}" required autocomplete="nickname"></label><p>Use 3–24 letters, numbers, spaces, underscores or hyphens. Do not enter your email address.</p><details><summary>Monthly scoring and prize rules</summary><p>'+rules+'</p><p>One account per player. Sign-in is required to register an entry and record prize points. Only activity recorded in the month of enrollment earns points. Start the lab again to earn points in a new month.</p></details><button type="submit">Enroll and start lab</button></form><button data-player-account>Sign in / account</button><p data-player-status role="status"></p><button data-practice-only hidden>Practise without competition points</button>';
- document.body.append(gate);const g=s=>gate.querySelector(s);let pending=null,generation=0,activeRun=null;
- function cancel(){generation++;pending=null;gate.close()}
+ document.body.append(gate);const g=s=>gate.querySelector(s);let pending=null,generation=0,activeRun=null,busy=null,awaitingAccount=false;
+ function cancel(){generation++;pending=null;awaitingAccount=false;gate.close()}
  g('[data-cancel]').onclick=cancel;gate.addEventListener('cancel',cancel);
- g('[data-player-account]').onclick=()=>{cancel();cloud().openAccount()};
+ function openPlayerAccount(){generation++;awaitingAccount=true;gate.close();cloud().openAccount()}
+ g('[data-player-account]').onclick=openPlayerAccount;
+ window.addEventListener('prempeh-account-closed',()=>{
+  if(!awaitingAccount||!pending)return;
+  awaitingAccount=false;gate.showModal();
+  if(cloud().isSignedIn())enroll();else g('[data-player-status]').textContent='Sign in to enroll and earn monthly points.';
+ });
+ function withTimeout(promise){
+  let timer;return Promise.race([promise,new Promise((_,reject)=>{timer=setTimeout(()=>reject(new Error('Enrollment timed out')),15000)})]).finally(()=>clearTimeout(timer));
+ }
  async function enroll(){
-  if(!pending)return;
+  if(!pending||busy===generation)return;
   const name=g('[data-player-name]').value.trim(),status=g('[data-player-status]');
   if(!validName(name)){status.textContent='Choose a valid username before starting.';return}
-  const token=generation,account=cloud().playerKey(),entry=pending,button=g('[data-player-form] button');button.disabled=true;g('[data-practice-only]').hidden=true;
+  const token=generation,entry=pending,button=g('[data-player-form] button');busy=token;button.disabled=true;g('[data-practice-only]').hidden=true;
   status.textContent='Registering your monthly entry…';
   try{
-   try{await cloud().competitionStatus()}catch(error){if(token===generation){g('[data-practice-only]').hidden=false;status.textContent=errorMessage(error)}return}
+   await withTimeout(Promise.resolve(cloud().ready));
+   if(token!==generation)return;
+   if(!cloud().isSignedIn()){status.textContent='Sign in to enroll and start this lab.';openPlayerAccount();return}
+   try{await withTimeout(cloud().competitionStatus())}catch(error){if(token===generation){g('[data-practice-only]').hidden=false;status.textContent=errorMessage(error)}return}
    if(token!==generation)return;
    if(!cloud().isSignedIn()){status.textContent='Sign in, then start the lab to enter the monthly competition.';return}
-   const id=await cloud().startCompetition(name,entry.track,entry.slot);
-   if(token!==generation||cloud().playerKey()!==account)return;
-   saveName(name);write('prempeh-monthly-notice-v2',true);activeRun={id,account,track:entry.track,slot:entry.slot};pending=null;gate.close();entry.start();
-  }catch(error){if(token===generation)status.textContent=errorMessage(error)}finally{button.disabled=false}
+   const entryAccount=cloud().playerKey();
+   const id=await withTimeout(cloud().startCompetition(name,entry.track,entry.slot));
+   if(token!==generation||cloud().playerKey()!==entryAccount)return;
+   saveName(name);write('prempeh-monthly-notice-v2',true);activeRun={id,account:entryAccount,track:entry.track,slot:entry.slot};pending=null;gate.close();entry.start();
+  }catch(error){if(token===generation)status.textContent=errorMessage(error)}finally{if(busy===token){busy=null;button.disabled=false}}
  }
  function startLab(track,slot,start){
-  generation++;pending={track,slot,start};g('[data-player-name]').value=preferredName();g('[data-player-status]').textContent='';g('[data-practice-only]').hidden=true;
+  generation++;busy=null;awaitingAccount=false;g('[data-player-form] button').disabled=false;pending={track,slot,start};g('[data-player-name]').value=preferredName();g('[data-player-status]').textContent='';g('[data-practice-only]').hidden=true;
   if(!gate.open)gate.showModal();
   if(validName(preferredName())&&read('prempeh-monthly-notice-v2',false))enroll();else g('[data-player-name]').focus();
  }

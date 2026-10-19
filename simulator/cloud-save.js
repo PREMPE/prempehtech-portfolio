@@ -116,7 +116,7 @@
     const { data, error } = await client.auth.signInWithPassword({ email, password });
     if (error) throw error;
     user = data.user;
-    await syncFromCloud();
+    syncFromCloud().catch(() => setSaveStatus("Sync pending"));
     renderAuth();
     return user;
   }
@@ -129,7 +129,7 @@
     });
     if (error) throw error;
     user = data.session ? data.user : null;
-    if (data.session && user) await syncFromCloud();
+    if (data.session && user) syncFromCloud().catch(() => setSaveStatus("Sync pending"));
     renderAuth();
     return { user: data.user, session: data.session };
   }
@@ -151,6 +151,7 @@
 
   function closeDialog() {
     $("accountOverlay")?.classList.add("hidden");
+    window.dispatchEvent(new Event("prempeh-account-closed"));
   }
 
   function setAuthMode(mode) {
@@ -166,30 +167,6 @@
   }
 
   async function init() {
-    if (!configured()) {
-      setSaveStatus("This device");
-      return;
-    }
-
-    client = window.supabase.createClient(config.url, config.anonKey, {
-      auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
-    });
-
-    const { data } = await client.auth.getSession();
-    user = data && data.session ? data.session.user : null;
-    renderAuth();
-
-    if (user) {
-      try { await syncFromCloud(); } catch (_) {}
-    }
-
-    client.auth.onAuthStateChange((_event, session) => {
-      user = session ? session.user : null;
-      renderAuth();
-      // Supabase holds an auth lock during this callback; defer API calls.
-      if (user) setTimeout(() => syncFromCloud().catch(() => {}), 0);
-    });
-
     $("accountBtn")?.addEventListener("click", openDialog);
     $("accountClose")?.addEventListener("click", closeDialog);
     $("accountOverlay")?.addEventListener("click", (event) => {
@@ -197,6 +174,16 @@
     });
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape" && !$("accountOverlay")?.classList.contains("hidden")) closeDialog();
+    });
+
+
+    if (!configured()) {
+      setSaveStatus("This device");
+      return;
+    }
+
+    client = window.supabase.createClient(config.url, config.anonKey, {
+      auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
     });
 
     document.querySelectorAll(".auth-mode").forEach((btn) => {
@@ -218,13 +205,15 @@
         if (authMode === "signup") {
           const result = await signUp(email, password);
           if (result.session) {
-            setMessage("accountMessage", "Account created and progress synced.", "success");
+            setMessage("accountMessage", "Account created. Your progress will sync in the background.", "success");
+            closeDialog();
           } else {
             setMessage("accountMessage", "Account created. Check your email to confirm it, then sign in.", "success");
           }
         } else {
           await signIn(email, password);
-          setMessage("accountMessage", "Signed in. Your progress is synced.", "success");
+          setMessage("accountMessage", "Signed in. Your progress will sync in the background.", "success");
+          closeDialog();
         }
       } catch (error) {
         setMessage("accountMessage", error && error.message ? error.message : "Account action failed. Try again.", "error");
@@ -250,6 +239,22 @@
         setMessage("accountMessage", "Signed out. Guest progress will continue saving on this device.", "success");
       } catch (_) { setMessage("syncMessage", "Sign-out failed. Please retry before leaving a shared device.", "error"); }
     });
+    const { data } = await client.auth.getSession();
+    user = data && data.session ? data.session.user : null;
+    renderAuth();
+
+    if (user) {
+      syncFromCloud().catch(() => {});
+    }
+
+    client.auth.onAuthStateChange((_event, session) => {
+      user = session ? session.user : null;
+      renderAuth();
+      // Supabase holds an auth lock during this callback; defer API calls.
+      if (user) setTimeout(() => syncFromCloud().catch(() => {}), 0);
+    });
+
+
   }
 
   window.PrempehCloud = {
@@ -302,5 +307,5 @@
     syncFromCloud
   };
 
-  init().catch(() => setSaveStatus("This device"));
+  window.PrempehCloud.ready = init().catch(() => setSaveStatus("This device"));
 })();

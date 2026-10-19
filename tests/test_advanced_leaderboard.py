@@ -1,4 +1,6 @@
 import unittest
+import re
+from playwright.sync_api import expect
 import test_level_two as fixtures
 
 class AdvancedLeaderboardTests(unittest.TestCase):
@@ -44,14 +46,57 @@ class AdvancedLeaderboardTests(unittest.TestCase):
         self.assertEqual(p.evaluate("localStorage.getItem('prempeh-player-name:test-account')"),'Network Expert')
         self.assertEqual(p.evaluate('PrempehDesktopLab.getRuntime().current.level'),11)
 
-    def test_sign_in_required_when_competition_is_available(self):
-        p=self.page;p.evaluate("PrempehCloud.isSignedIn=()=>false")
+    def test_sign_in_resumes_selected_lab_and_username(self):
+        p=self.page
+        p.evaluate("PrempehCloud.isSignedIn=()=>false")
         p.locator('[data-project=networking][data-project-level="11"]').click()
-        gate=p.get_by_role('dialog',name='Choose your player name')
-        self.assertTrue(gate.is_visible())
-        self.assertIn('Sign in',gate.locator('[data-player-status]').inner_text())
+        p.wait_for_function("!document.getElementById('accountOverlay').classList.contains('hidden')")
         self.assertEqual(p.evaluate('PrempehDesktopLab.getRuntime().current.level'),0)
-        self.assertTrue(gate.locator('[data-practice-only]').is_hidden())
+        p.evaluate("PrempehCloud.isSignedIn=()=>true; PrempehCloud.playerKey=()=> 'signed-in-player'")
+        p.locator('#accountClose').click()
+        p.wait_for_function('PrempehDesktopLab.getRuntime().current.level===11')
+        self.assertEqual(p.evaluate("localStorage.getItem('prempeh-player-name:signed-in-player')"),'Test Learner')
+
+    def test_enrollment_waits_for_restored_session(self):
+        p=self.page
+        p.evaluate("""() => {
+          PrempehCloud.isSignedIn=()=>false;
+          PrempehCloud.ready=new Promise(resolve=>window.restoreSession=()=>{
+            PrempehCloud.isSignedIn=()=>true;
+            PrempehCloud.playerKey=()=> 'restored-player';resolve();
+          });
+        }""")
+        p.locator('[data-project=networking][data-project-level="11"]').click()
+        self.assertEqual(p.evaluate('PrempehDesktopLab.getRuntime().current.level'),0)
+        p.evaluate('restoreSession()')
+        p.wait_for_function('PrempehDesktopLab.getRuntime().current.level===11')
+        self.assertEqual(p.evaluate("localStorage.getItem('prempeh-player-name:restored-player')"),'Test Learner')
+
+    def test_slow_enrollment_can_retry_and_ignores_late_response(self):
+        p=self.page
+        p.evaluate("""() => {
+          PrempehCloud.startCompetition=()=>new Promise(resolve=>window.lateEnrollment=resolve);
+        }""")
+        p.locator('[data-project=networking][data-project-level="11"]').click()
+        expect(p.locator("[data-player-status]")).to_have_text(re.compile("retry"),timeout=20000)
+        self.assertTrue(p.locator('[data-player-form] button').is_enabled())
+        p.evaluate("PrempehCloud.startCompetition=async()=> 'retry-run'")
+        p.locator('[data-player-form] button').click()
+        p.wait_for_function('PrempehDesktopLab.getRuntime().current.level===11')
+        p.evaluate("lateEnrollment('late-run')")
+        self.assertEqual(p.evaluate('PrempehDesktopLab.getRuntime().current.level'),11)
+
+    def test_pending_enrollment_does_not_lock_next_lab(self):
+        p=self.page
+        p.evaluate("() => {PrempehCloud.startCompetition=()=>new Promise(resolve=>window.finishEntry=resolve)}")
+        p.locator('[data-project=networking][data-project-level="11"]').click()
+        p.wait_for_function("typeof finishEntry==='function'")
+        p.locator('[data-cancel]').click()
+        p.evaluate("PrempehCloud.startCompetition=async()=> 'new-run'")
+        p.locator('[data-project=networking][data-project-level="12"]').click()
+        p.wait_for_function('PrempehDesktopLab.getRuntime().current.level===12')
+        p.evaluate("finishEntry('old-run')")
+        self.assertEqual(p.evaluate('PrempehDesktopLab.getRuntime().current.level'),12)
 
     def test_unavailable_competition_requires_explicit_unranked_practice(self):
         p=self.page;p.evaluate("() => {PrempehCloud.competitionStatus=async()=>{throw {code:'PGRST202'}}}")
