@@ -279,10 +279,10 @@
       const {data,error}=await client.rpc('simulator_competition_start',{p_name:name,p_track:track,p_slot:slot});
       if(error)throw error;return data;
     },
-    recordLabActivity: async (run,tasks) => {
+    recordLabActivity: async (run,tasks,evidence=[]) => {
       if(!client||!user)throw new Error('Sign in to record lab activity');
-      const {data,error}=await client.rpc('simulator_competition_activity',{p_run:run,p_tasks:tasks});
-      if(error)throw error;return data;
+      const {data,error}=await client.rpc('simulator_competition_verify',{p_run:run,p_evidence:evidence});
+      if(error)throw error;if(!data?.accepted){const rejected=new Error(data?.message||'Server verification did not accept the lab evidence');rejected.code='LAB_EVIDENCE';throw rejected;}return data.validated;
     },
     labActivity: async (name,month=null) => {
       if(!client)throw new Error('Account service unavailable');

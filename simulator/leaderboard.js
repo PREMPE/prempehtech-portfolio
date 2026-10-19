@@ -11,6 +11,8 @@
  function preferredName(){try{const name=localStorage.getItem(key('prempeh-player-name'));return validName(name)?name:''}catch{return memoryAccount===cloud().playerKey()?memoryName:''}}
  function saveName(name){memoryName=name;memoryAccount=cloud().playerKey();try{localStorage.setItem(key('prempeh-player-name'),name)}catch{}}
  function errorMessage(error){
+  if(error?.code==='LAB_EVIDENCE')return error.message+' Replay the affected lab if saved evidence is incomplete.';
+  if(error?.code==='PGRST202'&&error?.message?.includes('simulator_competition_verify'))return 'Server verification needs activation. Your evidence is saved on this device; monthly points will sync after setup. Existing scores are unchanged.';
   if(['PGRST202','42883','42P01'].includes(error?.code))return 'The monthly competition is not activated yet. Practice progress is safe; monthly entry and prize points are unavailable until setup is complete.';
   if(error?.code==='23505')return 'That username is taken. Please choose another.';
   if(error?.code==='22023')return 'This entry has expired. Restart and complete the lab in the current month to earn points.';
@@ -18,7 +20,7 @@
  }
  const rules='The player with the most points earned this calendar month wins a CAD $50 Amazon voucher from PrempehTech. Each validated task earns a share of its lab’s points: up to 100 for Level 1, 200 for Level 2 and 300 for Level 3. The cumulative score is the lab maximum multiplied by the fraction of tasks validated, rounded down to a whole point. Completion earns the full lab value, not an extra bonus. Repeating a task earns nothing extra that month; you may earn points again next month. Months close at midnight on the first day of the next month, Toronto time. Equal points are ordered by most labs completed, then who reached that result first. One prize across all disciplines, not one per filter. Results are provisional until PrempehTech reviews the winner and arranges the voucher.';
  const dialog=document.createElement('dialog');dialog.className='leaderboard';dialog.setAttribute('aria-labelledby','leaderboardTitle');
- dialog.innerHTML='<header><h2 id="leaderboardTitle">Top 20 monthly leaderboard</h2><button data-close aria-label="Close leaderboard">×</button></header><p class="competition-prize"><strong>Monthly prize: CAD $50 Amazon voucher</strong></p><details><summary>Scoring and prize rules</summary><p>'+rules+'</p><p>Use one account per player. Lab results are reported by the simulator and reviewed before a prize is awarded.</p></details><p>Starting a lab while signed in automatically enrolls you under your preferred username. Your username, scores and lab progress are public; your email and account ID are private.</p><label>Month<select data-month><option value="">Current month</option></select></label><label>Discipline<select data-track><option value="all">All disciplines — prize ranking</option>'+tracks.map(t=>'<option value="'+t+'">'+window.PrempehDesktopLab.getTrackLabel(t)+'</option>').join('')+'</select></label><section><h3>Monthly rankings</h3><p data-period></p><button data-refresh>Refresh rankings / retry pending points</button><p data-status role="status"></p><div class="leaderboard-table"><table><thead><tr><th>Rank</th><th>Username</th><th>Points</th><th>Labs</th><th>L1</th><th>L2</th><th>L3</th><th>Activity</th></tr></thead><tbody data-rows></tbody></table></div></section><section data-activity-panel hidden><h3 data-activity-title>Lab activity</h3><p data-activity-status role="status"></p><div class="leaderboard-table activity-table"><table><thead><tr><th>Discipline / lab</th><th>Status</th><th>Validated tasks</th><th>Points</th><th>Last activity (Toronto)</th></tr></thead><tbody data-activity-rows></tbody></table></div></section><button data-my-activity>My activity across all labs</button><section><h3>Lifetime practice progress on this device</h3><p data-local></p><p>Lifetime totals are separate from monthly competition points. Previous saved progress is not imported into a new month.</p></section><section><h3>Your player profile</h3><form data-profile><label>Preferred username<input data-name minlength="3" maxlength="24" pattern="[A-Za-z0-9][A-Za-z0-9 _-]{2,23}" required autocomplete="nickname"></label><button type="submit">Update public username</button></form><button data-remove>Withdraw from rankings</button><p>Withdrawal hides your profile and leaves learning progress intact. Starting another lab enrolls you again.</p><button data-account>Sign in / account</button><p data-profile-status role="status"></p></section>';
+ dialog.innerHTML='<header><h2 id="leaderboardTitle">Top 20 monthly leaderboard</h2><button data-close aria-label="Close leaderboard">×</button></header><p class="competition-prize"><strong>Monthly prize: CAD $50 Amazon voucher</strong></p><details><summary>Scoring and prize rules</summary><p>'+rules+'</p><p>Use one account per player. Configurations and command evidence are checked by the server. Suspicious activity and legacy results require manual review before a prize is awarded.</p></details><p>Starting a lab while signed in automatically enrolls you under your preferred username. Your username, scores and lab progress are public; your email and account ID are private.</p><label>Month<select data-month><option value="">Current month</option></select></label><label>Discipline<select data-track><option value="all">All disciplines — prize ranking</option>'+tracks.map(t=>'<option value="'+t+'">'+window.PrempehDesktopLab.getTrackLabel(t)+'</option>').join('')+'</select></label><section><h3>Monthly rankings</h3><p data-period></p><button data-refresh>Refresh rankings / retry pending points</button><p data-status role="status"></p><div class="leaderboard-table"><table><thead><tr><th>Rank</th><th>Username</th><th>Points</th><th>Labs</th><th>L1</th><th>L2</th><th>L3</th><th>Activity</th></tr></thead><tbody data-rows></tbody></table></div></section><section data-activity-panel hidden><h3 data-activity-title>Lab activity</h3><p data-activity-status role="status"></p><div class="leaderboard-table activity-table"><table><thead><tr><th>Discipline / lab</th><th>Status</th><th>Validated tasks</th><th>Points</th><th>Last activity (Toronto)</th></tr></thead><tbody data-activity-rows></tbody></table></div></section><button data-my-activity>My activity across all labs</button><section><h3>Lifetime practice progress on this device</h3><p data-local></p><p>Lifetime totals are separate from monthly competition points. Previous saved progress is not imported into a new month.</p></section><section><h3>Your player profile</h3><form data-profile><label>Preferred username<input data-name minlength="3" maxlength="24" pattern="[A-Za-z0-9][A-Za-z0-9 _-]{2,23}" required autocomplete="nickname"></label><button type="submit">Update public username</button></form><button data-remove>Withdraw from rankings</button><p>Withdrawal hides your profile and leaves learning progress intact. Starting another lab enrolls you again.</p><button data-account>Sign in / account</button><p data-profile-status role="status"></p></section>';
  document.body.append(dialog);const q=s=>dialog.querySelector(s);let request=0,activityRequest=0;
  function local(){
   let saved;try{saved=JSON.parse(localStorage.getItem('prempehtech-simulator-progress-v1')||'{}')}catch{saved={}}
@@ -58,7 +60,7 @@
   if(cloud().isSignedIn())try{name=(await cloud().ownLeaderboardProfile())?.display_name||name}catch{}
   if(name)showActivity(name);else q('[data-profile-status]').textContent='Choose a username and start a lab to view your activity.';
  };
- let activityFlushing=null,activityTimer;
+ let activityFlushing=null,activityTimer;const lastActivity=new Map();
  async function flushActivity(){
   if(activityFlushing){await activityFlushing;return flushActivity()}
   if(!cloud().isSignedIn())return;
@@ -67,7 +69,7 @@
    const queue=read('prempeh-monthly-activity-pending',{});
    for(const [id,tasks] of Object.entries(queue)){
     if(cloud().playerKey()!==account)return;
-    try{await cloud().recordLabActivity(id,tasks)}catch(error){if(error?.code!=='22023')throw error}
+    try{await cloud().recordLabActivity(id,tasks,read('prempeh-monthly-evidence-pending',{})[id]||[])}catch(error){if(error?.code!=='22023')throw error}
     if(cloud().playerKey()!==account)return;
     const remaining=read('prempeh-monthly-activity-pending',{});
     if(JSON.stringify(remaining[id])===JSON.stringify(tasks))delete remaining[id];
@@ -79,8 +81,15 @@
  window.addEventListener('prempeh-desktop-activity',event=>{
   const entry=activeRun,detail=event.detail;
   if(!entry||entry.account!==cloud().playerKey()||entry.track!==detail.track||entry.slot!==Number(detail.level))return;
+  const evidence=window.PrempehLabEnvironment?.evidence()||[];
+  const signature=JSON.stringify({tasks:[...detail.tasks].sort(),evidence});
+  const identity=entry.account+':'+entry.id;if(lastActivity.get(identity)===signature)return;lastActivity.set(identity,signature);
   const queue=read('prempeh-monthly-activity-pending',{});
   queue[entry.id]=[...new Set([...(queue[entry.id]||[]),...detail.tasks])].sort();write('prempeh-monthly-activity-pending',queue);
+  const proofs=read('prempeh-monthly-evidence-pending',{});
+  const merged=new Map((proofs[entry.id]||[]).map(p=>[p.id,p]));
+  evidence.forEach(p=>merged.set(p.id,p));
+  proofs[entry.id]=[...merged.values()];write('prempeh-monthly-evidence-pending',proofs);
   clearTimeout(activityTimer);activityTimer=setTimeout(()=>flushActivity().catch(()=>{}),250);
  });
  let flushing=null;
@@ -89,6 +98,7 @@
   if(!cloud().isSignedIn())return {};
   const account=cloud().playerKey();
   flushing=(async()=>{
+   await flushActivity();
    const queue=read('prempeh-monthly-pending',[]),results={};
    if(!Array.isArray(queue))return results;
    for(const id of queue){
@@ -100,6 +110,7 @@
     }
     if(cloud().playerKey()!==account)return;
     write('prempeh-monthly-pending',read('prempeh-monthly-pending',[]).filter(x=>x!==id));
+    const proofs=read('prempeh-monthly-evidence-pending',{});delete proofs[id];write('prempeh-monthly-evidence-pending',proofs);
    }
    return results;
   })();
@@ -132,7 +143,7 @@
  q('[data-remove]').onclick=async()=>{
   const status=q('[data-profile-status]');if(!cloud().isSignedIn()){status.textContent='Sign in to withdraw.';return}
   const account=cloud().playerKey();
-  try{await cloud().setLeaderboardProfile('',false);if(cloud().playerKey()!==account)return;activeRun=null;write('prempeh-monthly-notice-v2',false);write('prempeh-monthly-pending',[]);write('prempeh-monthly-activity-pending',{});status.textContent='You have withdrawn. Starting another lab enrolls you again.';await refresh()}
+  try{await cloud().setLeaderboardProfile('',false);if(cloud().playerKey()!==account)return;activeRun=null;write('prempeh-monthly-notice-v2',false);write('prempeh-monthly-pending',[]);write('prempeh-monthly-activity-pending',{});write('prempeh-monthly-evidence-pending',{});status.textContent='You have withdrawn. Starting another lab enrolls you again.';await refresh()}
   catch(error){status.textContent=errorMessage(error)}
  };
  const gate=document.createElement('dialog');gate.className='leaderboard';gate.setAttribute('aria-labelledby','playerNameTitle');

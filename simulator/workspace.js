@@ -220,6 +220,7 @@
     start.innerHTML='<div class="workspace-start-head"><strong>PrempehTech · Enterprise Desktop</strong><label>Search applications<input type="search" placeholder="Find an app…"></label></div><div class="workspace-start-apps"></div><div class="workspace-start-foot"><span>Training workspace</span><button data-exit>Exit desktop</button></div>';
     const items=$('.workspace-start-apps',start);
     const options=[...Object.entries(apps).map(([id,[icon,label]])=>({id,label,icon,run:()=>openUtility(id)})),...runtime().current.data.apps.map(id=>({id,label:runtime().APP_DEFS[id].label,icon:runtime().APP_DEFS[id].glyph,run:()=>window.PrempehDesktopLab.openApp(id)}))];
+    if(runtime().current.level)options.push({id:'netstudio',label:'Lab Environment',run:()=>window.PrempehLabEnvironment?.open()});
     const search=()=>{items.replaceChildren();const filtered=options.filter(a=>a.label.toLowerCase().includes($('input',start).value.toLowerCase()));filtered.forEach(a=>{const b=document.createElement('button');b.innerHTML=`${window.PrempehIcons.html(a.id)}<span>${escape(a.label)}</span>`;b.onclick=()=>{start.classList.add('hidden');a.run();};items.append(b);});if(!filtered.length)items.textContent='No applications found.';};$('input',start).oninput=search;search();
     $('[data-exit]',start).onclick=()=>window.PrempehDesktopLab.close();
     if(!$('#workspaceStatus')){const status=document.createElement('div');status.id='workspaceStatus';status.setAttribute('role','status');desktop.append(status);}

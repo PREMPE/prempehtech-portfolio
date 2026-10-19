@@ -294,12 +294,15 @@ function commandFromState(app,raw){
  return null;
 }
 window.PrempehEnterprise={
+ prerequisites:{n1ping:['n1cfg'],n1dns:['n1cfg'],n2client:['n2dhcp','n2dns'],n3test:['n3switch','n3router'],n4verify:['n4acl'],n5verify:['n5route','n5nat'],s2verify:['s2svc'],s3apply:['s3gpo'],s4health:['s4svc'],s5verify:['s5dns','s5gpo']},
+ capture:()=>JSON.parse(JSON.stringify(sim())),
+ restore:value=>{PT_SIM.state=JSON.parse(JSON.stringify(value))},
  prepareWindow:win=>{win.dataset.enterpriseWired="1";wireEnterprise(win,win.dataset.app)},
  commandFromState,
  reset:()=>{PT_SIM.state=null},
  validationBlock:(id,cmd)=>{
-   const dependencies={n1ping:['n1cfg'],n1dns:['n1cfg'],n2client:['n2dhcp','n2dns'],n3test:['n3switch','n3router'],n4verify:['n4acl'],n5verify:['n5route','n5nat'],s2verify:['s2svc'],s3apply:['s3gpo'],s4health:['s4svc'],s5verify:['s5dns','s5gpo']};
-   const deps=(dependencies[id]||[]).filter(x=>x in runtime().taskState);
+
+   const deps=(window.PrempehEnterprise.prerequisites[id]||[]).filter(x=>x in runtime().taskState);
    return deps.some(x=>!taskState[x])?(/nslookup/.test(cmd)?"DNS request failed: name resolution is not repaired yet.":/ping|tracert/.test(cmd)?"Request timed out. The required network repair has not passed validation.":"Verification failed: repair the configuration first, then repeat this check."):null;
  },
  diagnostic:(app,cmd)=>app==='cmd'&&/^(ping|tracert) /.test(cmd)?"Request timed out. Inspect the project addressing, routes and policy before repeating this diagnostic.":null,
@@ -339,14 +342,14 @@ function installProcedureCoach(){
  if(m.dataset.procedureCoach===key && guide.querySelector('[data-pane="procedure"]'))return;
  m.dataset.procedureCoach=key;
  const steps=exactProcedure(),idx=procedureProgress(),mode=sim().learningMode||'guided';
- guide.innerHTML='<label class="pt-mode">Learning mode<select data-learning-mode><option value="challenge">Challenge</option><option value="hint">Hints</option><option value="guided">Guided / Show Me</option><option value="free">Free Lab</option></select></label><div class="enterprise-guide-tabs"><button class="active" data-pane="procedure">Procedure</button><button data-pane="hint">Hint</button><button data-pane="showme">Show Me / Explain</button><button data-pane="notes">Notes</button></div>'+
+ guide.innerHTML='<label class="pt-mode">Learning mode<select data-learning-mode><option value="assessment">Assessment · ticket and evidence only</option><option value="challenge">Challenge</option><option value="hint">Hints</option><option value="guided">Guided / Show Me</option><option value="free">Free Lab</option></select></label><div class="enterprise-guide-tabs"><button class="active" data-pane="procedure">Procedure</button><button data-pane="hint">Hint</button><button data-pane="showme">Show Me / Explain</button><button data-pane="notes">Notes</button></div>'+
  '<div class="enterprise-guide-pane" data-guide-pane="procedure"><p>Instruction navigation does not complete tasks. Project progress changes only after validation.</p><div style="padding:8px;background:#eaf4fb;border-left:4px solid #0877b9;margin-bottom:8px"><b>CURRENT STEP '+(idx+1)+' OF '+steps.length+'</b><br>'+steps[idx]+'<p><button class="vm-native-btn" data-coach-show>Show this control</button></p><div style="display:flex;gap:6px;margin-top:9px"><button class="vm-native-btn" data-coach-prev '+(idx===0?'disabled':'')+'>← Previous</button><button class="vm-native-btn primary" data-coach-next '+(idx===steps.length-1?'disabled':'')+'>Next instruction →</button></div></div><ol>'+steps.map((x,i)=>'<li style="'+(i===idx?'font-weight:700;background:#eef7ff;padding:5px':'')+'">'+x+'</li>').join("")+'</ol></div>'+
  '<div class="enterprise-guide-pane" data-guide-pane="hint" hidden><div class="enterprise-hint"><b>Hint for Step '+(idx+1)+'</b><br>'+procedureHint(idx)+'</div></div>'+
  '<div class="enterprise-guide-pane" data-guide-pane="showme" hidden><div class="enterprise-hint">'+showMeText(idx)+'</div></div>'+
  '<div class="enterprise-guide-pane" data-guide-pane="notes" hidden><label><b>Root cause / finding</b><textarea style="width:100%;height:55px"></textarea></label><label><b>Changes / response</b><textarea style="width:100%;height:55px"></textarea></label><label><b>Verification / evidence</b><textarea style="width:100%;height:55px"></textarea></label></div>';
  q('[data-coach-show]',guide).onclick=()=>window.PrempehWalkthrough.show(idx);
- const picker=q('[data-learning-mode]',guide);picker.value=mode;
- const applyMode=()=>{const chosen=picker.value;sim().learningMode=chosen;qa('[data-pane]',guide).forEach(b=>b.hidden=(chosen==='challenge'||chosen==='free')&&b.dataset.pane!=='notes'||chosen==='hint'&&b.dataset.pane==='showme');qa('[data-guide-pane]',guide).forEach(p=>p.hidden=true);const pane=chosen==='challenge'||chosen==='free'?'notes':chosen==='hint'?'hint':'procedure';q('[data-guide-pane="'+pane+'"]',guide).hidden=false;qa('[data-pane]',guide).forEach(b=>b.classList.toggle('active',b.dataset.pane===pane))};picker.onchange=applyMode;applyMode();
+ const picker=q('[data-learning-mode]',guide);picker.value=mode;window.PrempehLabEnvironment?.setMode(mode);
+ const applyMode=()=>{const chosen=picker.value;sim().learningMode=chosen;window.PrempehLabEnvironment?.setMode(chosen);qa('[data-pane]',guide).forEach(b=>b.hidden=(chosen==='assessment'||chosen==='challenge'||chosen==='free')&&b.dataset.pane!=='notes'||chosen==='hint'&&b.dataset.pane==='showme');qa('[data-guide-pane]',guide).forEach(p=>p.hidden=true);const pane=chosen==='assessment'||chosen==='challenge'||chosen==='free'?'notes':chosen==='hint'?'hint':'procedure';q('[data-guide-pane="'+pane+'"]',guide).hidden=false;qa('[data-pane]',guide).forEach(b=>b.classList.toggle('active',b.dataset.pane===pane))};picker.onchange=applyMode;applyMode();
  const fields=qa('textarea',guide);fields.forEach((field,i)=>{const k='note:'+current.track+':'+current.level+':'+i;field.value=sim().notes[k]||'';field.oninput=()=>sim().notes[k]=field.value});
  qa("[data-pane]",guide).forEach(b=>b.onclick=()=>{qa("[data-pane]",guide).forEach(x=>x.classList.remove("active"));b.classList.add("active");qa("[data-guide-pane]",guide).forEach(x=>x.hidden=x.dataset.guidePane!==b.dataset.pane)});
  q("[data-coach-prev]",guide)?.addEventListener("click",()=>setProcedureProgress(idx-1));

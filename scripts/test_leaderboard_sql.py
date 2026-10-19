@@ -126,5 +126,41 @@ try:
  print('Lab activity SQL passed: all 75 labs, unique validated tasks, proportional task points, account isolation, hidden profiles, task allowlist and month boundaries.')
  print('Monthly SQL passed: automatic enrollment, owner-only runs, server timestamps, replay protection, monthly reset, no lifetime import, points/lab-count/time tie breaks, Toronto DST, withdrawal and top 20.')
  print('Leaderboard SQL passed: migration idempotency, top 20, ties, scoring, opt-in privacy, access isolation, unique names and opt-out without progress loss.')
+ # Server evidence validation replaces task-ID-only credit without erasing historical scores.
+ verified_migration=(ROOT/'supabase/verified-competition.sql').read_text();sql(verified_migration);sql(verified_migration)
+ sql("insert into auth.users values(lpad('27',32,'0')::uuid);")
+ verifier_auth=auth.replace('000000000001','000000000027')
+ verification_run=sql(verifier_auth+"select public.simulator_competition_start('Verifier Test','networking',2);").splitlines()[-1]
+ sql(verifier_auth+f"select public.simulator_competition_finish('{verification_run}');",False)
+ sql(verifier_auth+f"select public.simulator_competition_activity('{verification_run}',array['n2inspect']);",False)
+ sql('set role anon; select * from public.simulator_lab_rules;',False)
+ sql('set role authenticated; select * from public.simulator_competition_review;',False)
+ def verify_payload(payload,run=verification_run):
+  literal=json.dumps(payload).replace("'","''")
+  return json.loads(sql(verifier_auth+f"select public.simulator_competition_verify('{run}','{literal}'::jsonb);").splitlines()[-1])
+ assert not verify_payload([{'id':'n2dns','values':{'name':'files','address':'10.0.0.20'}}])['accepted']
+ assert not verify_payload([{'id':'n2inspect','values':{'fault':'invented'}}])['accepted']
+ assert not verify_payload([{'id':'invented'}])['accepted']
+ assert not verify_payload([{'id':'n2inspect'},{'id':'n2inspect'}])['accepted']
+ assert sql(f"select 'rejected_evidence'=any(flags) from public.simulator_competition_review where run_id='{verification_run}';")=='t'
+ sql(otherauth+f"select public.simulator_competition_verify('{verification_run}','[]');",False)
+ rules=json.loads(sql("select jsonb_agg(jsonb_build_object('track',track,'slot',slot,'tasks',tasks)) from public.simulator_lab_rules;"))
+ for rule_set in rules:
+  run=sql(verifier_auth+f"select public.simulator_competition_start('Verifier Test','{rule_set['track']}',{rule_set['slot']});").splitlines()[-1]
+  payload=[{'id':t['id'],**({'values':t['expected']} if t['type']=='form' else {'commands':t['required']})} for t in rule_set['tasks']]
+  if rule_set['track']=='networking' and rule_set['slot']==2:
+   partial=verify_payload(payload[:1],run);assert partial['accepted'] and partial['validated']==1
+   bad=json.loads(json.dumps(payload));bad[-1]['commands']=[];assert not verify_payload(bad,run)['accepted']
+  result=verify_payload(payload,run);assert result['accepted'],(rule_set,result)
+  assert result['validated']==len(payload)
+  assert sql(verifier_auth+f"select public.simulator_competition_finish('{run}');").splitlines()[-1]==str(((rule_set['slot']-1)//5+1)*100)
+  assert sql(verifier_auth+f"select public.simulator_competition_finish('{run}');").splitlines()[-1]=='0'
+ assert sql(f"select 'rapid_completion'=any(flags) from public.simulator_competition_review where run_id='{verification_run}';")=='t'
+ sql(f"update public.simulator_competition_review set window_start=clock_timestamp(),window_attempts=60 where run_id='{verification_run}';")
+ assert not verify_payload([])['accepted']
+ assert sql(f"select 'rate_limit'=any(flags) from public.simulator_competition_review where run_id='{verification_run}';")=='t'
+ sql((ROOT/'supabase/competition-review.sql').read_text())
+ sql('set role anon;'+(ROOT/'supabase/competition-review.sql').read_text(),False)
+ print('Verified competition passed: all 75 rule sets, prerequisite enforcement, missing/wrong evidence rejection, legacy bypass blocked, access isolation, duplicate credit prevention and review flags.')
 finally:
  subprocess.run(['docker','rm','-f',name],capture_output=True)

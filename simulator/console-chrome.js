@@ -9,6 +9,7 @@
     const done=tasks.filter(t=>taskState[t.id]).length;
     const session=sessions.get(win);
     if(session){
+      tasks.filter(t=>!taskState[t.id]).forEach(t=>session.validated.delete(t.id));
       tasks.forEach(t=>{if(taskState[t.id]&&!session.validated.has(t.id)){session.validated.add(t.id);session.dirty.delete(t.id);session.entries.push({time:new Date(),message:'Validated: '+t.title});}});
       const picker=win.querySelector('.console-task-nav select');
       tasks.forEach(t=>{const option=[...picker.options].find(o=>o.value===t.id);if(option)option.textContent=(taskState[t.id]?'✓ ':'')+t.title;});
@@ -90,5 +91,6 @@
   }
   document.addEventListener('pointerdown',e=>document.querySelectorAll('.vm-menubar details[open]').forEach(d=>{if(!d.contains(e.target))d.open=false;}));
   window.addEventListener('prempeh-desktop-activity',()=>document.querySelectorAll('.vm-window[data-app]').forEach(win=>{if(win.querySelector('[data-console-status]'))update(win);}));
+  window.addEventListener('prempeh-environment-change',()=>document.querySelectorAll('.vm-window[data-app]').forEach(win=>{if(win.querySelector('[data-console-status]'))update(win);}));
   window.PrempehConsoleChrome={install};
 })();

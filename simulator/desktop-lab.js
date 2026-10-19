@@ -238,6 +238,7 @@ function launch(track,level,enrolled=false){
   window.PrempehEnterprise?.reset?.();
   window.PrempehCloudLab?.reset?.();
   APP_DEFS.firewall.label=track==="networking"||track==="integrated"?"Network Firewall / VPN":"Windows Defender Firewall";
+  window.PrempehLabEnvironment?.reset();
   taskState={}; terminalState={}; current.data.tasks.forEach(t=>taskState[t.id]=false);
   const old=$("labShell"); if(old)old.classList.add("hidden");
   $("desktopLabShell").classList.remove("hidden");
@@ -277,6 +278,7 @@ function renderDesktop(){
   $("vmComplete").classList.add("hidden");
   renderIcons(); renderMission(); renderStart();
   window.PrempehWorkspace?.mount();
+  window.PrempehLabEnvironment?.mount();
 }
 
 function renderIcons(){
@@ -305,6 +307,7 @@ function renderMission(){
 }
 
 function openApp(appId){
+  if(window.PrempehLabEnvironment?.isPowered(appId)===false){toast('Device powered off. Open Lab Environment to restore power.','bad');return;}
   const existing=document.querySelector('.vm-window[data-app="'+appId+'"]');
   if(existing){focusWindow(existing);return}
   const app=APP_DEFS[appId]; if(!app)return;
@@ -326,6 +329,7 @@ function openApp(appId){
   bindApp(win,appId);
   window.PrempehEnterprise?.prepareWindow?.(win);
   window.PrempehConsoleChrome?.install(win);
+  window.PrempehLabEnvironment?.tools(win);
 }
 
 function closeWindow(win){const id=win.dataset.app;win.remove();taskButton(id)?.remove()}
@@ -403,16 +407,21 @@ function bindApp(win,appId){
 
 function validateFormTask(taskId,win){
   const t=current.data.tasks.find(x=>x.id===taskId);if(!t||taskState[taskId])return;
+  if(window.PrempehLabEnvironment?.isPowered(t.app)===false){const feedback=win.querySelector('[data-feedback="'+taskId+'"]');feedback.textContent='Device powered off. Restore power before changing configuration.';feedback.className='vm-task-feedback bad';return;}
   const values={};Object.keys(t.expected).forEach(k=>{const el=win.querySelector('[data-field="'+taskId+':'+k+'"]');values[k]=el?el.value:""});
   const blocked=window.PrempehIntermediate?.block(taskId)||window.PrempehLevelTwo?.block(taskId);
   if(blocked){const fb=win.querySelector('[data-feedback="'+taskId+'"]');fb.className="vm-task-feedback bad";fb.textContent=blocked;return;}
   const ok=Object.entries(t.expected).every(([k,v])=>norm(values[k])===norm(v));
   const fb=win.querySelector('[data-feedback="'+taskId+'"]');
-  if(ok){window.PrempehEnterprise?.beforeValidate?.(taskId,win);taskState[taskId]=true;window.PrempehCloudLab?.validated?.(t,values);fb.className="vm-task-feedback ok";fb.textContent="Configuration accepted. Validation passed.";toast("Task completed: "+t.title,"good");afterTask()}
+  if(ok){window.PrempehLabEnvironment?.record(t,values);window.PrempehEnterprise?.beforeValidate?.(taskId,win);taskState[taskId]=true;window.PrempehCloudLab?.validated?.(t,values);fb.className="vm-task-feedback ok";fb.textContent="Configuration accepted. Validation passed.";toast("Task completed: "+t.title,"good");afterTask()}
   else{fb.className="vm-task-feedback bad";fb.textContent="Validation failed. One or more values do not match the required project configuration.";toast("Configuration rejected. Review the project ticket and evidence.","bad")}
 }
 
 function runTerminal(appId,raw,win){
+  if(window.PrempehLabEnvironment?.isPowered(appId)===false){win.querySelector('[data-terminal-output]').textContent+='\nDevice powered off. Restore power in Lab Environment.';return;}
+  const environmentalFailure=window.PrempehLabEnvironment?.block(raw);
+  if(environmentalFailure){win.querySelector('[data-terminal-output]').textContent+='\n'+raw+'\n'+environmentalFailure;return;}
+
   if(appId==='cloudshell'){
    const out=win.querySelector('[data-terminal-output]');out.textContent+='\ncloudshell:~ $ '+raw+'\n'+window.PrempehCloudLab.shell(raw)+'\ncloudshell:~ $';out.scrollTop=out.scrollHeight;return;
   }
@@ -420,6 +429,7 @@ function runTerminal(appId,raw,win){
   if((!device&&/^(show |configure terminal|enable$|ip route |vlan |switchport |interface |name )/.test(n))||(device&&/^(ipconfig|nslookup|gpupdate|gpresult|get-service|dcdiag|nltest|route print|whoami|netstat)/.test(n))){
     win.querySelector('[data-terminal-output]').textContent+='\n'+raw+'\nCommand belongs to a different console. Open '+(device?'Command Prompt / PowerShell.':'Router / Switch Console.');return;
   }
+  window.PrempehLabEnvironment?.commandEdit(appId,raw);
   const enterpriseOut=window.PrempehEnterprise?.commandFromState?.(appId,raw);
   if(enterpriseOut!==null && enterpriseOut!==undefined){
     const out=win.querySelector("[data-terminal-output]");
@@ -463,6 +473,7 @@ function afterTask(){
 }
 function toast(msg,type=""){const t=$("vmToast");t.textContent=msg;t.className="vm-toast "+type;clearTimeout(t._timer);t._timer=setTimeout(()=>t.classList.add("hidden"),3200)}
 function showWhy(taskId){
+  if(window.PrempehLabEnvironment?.assessment()){toast("Assessment mode: use the ticket, evidence and diagnostics.");return;}
   const t=current.data.tasks.find(x=>x.id===taskId);if(!t)return;
   document.querySelector('.vm-guide-popup')?.remove();
   const guide=document.createElement('section');guide.className='vm-guide-popup';guide.setAttribute('role','dialog');guide.setAttribute('aria-label',t.title+' explanation');

@@ -46,6 +46,12 @@ class WalkthroughTests(unittest.TestCase):
                     task_ids=p.evaluate('PrempehDesktopLab.getRuntime().current.data.tasks.map(t=>t.id)')
                     self.assertEqual(len(activity),len(task_ids))
                     self.assertEqual(set(activity[-1]['tasks']),set(task_ids))
+                    evidence=p.evaluate('PrempehLabEnvironment.evidence()')
+                    self.assertEqual({e['id'] for e in evidence},set(task_ids))
+                    for e in evidence:
+                        if 'commands' in e:
+                            required=p.evaluate('(id)=>PrempehDesktopLab.getRuntime().current.data.tasks.find(t=>t.id===id).required',e['id'])
+                            self.assertEqual(set(e['commands']),set(required))
                     self.assertTrue(all(x['track']==track and x['level']==slot for x in activity))
                     p.locator('#vmChoose').click();p.locator('#openWorkspaceBtn').click()
 

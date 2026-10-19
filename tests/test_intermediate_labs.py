@@ -94,7 +94,7 @@ class IntermediateLabsTests(unittest.TestCase):
         p=self.page
         p.locator('[data-project=cloud][data-project-level="10"]').click()
         p.locator('[data-pane=showme]').click()
-        self.assertIn('Click the PT Start button',p.locator('[data-guide-pane=showme]').inner_text())
+        self.assertIn('Click PT Start, search for',p.locator('[data-guide-pane=showme]').inner_text())
         self.assertFalse(any(p.evaluate('Object.values(PrempehDesktopLab.getRuntime().taskState)')))
         p.evaluate('PrempehDesktopLab.close()')
         p.set_viewport_size({'width':390,'height':844})

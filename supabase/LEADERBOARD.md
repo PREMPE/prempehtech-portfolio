@@ -43,3 +43,9 @@ On the top-20 board, choose **View labs** next to any player. **My activity acro
 The browser sends task IDs only after validation passes, with pending updates kept for retry on refresh or reconnection. The database checks the run owner, current month, profile visibility and the lab-specific task allowlist. Repeating a task does not inflate its validated count. Incomplete labs earn proportional points as tasks are validated. All 75 labs contribute; completed-lab count remains the first tie-break after points. Historical completions show full task progress even if recorded before this upgrade.
 
 New starts disclose that usernames, scores and lab progress are public. Withdrawing hides both the leaderboard and activity view. These remain browser-reported validations, not tamper-proof assessment. Raw commands, field values, account IDs and emails are not returned by the activity API.
+
+### Server evidence verification upgrade
+
+Run **verified-competition.sql last**, after monthly-activity.sql. The migration is repeatable, keeps historical scores, flags legacy unverified results for review, closes the task-ID-only scoring endpoint, and requires configuration/command evidence for new credit and completion. The updated client queues evidence while activation is pending. Older saved submissions without evidence must be replayed. Do not rerun older competition migrations after this upgrade without rerunning this one.
+
+Use **competition-review.sql** as an administrator to review flags before deciding prize eligibility. A rapid-completion or rejected-evidence flag is not proof of cheating. A public browser can submit scripted correct solutions, so this verification is not human attestation or a substitute for prize review. See `simulator/CONNECTED-LABS.md` for learner workflows and the model's limits.

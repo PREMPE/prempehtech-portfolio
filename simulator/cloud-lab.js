@@ -86,5 +86,5 @@
     return result;
   }
   function guide(){return scenarios[runtime().current.level].tasks.flatMap(t=>t.type==='command'?t.required.map(cmd=>'Open AWS CloudShell and run '+cmd+'. Inspect the returned resource state.'):['Open the AWS-style Training Console → '+services[t.service]+'. '+t.title+'. '+Object.entries(t.expected).map(([k,v])=>k+' = '+v).join('; ')+'. Apply / Validate, then inspect the updated resource table.'])}
-  window.PrempehCloudLab={scenarios,render,bind,validated,shell,guide,reset:()=>{state=null;tab='compute'},explain:id=>runtime().current.data.tasks.find(t=>t.id===id)?.why};
+  window.PrempehCloudLab={capture:()=>JSON.parse(JSON.stringify(sim())),restore:value=>{state=JSON.parse(JSON.stringify(value))},scenarios,render,bind,validated,shell,guide,reset:()=>{state=null;tab='compute'},explain:id=>runtime().current.data.tasks.find(t=>t.id===id)?.why};
 })();
