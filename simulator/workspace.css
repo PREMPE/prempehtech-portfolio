@@ -71,3 +71,15 @@
 .workspace-window .workspace-wallpaper-choice[aria-pressed="true"]{border-color:#0965b3;box-shadow:0 0 0 2px #b1d9ff;background:#e8f3ff}
 .workspace-window .workspace-wallpaper-choice[aria-pressed="true"] span::after{content:" ✓"}
 .workspace-wallpaper-credit{font-size:11px!important}.workspace-wallpaper-credit a{color:#145989;text-decoration:underline}
+
+/* Original enterprise console chrome. */
+.enterprise-workspace .vm-window{border:1px solid #7d96aa;border-radius:7px;box-shadow:0 16px 42px #03132366;overflow:hidden}
+.enterprise-workspace .vm-menubar{word-spacing:normal;display:flex;gap:3px;overflow:visible;flex-shrink:0;position:relative;z-index:4;padding:3px 8px;background:#f5f7fa;color:#203444}
+.vm-menubar details{position:relative}.vm-menubar summary{cursor:pointer;list-style:none;padding:3px 12px;border-radius:3px;font:12px 'Segoe UI',Arial}.vm-menubar summary::-webkit-details-marker{display:none}.vm-menubar details[open] summary,.vm-menubar summary:hover{background:#dcebf7}
+.console-menu{position:absolute;top:100%;left:0;width:190px;padding:5px;background:#fff;border:1px solid #adbfce;box-shadow:0 5px 15px #102f4933}
+.console-menu button{display:block;width:100%;text-align:left;border:0;background:#fff;padding:8px;color:#203444}.console-menu button:hover{background:#e4f1fa}
+.console-location,.console-task-nav,.console-status{display:flex;align-items:center;gap:10px;padding:7px 12px;background:#edf2f7;color:#263f51;font:12px 'Segoe UI',Arial;flex-shrink:0;border-bottom:1px solid #cbd7e1}
+.console-location span{flex:1;overflow-wrap:anywhere}.console-location button{background:#fff;border:1px solid #a9bdcc;border-radius:3px;padding:5px 9px;color:#24445b;white-space:nowrap}
+.console-task-nav{background:#f8fafc;flex-wrap:wrap}.console-task-nav select{flex:1;min-width:120px;max-width:100%;padding:5px;color:#203444;background:#fff;border:1px solid #a9bdcc}
+.console-status{justify-content:space-between;border-top:1px solid #cbd7e1;border-bottom:0;flex-wrap:wrap;font-size:11px}
+.console-properties{width:min(460px,calc(100% - 40px));box-sizing:border-box;border:1px solid #829bad;border-radius:8px;padding:24px;background:#f8fafc;color:#203444;box-shadow:0 22px 70px #071b4566}.console-properties::backdrop{background:#071b4566}.console-properties h2{color:#173b5b;font-size:20px}.console-properties dl{max-height:55vh;overflow:auto}.console-properties dt{font-weight:700;margin-top:12px}.console-properties dd{margin:4px 0;white-space:pre-wrap;overflow-wrap:anywhere}.console-properties button{padding:7px 24px;background:#086ba5;color:white;border:0;border-radius:4px}

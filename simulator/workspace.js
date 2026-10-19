@@ -21,7 +21,7 @@
   const read = (key, fallback) => { try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch { return fallback; } };
   const storedPrefs = read('prempeh-workspace-preferences', {});
   const allowedWallpapers = ['blue','slate','green',...wallpapers.map(([file])=>'nature-'+file)];
-  const prefs = {wallpaper:allowedWallpapers.includes(storedPrefs?.wallpaper)?storedPrefs.wallpaper:'blue',icons:storedPrefs?.icons!==false};
+  const prefs = {wallpaper:allowedWallpapers.includes(storedPrefs?.wallpaper)&&(storedPrefs.wallpaper!=='blue'||storedPrefs.wallpaperChosen)?storedPrefs.wallpaper:'nature-alpine-lake',icons:storedPrefs?.icons!==false,wallpaperChosen:storedPrefs?.wallpaperChosen===true};
   let top = 20, contextReturn = null;
   const windows = () => $$('.vm-window,.workspace-window', $('#vmDesktop'));
   function announce(message) {
@@ -116,11 +116,11 @@
         const id='nature-'+file,option=document.createElement('option');option.value=id;option.textContent=label;photoOptions.append(option);
         const button=document.createElement('button');button.type='button';button.className='workspace-wallpaper-choice';button.dataset.wallpaperChoice=id;button.setAttribute('aria-label',label);button.setAttribute('aria-pressed',String(prefs.wallpaper===id));
         button.innerHTML=`<img src="/assets/wallpapers/${file}-thumb.webp" alt="" width="400" height="240" loading="lazy"><span>${label}</span>`;
-        button.onclick=()=>{prefs.wallpaper=id;applyPrefs();};$('.workspace-wallpapers',body).append(button);
+        button.onclick=()=>{prefs.wallpaper=id;prefs.wallpaperChosen=true;applyPrefs();};$('.workspace-wallpapers',body).append(button);
       });
       $('select[data-wallpaper]',body).append(photoOptions);
       $('[data-wallpaper]',body).value=prefs.wallpaper; $('[data-icons]',body).checked=prefs.icons;
-      $('[data-wallpaper]',body).onchange=e=>{prefs.wallpaper=e.target.value;applyPrefs();};
+      $('[data-wallpaper]',body).onchange=e=>{prefs.wallpaper=e.target.value;prefs.wallpaperChosen=true;applyPrefs();};
       $('[data-icons]',body).onchange=e=>{prefs.icons=e.target.checked;applyPrefs();};
       $('.workspace-tools',body).innerHTML=runtime().current.data.apps.map(app=>`<button data-tool="${app}">${escape(runtime().APP_DEFS[app].label)}</button>`).join('') || '<button data-open="projects">Choose a project</button>';
       $$('[data-tool]',body).forEach(b=>b.onclick=()=>window.PrempehDesktopLab.openApp(b.dataset.tool));

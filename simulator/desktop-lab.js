@@ -325,6 +325,7 @@ function openApp(appId){
   else win.querySelector(".vm-titlebar").addEventListener("mousedown",e=>startDrag(e,win));
   bindApp(win,appId);
   window.PrempehEnterprise?.prepareWindow?.(win);
+  window.PrempehConsoleChrome?.install(win);
 }
 
 function closeWindow(win){const id=win.dataset.app;win.remove();taskButton(id)?.remove()}
