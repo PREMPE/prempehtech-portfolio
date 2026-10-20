@@ -15,7 +15,7 @@
   affected.forEach(key=>{taskState[key]=false;delete proof[key];Object.values(terminalState).forEach(s=>Object.keys(s.seen||{}).filter(k=>k.startsWith(key+'|')).forEach(k=>delete s.seen[k]));});
   PrempehDesktopLab.refreshMission();window.dispatchEvent(new Event('prempeh-environment-change'));document.getElementById('vmComplete')?.classList.add('hidden');
  }
- function record(t,values){configs[t.id]=copy(values);proof[t.id]={id:t.id,values:copy(values)};}
+ function record(t,values){note('Validation passed: '+t.title);configs[t.id]=copy(values);proof[t.id]={id:t.id,values:copy(values)};}
  function evidence(){
   const {current,taskState,terminalState}=rt();
   return current.data.tasks.filter(t=>taskState[t.id]).map(t=>t.type==='form'?proof[t.id]:{id:t.id,commands:t.required.filter(c=>terminalState[t.app]?.seen?.[t.id+'|'+norm(c)])}).filter(Boolean);
@@ -76,9 +76,9 @@
    tasks.forEach(t=>{const b=button((t.app==='dns'?'New host (A): ':'Properties: ')+t.title,()=>{menu.remove();properties(t,win);});b.setAttribute('role','menuitem');menu.append(b);});menu.append(button('Cancel',()=>menu.remove()));document.body.append(menu);menu.querySelector('button').focus();menu.onkeydown=e=>{if(e.key==='Escape')menu.remove();};
   });
  }
- function snapshot(){return {configs:copy(configs),proof:copy(proof),power:copy(power),tasks:copy(rt().taskState),terminals:copy(rt().terminalState),enterprise:PrempehEnterprise.capture(),cloud:PrempehCloudLab.capture()};}
+ function snapshot(){return {events:copy(events),configs:copy(configs),proof:copy(proof),power:copy(power),tasks:copy(rt().taskState),terminals:copy(rt().terminalState),enterprise:PrempehEnterprise.capture(),cloud:PrempehCloudLab.capture()};}
  function restore(saved){
-  configs=copy(saved.configs);proof=copy(saved.proof);power=copy(saved.power);
+  events=copy(saved.events||[]);configs=copy(saved.configs);proof=copy(saved.proof);power=copy(saved.power);
   Object.keys(rt().taskState).forEach(k=>rt().taskState[k]=!!saved.tasks[k]);
   Object.keys(rt().terminalState).forEach(k=>delete rt().terminalState[k]);Object.assign(rt().terminalState,copy(saved.terminals));
   PrempehEnterprise.restore(saved.enterprise);PrempehCloudLab.restore(saved.cloud);
@@ -121,5 +121,5 @@
  function mount(){const desktop=document.getElementById('vmDesktopIcons');if(!desktop||!rt().current.level)return;const b=button('Lab Environment',open);b.className='vm-desktop-icon';b.dataset.labEnvironment='';b.innerHTML='<span class="vm-icon-glyph">'+PrempehIcons.html('netstudio')+'</span><span>Lab Environment</span>';desktop.append(b);}
  document.addEventListener('DOMContentLoaded',()=>{PrempehDesktopLab.getCatalog().forEach(l=>{const ids=new Set(l.data.tasks.map(t=>t.id));l.data.tasks.forEach(t=>t.dependencies=[...new Set([...(t.dependencies||[]),...(PrempehEnterprise.prerequisites[t.id]||[])])].filter(id=>ids.has(id)));});});
  document.addEventListener('pointerdown',e=>{if(!e.target.closest('#lab-resource-menu'))document.getElementById('lab-resource-menu')?.remove();});
- window.PrempehLabEnvironment={reset,record,evidence,tools,mount,open,block,isPowered:app=>power[app]!==false,configs:()=>copy(configs),commandEdit:(app,raw)=>{if(/^(vlan |name |switchport |ip route |no )/i.test(raw.trim()))rt().current.data.tasks.filter(t=>t.app===app&&t.type==='command'&&rt().taskState[t.id]).forEach(t=>invalidate(t.id));},assessment:()=>mode==='assessment',setMode:value=>{mode=value;document.getElementById('vmDesktop')?.classList.toggle('lab-assessment',mode==='assessment');}};
+ window.PrempehLabEnvironment={snapshot,restore,events:()=>copy(events),power:()=>copy(power),incident:app=>{power[app]=false;const all=rt().current.data.tasks,affected=all.filter(t=>t.app===app);(affected.length?affected:all.filter(t=>t.type==='command').length?all.filter(t=>t.type==='command'):all).forEach(t=>invalidate(t.id));note("Incident injected: "+app+" offline");},reset,record,evidence,tools,mount,open,block,isPowered:app=>power[app]!==false,configs:()=>copy(configs),commandEdit:(app,raw)=>{if(/^(vlan |name |switchport |ip route |no )/i.test(raw.trim()))rt().current.data.tasks.filter(t=>t.app===app&&t.type==='command'&&rt().taskState[t.id]).forEach(t=>invalidate(t.id));},assessment:()=>mode==='assessment',setMode:value=>{mode=value;document.getElementById('vmDesktop')?.classList.toggle('lab-assessment',mode==='assessment');}};
 })();

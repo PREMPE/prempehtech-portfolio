@@ -317,6 +317,12 @@
       const {data,error}=await client.rpc('simulator_competition_finish',{p_run:run});
       if(error)throw error;return data;
     },
+    playerService: async (action,args={}) => {
+      const names={createRecovery:'simulator_recovery_create',redeemRecovery:'simulator_recovery_redeem',prizes:'simulator_my_prizes',claim:'simulator_prize_claim'};
+      if(!names[action]||!client||!user)throw new Error('Start a guest session first');
+      const {data,error}=await client.rpc(names[action],args);if(error)throw error;return data;
+    },
+    isGuest:()=>Boolean(user?.is_anonymous),
     ensurePlayer,
     playerKey: () => user?.id||"guest",
     openAccount: openDialog,

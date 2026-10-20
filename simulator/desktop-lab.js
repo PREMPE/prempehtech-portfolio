@@ -232,6 +232,7 @@ function updateClock(){
 function launch(track,level,enrolled=false){
   if(!scenario(track,level))return;
   if(!enrolled&&window.PrempehLeaderboard){window.PrempehLeaderboard.startLab(track,Number(level),()=>launch(track,level,true));return;}
+  window.PrempehLabPlus?.save();
   ensureShell();
   current={track,level:Number(level),data:scenario(track,level)};
   if(!current.data) return;
@@ -246,10 +247,12 @@ function launch(track,level,enrolled=false){
   $("desktopMissionTitle").textContent=current.data.title;
   $("desktopMissionMeta").textContent=trackLabel(track)+" · Level "+(current.data.curriculumLevel||1)+" · "+current.data.role;
   renderDesktop();
+  window.PrempehLabPlus?.launched();
   $("desktopLabShell").scrollIntoView({behavior:"smooth",block:"start"});
 }
 
 function openWorkspace(){
+  window.PrempehLabPlus?.save();
   ensureShell();
   current={track:"workspace",level:0,data:{title:"Enterprise Workspace",role:"IT Operations",ticket:"Open Project Center to choose a lab.",apps:[],tasks:[]}};
   taskState={}; terminalState={};
@@ -266,6 +269,7 @@ function openWorkspace(){
 }
 
 function closeLab(){
+  window.PrempehLabPlus?.save();
   document.body.classList.remove("vm-lab-active");
   $("desktopLabShell")?.classList.add("hidden");
   $("desktopLabShell")?.classList.remove("vm-fullscreen-active");
@@ -501,7 +505,7 @@ function completeProject(){
   $("vmComplete").innerHTML=`<div class="vm-complete-card"><span style="color:#1687d2;font-weight:900;font-size:.72rem">PROJECT VALIDATED</span><h2>${current.data.title}</h2><p>You completed the Level ${current.data.curriculumLevel||1} ${trackLabel(current.track)} project in the training VM. The configuration and validation steps passed.</p><p id="vmCompetitionStatus" role="status"></p><div class="vm-complete-actions"><button class="vm-native-btn primary" id="vmReplay" type="button">Replay Project</button><button class="vm-native-btn" id="vmChoose" type="button">Choose Another Project</button></div></div>`;
   $("vmComplete").classList.remove("hidden");
   window.dispatchEvent(new CustomEvent("prempeh-desktop-complete",{detail:{track:current.track,level:current.level,score}}));
-  $("vmReplay").addEventListener("click",()=>launch(current.track,current.level));
+  $("vmReplay").addEventListener("click",()=>{window.PrempehLabPlus?.discard();launch(current.track,current.level)});
   $("vmChoose").addEventListener("click",closeLab);
 }
 

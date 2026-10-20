@@ -162,5 +162,38 @@ try:
  sql((ROOT/'supabase/competition-review.sql').read_text())
  sql('set role anon;'+(ROOT/'supabase/competition-review.sql').read_text(),False)
  print('Verified competition passed: all 75 rule sets, prerequisite enforcement, missing/wrong evidence rejection, legacy bypass blocked, access isolation, duplicate credit prevention and review flags.')
+ # Guest recovery transfers server records once; claims require an admin-approved award.
+ sql("alter table auth.users add column is_anonymous boolean not null default true;")
+ services=(ROOT/'supabase/player-services.sql').read_text();sql(services);sql(services)
+ sql("insert into auth.users(id) values('00000000-0000-0000-0000-000000000028'),('00000000-0000-0000-0000-000000000029');")
+ recovery_auth=auth.replace('000000000001','000000000028')
+ non_guest=auth.replace('000000000001','000000000029')
+ sql("update auth.users set is_anonymous=false where id='00000000-0000-0000-0000-000000000029';")
+ code='a'*64
+ sql(verifier_auth+f"select public.simulator_recovery_create('{code}');")
+ assert sql("select code_hash from public.simulator_recovery where user_id='00000000-0000-0000-0000-000000000027';")!=code
+ for table in ['simulator_recovery','simulator_prize_awards','simulator_prize_claims']:
+  sql(f'set role anon;select * from public.{table};',False)
+  sql(f'set role authenticated;select * from public.{table};',False)
+ sql(non_guest+f"select public.simulator_recovery_create('{code}');",False)
+ sql(f"set role anon;select public.simulator_recovery_redeem('{code}');",False)
+ sql(auth+f"select public.simulator_recovery_redeem('{code}');",False) # occupied target
+ sql(recovery_auth+"select public.simulator_recovery_redeem('"+'b'*64+"');",False)
+ prior=sql("select (date_trunc('month',now())-interval '1 month')::date;")
+ sql(f"insert into public.simulator_prize_awards(month,user_id,review_note) values('{prior}','00000000-0000-0000-0000-000000000027','Test review approved');")
+ sql(recovery_auth+f"select public.simulator_prize_claim('{prior}','outsider@example.test');",False)
+ assert sql(recovery_auth+f"select public.simulator_recovery_redeem('{code}');").splitlines()[-1]=='Verifier Test'
+ assert sql("select count(*) from public.simulator_competition_runs where user_id='00000000-0000-0000-0000-000000000028';")=='75'
+ assert sql("select count(*) from public.simulator_competition_runs where user_id='00000000-0000-0000-0000-000000000027';")=='0'
+ sql(verifier_auth+f"select public.simulator_recovery_redeem('{code}');",False)
+ sql(verifier_auth+f"select public.simulator_prize_claim('{prior}','former@example.test');",False)
+ sql(recovery_auth+f"select public.simulator_prize_claim('{prior}','winner@example.test');")
+ assert sql(recovery_auth+'select count(*) from public.simulator_my_prizes() where claimed;').splitlines()[-1]=='1'
+ assert sql(auth+'select count(*) from public.simulator_my_prizes();').splitlines()[-1]=='0'
+ sql(recovery_auth+f"select public.simulator_prize_claim('{prior}','invalid');",False)
+ sql(f"update public.simulator_prize_awards set fulfilled_at=now() where month='{prior}';")
+ sql(recovery_auth+f"select public.simulator_prize_claim('{prior}','changed@example.test');",False)
+ print('Player services passed: repeatable migration, guest-only recovery, private hashes, ownership transfer, one-use codes, occupied-target protection, isolated private claims and fulfillment lock.')
+
 finally:
  subprocess.run(['docker','rm','-f',name],capture_output=True)

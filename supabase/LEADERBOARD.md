@@ -66,3 +66,11 @@ The monthly prize still requires manual winner review; one identity per person i
 competition rule, not a guarantee that anonymous enrollment prevents multiple identities.
 For guest winners, arrange voucher contact after verifying control of the winning session;
 email-based winner queries may return no email. Do not publish private contact information.
+
+
+## Player dashboard upgrade
+
+Run `player-services.sql` after `verified-competition.sql` for one-use guest recovery and
+private claims. See `../simulator/CONNECTED-LABS.md` for the full workflow and
+`prize-fulfillment.sql` for administrator review and fulfillment templates. Public rankings
+remain top 20; guest recovery transfers ownership rather than duplicating points.
