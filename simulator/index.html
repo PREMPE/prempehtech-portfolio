@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="workspace.css?v=20261020-1">
   <link rel="stylesheet" href="enterprise-desktop.css?v=20261009-icons-1">
   <link rel="stylesheet" href="leaderboard.css?v=20261012-activity-1">
+  <link rel="stylesheet" href="monthly-results.css?v=20261101-1">
 </head>
 <body>
   <header class="site-header">
@@ -34,6 +35,17 @@
   </header>
 
   <main>
+    <section id="monthlyResultsNotice" class="monthly-results-notice" aria-labelledby="monthlyResultsTitle" hidden>
+      <p class="monthly-results-kicker">October 2026 · Monthly lab leaderboard</p>
+      <h2 id="monthlyResultsTitle">Congratulations to October’s top players!</h2>
+      <ol>
+        <li><strong>PrempehTech</strong><span>800 points · 8 completed labs</span></li>
+        <li><strong>hyoh3</strong><span>600 points · 5 completed labs</span></li>
+        <li><strong>MJ_VAN</strong><span>566 points · 5 completed labs</span></li>
+      </ol>
+      <p>Leaderboard standings are provisional. The CAD $50 Amazon voucher winner will be confirmed after eligibility review.</p>
+      <button type="button" id="monthlyResultsOpen">View leaderboard</button>
+    </section>
     <section class="hero">
       <div class="hero-copy">
         <p class="eyebrow">PREMPEHTECH INTERACTIVE LABS</p>
@@ -660,6 +672,7 @@ C:\Users\student&gt;</div>
   <script src="leaderboard.js?v=20261020-1"></script>
   <script src="lab-plus.js?v=20261020-1"></script>
   <script src="player-dashboard.js?v=20261020-1"></script>
+  <script src="monthly-results.js?v=20261101-1"></script>
   <script src="simulator.js?v=20261010-level3-1"></script>
 </body>
 </html>
