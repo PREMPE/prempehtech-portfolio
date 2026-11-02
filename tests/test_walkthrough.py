@@ -16,7 +16,30 @@ class WalkthroughTests(unittest.TestCase):
         win=None
         for s in steps:
             action=s.get('action')
-            if action=='open':win=self.open_tool(s['app'])
+            if action=='experiment':
+                b=win.locator(f'[data-experiment-step="{s["experiment"]}"]');b.click()
+                p.wait_for_function('(i)=>document.querySelector(`[data-experiment-step="${i}"]`).disabled && !document.querySelector(`[data-experiment-output="${i}"]`).textContent.includes("Not run yet")',arg=s['experiment'],timeout=20000)
+                self.assertNotIn('could not finish',win.locator(f'[data-experiment-output="{s["experiment"]}"]').inner_text())
+            elif action=='caseStudy':
+                p.locator(f'[data-cyber-case="{s["caseId"]}"]').click()
+                d=p.get_by_role('dialog',name='Integrated case study')
+                tasks=p.evaluate('(id)=>PrempehDesktopLab.getScenario("cyber",id).tasks',s['caseId'])
+                for i,t in enumerate(tasks):
+                    form=d.locator('form').nth(i)
+                    if t['type']=='command':
+                        for command in t['required']:
+                            form.get_by_label('Case command').fill(command)
+                            form.get_by_role('button',name='Run case command').click()
+                        continue
+                    for key,label,kind,*rest in t['fields']:
+                        field=form.get_by_label(label,exact=True)
+                        if kind=='select':field.select_option(t['expected'][key])
+                        else:field.fill(t['expected'][key])
+                    form.get_by_role('button',name='Validate case step').click()
+                    self.assertNotIn('Review the evidence',form.locator('[role=status]').inner_text())
+                self.assertIn('Case study complete',d.inner_text())
+                d.get_by_role('button',name='Return to current lab').click()
+            elif action=='open':win=self.open_tool(s['app'])
             elif action=='service':win.locator(f'[data-cloud-service="{s["service"]}"]').click()
             elif action=='fields':
                 for f in s['fields']:
@@ -33,11 +56,11 @@ class WalkthroughTests(unittest.TestCase):
             elif action=='verify':self.assertTrue(p.evaluate('(id)=>PrempehDesktopLab.getRuntime().taskState[id]',s['taskId']),s)
         self.assertTrue(p.locator('#vmComplete').is_visible())
 
-    def test_all_75_projects_complete_by_following_the_walkthrough(self):
+    def test_all_80_projects_complete_by_following_the_walkthrough(self):
         p=self.page
         p.evaluate("() => {window.labActivityEvents=[];window.addEventListener('prempeh-desktop-activity',e=>labActivityEvents.push(e.detail))}")
         for track in ['networking','sysadmin','cyber','cloud','integrated']:
-            for slot in range(1,16):
+            for slot in (list(range(16,26))+list(range(6,16)) if track=='cyber' else range(1,16)):
                 with self.subTest(track=track,slot=slot):
                     p.locator(f'[data-project="{track}"][data-project-level="{slot}"]').click()
                     p.evaluate('labActivityEvents=[]')

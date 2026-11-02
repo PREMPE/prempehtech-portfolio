@@ -8,10 +8,12 @@
   function steps(){
     const {current,APP_DEFS}=lab.getRuntime();
     const result=[];
+    for(const id of current.data.caseStudies||[]){const c=lab.getScenario('cyber',id);result.push({text:'On the desktop, click '+code('Case study: '+c.title)+'. Read the evidence, expand '+code('Show exact steps')+' for each section, enter the listed values and click '+code('Validate case step')+'. Complete each section in order, then click '+code('Return to current lab')+'. This retained investigation practice supports the current incident; it does not award extra monthly points.',action:'caseStudy',caseId:id});}
     for(const t of current.data.tasks){
       const tool=APP_DEFS[t.app].label;
       const add=(text,action={})=>result.push({taskId:t.id,app:t.app,service:t.service,text,...action});
       add('Click '+code('PT Start')+', search for '+code(tool)+', and open '+code(tool)+'.',{action:'open'});
+      if(t.experiment!==undefined)add('At the top of '+code(tool)+', click '+code((t.experiment+1)+'. '+t.experimentAction)+'. Wait for the result below the button and read it. Run experiment actions in order; after reloading, repeat from step 1.',{action:'experiment',experiment:t.experiment});
       if(t.service)add('In the left service menu, click '+code(services[t.service])+'.',{action:'service'});
       const prerequisites=(t.dependencies||[]).map(id=>current.data.tasks.find(task=>task.id===id)?.title).filter(Boolean);
       const evidenceText=t.evidence?.length?' Read the evidence table above the controls first.':'';
@@ -41,7 +43,7 @@
     return result;
   }
   function show(index){
-    const step=steps()[index];if(!step?.app)return;
+    const step=steps()[index];if(step?.action==='caseStudy'){window.PrempehCyberBasics.openCase(step.caseId);return;}if(!step?.app)return;
     if(step.action==='start'){document.getElementById('vmStart').focus();return;}
     if(step.action==='search'){
       if(document.getElementById('vmStartMenu').classList.contains('hidden'))document.getElementById('vmStart').click();
@@ -50,7 +52,8 @@
     lab.openApp(step.app);
     const win=document.querySelector('.vm-window[data-app="'+step.app+'"]');if(!win)return;
     if(step.service)win.querySelector('[data-cloud-service="'+step.service+'"]')?.click();
-    const target=step.action==='fields'?win.querySelector('[data-field="'+step.taskId+':'+step.fields[0]?.key+'"]'):
+    const target=step.action==='experiment'?win.querySelector('[data-experiment-step="'+step.experiment+'"]'):
+      step.action==='fields'?win.querySelector('[data-field="'+step.taskId+':'+step.fields[0]?.key+'"]'):
       step.action==='apply'?win.querySelector('[data-submit-task="'+step.taskId+'"]'):
       step.action==='command'?win.querySelector('form input'):
       win.querySelector('[data-task-form="'+step.taskId+'"]')||win.querySelector('[data-feedback="'+step.taskId+'"]');

@@ -16,7 +16,7 @@ class LabActivityTests(unittest.TestCase):
     def test_database_task_allowlist_covers_every_current_lab(self):
         source=(Path(__file__).resolve().parents[1]/'supabase/monthly-activity.sql').read_text()
         catalog=json.loads(source.split("jsonb_to_recordset('",1)[1].split("'::jsonb)",1)[0])
-        actual=self.page.evaluate('PrempehDesktopLab.getCatalog().map(x=>({track:x.track,slot:x.id,task_ids:x.data.tasks.map(t=>t.id)}))')
+        actual=self.page.evaluate('PrempehDesktopLab.getCatalog(true).filter(x=>x.id<=15).map(x=>({track:x.track,slot:x.id,task_ids:x.data.tasks.map(t=>t.id)}))')
         self.assertEqual(catalog,actual)
         self.assertEqual(len(catalog),75)
 
@@ -41,7 +41,7 @@ class LabActivityTests(unittest.TestCase):
           PrempehLeaderboard.open();
         }""")
         p.get_by_role('button',name='View lab activity for Learner').click()
-        self.assertEqual(p.locator('[data-activity-rows] tr').count(),75)
+        self.assertEqual(p.locator('[data-activity-rows] tr').count(),80)
         self.assertIn('2 started · 1 completed',p.locator('[data-activity-status]').inner_text())
         self.assertIn('In progress',p.locator('[data-activity-rows]').inner_text())
         self.assertIn('20',p.locator('[data-activity-rows] tr').nth(1).inner_text())

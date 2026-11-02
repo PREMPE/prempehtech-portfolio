@@ -11,6 +11,7 @@
  function preferredName(){try{const name=localStorage.getItem(key('prempeh-player-name'));return validName(name)?name:''}catch{return memoryAccount===cloud().playerKey()?memoryName:''}}
  function saveName(name){memoryName=name;memoryAccount=cloud().playerKey();try{localStorage.setItem(key('prempeh-player-name'),name)}catch{}}
  function errorMessage(error){
+  if(error?.code==='CURRICULUM_SETUP')return 'Beginner lab ranking needs the cybersecurity curriculum SQL update. You can practise now without monthly points, or retry after activation.';
   if(error?.code==='anonymous_provider_disabled')return 'Username-only enrollment is awaiting activation. Please try again later, or practise without competition points.';
   if(error?.code==='LAB_EVIDENCE')return error.message+' Replay the affected lab if saved evidence is incomplete.';
   if(error?.code==='PGRST202'&&error?.message?.includes('simulator_competition_verify'))return 'Server verification needs activation. Your evidence is saved on this device; monthly points will sync after setup. Existing scores are unchanged.';
@@ -26,7 +27,7 @@
  function local(){
   let saved;try{saved=JSON.parse(localStorage.getItem('prempehtech-simulator-progress-v1')||'{}')}catch{saved={}}
   const completed=window.PrempehSecurity.progress(saved).completedLevels,track=q('[data-track]').value;
-  const counts=[0,0,0];window.PrempehDesktopLab.getCatalog().filter(x=>track==='all'||x.track===track).forEach(x=>{if(completed[x.track+':'+x.id])counts[x.level-1]++});
+  const counts=[0,0,0];window.PrempehDesktopLab.getCatalog(true).filter(x=>track==='all'||x.track===track).forEach(x=>{if(completed[x.track+':'+x.id])counts[x.level-1]++});
   q('[data-local]').textContent=counts.reduce((sum,n,i)=>sum+n*(i+1)*100,0)+' lifetime practice points · Level 1: '+counts[0]+' · Level 2: '+counts[1]+' · Level 3: '+counts[2];
  }
  function setPeriods(month){
@@ -45,12 +46,12 @@
   q('[data-activity-panel]').scrollIntoView({block:'start',behavior:'smooth'});
   try{
    const rows=await cloud().labActivity(name,month);if(token!==activityRequest)return;
-   const catalog=window.PrempehDesktopLab.getCatalog(),selected=q('[data-track]').value;
+   const catalog=window.PrempehDesktopLab.getCatalog(true),selected=q('[data-track]').value;
    const visible=rows.filter(r=>selected==='all'||r.track===selected);
    for(const row of visible){
     const lab=catalog.find(x=>x.track===row.track&&x.id===Number(row.slot));if(!lab)continue;
     const tr=document.createElement('tr');tr.dataset.activityState=row.completed?'complete':row.started_at?'progress':'new';
-    for(const value of [window.PrempehDesktopLab.getTrackLabel(row.track)+' · Level '+lab.level+' · Lab '+(lab.id-(lab.level-1)*5)+' — '+lab.data.title,row.completed?'Completed':row.started_at?'In progress':'Not started',row.validated+' / '+row.total,row.points,row.last_activity_at?new Date(row.last_activity_at).toLocaleString('en-CA',{timeZone:'America/Toronto'}):'—']){const td=document.createElement('td');td.textContent=String(value);tr.append(td)}
+    for(const value of [window.PrempehDesktopLab.getTrackLabel(row.track)+' · Level '+lab.level+' · Lab '+(lab.data.displayNumber||lab.id-(lab.level-1)*5)+(lab.data.archived?' · Original curriculum':'')+' — '+lab.data.title,row.completed?'Completed':row.started_at?'In progress':'Not started',row.validated+' / '+row.total,row.points,row.last_activity_at?new Date(row.last_activity_at).toLocaleString('en-CA',{timeZone:'America/Toronto'}):'—']){const td=document.createElement('td');td.textContent=String(value);tr.append(td)}
     q('[data-activity-rows]').append(tr);
    }
    q('[data-activity-status]').textContent=rows.length?visible.length+' labs · '+visible.filter(r=>r.started_at).length+' started · '+visible.filter(r=>r.completed).length+' completed. Validated tasks are counted once per lab each month. Points accrue as tasks are validated; completed labs break ties.':'No public player profile found. Enter your username and start a lab to enroll.';

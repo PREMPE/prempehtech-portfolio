@@ -71,7 +71,7 @@ class EnterpriseWorkspaceTests(unittest.TestCase):
 
     def test_project_center_contains_all_labs_and_filters(self):
         p = self.page
-        self.assertEqual(p.locator('[data-project]').count(), 75)
+        self.assertEqual(p.locator('[data-project]').count(), 80)
         p.locator('[data-project-track]').select_option('cloud')
         self.assertEqual(p.locator('[data-project]').count(), 15)
         p.locator('[data-project-search]').fill('no matching project')
@@ -138,11 +138,11 @@ class EnterpriseWorkspaceTests(unittest.TestCase):
         p.locator('.workspace-process').filter(has_text='Calculator').get_by_role('button',name='End task').click()
         self.assertEqual(p.locator('[data-utility=calc]').count(),0)
 
-    def test_all_75_projects_launch_with_correct_tools(self):
+    def test_all_80_projects_launch_with_correct_tools(self):
         p = self.page
         p.on('dialog',lambda dialog: dialog.accept())
         for track in ['networking','sysadmin','cyber','cloud','integrated']:
-            for level in range(1,16):
+            for level in (list(range(16,26))+list(range(6,16)) if track=='cyber' else range(1,16)):
                 with self.subTest(track=track,level=level):
                     self.app('Project Center')
                     p.locator(f'[data-project="{track}"][data-project-level="{level}"]').click()
@@ -176,7 +176,7 @@ class EnterpriseWorkspaceTests(unittest.TestCase):
         menu = p.locator('#workspaceContext')
         self.assertTrue(menu.is_visible())
         menu.get_by_role('menuitem',name='Refresh',exact=True).click()
-        self.assertEqual(p.locator('[data-project]').count(),75)
+        self.assertEqual(p.locator('[data-project]').count(),80)
         self.assertIn('preserved',p.locator('#workspaceStatus').inner_text())
         p.get_by_role('button',name='Open calendar',exact=True).click()
         self.assertEqual(p.locator('.workspace-calendar .today').count(),1)
@@ -209,7 +209,7 @@ class EnterpriseWorkspaceTests(unittest.TestCase):
 const rgb=s=>(s.match(/[\d.]+/g)||[]).map(Number),lum=c=>c.slice(0,3).map(v=>{v/=255;return v<=.04045?v/12.92:((v+.055)/1.055)**2.4}).reduce((s,v,i)=>s+v*[.2126,.7152,.0722][i],0);
 const fg=rgb(getComputedStyle(e).color);let n=e,bg;while(n){bg=rgb(getComputedStyle(n).backgroundColor);if(bg.length===3||bg[3]===1)break;n=n.parentElement;}bg=n?bg:[255,255,255];const a=lum(fg),b=lum(bg),ratio=(Math.max(a,b)+.05)/(Math.min(a,b)+.05);return ratio<4.5?[{tag:e.tagName,cls:e.className,text:(e.innerText||e.placeholder||e.value||'').slice(0,70),fg,bg,ratio}]:[]})"""
         for track in ('networking', 'sysadmin', 'cyber', 'cloud', 'integrated'):
-            for level in range(1, 16):
+            for level in (list(range(16,26))+list(range(6,16)) if track=='cyber' else range(1,16)):
                 self.app('Project Center')
                 p.locator(f'[data-project="{track}"][data-project-level="{level}"]').click()
                 apps = p.evaluate('PrempehDesktopLab.getRuntime().current.data.apps')
@@ -331,9 +331,9 @@ const fg=rgb(getComputedStyle(e).color);let n=e,bg;while(n){bg=rgb(getComputedSt
         p = self.page
         p.set_viewport_size({'width':390,'height':844})
         p.locator('[data-project-track]').select_option('cyber')
-        p.locator('[data-project=cyber][data-project-level="1"]').click()
-        self.app('Admin Center')
-        self.assertEqual(p.locator('[data-admin-tool]').count(),3)
+        p.locator('[data-project=cyber][data-project-level="16"]').click()
+        self.app('Cybersecurity Learning Desk')
+        self.assertEqual(p.locator('[data-experiment-step]').count(),3)
         self.assertLessEqual(p.evaluate('document.documentElement.scrollWidth'),390)
 
 if __name__=='__main__':

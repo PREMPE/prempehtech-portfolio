@@ -74,3 +74,10 @@ Run `player-services.sql` after `verified-competition.sql` for one-use guest rec
 private claims. See `../simulator/CONNECTED-LABS.md` for the full workflow and
 `prize-fulfillment.sql` for administrator review and fulfillment templates. Public rankings
 remain top 20; guest recovery transfers ownership rather than duplicating points.
+
+## Cybersecurity beginner curriculum
+
+Run `cybersecurity-beginners.sql` last for the ten new beginner assignments. It preserves
+historical scores, adds only `cyber:16`–`cyber:25`, scores them at 100 points each and
+retains strict evidence and ownership validation. See `../simulator/CYBERSECURITY-BEGINNERS.md`
+for the preserved-case mapping, rollout behavior and security scope.

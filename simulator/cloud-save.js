@@ -300,7 +300,7 @@
     startCompetition: async (name,track,slot) => {
       if(!client||!user)throw new Error('Sign in before entering');
       const {data,error}=await client.rpc('simulator_competition_start',{p_name:name,p_track:track,p_slot:slot});
-      if(error)throw error;return data;
+      if(error){if(track==='cyber'&&slot>=16&&['22023','23514'].includes(error.code))error.code='CURRICULUM_SETUP';throw error;}return data;
     },
     recordLabActivity: async (run,tasks,evidence=[]) => {
       if(!client||!user)throw new Error('Sign in to record lab activity');

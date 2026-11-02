@@ -195,5 +195,37 @@ try:
  sql(recovery_auth+f"select public.simulator_prize_claim('{prior}','changed@example.test');",False)
  print('Player services passed: repeatable migration, guest-only recovery, private hashes, ownership transfer, one-use codes, occupied-target protection, isolated private claims and fulfillment lock.')
 
+ # Curriculum expansion adds beginner IDs without rewriting historical score records.
+ before=sql("select coalesce(jsonb_agg(x),'[]'::jsonb) from public.simulator_monthly_leaderboard() x;")
+ expansion=(ROOT/'supabase/cybersecurity-beginners.sql').read_text();sql(expansion);sql(expansion)
+ assert sql("select coalesce(jsonb_agg(x),'[]'::jsonb) from public.simulator_monthly_leaderboard() x;")==before
+ assert sql('select count(*) from public.simulator_lab_rules;')=='85'
+ sql("insert into auth.users(id) values('00000000-0000-0000-0000-000000000030');")
+ beginner=auth.replace('000000000001','000000000030')
+ sql(beginner+"select public.simulator_competition_start('Beginner Tester','networking',16);",False)
+ sql(beginner+"select public.simulator_competition_start('Beginner Tester','cyber',26);",False)
+ sql(beginner+"select public.simulator_competition_start('Beginner Tester','cyber',1);",False)
+ sql(beginner+"insert into public.simulator_progress(user_id,progress) values(auth.uid(),'{\"completedLevels\":{\"cyber:25\":true,\"cyber:1\":true},\"xp\":100}');")
+ sql(beginner+"update public.simulator_progress set progress='{\"completedLevels\":{\"networking:16\":true},\"xp\":100}';",False)
+ new_rules=json.loads(sql("select jsonb_agg(jsonb_build_object('slot',slot,'tasks',tasks) order by slot) from public.simulator_lab_rules where track='cyber' and slot>=16;"))
+ for lab_rule in new_rules:
+  run=sql(beginner+f"select public.simulator_competition_start('Beginner Tester','cyber',{lab_rule['slot']});").splitlines()[-1]
+  evidence=[{'id':t['id'],'values':t['expected']} for t in lab_rule['tasks']]
+  def submit_beginner(payload):
+   literal=json.dumps(payload).replace("'","''")
+   return json.loads(sql(beginner+f"select public.simulator_competition_verify('{run}','{literal}');").splitlines()[-1])
+  assert not submit_beginner(evidence[1:])['accepted']
+  bad=[{'id':evidence[0]['id'],'values':{'answer':'<img src=x onerror=alert(1)>'}}]
+  assert not submit_beginner(bad)['accepted']
+  assert submit_beginner(evidence[:1])['validated']==1
+  assert sql(beginner+f"select points from public.simulator_monthly_activity('Beginner Tester') where track='cyber' and slot={lab_rule['slot']};").splitlines()[-1]=='33'
+  sql(otherauth+f"select public.simulator_competition_verify('{run}','[]');",False)
+  assert submit_beginner(evidence)['accepted']
+  assert sql(beginner+f"select public.simulator_competition_finish('{run}');").splitlines()[-1]=='100'
+  assert sql(beginner+f"select public.simulator_competition_finish('{run}');").splitlines()[-1]=='0'
+ assert sql("select points||':'||level_one||':'||level_three from public.simulator_monthly_leaderboard() where display_name='Beginner Tester';")=='1000:10:0'
+ assert sql("select count(*) from public.simulator_monthly_activity('Beginner Tester');")=='80'
+ print('Cybersecurity beginner migration passed: historical rankings unchanged, 10 labs at 100 points each, partial credit, prerequisite/owner enforcement, archived enrollment blocked, unknown slots rejected and progress allowlist expanded only for cyber.')
+
 finally:
  subprocess.run(['docker','rm','-f',name],capture_output=True)

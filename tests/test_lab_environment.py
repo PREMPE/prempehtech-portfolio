@@ -66,7 +66,7 @@ class LabEnvironmentTests(unittest.TestCase):
     def test_server_rules_match_all_current_labs(self):
         source=(Path(__file__).resolve().parents[1]/'supabase/verified-competition.sql').read_text()
         rules=json.loads(source.split('$rules$')[1])
-        actual=self.page.evaluate('PrempehDesktopLab.getCatalog().map(l=>({track:l.track,slot:l.id,tasks:l.data.tasks.map(t=>({id:t.id,type:t.type,expected:t.expected||{},required:t.required||[],dependencies:t.dependencies||[]}))}))')
+        actual=self.page.evaluate('PrempehDesktopLab.getCatalog(true).filter(l=>l.id<=15).map(l=>({track:l.track,slot:l.id,tasks:l.data.tasks.map(t=>({id:t.id,type:t.type,expected:t.expected||{},required:t.required||[],dependencies:t.dependencies||[]}))}))')
         self.assertEqual(rules,actual)
 
 if __name__=='__main__':unittest.main()

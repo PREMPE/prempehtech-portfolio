@@ -2,6 +2,7 @@
 "use strict";
 
 const APP_DEFS = {
+  basics: {label:"Cybersecurity Learning Desk",glyph:"Learn",kind:"mmc"},
   network: { label:"Network Connections", glyph:"NET", kind:"settings" },
   cmd: { label:"Command Prompt", glyph:"C:\\", kind:"terminal" },
   powershell: { label:"Windows PowerShell", glyph:">_", kind:"terminal" },
@@ -240,6 +241,7 @@ function launch(track,level,enrolled=false){
   window.PrempehCloudLab?.reset?.();
   APP_DEFS.firewall.label=track==="networking"||track==="integrated"?"Network Firewall / VPN":"Windows Defender Firewall";
   window.PrempehLabEnvironment?.reset();
+  window.PrempehCyberBasics?.reset();
   taskState={}; terminalState={}; current.data.tasks.forEach(t=>taskState[t.id]=false);
   const old=$("labShell"); if(old)old.classList.add("hidden");
   $("desktopLabShell").classList.remove("hidden");
@@ -248,6 +250,7 @@ function launch(track,level,enrolled=false){
   $("desktopMissionMeta").textContent=trackLabel(track)+" · Level "+(current.data.curriculumLevel||1)+" · "+current.data.role;
   renderDesktop();
   window.PrempehLabPlus?.launched();
+  window.PrempehCyberBasics?.caseButton();
   $("desktopLabShell").scrollIntoView({behavior:"smooth",block:"start"});
 }
 
@@ -261,7 +264,7 @@ function openWorkspace(){
   $("desktopLabShell").classList.add("vm-fullscreen-active");
   $("desktopFullscreen").textContent="Windowed Workspace";
   $("desktopMissionTitle").textContent="PrempehTech Enterprise Desktop";
-  $("desktopMissionMeta").textContent="Practice network · 75 projects";
+  $("desktopMissionMeta").textContent="Practice network · 80 projects";
   renderDesktop();
   $("vmMission").classList.add("ticket-minimized");
   $("desktopLabShell").scrollIntoView({block:"start"});
@@ -333,7 +336,8 @@ function openApp(appId){
   bindApp(win,appId);
   window.PrempehEnterprise?.prepareWindow?.(win);
   window.PrempehConsoleChrome?.install(win);
-  window.PrempehLabEnvironment?.tools(win);
+  if(appId!=='basics')window.PrempehLabEnvironment?.tools(win);
+  window.PrempehCyberBasics?.mount(win);
 }
 
 function closeWindow(win){const id=win.dataset.app;win.remove();taskButton(id)?.remove()}
@@ -413,7 +417,7 @@ function validateFormTask(taskId,win){
   const t=current.data.tasks.find(x=>x.id===taskId);if(!t||taskState[taskId])return;
   if(window.PrempehLabEnvironment?.isPowered(t.app)===false){const feedback=win.querySelector('[data-feedback="'+taskId+'"]');feedback.textContent='Device powered off. Restore power before changing configuration.';feedback.className='vm-task-feedback bad';return;}
   const values={};Object.keys(t.expected).forEach(k=>{const el=win.querySelector('[data-field="'+taskId+':'+k+'"]');values[k]=el?el.value:""});
-  const blocked=window.PrempehIntermediate?.block(taskId)||window.PrempehLevelTwo?.block(taskId);
+  const blocked=window.PrempehCyberBasics?.block(taskId)||window.PrempehIntermediate?.block(taskId)||window.PrempehLevelTwo?.block(taskId);
   if(blocked){const fb=win.querySelector('[data-feedback="'+taskId+'"]');fb.className="vm-task-feedback bad";fb.textContent=blocked;return;}
   const ok=Object.entries(t.expected).every(([k,v])=>norm(values[k])===norm(v));
   const fb=win.querySelector('[data-feedback="'+taskId+'"]');
@@ -514,8 +518,8 @@ window.PrempehDesktopLab={
   openWorkspace,
   close:closeLab,
   registerScenario:(track,id,data)=>{if(SCENARIOS[track]&&!SCENARIOS[track][id])SCENARIOS[track][id]=data},
-  getCatalog:()=>Object.entries(SCENARIOS).flatMap(([track,items])=>Object.entries(items).map(([id,data])=>({track,id:Number(id),level:data.curriculumLevel||1,data}))),
-  getScenario:(track,level)=>scenario(track,level),
+  getCatalog:(includeArchived=false)=>Object.entries(SCENARIOS).flatMap(([track,items])=>Object.entries(items).filter(([,data])=>includeArchived||!data.archived).sort(([a,x],[b,y])=>(x.curriculumLevel||1)-(y.curriculumLevel||1)||(x.displayNumber||Number(a))-(y.displayNumber||Number(b))).map(([id,data])=>({track,id:Number(id),level:data.curriculumLevel||1,data}))),
+  getScenario:scenario,
   getTrackLabel:trackLabel,
   getRuntime:()=>({current,taskState,terminalState,APP_DEFS}),
   refreshMission:renderMission,

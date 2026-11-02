@@ -95,3 +95,9 @@
 .lab-environment-dialog button{min-height:42px;cursor:pointer}
 .lab-environment-dialog button:focus-visible{outline:3px solid #087daf;outline-offset:2px}
 .lab-environment-dialog [hidden]{display:none!important}
+.cyber-experiment{padding:18px;background:#eef5fb;color:#163951;border-bottom:2px solid #78a8c6}
+.cyber-experiment h3,.cyber-experiment p{color:#163951!important}
+.cyber-experiment p{line-height:1.6;font-size:14px}
+.cyber-experiment pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#fff;color:#17354b;padding:12px;border:1px solid #b5ccdc;border-radius:5px;font-size:12px}
+.cyber-experiment button{white-space:normal!important;max-width:100%;min-height:44px;text-align:left}
+.vm-desktop-icon[data-cyber-case]{font-size:11px;color:white;background:#123c60d9;padding:8px}

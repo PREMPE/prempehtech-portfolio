@@ -32,7 +32,10 @@ class LevelTwoTests(unittest.TestCase):
         for track in ['networking','sysadmin','cyber','cloud','integrated']:
             with self.subTest(track=track):
                 self.app('Project Center')
-                p.locator(f'[data-project="{track}"][data-project-level="2"]').click()
+                if track=='cyber':
+                    # Archived foundation case remains runnable for historical compatibility.
+                    p.evaluate("PrempehDesktopLab.launch('cyber',2,true)")
+                else:p.locator(f'[data-project="{track}"][data-project-level="2"]').click()
                 tasks=p.evaluate('PrempehDesktopLab.getRuntime().current.data.tasks')
                 verification=next(t for t in tasks if t['type']=='command')
                 self.submit(verification)

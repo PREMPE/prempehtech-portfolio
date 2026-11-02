@@ -14,7 +14,7 @@
       const picker=win.querySelector('.console-task-nav select');
       tasks.forEach(t=>{const option=[...picker.options].find(o=>o.value===t.id);if(option)option.textContent=(taskState[t.id]?'✓ ':'')+t.title;});
     }
-    win.querySelector('[data-console-status]').textContent=`${done} of ${tasks.length} tasks validated · ${session?.dirty.size?'Unvalidated changes':done===tasks.length?'Configuration verified':'Configuration requires verification'}`;
+    win.querySelector('[data-console-status]').textContent=`${done} of ${tasks.length} tasks validated · ${session?.dirty.size?'Unvalidated changes':done===tasks.length?(win.dataset.app==='basics'?'Learning checks complete':'Configuration verified'):(win.dataset.app==='basics'?'Learning checks pending':'Configuration requires verification')}`;
   }
   function install(win){
     if(win.querySelector('.console-location'))return;
@@ -46,7 +46,7 @@
       const list=document.createElement('ol');sessions.get(win).entries.forEach(entry=>{const item=document.createElement('li');item.textContent=entry.time.toLocaleTimeString()+' · '+entry.message;list.append(item);});
       dialog.append(title,note,list,button('Close',()=>dialog.close()));dialog.addEventListener('close',()=>dialog.remove());document.body.append(dialog);dialog.showModal();
     }));
-    const nav=document.createElement('label');nav.className='console-task-nav';nav.append('Configuration section ');
+    const nav=document.createElement('label');nav.className='console-task-nav';nav.append(win.dataset.app==='basics'?'Learning checkpoint ':'Configuration section ');
     const picker=document.createElement('select');picker.setAttribute('aria-label','Go to configuration section');
     picker.append(new Option('Choose a section…',''));
     current.data.tasks.filter(t=>t.app===id).forEach(t=>picker.append(new Option(t.title,t.id)));

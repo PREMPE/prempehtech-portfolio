@@ -225,7 +225,7 @@
     $("foundationAssignment").innerHTML=entries.map((x,i)=>`<option value="${x.id}">Lab ${i+1} · ${x.data.title}</option>`).join('');
     $("foundationAssignment").value=String(projectId);
     $("assignmentLabel").textContent="Level "+value+" assignment";
-    const data={label:"LEVEL "+value+([""," · FOUNDATIONS"," · INTERMEDIATE"," · ADVANCED"][value]),title:["","Level 1 — all current labs","Level 2 — intermediate operations","Level 3 — advanced enterprise incidents"][value],description:value===1?"All five original assignments in this track are preserved. Choose an assignment below or browse Project Center.":value===2?"Choose one of five intermediate assignments. Investigate evidence, make controlled changes, verify recovery, and document the handover.":"Choose one of five advanced incidents. Repair multiple faults, exercise a failure, recover safely, and prove the service and security boundaries.",topics:value===1?["Five preserved assignments","Saved progress retained"]:["Evidence correlation","Change control","Recovery checks","Handover"]};
+    const data={label:"LEVEL "+value+([""," · FOUNDATIONS"," · INTERMEDIATE"," · ADVANCED"][value]),title:["","Level 1 — all current labs","Level 2 — intermediate operations","Level 3 — advanced enterprise incidents"][value],description:value===1?(activeTrack==="cyber"?"Ten beginner experiments cover security fundamentals, cryptography and everyday protection. Original investigation cases continue in Levels 2 and 3; earned credit is preserved.":"All five original assignments in this track are preserved. Choose an assignment below or browse Project Center."):value===2?"Choose one of five intermediate assignments. Investigate evidence, make controlled changes, verify recovery, and document the handover.":"Choose one of five advanced incidents. Repair multiple faults, exercise a failure, recover safely, and prove the service and security boundaries.",topics:value===1?[activeTrack==="cyber"?"Ten beginner experiments":"Five preserved assignments","Saved progress retained"]:["Evidence correlation","Change control","Recovery checks","Handover"]};
     selectedLevel = value;
 
     $$(".level-btn").forEach((btn) => {
@@ -296,7 +296,7 @@
 
   function updateProgressUI() {
     const completedLevels = progress.completedLevels || {};
-    const completedCount = Object.keys(completedLevels).filter((k) => completedLevels[k]).length;
+    const completedCount = window.PrempehDesktopLab.getCatalog().filter(x=>completedLevels[x.track+":"+x.id]).length;
     $("xpValue").textContent = progress.xp;
     $("completedValue").textContent = completedCount;
     $("progressFill").style.width = Math.min(100, (completedCount / (window.PrempehDesktopLab.getCatalog().length)) * 100) + "%";
@@ -310,8 +310,9 @@
       const badge = document.querySelector('[data-complete-badge="' + key + '"]');
       if (!badge) return;
       const count = window.PrempehDesktopLab.getCatalog().filter(x=>x.track===key&&completedLevels[key+":"+x.id]).length;
-      badge.textContent = count === 15 ? "15/15 completed ✓" : count + "/15 completed";
-      badge.classList.toggle("done", count === 15);
+      const total=window.PrempehDesktopLab.getCatalog().filter(x=>x.track===key).length;
+      badge.textContent = count+"/"+total+" completed"+(count===total?" ✓":"");
+      badge.classList.toggle("done", count === total);
     });
 
     $("continueBtn").textContent = "Choose a Lab";
@@ -870,7 +871,7 @@
     const firstCompletion = !progress.completedLevels[key];
     progress.completedLevels[key] = true;
     const trackCount = window.PrempehDesktopLab.getCatalog().filter(x=>x.track===track&&progress.completedLevels[track+":"+x.id]).length;
-    progress.completed[track] = trackCount === 15;
+    progress.completed[track] = trackCount === window.PrempehDesktopLab.getCatalog().filter(x=>x.track===track).length;
     if (firstCompletion) progress.xp += Number(detail.score) || 100;
     saveProgress();
     updateProgressUI();
