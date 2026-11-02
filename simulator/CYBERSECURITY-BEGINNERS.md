@@ -75,3 +75,26 @@ Browser-visible answers can be scripted; server rules check the evidence and own
 not whether a human performed each click. Review prize eligibility and abuse flags.
 Infrastructure protections such as Cloudflare WAF and account security are separate
 from these static-site changes; no claim of complete immunity to attacks is made.
+
+## Learning aids and usability preparation
+
+The Learning Desk now groups each experiment with its checkpoint and offers three
+hint stages: a clue, an explanation and the full procedure. Incorrect answers explain
+the relevant concept. The original detailed Procedure remains available on the desktop.
+Focused learning / phone view displays one checkpoint at a time with larger controls;
+it uses the same actual validation and scoring events as the desktop.
+
+Hashing, encryption and signature lessons include an optional editable sandbox. It
+accepts up to 512 characters per fictional message, renders all output as text and does
+not save or upload messages. Fresh encryption keys/nonces and signing keys remain in
+memory. Sandbox results do not change the guided example or its ranked answers.
+
+Beginner capstone is optional, unranked practice, not an eleventh ranked Level 1 lab.
+It varies the message and file-integrity evidence, requires four decisions, withholds
+solutions until requested, and verifies the restored backup hash. Reports download
+locally. It changes no monthly scores or completion records.
+
+`BEGINNER-USABILITY-TEST.md` provides a session script and observation sheet for three
+to five volunteers. The optional in-app feedback form downloads a private text report;
+it does not send data. Real learner sessions remain pending participant recruitment.
+No SQL migration is needed for these learning aids.

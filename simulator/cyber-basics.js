@@ -62,6 +62,7 @@
   section.append(node('h3','Hands-on experiment'),node('p',data.intro),node('p','Use fictional examples only. Keys and training files stay in browser memory. After resuming a saved attempt, rerun the experiment from step 1 before continuing an unfinished checkpoint.'));
   data.actions.forEach((action,i)=>{const out=node('pre',s.output[i]||'Not run yet.');out.dataset.experimentOutput=i;out.setAttribute('aria-live','polite');const b=button((i+1)+'. '+action,async()=>{if(s.busy||s.done[i])return;if(i&&!s.done[i-1]){out.textContent='Run experiment step '+i+' first.';return;}s.busy=true;b.disabled=true;try{const result=await experiment(data.displayNumber,i,s);if(s!==model)return;s.output[i]=result;s.done[i]=true;out.textContent=result;}catch{out.textContent='The experiment could not finish. Refresh and retry in a browser with Web Crypto support.';}finally{s.busy=false;b.disabled=!!s.done[i];}});b.dataset.experimentStep=i;b.disabled=!!s.done[i];section.append(b,out);});
   win.querySelector('.vm-app-body').prepend(section);
+  window.PrempehBeginnerLearning?.enhance(win);
  }
  function block(id){const {current,taskState}=rt(),t=current.data.tasks.find(x=>x.id===id);if(!current.data.beginner||!t)return null;if((t.dependencies||[]).some(x=>!taskState[x]))return 'Validate the earlier checkpoint first.';return model.done[t.experiment]?null:'Run experiment step '+(t.experiment+1)+' and read its result before validating this checkpoint.';}
  function openCase(id){
@@ -83,5 +84,5 @@
   d.append(button('Return to current lab',()=>d.close()));d.addEventListener('close',()=>d.remove());document.body.append(d);d.showModal();
  }
  function caseButton(){const {current}=rt();if(current.track!=='cyber'||!cases[current.level])return;for(const id of cases[current.level]){const b=button('Case study: '+lab.getScenario('cyber',id).title,()=>openCase(id));b.className='vm-desktop-icon';b.dataset.cyberCase=id;document.getElementById('vmDesktopIcons').append(b);}}
- window.PrempehCyberBasics={mount,block,reset:()=>{model={done:[],output:[],busy:false}},caseButton,openCase};
+ window.PrempehCyberBasics={mount,block,reset:()=>{window.PrempehBeginnerLearning?.closeFocus();model={done:[],output:[],busy:false}},caseButton,openCase};
 })();

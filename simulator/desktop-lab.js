@@ -422,7 +422,7 @@ function validateFormTask(taskId,win){
   const ok=Object.entries(t.expected).every(([k,v])=>norm(values[k])===norm(v));
   const fb=win.querySelector('[data-feedback="'+taskId+'"]');
   if(ok){window.PrempehLabEnvironment?.record(t,values);window.PrempehEnterprise?.beforeValidate?.(taskId,win);taskState[taskId]=true;window.PrempehCloudLab?.validated?.(t,values);fb.className="vm-task-feedback ok";fb.textContent="Configuration accepted. Validation passed.";toast("Task completed: "+t.title,"good");afterTask()}
-  else{fb.className="vm-task-feedback bad";fb.textContent="Validation failed. One or more values do not match the required project configuration.";toast("Configuration rejected. Review the project ticket and evidence.","bad")}
+  else{fb.className="vm-task-feedback bad";fb.textContent=window.PrempehBeginnerLearning?.feedback(t,values)||"Validation failed. One or more values do not match the required project configuration.";toast("Configuration rejected. Review the project ticket and evidence.","bad")}
 }
 
 function runTerminal(appId,raw,win){

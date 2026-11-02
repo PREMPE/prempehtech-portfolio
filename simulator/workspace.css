@@ -101,3 +101,26 @@
 .cyber-experiment pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#fff;color:#17354b;padding:12px;border:1px solid #b5ccdc;border-radius:5px;font-size:12px}
 .cyber-experiment button{white-space:normal!important;max-width:100%;min-height:44px;text-align:left}
 .vm-desktop-icon[data-cyber-case]{font-size:11px;color:white;background:#123c60d9;padding:8px}
+/* Optional focused learning keeps the real validation controls in their original window. */
+.beginner-tools{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.beginner-tools button,.cyber-learning-step>button,.beginner-playground button{padding:10px 14px;min-height:44px;background:#fff;color:#173951;border:1px solid #7b9cb4;border-radius:6px;cursor:pointer}
+.cyber-learning-step{padding:12px 0;border-top:1px solid #a6c1d4}
+.cyber-learning-step>h3{font-size:16px}
+.beginner-playground{margin-top:18px;padding:14px;border:1px solid #9bb8cc;background:#f4f8fc;color:#173951}
+.beginner-playground summary{cursor:pointer;font-weight:700;min-height:40px}
+.beginner-playground label{display:block;margin:10px 0;color:#173951}
+.beginner-playground textarea{display:block;box-sizing:border-box;width:100%;min-height:80px;background:white;color:#173951;border:1px solid #7b9cb4;padding:10px;font:inherit}
+.beginner-playground button{margin:4px}
+.cyber-focus-dialog{width:min(760px,calc(100% - 16px));max-height:94dvh;padding:16px;overflow:auto}
+.cyber-focus-dialog>.vm-window{position:relative!important;inset:auto!important;transform:none!important;width:100%!important;min-width:0!important;height:auto!important;max-height:none!important;box-shadow:none;border:0;display:block!important}
+.cyber-focus-dialog .vm-titlebar,.cyber-focus-dialog .vm-menubar,.cyber-focus-dialog .console-location,.cyber-focus-dialog .console-task-nav,.cyber-focus-dialog .console-statusbar{display:none!important}
+.cyber-focus-dialog .vm-app-body{height:auto!important;max-height:none!important;overflow:visible!important}
+.cyber-focus-dialog .beginner-tools{display:none}
+.cyber-focus-dialog [data-learning-step]:not([data-current]){display:none!important}
+.cyber-focus-dialog .cyber-experiment{padding:10px}
+.cyber-focus-dialog .vm-form-grid{grid-template-columns:1fr!important}
+.cyber-focus-dialog select,.cyber-focus-dialog input,.cyber-focus-dialog button{font-size:16px;min-height:44px}
+.cyber-focus-dialog pre{font-size:14px;line-height:1.5}
+.beginner-dialog label{display:block;margin:14px 0;font-weight:600}
+.beginner-dialog input,.beginner-dialog select,.beginner-dialog textarea{box-sizing:border-box;max-width:100%;font-size:16px}
+.beginner-dialog form>button{margin-top:8px}
