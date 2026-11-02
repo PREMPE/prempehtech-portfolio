@@ -3,11 +3,11 @@ window.PrempehCyberBeginnerCatalog=[
   {
     "slot": 16,
     "title": "Security Fundamentals: Protect a Training File",
-    "role": "Cybersecurity beginner",
+    "role": "Junior Security Technician",
     "curriculumLevel": 1,
     "displayNumber": 1,
     "beginner": true,
-    "ticket": "Confidentiality keeps information private. Integrity detects unwanted changes. Availability keeps information usable. Work with a fictional training file. Open Cybersecurity Learning Desk. Run the three experiment actions in order, inspect the results, and validate each checkpoint. Only fictional training data is used.",
+    "ticket": "The team needs a security check on a shared project file before handover. Check whether a visitor can read it, identify an unauthorized content change, and restore the approved copy. Open Cybersecurity Learning Desk, complete the three actions in order, and validate each checkpoint.",
     "tags": [
       "Confidentiality",
       "Integrity",
@@ -39,7 +39,7 @@ window.PrempehCyberBeginnerCatalog=[
         "dependencies": [],
         "experiment": 0,
         "experimentAction": "Try visitor access",
-        "why": "Confidentiality keeps information private. Integrity detects unwanted changes. Availability keeps information usable. Work with a fictional training file."
+        "why": "Confidentiality keeps information private. Integrity detects unwanted changes. Availability keeps information usable. Check access, content integrity, and recovery for the project file."
       },
       {
         "id": "cb16_2",
@@ -65,7 +65,7 @@ window.PrempehCyberBeginnerCatalog=[
         ],
         "experiment": 1,
         "experimentAction": "Change the training file",
-        "why": "Confidentiality keeps information private. Integrity detects unwanted changes. Availability keeps information usable. Work with a fictional training file."
+        "why": "Confidentiality keeps information private. Integrity detects unwanted changes. Availability keeps information usable. Check access, content integrity, and recovery for the project file."
       },
       {
         "id": "cb16_3",
@@ -91,7 +91,7 @@ window.PrempehCyberBeginnerCatalog=[
         ],
         "experiment": 2,
         "experimentAction": "Restore the training file",
-        "why": "Confidentiality keeps information private. Integrity detects unwanted changes. Availability keeps information usable. Work with a fictional training file."
+        "why": "Confidentiality keeps information private. Integrity detects unwanted changes. Availability keeps information usable. Check access, content integrity, and recovery for the project file."
       }
     ],
     "actions": [
@@ -99,16 +99,17 @@ window.PrempehCyberBeginnerCatalog=[
       "Change the training file",
       "Restore the training file"
     ],
-    "intro": "Confidentiality keeps information private. Integrity detects unwanted changes. Availability keeps information usable. Work with a fictional training file."
+    "intro": "Confidentiality keeps information private. Integrity detects unwanted changes. Availability keeps information usable. Check access, content integrity, and recovery for the project file.",
+    "target": "Verify that unauthorized access is denied, content changes are detected, and the approved file can be restored."
   },
   {
     "slot": 17,
     "title": "Assets, Threats, Vulnerabilities and Risk",
-    "role": "Cybersecurity beginner",
+    "role": "Junior Security Technician",
     "curriculumLevel": 1,
     "displayNumber": 2,
     "beginner": true,
-    "ticket": "An asset is something valuable. A threat can cause harm; a vulnerability is a weakness. Risk considers likelihood and impact. Inspect a fictional shared folder. Open Cybersecurity Learning Desk. Run the three experiment actions in order, inspect the results, and validate each checkpoint. Only fictional training data is used.",
+    "ticket": "A shared records folder allows public write access. Identify the asset at risk, investigate how the permission could be misused, and remove the unnecessary access. Open Cybersecurity Learning Desk, complete the three actions in order, and validate each checkpoint.",
     "tags": [
       "Assets",
       "Risk",
@@ -140,7 +141,7 @@ window.PrempehCyberBeginnerCatalog=[
         "dependencies": [],
         "experiment": 0,
         "experimentAction": "Inspect the shared folder",
-        "why": "An asset is something valuable. A threat can cause harm; a vulnerability is a weakness. Risk considers likelihood and impact. Inspect a fictional shared folder."
+        "why": "An asset is something valuable. A threat can cause harm; a vulnerability is a weakness. Risk considers likelihood and impact. Inspect the shared records folder."
       },
       {
         "id": "cb17_2",
@@ -166,7 +167,7 @@ window.PrempehCyberBeginnerCatalog=[
         ],
         "experiment": 1,
         "experimentAction": "Try unauthorized access",
-        "why": "An asset is something valuable. A threat can cause harm; a vulnerability is a weakness. Risk considers likelihood and impact. Inspect a fictional shared folder."
+        "why": "An asset is something valuable. A threat can cause harm; a vulnerability is a weakness. Risk considers likelihood and impact. Inspect the shared records folder."
       },
       {
         "id": "cb17_3",
@@ -192,7 +193,7 @@ window.PrempehCyberBeginnerCatalog=[
         ],
         "experiment": 2,
         "experimentAction": "Remove public sharing",
-        "why": "An asset is something valuable. A threat can cause harm; a vulnerability is a weakness. Risk considers likelihood and impact. Inspect a fictional shared folder."
+        "why": "An asset is something valuable. A threat can cause harm; a vulnerability is a weakness. Risk considers likelihood and impact. Inspect the shared records folder."
       }
     ],
     "actions": [
@@ -200,16 +201,17 @@ window.PrempehCyberBeginnerCatalog=[
       "Try unauthorized access",
       "Remove public sharing"
     ],
-    "intro": "An asset is something valuable. A threat can cause harm; a vulnerability is a weakness. Risk considers likelihood and impact. Inspect a fictional shared folder."
+    "intro": "An asset is something valuable. A threat can cause harm; a vulnerability is a weakness. Risk considers likelihood and impact. Inspect the shared records folder.",
+    "target": "Protect the records from unauthorized changes while retaining access to the approved data."
   },
   {
     "slot": 18,
     "title": "Hashing and File Integrity",
-    "role": "Cybersecurity beginner",
+    "role": "Junior Security Technician",
     "curriculumLevel": 1,
     "displayNumber": 3,
     "beginner": true,
-    "ticket": "SHA-256 creates a fixed-size fingerprint, not encryption. Compare a file with a trusted checksum. An attacker can also replace an untrusted checksum. Open Cybersecurity Learning Desk. Run the three experiment actions in order, inspect the results, and validate each checkpoint. Only fictional training data is used.",
+    "ticket": "A file is awaiting approval for distribution. Generate its SHA-256 checksum, inspect the effect of a content change, and compare the result with the trusted reference. Open Cybersecurity Learning Desk, complete the three actions in order, and validate each checkpoint.",
     "tags": [
       "SHA-256",
       "Checksums",
@@ -301,16 +303,17 @@ window.PrempehCyberBeginnerCatalog=[
       "Change one character and hash",
       "Check the download"
     ],
-    "intro": "SHA-256 creates a fixed-size fingerprint, not encryption. Compare a file with a trusted checksum. An attacker can also replace an untrusted checksum."
+    "intro": "SHA-256 creates a fixed-size fingerprint, not encryption. Compare a file with a trusted checksum. An attacker can also replace an untrusted checksum.",
+    "target": "Use checksum evidence to identify a changed file and decide whether it should be accepted."
   },
   {
     "slot": 19,
     "title": "Symmetric Encryption: Lock and Unlock a Message",
-    "role": "Cybersecurity beginner",
+    "role": "Junior Security Technician",
     "curriculumLevel": 1,
     "displayNumber": 4,
     "beginner": true,
-    "ticket": "AES-GCM encrypts and authenticates a message with a shared secret key. This experiment uses a fresh browser-only key and nonce. Base64 represents bytes; it does not encrypt them. Never enter real secrets. Open Cybersecurity Learning Desk. Run the three experiment actions in order, inspect the results, and validate each checkpoint. Only fictional training data is used.",
+    "ticket": "The team needs to protect a handover message. Encrypt it with AES-GCM, check what happens when the wrong key is used, and recover the message with the correct key. Open Cybersecurity Learning Desk, complete the three actions in order, and validate each checkpoint.",
     "tags": [
       "AES-GCM",
       "Encryption",
@@ -402,16 +405,17 @@ window.PrempehCyberBeginnerCatalog=[
       "Try a different key",
       "Decrypt with the original key"
     ],
-    "intro": "AES-GCM encrypts and authenticates a message with a shared secret key. This experiment uses a fresh browser-only key and nonce. Base64 represents bytes; it does not encrypt them. Never enter real secrets."
+    "intro": "AES-GCM encrypts and authenticates a message with a shared secret key. This experiment uses a fresh browser-only key and nonce. Base64 represents bytes; it does not encrypt them. Never enter real secrets.",
+    "target": "Produce encrypted content, reject an incorrect key, and verify that the recovered message matches the original."
   },
   {
     "slot": 20,
     "title": "Public Keys and Digital Signatures",
-    "role": "Cybersecurity beginner",
+    "role": "Junior Security Technician",
     "curriculumLevel": 1,
     "displayNumber": 5,
     "beginner": true,
-    "ticket": "Sign with a private ECDSA key and verify with its public key. A signature detects tampering and authenticates the signer when the public key is trusted. It does not hide the message. Open Cybersecurity Learning Desk. Run the three experiment actions in order, inspect the results, and validate each checkpoint. Only fictional training data is used.",
+    "ticket": "A signed handover message must be checked before it is accepted. Create a signature, test a modified message, and verify the original with the public key. Open Cybersecurity Learning Desk, complete the three actions in order, and validate each checkpoint.",
     "tags": [
       "Public keys",
       "Digital signatures",
@@ -503,16 +507,17 @@ window.PrempehCyberBeginnerCatalog=[
       "Tamper with the message",
       "Verify the original again"
     ],
-    "intro": "Sign with a private ECDSA key and verify with its public key. A signature detects tampering and authenticates the signer when the public key is trusted. It does not hide the message."
+    "intro": "Sign with a private ECDSA key and verify with its public key. A signature detects tampering and authenticates the signer when the public key is trusted. It does not hide the message.",
+    "target": "Verify the original signature and detect tampering without confusing signatures with encryption."
   },
   {
     "slot": 21,
     "title": "Passphrases, Password Managers and Salted Hashes",
-    "role": "Cybersecurity beginner",
+    "role": "Junior Security Technician",
     "curriculumLevel": 1,
     "displayNumber": 6,
     "beginner": true,
-    "ticket": "Use long unique passphrases and a password manager. Store password-verification hashes, not plaintext. Random salts prevent identical passwords from producing identical stored values. This demo uses PBKDF2-SHA-256 with 600,000 iterations and fictional samples. Open Cybersecurity Learning Desk. Run the three experiment actions in order, inspect the results, and validate each checkpoint. Only fictional training data is used.",
+    "ticket": "Review how account passwords are selected and stored. Compare passphrase choices, inspect salted password hashes, and test password verification. Open Cybersecurity Learning Desk, complete the three actions in order, and validate each checkpoint.",
     "tags": [
       "Passphrases",
       "Password managers",
@@ -544,7 +549,7 @@ window.PrempehCyberBeginnerCatalog=[
         "dependencies": [],
         "experiment": 0,
         "experimentAction": "Compare sample passphrases",
-        "why": "Use long unique passphrases and a password manager. Store password-verification hashes, not plaintext. Random salts prevent identical passwords from producing identical stored values. This demo uses PBKDF2-SHA-256 with 600,000 iterations and fictional samples."
+        "why": "Use long unique passphrases and a password manager. Store password-verification hashes, not plaintext. Random salts prevent identical passwords from producing identical stored values. Inspect password verification using PBKDF2-SHA-256 with 600,000 iterations and lab credentials."
       },
       {
         "id": "cb21_2",
@@ -570,7 +575,7 @@ window.PrempehCyberBeginnerCatalog=[
         ],
         "experiment": 1,
         "experimentAction": "Hash the same sample with two salts",
-        "why": "Use long unique passphrases and a password manager. Store password-verification hashes, not plaintext. Random salts prevent identical passwords from producing identical stored values. This demo uses PBKDF2-SHA-256 with 600,000 iterations and fictional samples."
+        "why": "Use long unique passphrases and a password manager. Store password-verification hashes, not plaintext. Random salts prevent identical passwords from producing identical stored values. Inspect password verification using PBKDF2-SHA-256 with 600,000 iterations and lab credentials."
       },
       {
         "id": "cb21_3",
@@ -596,7 +601,7 @@ window.PrempehCyberBeginnerCatalog=[
         ],
         "experiment": 2,
         "experimentAction": "Verify correct and incorrect samples",
-        "why": "Use long unique passphrases and a password manager. Store password-verification hashes, not plaintext. Random salts prevent identical passwords from producing identical stored values. This demo uses PBKDF2-SHA-256 with 600,000 iterations and fictional samples."
+        "why": "Use long unique passphrases and a password manager. Store password-verification hashes, not plaintext. Random salts prevent identical passwords from producing identical stored values. Inspect password verification using PBKDF2-SHA-256 with 600,000 iterations and lab credentials."
       }
     ],
     "actions": [
@@ -604,16 +609,17 @@ window.PrempehCyberBeginnerCatalog=[
       "Hash the same sample with two salts",
       "Verify correct and incorrect samples"
     ],
-    "intro": "Use long unique passphrases and a password manager. Store password-verification hashes, not plaintext. Random salts prevent identical passwords from producing identical stored values. This demo uses PBKDF2-SHA-256 with 600,000 iterations and fictional samples."
+    "intro": "Use long unique passphrases and a password manager. Store password-verification hashes, not plaintext. Random salts prevent identical passwords from producing identical stored values. Inspect password verification using PBKDF2-SHA-256 with 600,000 iterations and lab credentials.",
+    "target": "Explain unique passphrases, verify that salts produce different stored hashes, and distinguish valid from invalid password checks."
   },
   {
     "slot": 22,
     "title": "Multi-Factor Authentication and Recovery",
-    "role": "Cybersecurity beginner",
+    "role": "Junior Security Technician",
     "curriculumLevel": 1,
     "displayNumber": 7,
     "beginner": true,
-    "ticket": "MFA combines independent factors; two passwords are one factor type. Never approve unexpected prompts. Recovery codes grant access: store them privately and use each only once. These are simulated credentials, not your website account. Open Cybersecurity Learning Desk. Run the three experiment actions in order, inspect the results, and validate each checkpoint. Only fictional training data is used.",
+    "ticket": "An account requires a second authentication factor and a reliable recovery process. Check the sign-in requirements, complete the second-factor check, and test a one-use recovery code. Open Cybersecurity Learning Desk, complete the three actions in order, and validate each checkpoint.",
     "tags": [
       "MFA",
       "Recovery",
@@ -645,7 +651,7 @@ window.PrempehCyberBeginnerCatalog=[
         "dependencies": [],
         "experiment": 0,
         "experimentAction": "Try password-only sign-in",
-        "why": "MFA combines independent factors; two passwords are one factor type. Never approve unexpected prompts. Recovery codes grant access: store them privately and use each only once. These are simulated credentials, not your website account."
+        "why": "MFA combines independent factors; two passwords are one factor type. Never approve unexpected prompts. Recovery codes grant access: store them privately and use each only once. Use the assigned lab account for these checks."
       },
       {
         "id": "cb22_2",
@@ -671,7 +677,7 @@ window.PrempehCyberBeginnerCatalog=[
         ],
         "experiment": 1,
         "experimentAction": "Present the training second factor",
-        "why": "MFA combines independent factors; two passwords are one factor type. Never approve unexpected prompts. Recovery codes grant access: store them privately and use each only once. These are simulated credentials, not your website account."
+        "why": "MFA combines independent factors; two passwords are one factor type. Never approve unexpected prompts. Recovery codes grant access: store them privately and use each only once. Use the assigned lab account for these checks."
       },
       {
         "id": "cb22_3",
@@ -697,7 +703,7 @@ window.PrempehCyberBeginnerCatalog=[
         ],
         "experiment": 2,
         "experimentAction": "Use and replay a recovery code",
-        "why": "MFA combines independent factors; two passwords are one factor type. Never approve unexpected prompts. Recovery codes grant access: store them privately and use each only once. These are simulated credentials, not your website account."
+        "why": "MFA combines independent factors; two passwords are one factor type. Never approve unexpected prompts. Recovery codes grant access: store them privately and use each only once. Use the assigned lab account for these checks."
       }
     ],
     "actions": [
@@ -705,16 +711,17 @@ window.PrempehCyberBeginnerCatalog=[
       "Present the training second factor",
       "Use and replay a recovery code"
     ],
-    "intro": "MFA combines independent factors; two passwords are one factor type. Never approve unexpected prompts. Recovery codes grant access: store them privately and use each only once. These are simulated credentials, not your website account."
+    "intro": "MFA combines independent factors; two passwords are one factor type. Never approve unexpected prompts. Recovery codes grant access: store them privately and use each only once. Use the assigned lab account for these checks.",
+    "target": "Require two independent factors and confirm that a consumed recovery code cannot be reused."
   },
   {
     "slot": 23,
     "title": "Phishing, URLs and Safe Browsing",
-    "role": "Cybersecurity beginner",
+    "role": "Junior Security Technician",
     "curriculumLevel": 1,
     "displayNumber": 8,
     "beginner": true,
-    "ticket": "Inspect the destination hostname, not just link text. HTTPS encrypts a connection; malicious domains can also use it. Example addresses are reserved and non-clickable. Open Cybersecurity Learning Desk. Run the three experiment actions in order, inspect the results, and validate each checkpoint. Only fictional training data is used.",
+    "ticket": "A user has received an urgent message asking for account credentials. Inspect the request and its destination, then choose the appropriate reporting and navigation steps. Open Cybersecurity Learning Desk, complete the three actions in order, and validate each checkpoint.",
     "tags": [
       "Phishing",
       "URLs",
@@ -746,7 +753,7 @@ window.PrempehCyberBeginnerCatalog=[
         "dependencies": [],
         "experiment": 0,
         "experimentAction": "Inspect the sample email",
-        "why": "Inspect the destination hostname, not just link text. HTTPS encrypts a connection; malicious domains can also use it. Example addresses are reserved and non-clickable."
+        "why": "Inspect the destination hostname, not just link text. HTTPS encrypts a connection; malicious domains can also use it. Inspect the displayed addresses without opening the message link."
       },
       {
         "id": "cb23_2",
@@ -772,7 +779,7 @@ window.PrempehCyberBeginnerCatalog=[
         ],
         "experiment": 1,
         "experimentAction": "Inspect the real destination",
-        "why": "Inspect the destination hostname, not just link text. HTTPS encrypts a connection; malicious domains can also use it. Example addresses are reserved and non-clickable."
+        "why": "Inspect the destination hostname, not just link text. HTTPS encrypts a connection; malicious domains can also use it. Inspect the displayed addresses without opening the message link."
       },
       {
         "id": "cb23_3",
@@ -798,7 +805,7 @@ window.PrempehCyberBeginnerCatalog=[
         ],
         "experiment": 2,
         "experimentAction": "Report through a trusted channel",
-        "why": "Inspect the destination hostname, not just link text. HTTPS encrypts a connection; malicious domains can also use it. Example addresses are reserved and non-clickable."
+        "why": "Inspect the destination hostname, not just link text. HTTPS encrypts a connection; malicious domains can also use it. Inspect the displayed addresses without opening the message link."
       }
     ],
     "actions": [
@@ -806,16 +813,17 @@ window.PrempehCyberBeginnerCatalog=[
       "Inspect the real destination",
       "Report through a trusted channel"
     ],
-    "intro": "Inspect the destination hostname, not just link text. HTTPS encrypts a connection; malicious domains can also use it. Example addresses are reserved and non-clickable."
+    "intro": "Inspect the destination hostname, not just link text. HTTPS encrypts a connection; malicious domains can also use it. Inspect the displayed addresses without opening the message link.",
+    "target": "Recognize the credential request, identify the actual destination, and report the message without submitting credentials."
   },
   {
     "slot": 24,
     "title": "Permissions and Least Privilege",
-    "role": "Cybersecurity beginner",
+    "role": "Junior Security Technician",
     "curriculumLevel": 1,
     "displayNumber": 9,
     "beginner": true,
-    "ticket": "Give people only the permissions they need. A reader can open a document but should not modify it or grant administrator access. This is an in-memory permissions model. Open Cybersecurity Learning Desk. Run the three experiment actions in order, inspect the results, and validate each checkpoint. Only fictional training data is used.",
+    "ticket": "A reviewer needs access to a project document. Inspect the existing permissions, assign the minimum access needed, and test permitted and denied actions. Open Cybersecurity Learning Desk, complete the three actions in order, and validate each checkpoint.",
     "tags": [
       "Permissions",
       "Least privilege",
@@ -847,7 +855,7 @@ window.PrempehCyberBeginnerCatalog=[
         "dependencies": [],
         "experiment": 0,
         "experimentAction": "Test the visitor permissions",
-        "why": "Give people only the permissions they need. A reader can open a document but should not modify it or grant administrator access. This is an in-memory permissions model."
+        "why": "Give people only the permissions they need. A reader can open a document but should not modify it or grant administrator access. Verify each permission against the assigned task."
       },
       {
         "id": "cb24_2",
@@ -873,7 +881,7 @@ window.PrempehCyberBeginnerCatalog=[
         ],
         "experiment": 1,
         "experimentAction": "Grant the analyst read access",
-        "why": "Give people only the permissions they need. A reader can open a document but should not modify it or grant administrator access. This is an in-memory permissions model."
+        "why": "Give people only the permissions they need. A reader can open a document but should not modify it or grant administrator access. Verify each permission against the assigned task."
       },
       {
         "id": "cb24_3",
@@ -899,7 +907,7 @@ window.PrempehCyberBeginnerCatalog=[
         ],
         "experiment": 2,
         "experimentAction": "Test read, write and admin actions",
-        "why": "Give people only the permissions they need. A reader can open a document but should not modify it or grant administrator access. This is an in-memory permissions model."
+        "why": "Give people only the permissions they need. A reader can open a document but should not modify it or grant administrator access. Verify each permission against the assigned task."
       }
     ],
     "actions": [
@@ -907,16 +915,17 @@ window.PrempehCyberBeginnerCatalog=[
       "Grant the analyst read access",
       "Test read, write and admin actions"
     ],
-    "intro": "Give people only the permissions they need. A reader can open a document but should not modify it or grant administrator access. This is an in-memory permissions model."
+    "intro": "Give people only the permissions they need. A reader can open a document but should not modify it or grant administrator access. Verify each permission against the assigned task.",
+    "target": "Allow the reviewer to read while preventing changes to content and permissions."
   },
   {
     "slot": 25,
     "title": "Updates, Backups and File Recovery",
-    "role": "Cybersecurity beginner",
+    "role": "Junior Security Technician",
     "curriculumLevel": 1,
     "displayNumber": 10,
     "beginner": true,
-    "ticket": "Updates fix known weaknesses. Backups must be separate and tested. Back up a training file, lose the working copy, restore it and compare its hash. This does not change your operating system. Open Cybersecurity Learning Desk. Run the three experiment actions in order, inspect the results, and validate each checkpoint. Only fictional training data is used.",
+    "ticket": "Prepare an application and its working file for recovery. Apply the lab application update, create a separate backup, then restore the deleted working copy and verify its checksum. Open Cybersecurity Learning Desk, complete the three actions in order, and validate each checkpoint.",
     "tags": [
       "Updates",
       "Backups",
@@ -947,8 +956,8 @@ window.PrempehCyberBeginnerCatalog=[
         },
         "dependencies": [],
         "experiment": 0,
-        "experimentAction": "Apply the simulated update",
-        "why": "Updates fix known weaknesses. Backups must be separate and tested. Back up a training file, lose the working copy, restore it and compare its hash. This does not change your operating system."
+        "experimentAction": "Apply the lab application update",
+        "why": "Updates fix known weaknesses. Backups must be separate and tested. Back up a training file, lose the working copy, restore it and compare its hash. The update applies to the lab application."
       },
       {
         "id": "cb25_2",
@@ -974,7 +983,7 @@ window.PrempehCyberBeginnerCatalog=[
         ],
         "experiment": 1,
         "experimentAction": "Create a separate backup",
-        "why": "Updates fix known weaknesses. Backups must be separate and tested. Back up a training file, lose the working copy, restore it and compare its hash. This does not change your operating system."
+        "why": "Updates fix known weaknesses. Backups must be separate and tested. Back up a training file, lose the working copy, restore it and compare its hash. The update applies to the lab application."
       },
       {
         "id": "cb25_3",
@@ -1000,14 +1009,15 @@ window.PrempehCyberBeginnerCatalog=[
         ],
         "experiment": 2,
         "experimentAction": "Delete, restore and verify the working copy",
-        "why": "Updates fix known weaknesses. Backups must be separate and tested. Back up a training file, lose the working copy, restore it and compare its hash. This does not change your operating system."
+        "why": "Updates fix known weaknesses. Backups must be separate and tested. Back up a training file, lose the working copy, restore it and compare its hash. The update applies to the lab application."
       }
     ],
     "actions": [
-      "Apply the simulated update",
+      "Apply the lab application update",
       "Create a separate backup",
       "Delete, restore and verify the working copy"
     ],
-    "intro": "Updates fix known weaknesses. Backups must be separate and tested. Back up a training file, lose the working copy, restore it and compare its hash. This does not change your operating system."
+    "intro": "Updates fix known weaknesses. Backups must be separate and tested. Back up a training file, lose the working copy, restore it and compare its hash. The update applies to the lab application.",
+    "target": "Confirm the application update and prove that the restored file matches the trusted backup."
   }
 ];

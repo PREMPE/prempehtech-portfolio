@@ -12,7 +12,7 @@ assignments, plus five preserved original cybersecurity scenarios used as case s
 3. Hashing: calculate SHA-256, change one character, and reject a mismatched download.
 4. Symmetric encryption: encrypt with AES-256-GCM, reject a wrong key, decrypt correctly.
 5. Public/private keys: ECDSA P-256 signing, public-key verification and tamper rejection.
-6. Password protection: compare fictional passphrases; use PBKDF2-SHA-256 with 600,000
+6. Password protection: compare lab passphrases; use PBKDF2-SHA-256 with 600,000
    iterations and random 128-bit salts; verify correct/incorrect samples.
 7. MFA and recovery: simulate two independent factors and reject a reused recovery code.
 8. Phishing: inspect a misleading hostname, explain HTTPS limits, and report safely.
@@ -63,7 +63,7 @@ score normally. Activate the migration before announcing new monthly ranked labs
 
 ## Security scope
 
-Experiments use fixed fictional examples and Web Crypto. No uploads, real passwords,
+Experiments use assigned lab examples and Web Crypto. No uploads, real passwords,
 private-key export, filesystem access, network probes, external links or executable
 command input are introduced. Case commands are matched against a bounded allowlist,
 never evaluated or executed. Outputs use DOM text nodes. Existing CSP, pinned SDK SRI,
@@ -85,7 +85,7 @@ Focused learning / phone view displays one checkpoint at a time with larger cont
 it uses the same actual validation and scoring events as the desktop.
 
 Hashing, encryption and signature lessons include an optional editable sandbox. It
-accepts up to 512 characters per fictional message, renders all output as text and does
+accepts up to 512 characters per lab message, renders all output as text and does
 not save or upload messages. Fresh encryption keys/nonces and signing keys remain in
 memory. Sandbox results do not change the guided example or its ranked answers.
 

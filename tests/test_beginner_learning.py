@@ -16,7 +16,7 @@ class BeginnerLearningTests(unittest.TestCase):
 
     def test_editable_crypto_handles_identical_changed_and_hostile_text(self):
         p=self.page;win=self.start();win.locator('.beginner-playground summary').click()
-        a=win.get_by_label('Original fictional message');b=win.get_by_label('Edited fictional message')
+        a=win.get_by_label('Original message');b=win.get_by_label('Edited message')
         payload='<img src=x onerror="window.injected=true">fiction'
         a.fill(payload);b.fill(payload)
         win.get_by_role('button',name='Compare hashes',exact=True).click()

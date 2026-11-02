@@ -8,7 +8,7 @@ Automated browser checks are separate from real-user observation.
 Recruit three to five consenting adults with no, or very little, cybersecurity training.
 Use labels P1–P5 rather than names. Allow about 20 minutes per person. Ask at least two
 participants to use a phone and at least one to use a laptop. Participation is optional;
-they may stop at any time. Use fictional messages and do not ask for real passwords.
+they may stop at any time. Use lab messages and do not ask for real passwords.
 
 Tell the participant: “We are testing the website, not you. Please say what you expect
 and what confuses you. You can use hints, but tell me when you do.” Do not demonstrate
@@ -19,7 +19,7 @@ the Learning Desk and focused view without assistance.
 
 1. Open Hashing and File Integrity. Complete the first guided checkpoint. Explain what
    its fingerprint tells you and what it cannot tell you.
-2. Expand “Explore with your own fictional messages.” Compare two identical messages,
+2. Expand “Test your own lab messages.” Compare two identical messages,
    then change one character. Explain why the fingerprints behave differently.
 3. Use the encryption or signature sandbox. Predict what will happen before clicking.
    Explain whether a signature hides the message.

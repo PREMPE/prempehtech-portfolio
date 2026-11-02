@@ -1,4 +1,4 @@
-/* Learning aids use text-only DOM output and bounded, local-only fictional data. */
+/* Learning aids use text-only DOM output and bounded, local-only lab data. */
 (() => {
  'use strict';
  const rt=()=>PrempehDesktopLab.getRuntime(),bytes=s=>new TextEncoder().encode(s),hex=b=>Array.from(new Uint8Array(b),x=>x.toString(16).padStart(2,'0')).join('');
@@ -17,15 +17,15 @@
   ['Knowing a password is only one factor. The experiment still requires evidence of the second factor.','Two passwords are both knowledge factors. An authenticator supplies a possession factor.','A recovery code is a one-use credential. Replaying a consumed code must not grant access again.'],
   ['Unexpected urgency combined with a request for credentials is a warning sign. A greeting alone is not evidence of phishing.','HTTPS protects transport to a domain. It does not establish that the domain belongs to the organization you intended.','Use a known trusted route and report suspicious requests. Entering credentials to test a suspicious site exposes them.'],
   ['Visitors were not granted write access. Check the permissions list before deciding whether the write should succeed.','The analyst only needs to read. Administrative rights would also allow unrelated, dangerous changes.','Least privilege permits the assigned read and rejects write or permission-management actions.'],
-  ['The version change belongs to this simulated application. The browser does not update your real operating system.','A shortcut still points at the original. A separate backup must remain usable when the working copy is lost.','A matching name is insufficient. Compare restored content and its checksum with the trusted backup.']
+  ['Check the version of the lab application after the update. The version change applies to this application.','A shortcut still points at the original. A separate backup must remain usable when the working copy is lost.','A matching name is insufficient. Compare restored content and its checksum with the trusted backup.']
  ];
  function feedback(task,values){if(!rt().current.data.beginner)return null;return !values.answer?'Choose an answer after reading the experiment result.':('Not yet. '+explanations[rt().current.data.displayNumber-1][task.experiment]+' Try again; a wrong answer does not subtract points.');}
  function hints(parent,task,index,data){let level=0;const out=node('p');out.setAttribute('role','status');out.dataset.learningHint=task.id;const b=button('Hint 1: a clue',()=>{level++;out.textContent=level===1?'Look at the result of experiment step '+(index+1)+'. Focus on '+task.fields[0][1].toLowerCase()+'.':level===2?explanations[data.displayNumber-1][index]:'Full procedure: click “'+(index+1)+'. '+task.experimentAction+'”, read the result, select “'+task.expected.answer+'” in “'+task.fields[0][1]+'”, then click Apply / Validate.';b.textContent=level===1?'Hint 2: explain the evidence':level===2?'Hint 3: show the full procedure':'All hints shown';b.disabled=level>=3;});b.dataset.hintFor=task.id;parent.append(b,out);}
  function playground(parent){
-  const box=node('details');box.className='beginner-playground';box.append(node('summary','Explore with your own fictional messages'));
-  box.append(node('p','Optional sandbox: these examples do not change the guided checkpoints or award points. Use fictional text only; never enter passwords or personal information. Inputs stay in memory and are not uploaded or saved.'));
-  const original=node('textarea'),edited=node('textarea');original.maxLength=edited.maxLength=512;original.value='My fictional training message';edited.value='My fictional training message!';
-  for(const [label,input] of [['Original fictional message',original],['Edited fictional message',edited]]){const l=node('label',label);input.setAttribute('aria-label',label);l.append(input);box.append(l);}
+  const box=node('details');box.className='beginner-playground';box.append(node('summary','Test your own lab messages'));
+  box.append(node('p','Additional practice: compare messages, test encryption, and verify signatures. Use lab content only; do not enter account passwords or personal information. Inputs stay in this session and are not uploaded or saved. This practice does not award additional points.'));
+  const original=node('textarea'),edited=node('textarea');original.maxLength=edited.maxLength=512;original.value='Project handover approved';edited.value='Project handover approved!';
+  for(const [label,input] of [['Original message',original],['Edited message',edited]]){const l=node('label',label);input.setAttribute('aria-label',label);l.append(input);box.append(l);}
   const out=node('pre');out.setAttribute('aria-live','polite');out.dataset.playgroundOutput='';let busy=false;
   const controls=[];
   function action(label,fn){const b=button(label,async()=>{if(busy)return;const a=original.value,c=edited.value;if(!a||!c||a.length>512||c.length>512){out.textContent='Enter 1–512 characters in both messages.';return;}busy=true;controls.forEach(x=>x.disabled=true);out.textContent='Running your experiment…';try{out.textContent=await fn(a,c);}catch{out.textContent='This experiment could not finish. Use a browser with Web Crypto support and retry.';}finally{busy=false;controls.forEach(x=>x.disabled=false);}});controls.push(b);box.append(b);}
@@ -58,7 +58,7 @@
  async function capstone(){
   if(challenge)return;
   const d=modal('Beginner capstone: protect the project handover');challenge=d;d.addEventListener('close',()=>{challenge=null;});d.showModal();
-  try{d.append(node('p','Optional, unranked challenge. Apply what you learned without the guided answers. No extra leaderboard points. All data and actions are simulated.'));
+  try{d.append(node('p','Optional, unranked challenge. Apply what you learned without the guided answers. No extra leaderboard points. Review the handover evidence and complete each security check.'));
   const altered=crypto.getRandomValues(new Uint8Array(1))[0]%2===0,phishing=crypto.getRandomValues(new Uint8Array(1))[0]%2===0;
   const original='Project handover: approved training release',candidate=altered?original+' changed':original;
   const trusted=await digest(original),candidateHash=await digest(candidate);let step=0,hintsUsed=0;const log=[],body=node('section'),status=node('p');status.setAttribute('role','status');d.append(body,status,button('Close challenge',()=>d.close()));

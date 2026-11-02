@@ -35,31 +35,31 @@
     if(step===1){const ok=await crypto.subtle.verify({name:'ECDSA',hash:'SHA-256'},s.pair.publicKey,s.signature,bytes(sample+'!'));if(ok)throw new Error('Unexpected tampered signature acceptance');return 'Tampered-message signature verification: rejected.';}
     return 'Original verification: '+await crypto.subtle.verify({name:'ECDSA',hash:'SHA-256'},s.pair.publicKey,s.signature,bytes(sample))+'\nMessage is still readable. Signatures provide integrity and signer authenticity, not confidentiality.';
    case 6:
-    if(step===0)return 'Fictional samples: password123 (predictable); Cedar-River-Orbit-Lantern (longer sample, now public). Never reuse these examples. Generate a unique passphrase per account with a password manager; length alone does not make a known sample secret.';
-    if(step===1){s.salt=crypto.getRandomValues(new Uint8Array(16));s.salt2=crypto.getRandomValues(new Uint8Array(16));s.digest=await derive('fictional-password',s.salt);s.digest2=await derive('fictional-password',s.salt2);return 'Same fictional password; two random salts.\nSalt A: '+hex(s.salt)+'\nHash A: '+s.digest+'\nSalt B: '+hex(s.salt2)+'\nHash B: '+s.digest2+'\nDifferent stored hashes. Salts may be stored alongside hashes.';}
-    return 'Correct sample accepted: '+(await derive('fictional-password',s.salt)===s.digest)+'\nIncorrect sample accepted: '+(await derive('incorrect-password',s.salt)===s.digest)+'\nUse purpose-built password hashing, not a fast unsalted SHA-256 hash.';
+    if(step===0)return 'Passphrase review: password123 (predictable); Cedar-River-Orbit-Lantern (longer sample, now public). Never reuse these examples. Generate a unique passphrase per account with a password manager; length alone does not make a known sample secret.';
+    if(step===1){s.salt=crypto.getRandomValues(new Uint8Array(16));s.salt2=crypto.getRandomValues(new Uint8Array(16));s.digest=await derive('lab-password',s.salt);s.digest2=await derive('lab-password',s.salt2);return 'Same lab password; two random salts.\nSalt A: '+hex(s.salt)+'\nHash A: '+s.digest+'\nSalt B: '+hex(s.salt2)+'\nHash B: '+s.digest2+'\nDifferent stored hashes. Salts may be stored alongside hashes.';}
+    return 'Correct sample accepted: '+(await derive('lab-password',s.salt)===s.digest)+'\nIncorrect sample accepted: '+(await derive('incorrect-password',s.salt)===s.digest)+'\nUse purpose-built password hashing, not a fast unsalted SHA-256 hash.';
    case 7:
     if(step===0){s.factor=false;s.recoveryUnused=true;return 'Training sign-in: password accepted, second factor required. Access denied until a second factor is presented.';}
-    if(step===1){s.factor=true;return 'Simulated authenticator presented. Knowledge (password) + possession (authenticator). Training sign-in accepted. This does not change your website account.';}
+    if(step===1){s.factor=true;return 'Lab authenticator presented. Knowledge (password) + possession (authenticator). Lab account sign-in accepted.';}
     {const first=s.recoveryUnused;s.recoveryUnused=false;return 'Recovery code first use accepted: '+first+'\nReplay accepted: '+s.recoveryUnused+'\nStore unused recovery codes privately. Report unexpected MFA prompts.';}
    case 8:
     if(step===0)return 'Sample sender: support@signin-review.invalid\nSubject: URGENT — enter your password or lose access\nClaimed link text: training.example.invalid\nUnexpected urgency and a credential request are warning signs.';
     if(step===1){const url=new URL('https://training.example.invalid.signin-review.invalid/login');return 'Actual hostname: '+url.hostname+'\nProtocol: '+url.protocol+'\nThis is not training.example.invalid. HTTPS does not make this destination trustworthy. No link was opened.';}
-    return 'Message reported to the fictional help desk. No credentials entered. Navigate using a known trusted address, not the message link.';
+    return 'Message reported to the lab help desk. No credentials entered. Navigate using a known trusted address, not the message link.';
    case 9:
     if(step===0){s.permissions={visitor:[],analyst:[]};return 'Visitor write: '+(s.permissions.visitor.includes('write')?'allowed':'denied');}
     if(step===1){s.permissions.analyst=['read'];return 'Assigned analyst permission: read only. No write or administration permission granted.';}
     return ['read','write','admin'].map(action=>'Analyst '+action+': '+(s.permissions.analyst.includes(action)?'allowed':'denied')).join('\n');
    case 10:
-    if(step===0){s.version=2;s.file='Quarterly training notes';return 'Simulated update applied: training version '+s.version+'. Your operating system was not changed.';}
-    if(step===1){s.backup=String(s.file);s.expected=await hash(s.backup);return 'Independent in-memory backup created. Backup hash: '+s.expected;}
+    if(step===0){s.version=2;s.file='Quarterly training notes';return 'Lab application updated to version '+s.version+'.';}
+    if(step===1){s.backup=String(s.file);s.expected=await hash(s.backup);return 'Separate session backup created. Backup hash: '+s.expected;}
     s.file=null;s.file=String(s.backup);return 'Working copy deleted, then restored from backup.\nRestored content: '+s.file+'\nRestored hash: '+await hash(s.file)+'\nContent and hash match: '+(await hash(s.file)===s.expected);
   }
  }
  function mount(win){
   if(!rt().current.data.beginner||win.dataset.app!=='basics'||win.querySelector('[data-cyber-experiment]'))return;
   const data=rt().current.data,s=model,section=node('section');section.className='cyber-experiment';section.dataset.cyberExperiment='';
-  section.append(node('h3','Hands-on experiment'),node('p',data.intro),node('p','Use fictional examples only. Keys and training files stay in browser memory. After resuming a saved attempt, rerun the experiment from step 1 before continuing an unfinished checkpoint.'));
+  section.append(node('h3','Hands-on experiment'),node('p',data.intro),node('p','Use lab data only; do not enter personal information or account passwords. Session keys and files reset when this workspace is reloaded. After resuming a saved attempt, rerun the experiment from step 1 before continuing an unfinished checkpoint.'));
   data.actions.forEach((action,i)=>{const out=node('pre',s.output[i]||'Not run yet.');out.dataset.experimentOutput=i;out.setAttribute('aria-live','polite');const b=button((i+1)+'. '+action,async()=>{if(s.busy||s.done[i])return;if(i&&!s.done[i-1]){out.textContent='Run experiment step '+i+' first.';return;}s.busy=true;b.disabled=true;try{const result=await experiment(data.displayNumber,i,s);if(s!==model)return;s.output[i]=result;s.done[i]=true;out.textContent=result;}catch{out.textContent='The experiment could not finish. Refresh and retry in a browser with Web Crypto support.';}finally{s.busy=false;b.disabled=!!s.done[i];}});b.dataset.experimentStep=i;b.disabled=!!s.done[i];section.append(b,out);});
   win.querySelector('.vm-app-body').prepend(section);
   window.PrempehBeginnerLearning?.enhance(win);
