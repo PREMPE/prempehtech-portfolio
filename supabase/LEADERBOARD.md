@@ -81,3 +81,17 @@ Run `cybersecurity-beginners.sql` last for the ten new beginner assignments. It 
 historical scores, adds only `cyber:16`–`cyber:25`, scores them at 100 points each and
 retains strict evidence and ownership validation. See `../simulator/CYBERSECURITY-BEGINNERS.md`
 for the preserved-case mapping, rollout behavior and security scope.
+
+## All enrolled players (replaces the top-20 display)
+
+Run **all-enrolled-players.sql** after `cybersecurity-beginners.sql` in the project's
+SQL Editor. This repeatable migration adds a paginated public ranking function without
+changing scores, prize rules, identities, or the older API. The website displays 50
+players per page with Previous/Next controls and global ranks. Players with zero points
+are included once they start a lab in the selected month/discipline; withdrawn profiles
+remain hidden. Changing the month or discipline returns to the first page. Results can
+move between pages as live scores change; refresh to return to the first page.
+
+Until this migration is installed, the site retains the old results and explicitly says
+the database update is required to show players beyond the first 20. Deploying the website
+does not install database migrations. No service-role key belongs in the website.

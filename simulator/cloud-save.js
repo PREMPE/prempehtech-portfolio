@@ -276,9 +276,14 @@
   }
 
   window.PrempehCloud = {
-    leaderboard: async (track='all',month=null) => {
+    leaderboard: async (track='all',month=null,offset=0) => {
       if(!client)throw new Error('Account service unavailable. Please retry after the page finishes loading.');
-      const {data,error}=await client.rpc('simulator_monthly_leaderboard',{p_track:track,p_month:month});
+      const {data,error}=await client.rpc('simulator_monthly_leaderboard_page',{p_track:track,p_month:month||null,p_offset:offset});
+      if(error&&['PGRST202','42883'].includes(error.code)&&offset===0){
+        const fallback=await client.rpc('simulator_monthly_leaderboard',{p_track:track,p_month:month||null});
+        if(fallback.error)throw fallback.error;
+        const rows=fallback.data||[];rows.legacyLimited=true;return rows;
+      }
       if(error)throw error;return data||[];
     },
     setLeaderboardProfile: async (name,optIn) => {

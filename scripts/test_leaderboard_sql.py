@@ -227,5 +227,25 @@ try:
  assert sql("select count(*) from public.simulator_monthly_activity('Beginner Tester');")=='80'
  print('Cybersecurity beginner migration passed: historical rankings unchanged, 10 labs at 100 points each, partial credit, prerequisite/owner enforcement, archived enrollment blocked, unknown slots rejected and progress allowlist expanded only for cyber.')
 
+ page_migration=(ROOT/'supabase/all-enrolled-players.sql').read_text();sql(page_migration);sql(page_migration)
+ sql("""do $$ declare u uuid; n integer; begin for n in 100..159 loop
+ u:=lpad(n::text,32,'0')::uuid;
+ insert into auth.users(id) values(u);
+ perform set_config('request.jwt.claim.sub',u::text,true);
+ perform public.simulator_competition_start('Page Player '||n,'networking',1);
+ end loop; end $$;""")
+ assert sql("set role anon; select count(*) from public.simulator_monthly_leaderboard_page('all',null,0);").splitlines()[-1]=='51'
+ assert int(sql("set role anon; select count(*) from public.simulator_monthly_leaderboard_page('all',null,50);").splitlines()[-1])>=10
+ assert sql("set role anon; select min(place) from public.simulator_monthly_leaderboard_page('all',null,50);").splitlines()[-1]=='51'
+ assert sql("set role anon; select count(*) from public.simulator_monthly_leaderboard_page('all',null,5000);").splitlines()[-1]=='0'
+ sql("set role anon; select * from public.simulator_monthly_leaderboard_page('all',null,-1);",False)
+ sql("set role anon; select * from public.simulator_monthly_leaderboard_page('unknown',null,0);",False)
+ sql("set role anon; select * from public.simulator_monthly_leaderboard_page('all','2999-01-01',0);",False)
+ sql("update public.simulator_leaderboard_profiles set opted_in=false where display_name='Page Player 100';")
+ assert sql("select count(*) from (select * from public.simulator_monthly_leaderboard_page('all',null,0) union all select * from public.simulator_monthly_leaderboard_page('all',null,51)) p where display_name='Page Player 100';")=='0'
+ assert sql("select count(*) from public.simulator_monthly_leaderboard_page('cloud',null,0) where display_name like 'Page Player%';")=='0'
+ sql('set role anon; select * from public.simulator_competition_runs;',False)
+ print('All-player pagination passed: more than 50 entrants, global ranks, zero-score entrants, boundaries, filters, withdrawal, private records and repeatable migration.')
+
 finally:
  subprocess.run(['docker','rm','-f',name],capture_output=True)

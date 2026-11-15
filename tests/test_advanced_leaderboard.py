@@ -172,15 +172,15 @@ class AdvancedLeaderboardTests(unittest.TestCase):
         self.assertIn('RECOVERED',state())
         self.submit(tasks[-1]);self.assertTrue(p.locator('#vmComplete').is_visible())
 
-    def test_leaderboard_top_20_escaped_names_and_weighted_progress(self):
+    def test_leaderboard_all_players_escaped_names_and_weighted_progress(self):
         p=self.page
         p.evaluate('''() => {
           localStorage.setItem('prempehtech-simulator-progress-v1',JSON.stringify({completedLevels:{'networking:1':true,'cloud:6':true,'cyber:11':true},xp:999999}));
           PrempehCloud.leaderboard=async()=>Array.from({length:25},(_,i)=>({place:i+1,display_name:i===0?'<img src=x onerror=alert(1)>':'Player '+i,points:300,level_one:0,level_two:0,level_three:1}));
         }''')
         p.evaluate('PrempehDesktopLab.close()');p.locator('#leaderboardBtn').click()
-        dialog=p.get_by_role('dialog',name='Top 20 monthly leaderboard')
-        self.assertEqual(dialog.locator('tbody tr').count(),20)
+        dialog=p.get_by_role('dialog',name='Monthly leaderboard — all enrolled players')
+        self.assertEqual(dialog.locator('tbody tr').count(),25)
         self.assertEqual(dialog.locator('tbody img').count(),0)
         self.assertIn('600 lifetime practice points',dialog.locator('[data-local]').inner_text())
         self.assertIn('Equal points are ordered by most labs completed',dialog.text_content())
@@ -192,11 +192,43 @@ class AdvancedLeaderboardTests(unittest.TestCase):
          PrempehCloud.setLeaderboardProfile=async()=>{throw {code:'23505'}};
         }''')
         p.evaluate('PrempehDesktopLab.close()');p.locator('#leaderboardBtn').click()
-        dialog=p.get_by_role('dialog',name='Top 20 monthly leaderboard')
+        dialog=p.get_by_role('dialog',name='Monthly leaderboard — all enrolled players')
         self.assertIn('not activated',dialog.locator('[data-status]').inner_text())
         dialog.locator('[data-name]').fill('Taken Name')
         dialog.get_by_role('button',name='Update public username').click()
         self.assertIn('taken',dialog.locator('[data-profile-status]').inner_text())
         self.assertEqual(p.evaluate("localStorage.getItem('prempeh-player-name:guest')"),'Test Learner')
+
+
+    def test_all_players_pagination_filter_reset_and_legacy_notice(self):
+        p=self.page;p.set_viewport_size({'width':390,'height':844})
+        p.evaluate('''() => {
+          window.pageOffsets=[];
+          PrempehCloud.leaderboard=async(track,month,offset=0)=>{
+            pageOffsets.push(offset);
+            return Array.from({length:track==='all'?90:3},(_,i)=>({place:i+1,display_name:'Enrolled '+(i+1),points:0,level_one:0,level_two:0,level_three:0})).slice(offset,offset+51);
+          };
+        }''')
+        p.evaluate('PrempehDesktopLab.close()');p.locator('#leaderboardBtn').click()
+        d=p.get_by_role('dialog',name='Monthly leaderboard — all enrolled players')
+        expect(d.locator('[data-rows] tr')).to_have_count(50)
+        expect(d.locator('[data-prev-page]')).to_be_disabled()
+        d.locator('[data-next-page]').click()
+        expect(d.locator('[data-rows] tr')).to_have_count(40)
+        expect(d.locator('[data-rows] tr').first).to_contain_text('Enrolled 51')
+        expect(d.locator('[data-rows] tr').last).to_contain_text('Enrolled 90')
+        expect(d.locator('[data-next-page]')).to_be_disabled()
+        d.locator('[data-prev-page]').click()
+        expect(d.locator('[data-rows] tr')).to_have_count(50)
+        d.locator('[data-next-page]').click()
+        expect(d.locator('[data-rows] tr')).to_have_count(40)
+        d.locator('[data-track]').select_option('cloud')
+        expect(d.locator('[data-rows] tr')).to_have_count(3)
+        expect(d.locator('[data-prev-page]')).to_be_disabled()
+        self.assertEqual(p.evaluate('pageOffsets'),[0,50,0,50,0])
+        p.evaluate("PrempehCloud.leaderboard=async()=>Object.assign([{place:1,display_name:'Existing player',points:0}],{legacyLimited:true})")
+        d.locator('[data-refresh]').click()
+        expect(d.locator('[data-status]')).to_contain_text('database update is needed')
+        expect(d.locator('[data-next-page]')).to_be_disabled()
 
 if __name__=='__main__':unittest.main()
