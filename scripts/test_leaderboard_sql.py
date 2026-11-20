@@ -246,6 +246,78 @@ try:
  assert sql("select count(*) from public.simulator_monthly_leaderboard_page('cloud',null,0) where display_name like 'Page Player%';")=='0'
  sql('set role anon; select * from public.simulator_competition_runs;',False)
  print('All-player pagination passed: more than 50 entrants, global ranks, zero-score entrants, boundaries, filters, withdrawal, private records and repeatable migration.')
+ milestone=(ROOT/'supabase/milestone-prize.sql').read_text();sql(milestone)
+ starts=sql('select starts_month from public.simulator_milestone_settings;');sql(milestone)
+ assert sql('select starts_month from public.simulator_milestone_settings;')==starts
+ sql("update public.simulator_milestone_settings set starts_month=date_trunc('month',now() at time zone 'America/Toronto')::date;")
+ def milestone_auth(n):return auth.replace('000000000001',str(n).zfill(12))
+ def prepare_milestone_player(n):
+  uid=str(n).zfill(32)
+  sql(f"insert into auth.users(id,is_anonymous) values('{uid}',true);")
+  sql(milestone_auth(n)+f"select public.simulator_leaderboard_profile('Milestone {n}',true);")
+  sql(f"""insert into public.simulator_competition_runs(user_id,month,track,slot,started_at,completed_at,validated_tasks,verified_tasks,last_activity_at)
+  select '{uid}',date_trunc('month',now() at time zone 'America/Toronto')::date,c.track,c.slot,now()-interval '15 minutes',now()-interval '5 minutes',c.task_ids,c.task_ids,now()-interval '5 minutes'
+  from public.simulator_lab_task_catalog c where c.slot between 11 and 15 order by c.track,c.slot limit 13;""")
+  run=sql(milestone_auth(n)+f"select public.simulator_competition_start('Milestone {n}','networking',1);").splitlines()[-1]
+  return run
+ runs={n:prepare_milestone_player(n) for n in [900,901,902]}
+ rules=json.loads(sql("select tasks from public.simulator_lab_rules where track='networking' and slot=1;"))
+ evidence=json.dumps([{'id':t['id'],'values':t['expected'],'commands':t['required']} for t in rules]).replace("'","''")
+ sql('set role anon; select * from public.simulator_milestone_entries;',False)
+ sql(milestone_auth(900)+'select * from public.simulator_milestone_entries;',False)
+ sql('set role anon; select public.simulator_my_milestone();',False)
+ sql(milestone_auth(900)+"select public.simulator_milestone_contact('email','player@example.invalid');",False)
+ sql(milestone_auth(900)+f"select public.simulator_verify_before_milestone('{runs[900]}','[]');",False)
+ assert json.loads(sql(milestone_auth(900)+"select public.simulator_my_milestone();").splitlines()[-1])['points']==3900
+ sql(milestone_auth(900)+f"select public.simulator_competition_verify('{runs[900]}','{evidence}');")
+ entry=json.loads(sql(milestone_auth(900)+"select public.simulator_my_milestone();").splitlines()[-1])
+ assert entry['points']==4000 and entry['reached'] and entry['contact_choice']=='pending'
+ first_sequence=sql("select sequence from public.simulator_milestone_entries where user_id=lpad('900',32,'0')::uuid;")
+ sql(milestone_auth(900)+f"select public.simulator_competition_verify('{runs[900]}','{evidence}');select public.simulator_competition_finish('{runs[900]}');")
+ assert sql("select sequence from public.simulator_milestone_entries where user_id=lpad('900',32,'0')::uuid;")==first_sequence
+ for n in [901,902]:sql(milestone_auth(n)+f"select public.simulator_competition_verify('{runs[n]}','{evidence}');")
+ public_status=json.loads(sql('set role anon; select public.simulator_milestone_status();').splitlines()[-1])
+ assert public_status['candidate']['display_name']=='Milestone 900'
+ assert 'user_id' not in str(public_status) and 'contact_email' not in str(public_status)
+ sql(milestone_auth(900)+"select public.simulator_milestone_contact('email','not-an-email');",False)
+ sql(milestone_auth(900)+"select public.simulator_milestone_contact('forfeited',null);")
+ sql(milestone_auth(900)+"select public.simulator_milestone_contact('external',null);",False)
+ assert json.loads(sql('set role anon; select public.simulator_milestone_status();').splitlines()[-1])['candidate']['display_name']=='Milestone 901'
+ sql(milestone_auth(901)+"select public.simulator_milestone_contact('external',null);")
+ sql(milestone_auth(902)+"select public.simulator_milestone_contact('email','private@example.invalid');")
+ assert sql("select contact_email from public.simulator_milestone_entries where user_id=lpad('902',32,'0')::uuid;")=='private@example.invalid'
+ assert 'private@example.invalid' not in sql(milestone_auth(902)+"select public.simulator_my_milestone();")
+ sql(milestone_auth(901)+"select public.simulator_milestone_review(date_trunc('month',now())::date,lpad('901',32,'0')::uuid,'approved','Self approval is not allowed');",False)
+ sql("select public.simulator_milestone_review(date_trunc('month',now() at time zone 'America/Toronto')::date,lpad('902',32,'0')::uuid,'approved','Not the first eligible player');",False)
+ sql("select public.simulator_milestone_review(date_trunc('month',now() at time zone 'America/Toronto')::date,lpad('901',32,'0')::uuid,'approved','Reviewed identity, external email and server evidence');")
+ sql("select public.simulator_milestone_review(date_trunc('month',now() at time zone 'America/Toronto')::date,lpad('902',32,'0')::uuid,'approved','Duplicate award is not allowed');",False)
+ sql("insert into auth.users(id,is_anonymous) values(lpad('903',32,'0')::uuid,true);")
+ recovery='ab'*32
+ sql(milestone_auth(900)+f"select public.simulator_recovery_create('{recovery}');")
+ sql(milestone_auth(903)+f"select public.simulator_recovery_redeem('{recovery}');")
+ assert json.loads(sql(milestone_auth(903)+"select public.simulator_my_milestone();").splitlines()[-1])['contact_choice']=='forfeited'
+ assert not json.loads(sql(milestone_auth(900)+"select public.simulator_my_milestone();").splitlines()[-1])['reached']
+ sql("update public.simulator_milestone_entries set month=(month-interval '1 month')::date where user_id=lpad('902',32,'0')::uuid; update public.simulator_competition_runs set month=(month-interval '1 month')::date where user_id=lpad('902',32,'0')::uuid;")
+ assert not json.loads(sql(milestone_auth(902)+"select public.simulator_my_milestone();").splitlines()[-1])['reached']
+ sql(milestone_auth(902)+"select public.simulator_milestone_contact('external',null);",False)
+ print('Milestone prize passed: 4000 threshold, server crossing order, private contact, irreversible forfeiture, next eligible candidate, duplicate prevention, admin-only review, recovery and monthly reset.')
+
+ # Hold one crossing transaction open while a second player submits independently.
+ concurrent={n:prepare_milestone_player(n) for n in [904,905]}
+ first=subprocess.Popen(['docker','exec','-i',name,'psql','-h','127.0.0.1','-U','postgres','-v','ON_ERROR_STOP=1','-At'],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True)
+ first.stdin.write("begin;"+milestone_auth(904)+f"select public.simulator_competition_verify('{concurrent[904]}','{evidence}'); select 'crossing_lock_held'; select pg_sleep(2); commit;\n")
+ first.stdin.close()
+ while True:
+  line=first.stdout.readline()
+  if not line:raise AssertionError('First crossing transaction failed')
+  if line.strip()=='crossing_lock_held':break
+ sql(milestone_auth(905)+f"select public.simulator_competition_verify('{concurrent[905]}','{evidence}');")
+ first.wait(timeout=15)
+ assert first.returncode==0,first.stderr.read()
+ assert sql("select a.sequence<b.sequence and a.reached_at<=b.reached_at from public.simulator_milestone_entries a,public.simulator_milestone_entries b where a.user_id=lpad('904',32,'0')::uuid and b.user_id=lpad('905',32,'0')::uuid;")=='t'
+ sql('delete from public.simulator_milestone_settings;');sql(milestone)
+ assert sql("select starts_month=(date_trunc('month',now() at time zone 'America/Toronto')+interval '1 month')::date from public.simulator_milestone_settings;")=='t'
+ print('Concurrent crossings serialize correctly; activation defers rather than inventing historical crossing times.')
 
 finally:
  subprocess.run(['docker','rm','-f',name],capture_output=True)

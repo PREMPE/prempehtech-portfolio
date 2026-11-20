@@ -310,7 +310,7 @@
     recordLabActivity: async (run,tasks,evidence=[]) => {
       if(!client||!user)throw new Error('Sign in to record lab activity');
       const {data,error}=await client.rpc('simulator_competition_verify',{p_run:run,p_evidence:evidence});
-      if(error)throw error;if(!data?.accepted){const rejected=new Error(data?.message||'Server verification did not accept the lab evidence');rejected.code='LAB_EVIDENCE';throw rejected;}return data.validated;
+      if(error)throw error;if(!data?.accepted){const rejected=new Error(data?.message||'Server verification did not accept the lab evidence');rejected.code='LAB_EVIDENCE';throw rejected;}window.dispatchEvent(new Event('prempeh-monthly-points-synced'));return data.validated;
     },
     labActivity: async (name,month=null) => {
       if(!client)throw new Error('Account service unavailable');
@@ -320,7 +320,19 @@
     finishCompetition: async run => {
       if(!client||!user)throw new Error('Sign in to record points');
       const {data,error}=await client.rpc('simulator_competition_finish',{p_run:run});
-      if(error)throw error;return data;
+      if(error)throw error;window.dispatchEvent(new Event('prempeh-monthly-points-synced'));return data;
+    },
+    milestonePublic: async () => {
+      if(!client)throw new Error('Service unavailable');
+      const {data,error}=await client.rpc('simulator_milestone_status');if(error)throw error;return data;
+    },
+    milestonePrivate: async () => {
+      if(!client||!user)throw new Error('Player session required');
+      const {data,error}=await client.rpc('simulator_my_milestone');if(error)throw error;return data;
+    },
+    milestoneContact: async (choice,email=null) => {
+      if(!client||!user)throw new Error('Player session required');
+      const {error}=await client.rpc('simulator_milestone_contact',{p_choice:choice,p_email:email});if(error)throw error;
     },
     playerService: async (action,args={}) => {
       const names={createRecovery:'simulator_recovery_create',redeemRecovery:'simulator_recovery_redeem',prizes:'simulator_my_prizes',claim:'simulator_prize_claim'};

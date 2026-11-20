@@ -95,3 +95,10 @@ move between pages as live scores change; refresh to return to the first page.
 Until this migration is installed, the site retains the old results and explicitly says
 the database update is required to show players beyond the first 20. Deploying the website
 does not install database migrations. No service-role key belongs in the website.
+
+## Additional first-to-4,000 prize
+
+The CAD $50 monthly-leader Amazon voucher remains unchanged. The additional CAD $200
+prize, private contact options at 4,000 points, and explicit forfeiture require
+`milestone-prize.sql` run LAST. See `MILESTONE-PRIZE.md` for activation, server ordering,
+private administrator review, recovery compatibility and manual fulfillment.
