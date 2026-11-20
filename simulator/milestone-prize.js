@@ -61,7 +61,6 @@
  }
  window.addEventListener('prempeh-cloud-progress',()=>{if(currentDialog?.open&&currentDialog.dataset.owner!==cloud().playerKey())currentDialog.close();});
  let timer;window.addEventListener('prempeh-monthly-points-synced',()=>{clearTimeout(timer);timer=setTimeout(check,300);});
- const launch=button('CAD $200 · 4,000-point prize',open);launch.className='account-btn';document.getElementById('leaderboardBtn')?.after(launch);
  cloud()?.ready?.then(check);
  window.PrempehMilestone={open,check,rules};
 })();
